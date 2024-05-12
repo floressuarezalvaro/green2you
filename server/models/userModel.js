@@ -16,7 +16,7 @@ const userSchema = new Schema({
   },
 });
 
-// status signup method
+// static signup method
 userSchema.statics.signup = async function (email, password) {
   // validation
 
@@ -41,6 +41,25 @@ userSchema.statics.signup = async function (email, password) {
 
   const user = await this.create({ email, password: hash });
 
+  return user;
+};
+
+// static login method
+userSchema.statics.login = async function (email, password) {
+  if (!email || !password) {
+    throw Error("Email or Password is missing");
+  }
+
+  const user = await this.findOne({ email });
+
+  if (!user) {
+    throw Error("Invalid login credential");
+  }
+
+  const match = await bcrypt.compare(password, user.password);
+  if (!match) {
+    throw Error("Invalid login credentials");
+  }
   return user;
 };
 
