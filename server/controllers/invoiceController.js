@@ -3,7 +3,9 @@ const mongoose = require("mongoose");
 
 // Get all invoices
 const getAllInvoices = async (req, res) => {
-  const invoices = await Invoice.find({}).sort({ createdAt: -1 });
+  const user_id = req.user._id;
+
+  const invoices = await Invoice.find({ user_id }).sort({ createdAt: -1 });
   res.status(200).json(invoices);
 };
 // Get single invoice
