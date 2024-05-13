@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { useInvoicesContext } from "../hooks/useInvoicesContext";
+import { useAuthContext } from "../hooks/useAuthContext";
 
 // components
 import InvoiceDetails from "../components/InvoiceDetails";
@@ -7,10 +8,15 @@ import InvoiceForm from "../components/InvoiceForm";
 
 const Home = () => {
   const { invoices, dispatch } = useInvoicesContext();
+  const { user } = useAuthContext();
 
   useEffect(() => {
     const fetchInvoices = async () => {
-      const response = await fetch("/invoices");
+      const response = await fetch("/invoices", {
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        },
+      });
       const json = await response.json();
 
       if (response.ok) {
@@ -18,8 +24,10 @@ const Home = () => {
       }
     };
 
-    fetchInvoices();
-  }, [dispatch]);
+    if (user) {
+      fetchInvoices();
+    }
+  }, [dispatch, user]);
   return (
     <div className="home">
       <div className="invoices">

@@ -1,13 +1,22 @@
 import { useInvoicesContext } from "../hooks/useInvoicesContext";
+import { useAuthContext } from "../hooks/useAuthContext";
 
 import formatDistanceToNow from "date-fns/formatDistanceToNow";
 
 const InvoiceDetails = ({ invoice }) => {
   const { dispatch } = useInvoicesContext();
+  const { user } = useAuthContext();
 
   const handleDelete = async () => {
+    if (!user) {
+      return;
+    }
+
     const response = await fetch("/invoices/" + invoice._id, {
       method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${user.token}`,
+      },
     });
 
     const json = await response.json();

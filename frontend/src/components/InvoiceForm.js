@@ -1,8 +1,11 @@
 import { useState } from "react";
 import { useInvoicesContext } from "../hooks/useInvoicesContext";
+import { useAuthContext } from "../hooks/useAuthContext";
 
 const InvoiceForm = () => {
   const { dispatch } = useInvoicesContext();
+  const { user } = useAuthContext();
+
   const [clientName, setClientName] = useState("");
   const [date, setDate] = useState("");
   const [price, setPrice] = useState("");
@@ -14,6 +17,11 @@ const InvoiceForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if (!user) {
+      setError("Login required");
+      return;
+    }
+
     const invoice = { clientName, date, price, invoiceNumber, description };
 
     const response = await fetch("/invoices", {
@@ -21,6 +29,7 @@ const InvoiceForm = () => {
       body: JSON.stringify(invoice),
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${user.token}`,
       },
     });
 
