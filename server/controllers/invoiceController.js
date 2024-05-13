@@ -49,12 +49,14 @@ const createInvoice = async (req, res) => {
 
   // add invoice to DB
   try {
+    const user_id = req.user._id;
     const invoice = await Invoice.create({
       date,
       clientName,
       price,
       invoiceNumber,
       description,
+      user_id,
     });
     res.status(200).json(invoice);
   } catch (error) {
