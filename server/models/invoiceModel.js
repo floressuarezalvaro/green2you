@@ -16,10 +16,6 @@ const invoiceSchema = new Schema(
       type: Number,
       required: true,
     },
-    invoiceNumber: {
-      type: Number,
-      required: true,
-    },
     description: {
       type: String,
       required: true,

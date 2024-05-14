@@ -56,7 +56,6 @@ const createInvoice = async (req, res) => {
       date,
       clientName,
       price,
-      invoiceNumber,
       description,
       user_id,
     });

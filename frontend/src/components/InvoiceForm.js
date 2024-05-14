@@ -80,14 +80,6 @@ const InvoiceForm = () => {
         className={emptyFields.includes("price") ? "error" : ""}
       />
 
-      <label>Invoice Number: </label>
-      <input
-        type="number"
-        onChange={(e) => setInvoiceNumber(e.target.value)}
-        value={invoiceNumber}
-        className={emptyFields.includes("invoiceNumber") ? "error" : ""}
-      />
-
       <label>Service Description: </label>
       <input
         type="text"

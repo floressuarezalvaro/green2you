@@ -32,10 +32,6 @@ const InvoiceDetails = ({ invoice }) => {
     <div className="invoice-details">
       <h4>{invoice.clientName}</h4>
       <p>
-        <strong>Invoice Number: </strong>
-        {invoice.invoiceNumber}
-      </p>
-      <p>
         <strong>Date of Service: </strong>
         {invoice.date}
       </p>
