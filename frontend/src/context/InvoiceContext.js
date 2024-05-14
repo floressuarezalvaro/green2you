@@ -16,6 +16,10 @@ export const invoicesReducer = (state, action) => {
       return {
         invoices: state.invoices.filter((w) => w._id !== action.payload._id),
       };
+    case "UPDATE_INVOICE":
+      return {
+        invoices: state.invoices.filter((w) => w._id !== action.payload._id),
+      };
     default:
       return state;
   }

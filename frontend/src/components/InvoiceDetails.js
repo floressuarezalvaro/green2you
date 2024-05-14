@@ -1,11 +1,13 @@
 import { useInvoicesContext } from "../hooks/useInvoicesContext";
 import { useAuthContext } from "../hooks/useAuthContext";
+import InvoiceModal from "./UpdateModal";
 
 import formatDistanceToNow from "date-fns/formatDistanceToNow";
 
 const InvoiceDetails = ({ invoice }) => {
   const { dispatch } = useInvoicesContext();
   const { user } = useAuthContext();
+  const useInvoiceModal = InvoiceModal();
 
   const handleDelete = async () => {
     if (!user) {
@@ -52,6 +54,7 @@ const InvoiceDetails = ({ invoice }) => {
       <span className="material-symbols-outlined" onClick={handleDelete}>
         delete
       </span>
+      <div>{useInvoiceModal}</div>
     </div>
   );
 };
