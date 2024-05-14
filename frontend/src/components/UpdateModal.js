@@ -30,9 +30,9 @@ function InvoiceModal() {
   // };
 
   return (
-    <>
+    <div className="modal-show" style={{}}>
       <Button variant="primary" onClick={handleShow}>
-        Launch demo modal
+        Update
       </Button>
 
       <Modal show={show} onHide={handleClose}>
@@ -67,7 +67,7 @@ function InvoiceModal() {
           </Button>
         </Modal.Footer>
       </Modal>
-    </>
+    </div>
   );
 }
 

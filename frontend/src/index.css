@@ -24,7 +24,10 @@ header a {
   color: #333;
   text-decoration: none;
 }
-
+.modal-show {
+  display: block;
+  position: initial
+}
 .pages {
   max-width: 1400px;
   padding: 20px;
