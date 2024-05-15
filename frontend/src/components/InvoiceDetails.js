@@ -23,7 +23,6 @@ const InvoiceDetails = ({ invoice }) => {
   const [price, setPrice] = useState("");
   const [description, setDescription] = useState("");
   const [error, setError] = useState(null);
-  const [emptyFields, setEmptyFields] = useState([]);
 
   const handleDelete = async () => {
     if (!user) {
@@ -52,30 +51,30 @@ const InvoiceDetails = ({ invoice }) => {
       return;
     }
 
-    const response = await fetch("/invoices/" + invoice._id, {
+    const updatedInvoice = {
+      clientName,
+      date,
+      price,
+      description,
+    };
+
+    const updateResponse = await fetch("/invoices/" + invoice._id, {
       method: "PUT",
-      body: JSON.stringify(invoice),
+      body: JSON.stringify(updatedInvoice),
       headers: {
         Authorization: `Bearer ${user.token}`,
         "Content-Type": "application/json",
       },
     });
 
-    const json = await response.json();
+    console.log(updatedInvoice);
+    const updatedJson = await updateResponse.json();
 
-    if (!response.ok) {
-      setError(json.error);
-      setEmptyFields(json.emptyFields);
+    if (!updatedJson.ok) {
+      setError(updatedJson.error);
     }
-    if (response.ok) {
-      setClientName("");
-      setDate("");
-      setPrice("");
-      setDescription("");
-      setError(null);
-      setEmptyFields([]);
-      console.log("Invoice Updated", json);
-      dispatch({ type: "UPDATE_INVOICE", payload: json });
+    if (updatedJson.ok) {
+      dispatch({ type: "UPDATE_INVOICE", payload: updatedJson });
     }
   };
 
@@ -108,7 +107,7 @@ const InvoiceDetails = ({ invoice }) => {
 
         <Modal show={show} onHide={handleClose}>
           <Modal.Header closeButton>
-            <Modal.Title>Modal heading</Modal.Title>
+            <Modal.Title>Update Form</Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <Form>
@@ -123,7 +122,6 @@ const InvoiceDetails = ({ invoice }) => {
                   autoFocus
                   onChange={(e) => setClientName(e.target.value)}
                   value={clientName}
-                  className={emptyFields.includes("clientName") ? "error" : ""}
                 />
               </Form.Group>
 
@@ -133,12 +131,11 @@ const InvoiceDetails = ({ invoice }) => {
               >
                 <Form.Label>Date of Service</Form.Label>
                 <Form.Control
-                  type="number"
+                  type="date"
                   placeholder={invoice.date}
                   autoFocus
                   onChange={(e) => setDate(e.target.value)}
                   value={date}
-                  className={emptyFields.includes("date") ? "error" : ""}
                 />
               </Form.Group>
 
@@ -148,12 +145,11 @@ const InvoiceDetails = ({ invoice }) => {
               >
                 <Form.Label>Price</Form.Label>
                 <Form.Control
-                  type="email"
+                  type="number"
                   placeholder={invoice.price}
                   autoFocus
                   onChange={(e) => setPrice(e.target.value)}
                   value={price}
-                  className={emptyFields.includes("price") ? "error" : ""}
                 />
               </Form.Group>
 
@@ -168,10 +164,9 @@ const InvoiceDetails = ({ invoice }) => {
                   placeholder={invoice.description}
                   onChange={(e) => setDescription(e.target.value)}
                   value={description}
-                  className={emptyFields.includes("description") ? "error" : ""}
                 />
               </Form.Group>
-              {/* {error && <div className="error">{error}</div>} */}
+              {error && <div className="error">{error}</div>}
             </Form>
           </Modal.Body>
           <Modal.Footer>
