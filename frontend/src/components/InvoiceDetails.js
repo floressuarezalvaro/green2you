@@ -65,14 +65,13 @@ const InvoiceDetails = ({ invoice }) => {
       },
     });
 
-    console.log(updateInvoiceForm);
     const updatedJson = await updateResponse.json();
 
-    if (!updatedJson.ok) {
+    if (!updateResponse.ok) {
       setError(updatedJson.error);
     }
-    if (updatedJson.ok) {
-      dispatch({ type: "UPDATE_INVOICE", payload: updatedJson });
+    if (updateResponse.ok) {
+      window.location.reload();
     }
   };
 
