@@ -4,7 +4,6 @@ import { useAuthContext } from "../hooks/useAuthContext";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
-
 import formatDistanceToNow from "date-fns/formatDistanceToNow";
 
 const InvoiceDetails = ({ invoice }) => {
@@ -13,13 +12,14 @@ const InvoiceDetails = ({ invoice }) => {
 
   // for modal
   const [show, setShow] = useState(false);
-
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
   // states for updating
   const [error, setError] = useState(null);
   const [updateInvoiceForm, setUpdateInvoiceForm] = useState();
+
+  // deleting
 
   const handleDelete = async () => {
     if (!user) {
@@ -40,6 +40,7 @@ const InvoiceDetails = ({ invoice }) => {
     }
   };
 
+  // updating
   const onChange = (e) => {
     setUpdateInvoiceForm({
       ...updateInvoiceForm,
@@ -93,6 +94,10 @@ const InvoiceDetails = ({ invoice }) => {
       <p>
         Created:{" "}
         {formatDistanceToNow(new Date(invoice.createdAt), { addSuffix: true })}
+      </p>
+      <p>
+        Updated:{" "}
+        {formatDistanceToNow(new Date(invoice.updatedAt), { addSuffix: true })}
       </p>
       <span className="material-symbols-outlined" onClick={handleDelete}>
         delete
