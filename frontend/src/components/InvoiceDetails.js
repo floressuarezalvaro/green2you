@@ -18,11 +18,8 @@ const InvoiceDetails = ({ invoice }) => {
   const handleShow = () => setShow(true);
 
   // states for updating
-  const [clientName, setClientName] = useState("");
-  const [date, setDate] = useState("");
-  const [price, setPrice] = useState("");
-  const [description, setDescription] = useState("");
   const [error, setError] = useState(null);
+  const [updateInvoiceForm, setUpdateInvoiceForm] = useState();
 
   const handleDelete = async () => {
     if (!user) {
@@ -43,6 +40,13 @@ const InvoiceDetails = ({ invoice }) => {
     }
   };
 
+  const onChange = (e) => {
+    setUpdateInvoiceForm({
+      ...updateInvoiceForm,
+      [e.target.name]: e.target.value,
+    });
+  };
+
   const handleUpdate = async (e) => {
     e.preventDefault();
 
@@ -51,23 +55,16 @@ const InvoiceDetails = ({ invoice }) => {
       return;
     }
 
-    const updatedInvoice = {
-      clientName,
-      date,
-      price,
-      description,
-    };
-
     const updateResponse = await fetch("/invoices/" + invoice._id, {
       method: "PUT",
-      body: JSON.stringify(updatedInvoice),
+      body: JSON.stringify(updateInvoiceForm),
       headers: {
         Authorization: `Bearer ${user.token}`,
         "Content-Type": "application/json",
       },
     });
 
-    console.log(updatedInvoice);
+    console.log(updateInvoiceForm);
     const updatedJson = await updateResponse.json();
 
     if (!updatedJson.ok) {
@@ -120,8 +117,8 @@ const InvoiceDetails = ({ invoice }) => {
                   type="text"
                   placeholder={invoice.clientName}
                   autoFocus
-                  onChange={(e) => setClientName(e.target.value)}
-                  value={clientName}
+                  onChange={onChange}
+                  name="clientName"
                 />
               </Form.Group>
 
@@ -134,8 +131,8 @@ const InvoiceDetails = ({ invoice }) => {
                   type="date"
                   placeholder={invoice.date}
                   autoFocus
-                  onChange={(e) => setDate(e.target.value)}
-                  value={date}
+                  onChange={onChange}
+                  name="date"
                 />
               </Form.Group>
 
@@ -148,8 +145,8 @@ const InvoiceDetails = ({ invoice }) => {
                   type="number"
                   placeholder={invoice.price}
                   autoFocus
-                  onChange={(e) => setPrice(e.target.value)}
-                  value={price}
+                  onChange={onChange}
+                  name="price"
                 />
               </Form.Group>
 
@@ -162,8 +159,8 @@ const InvoiceDetails = ({ invoice }) => {
                   as="textarea"
                   rows={3}
                   placeholder={invoice.description}
-                  onChange={(e) => setDescription(e.target.value)}
-                  value={description}
+                  onChange={onChange}
+                  name="description"
                 />
               </Form.Group>
               {error && <div className="error">{error}</div>}
