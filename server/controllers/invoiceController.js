@@ -37,9 +37,6 @@ const createInvoice = async (req, res) => {
   if (!price) {
     emptyFields.push("price");
   }
-  if (!invoiceNumber) {
-    emptyFields.push("invoiceNumber");
-  }
   if (!description) {
     emptyFields.push("description");
   }

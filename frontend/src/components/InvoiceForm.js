@@ -9,7 +9,6 @@ const InvoiceForm = () => {
   const [clientName, setClientName] = useState("");
   const [date, setDate] = useState("");
   const [price, setPrice] = useState("");
-  const [invoiceNumber, setInvoiceNumber] = useState("");
   const [description, setDescription] = useState("");
   const [error, setError] = useState(null);
   const [emptyFields, setEmptyFields] = useState([]);
@@ -22,7 +21,7 @@ const InvoiceForm = () => {
       return;
     }
 
-    const invoice = { clientName, date, price, invoiceNumber, description };
+    const invoice = { clientName, date, price, description };
 
     const response = await fetch("/invoices", {
       method: "POST",
@@ -43,7 +42,6 @@ const InvoiceForm = () => {
       setClientName("");
       setDate("");
       setPrice("");
-      setInvoiceNumber("");
       setDescription("");
       setError(null);
       setEmptyFields([]);
