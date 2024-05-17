@@ -54,36 +54,40 @@ const InvoiceForm = () => {
     <form className="create" onSubmit={handleSubmit}>
       <h3>Add a new invoice</h3>
 
-      <label>Invoice for Client: </label>
+      <label htmlFor="clientNameField"> Invoice for Client: </label>
       <input
         type="text"
         onChange={(e) => setClientName(e.target.value)}
         value={clientName}
         className={emptyFields.includes("clientName") ? "error" : ""}
+        id="clientNameField"
       />
 
-      <label>Date of Service: </label>
+      <label htmlFor="dateField">Date of Service: </label>
       <input
         type="date"
         onChange={(e) => setDate(e.target.value)}
         value={date}
         className={emptyFields.includes("date") ? "error" : ""}
+        id="dateField"
       />
 
-      <label>Price: </label>
+      <label htmlFor="priceField">Price: </label>
       <input
         type="number"
         onChange={(e) => setPrice(e.target.value)}
         value={price}
         className={emptyFields.includes("price") ? "error" : ""}
+        id="priceField"
       />
 
-      <label>Service Description: </label>
+      <label htmlFor="descriptionField">Service Description: </label>
       <input
         type="text"
         onChange={(e) => setDescription(e.target.value)}
         value={description}
         className={emptyFields.includes("description") ? "error" : ""}
+        id="descriptionField"
       />
 
       <button>Create New Invoice</button>
