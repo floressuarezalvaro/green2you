@@ -61,7 +61,7 @@ const InvoiceModal = ({ invoice }) => {
         </Modal.Header>
         <Modal.Body>
           <Form>
-            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+            <Form.Group className="mb-3" controlId="clientNameUpdateField">
               <Form.Label>Name of Client</Form.Label>
               <Form.Control
                 type="text"
@@ -72,7 +72,7 @@ const InvoiceModal = ({ invoice }) => {
               />
             </Form.Group>
 
-            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+            <Form.Group className="mb-3" controlId="dateUpdateField">
               <Form.Label>Date of Service</Form.Label>
               <Form.Control
                 type="date"
@@ -83,7 +83,7 @@ const InvoiceModal = ({ invoice }) => {
               />
             </Form.Group>
 
-            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+            <Form.Group className="mb-3" controlId="priceUpdateField">
               <Form.Label>Price</Form.Label>
               <Form.Control
                 type="number"
@@ -94,10 +94,7 @@ const InvoiceModal = ({ invoice }) => {
               />
             </Form.Group>
 
-            <Form.Group
-              className="mb-3"
-              controlId="exampleForm.ControlTextarea1"
-            >
+            <Form.Group className="mb-3" controlId="descriptionUpdateField">
               <Form.Label>Service Description</Form.Label>
               <Form.Control
                 as="textarea"
