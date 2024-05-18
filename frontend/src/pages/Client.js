@@ -4,6 +4,7 @@ import { useAuthContext } from "../hooks/useAuthContext";
 
 // components below
 import ClientDetails from "../components/ClientDetails";
+import ClientForm from "../components/forms/ClientForm.js";
 
 // actual page
 const Client = () => {
@@ -38,7 +39,7 @@ const Client = () => {
             <ClientDetails key={clients._id} clients={clients} />
           ))}
       </div>
-      {/* <ClientsForm /> */}
+      <ClientForm />
     </div>
   );
 };

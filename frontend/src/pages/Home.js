@@ -4,7 +4,7 @@ import { useAuthContext } from "../hooks/useAuthContext";
 
 // components
 import InvoiceDetails from "../components/InvoiceDetails";
-import InvoiceForm from "../components/InvoiceForm";
+import InvoiceForm from "../components/forms/InvoiceForm";
 
 const Home = () => {
   const { invoices, dispatch } = useInvoicesContext();

@@ -22,7 +22,7 @@ const ClientDetails = ({ clients }) => {
         {clients.clientStreetLineOne}
       </p>
       <p>
-        <strong>Address 1: </strong>
+        <strong>Address 2: </strong>
         {clients.clientStreetLineTwo}
       </p>
       <p>
