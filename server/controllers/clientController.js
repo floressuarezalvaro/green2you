@@ -40,13 +40,13 @@ const createClient = async (req, res) => {
   let emptyFields = [];
 
   if (!clientName) {
-    emptyFields.push("Name");
+    emptyFields.push("clientName");
   }
   if (!clientEmail) {
-    emptyFields.push("Email");
+    emptyFields.push("clientEmail");
   }
   if (!clientPhoneNumber) {
-    emptyFields.push("Phone Number");
+    emptyFields.push("clientPhoneNumber");
   }
   if (emptyFields.length > 0) {
     return res

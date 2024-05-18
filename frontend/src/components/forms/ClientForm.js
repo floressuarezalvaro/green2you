@@ -103,7 +103,6 @@ const ClientForm = () => {
         type="text"
         onChange={(e) => setClientStreetLineOne(e.target.value)}
         value={clientStreetLineOne}
-        className={emptyFields.includes("clientStreetLineOne") ? "error" : ""}
         id="clientStreetLineOneField"
       />
 
@@ -112,7 +111,6 @@ const ClientForm = () => {
         type="text"
         onChange={(e) => setClientStreetLineTwo(e.target.value)}
         value={clientStreetLineTwo}
-        className={emptyFields.includes("clientStreetLineTwo") ? "error" : ""}
         id="clientStreetLineTwoField"
       />
 
@@ -121,7 +119,6 @@ const ClientForm = () => {
         type="text"
         onChange={(e) => setClientCity(e.target.value)}
         value={clientCity}
-        className={emptyFields.includes("clientCity") ? "error" : ""}
         id="clientCityField"
       />
 
@@ -130,7 +127,6 @@ const ClientForm = () => {
         type="text"
         onChange={(e) => setClientState(e.target.value)}
         value={clientState}
-        className={emptyFields.includes("clientState") ? "error" : ""}
         id="clientStateField"
       />
 
@@ -139,7 +135,6 @@ const ClientForm = () => {
         type="number"
         onChange={(e) => setClientZip(e.target.value)}
         value={clientZip}
-        className={emptyFields.includes("clientZip") ? "error" : ""}
         id="clientZipField"
       />
 

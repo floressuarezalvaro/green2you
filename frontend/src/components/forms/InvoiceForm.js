@@ -37,6 +37,7 @@ const InvoiceForm = () => {
     if (!response.ok) {
       setError(json.error);
       setEmptyFields(json.emptyFields);
+      console.log(json.emptyFields);
     }
     if (response.ok) {
       setClientName("");
