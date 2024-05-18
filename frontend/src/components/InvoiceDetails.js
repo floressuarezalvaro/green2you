@@ -30,7 +30,7 @@ const InvoiceDetails = ({ invoice }) => {
   };
 
   return (
-    <div className="invoice-details">
+    <div className="details">
       <h4>{invoice.clientName}</h4>
       <p>
         <strong>Date of Service: </strong>

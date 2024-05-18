@@ -7,20 +7,36 @@ const ClientDetails = ({ clients }) => {
   //   const { user } = useAuthContext();
 
   return (
-    <div className="clients-details">
+    <div className="details">
       <h4>{clients.clientName}</h4>
-      {/* <p>
-        <strong>Date of Service: </strong>
-        {invoice.date}
+      <p>
+        <strong>Email: </strong>
+        {clients.clientEmail}
       </p>
       <p>
-        <strong>Price (USD): </strong>
-        {invoice.price}
+        <strong>Phone Number: </strong>
+        {clients.clientPhoneNumber}
       </p>
       <p>
-        <strong>Service Description: </strong>
-        {invoice.description}
-      </p> */}
+        <strong>Address 1: </strong>
+        {clients.clientStreetLineOne}
+      </p>
+      <p>
+        <strong>Address 1: </strong>
+        {clients.clientStreetLineTwo}
+      </p>
+      <p>
+        <strong>City: </strong>
+        {clients.clientCity}
+      </p>
+      <p>
+        <strong>State: </strong>
+        {clients.clientState}
+      </p>
+      <p>
+        <strong>Zip Code: </strong>
+        {clients.clientZip}
+      </p>
       <p>
         Created:{" "}
         {formatDistanceToNow(new Date(clients.createdAt), { addSuffix: true })}

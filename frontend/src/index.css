@@ -46,7 +46,7 @@ header a {
   gap: 100px;
 }
 
-.invoice-details {
+.details {
   background: #fff;
   border-radius: 4px;
   margin: 20px auto;
@@ -55,19 +55,19 @@ header a {
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.05)
 }
 
-.invoice-details h4{
+.details h4{
   margin: 0 0 10px 0;
   font-size: 1.2em;
   color: var(--primary);
 }
 
-.invoice-details p {
+.details p {
   margin: 0;
   font-size: 0.9em;
   color: #555;
 }
 
-.invoice-details span {
+.details span {
   position: absolute;
   top: 20px;
   right: 20px;
