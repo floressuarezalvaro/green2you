@@ -26,6 +26,7 @@ const Client = () => {
 
     if (user) {
       fetchClients();
+      console.log("fetched clients");
     }
   }, [dispatch, user]);
 

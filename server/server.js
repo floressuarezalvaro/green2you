@@ -18,8 +18,8 @@ app.use((req, res, next) => {
 });
 
 app.use("/invoices", invoiceRoutes);
-app.use("/users", userRoutes);
 app.use("/clients", clientRoutes);
+app.use("/users", userRoutes);
 
 mongoose
   .connect(process.env.MONGO_URI)

@@ -40,6 +40,12 @@ header a {
   gap: 100px;
 }
 
+.client-home {
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+  gap: 100px;
+}
+
 .invoice-details {
   background: #fff;
   border-radius: 4px;

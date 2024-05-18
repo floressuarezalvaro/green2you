@@ -3,10 +3,10 @@ import { useAuthContext } from "./hooks/useAuthContext";
 
 // pages & components
 import Home from "./pages/Home";
+import Client from "./pages/Client";
 import LogIn from "./pages/Login";
 import SignUp from "./pages/SignUp";
 import Navbar from "./components/Navbar";
-import Client from "./pages/Client";
 
 function App() {
   const { user } = useAuthContext();
@@ -31,7 +31,7 @@ function App() {
             />
             <Route
               path="/clients"
-              element={user ? <Client /> : <Navigate to="/clients" />}
+              element={user ? <Client /> : <Navigate to="/login" />}
             />
           </Routes>
         </div>
