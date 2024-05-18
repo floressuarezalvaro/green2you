@@ -80,7 +80,7 @@ const ClientForm = () => {
         id="clientNameField"
       />
 
-      <label htmlFor="emailField">Email: </label>
+      <label htmlFor="clientEmailField">Email: </label>
       <input
         type="text"
         onChange={(e) => setClientEmail(e.target.value)}
