@@ -2,7 +2,7 @@ import { useInvoicesContext } from "../hooks/useInvoicesContext";
 import { useAuthContext } from "../hooks/useAuthContext";
 import formatDistanceToNow from "date-fns/formatDistanceToNow";
 
-import InvoiceModal from "../components/InvoiceModal";
+import InvoiceModal from "./modals/InvoiceModal";
 
 const InvoiceDetails = ({ invoice }) => {
   const { dispatch } = useInvoicesContext();
