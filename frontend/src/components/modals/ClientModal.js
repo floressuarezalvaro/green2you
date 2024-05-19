@@ -30,7 +30,7 @@ const ClientModal = ({ client }) => {
       return;
     }
 
-    const updateResponse = await fetch("/clients/" + client._id, {
+    const response = await fetch("/clients/" + client._id, {
       method: "PUT",
       body: JSON.stringify(updateClientForm),
       headers: {
@@ -39,12 +39,12 @@ const ClientModal = ({ client }) => {
       },
     });
 
-    const updatedJson = await updateResponse.json();
+    const json = await response.json();
 
-    if (!updateResponse.ok) {
-      setError(updatedJson.error);
+    if (!response.ok) {
+      setError(json.error);
     }
-    if (updateResponse.ok) {
+    if (response.ok) {
       window.location.reload();
     }
   };

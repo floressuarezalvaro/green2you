@@ -1,10 +1,12 @@
 import { useState } from "react";
+// import { useInvoicesContext } from "../../hooks/useInvoicesContext";
 import { useAuthContext } from "../../hooks/useAuthContext";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 
 const InvoiceModal = ({ invoice }) => {
+  // const { dispatch } = useInvoicesContext();
   const { user } = useAuthContext();
   //   for modal
   const [show, setShow] = useState(false);
@@ -30,7 +32,7 @@ const InvoiceModal = ({ invoice }) => {
       return;
     }
 
-    const updateResponse = await fetch("/invoices/" + invoice._id, {
+    const response = await fetch("/invoices/" + invoice._id, {
       method: "PUT",
       body: JSON.stringify(updateInvoiceForm),
       headers: {
@@ -39,13 +41,14 @@ const InvoiceModal = ({ invoice }) => {
       },
     });
 
-    const updatedJson = await updateResponse.json();
+    const json = await response.json();
 
-    if (!updateResponse.ok) {
-      setError(updatedJson.error);
+    if (!response.ok) {
+      setError(json.error);
     }
-    if (updateResponse.ok) {
+    if (response.ok) {
       window.location.reload();
+      // dispatch({ type: "UPDATE_INVOICE", payload: json });
     }
   };
 

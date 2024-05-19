@@ -8,7 +8,8 @@ const ClientDetails = ({ client }) => {
   const { dispatch } = useClientsContext();
   const { user } = useAuthContext();
 
-  const handleDelete = async () => {
+  const handleDelete = async (e) => {
+    e.preventDefault();
     if (!user) {
       return;
     }
