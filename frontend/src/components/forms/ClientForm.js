@@ -62,7 +62,6 @@ const ClientForm = () => {
       setClientZip("");
       setError(null);
       setEmptyFields([]);
-      console.log("New Client Added", json);
       dispatch({ type: "CREATE_CLIENT", payload: json });
     }
   };

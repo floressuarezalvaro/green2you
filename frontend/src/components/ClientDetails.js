@@ -21,7 +21,7 @@ const ClientDetails = ({ clients }) => {
     const json = await response.json();
 
     if (response.ok) {
-      dispatch({ type: "DELETE_CLIENTS", payload: json });
+      dispatch({ type: "DELETE_CLIENT", payload: json });
     }
   };
 
