@@ -4,7 +4,7 @@ import formatDistanceToNow from "date-fns/formatDistanceToNow";
 
 import ClientModal from "./modals/ClientModal";
 
-const ClientDetails = ({ clients }) => {
+const ClientDetails = ({ client }) => {
   const { dispatch } = useClientsContext();
   const { user } = useAuthContext();
 
@@ -13,7 +13,7 @@ const ClientDetails = ({ clients }) => {
       return;
     }
 
-    const response = await fetch("/clients/" + clients._id, {
+    const response = await fetch("/clients/" + client._id, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${user.token}`,
@@ -29,47 +29,47 @@ const ClientDetails = ({ clients }) => {
 
   return (
     <div className="details">
-      <h4>{clients.clientName}</h4>
+      <h4>{client.clientName}</h4>
       <p>
         <strong>Email: </strong>
-        {clients.clientEmail}
+        {client.clientEmail}
       </p>
       <p>
         <strong>Phone Number: </strong>
-        {clients.clientPhoneNumber}
+        {client.clientPhoneNumber}
       </p>
       <p>
         <strong>Address 1: </strong>
-        {clients.clientStreetLineOne}
+        {client.clientStreetLineOne}
       </p>
       <p>
         <strong>Address 2: </strong>
-        {clients.clientStreetLineTwo}
+        {client.clientStreetLineTwo}
       </p>
       <p>
         <strong>City: </strong>
-        {clients.clientCity}
+        {client.clientCity}
       </p>
       <p>
         <strong>State: </strong>
-        {clients.clientState}
+        {client.clientState}
       </p>
       <p>
         <strong>Zip Code: </strong>
-        {clients.clientZip}
+        {client.clientZip}
       </p>
       <p>
         Created:{" "}
-        {formatDistanceToNow(new Date(clients.createdAt), { addSuffix: true })}
+        {formatDistanceToNow(new Date(client.createdAt), { addSuffix: true })}
       </p>
       <p>
         Updated:{" "}
-        {formatDistanceToNow(new Date(clients.updatedAt), { addSuffix: true })}
+        {formatDistanceToNow(new Date(client.updatedAt), { addSuffix: true })}
       </p>
       <span className="material-symbols-outlined" onClick={handleDelete}>
         delete
       </span>
-      <ClientModal key={clients._id} clients={clients} />
+      <ClientModal key={client._id} client={client} />
     </div>
   );
 };

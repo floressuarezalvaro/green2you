@@ -4,7 +4,7 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 
-const ClientModal = ({ clients }) => {
+const ClientModal = ({ client }) => {
   const { user } = useAuthContext();
   //   for modal
   const [show, setShow] = useState(false);
@@ -30,7 +30,7 @@ const ClientModal = ({ clients }) => {
       return;
     }
 
-    const updateResponse = await fetch("/clients/" + clients._id, {
+    const updateResponse = await fetch("/clients/" + client._id, {
       method: "PUT",
       body: JSON.stringify(updateClientForm),
       headers: {
@@ -65,7 +65,7 @@ const ClientModal = ({ clients }) => {
               <Form.Label>Name of Client</Form.Label>
               <Form.Control
                 type="text"
-                placeholder={clients.clientName}
+                placeholder={client.clientName}
                 autoFocus
                 onChange={onChange}
                 name="clientName"
@@ -76,7 +76,7 @@ const ClientModal = ({ clients }) => {
               <Form.Label>Email: </Form.Label>
               <Form.Control
                 type="text"
-                placeholder={clients.clientEmail}
+                placeholder={client.clientEmail}
                 autoFocus
                 onChange={onChange}
                 name="clientEmail"
@@ -87,7 +87,7 @@ const ClientModal = ({ clients }) => {
               <Form.Label>Phone Number: </Form.Label>
               <Form.Control
                 type="number"
-                placeholder={clients.clientPhoneNumber}
+                placeholder={client.clientPhoneNumber}
                 autoFocus
                 onChange={onChange}
                 name="clientPhoneNumber"
@@ -98,7 +98,7 @@ const ClientModal = ({ clients }) => {
               <Form.Label>Address 1: </Form.Label>
               <Form.Control
                 type="text"
-                placeholder={clients.clientStreetLineOne}
+                placeholder={client.clientStreetLineOne}
                 autoFocus
                 onChange={onChange}
                 name="clientStreetLineOne"
@@ -109,7 +109,7 @@ const ClientModal = ({ clients }) => {
               <Form.Label>Address 2: </Form.Label>
               <Form.Control
                 type="text"
-                placeholder={clients.clientStreetLineTwo}
+                placeholder={client.clientStreetLineTwo}
                 onChange={onChange}
                 name="clientStreetLineTwo"
               />
@@ -119,7 +119,7 @@ const ClientModal = ({ clients }) => {
               <Form.Label>City: </Form.Label>
               <Form.Control
                 type="text"
-                placeholder={clients.clientCity}
+                placeholder={client.clientCity}
                 onChange={onChange}
                 name="clientCity"
               />
@@ -129,7 +129,7 @@ const ClientModal = ({ clients }) => {
               <Form.Label>State: </Form.Label>
               <Form.Control
                 type="text"
-                placeholder={clients.clientState}
+                placeholder={client.clientState}
                 onChange={onChange}
                 name="clientState"
               />
@@ -139,7 +139,7 @@ const ClientModal = ({ clients }) => {
               <Form.Label>Zip Code:</Form.Label>
               <Form.Control
                 type="number"
-                placeholder={clients.clientZip}
+                placeholder={client.clientZip}
                 onChange={onChange}
                 name="clientZip"
               />

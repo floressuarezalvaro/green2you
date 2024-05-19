@@ -33,10 +33,10 @@ const Client = () => {
 
   return (
     <div className="home">
-      <div className="clients">
+      <div className="client">
         {clients &&
-          clients.map((clients) => (
-            <ClientDetails key={clients._id} clients={clients} />
+          clients.map((client) => (
+            <ClientDetails key={client._id} client={client} />
           ))}
       </div>
       <ClientForm />
