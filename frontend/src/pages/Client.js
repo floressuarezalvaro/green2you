@@ -32,7 +32,7 @@ const Client = () => {
   }, [dispatch, user]);
 
   return (
-    <div className="client-home">
+    <div className="home">
       <div className="clients">
         {clients &&
           clients.map((clients) => (

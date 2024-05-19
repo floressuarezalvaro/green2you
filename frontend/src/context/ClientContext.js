@@ -8,6 +8,10 @@ export const clientsReducer = (state, action) => {
       return {
         clients: action.payload,
       };
+    case "DELETE_CLIENTS":
+      return {
+        clients: state.clients.filter((c) => c._id !== action.payload._id),
+      };
     default:
       return state;
   }

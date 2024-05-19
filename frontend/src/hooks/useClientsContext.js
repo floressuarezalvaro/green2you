@@ -6,7 +6,7 @@ export const useClientsContext = () => {
 
   if (!context) {
     throw Error(
-      "useInvoicesContext must be used inside an ClientsContextProvider"
+      "useClientsContext must be used inside an ClientsContextProvider"
     );
   }
 

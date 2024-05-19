@@ -1,10 +1,29 @@
-// import { useClientsContext } from "../hooks/useClientContext";
-// import { useAuthContext } from "../hooks/useAuthContext";
+import { useClientsContext } from "../hooks/useClientsContext";
+import { useAuthContext } from "../hooks/useAuthContext";
 import formatDistanceToNow from "date-fns/formatDistanceToNow";
 
 const ClientDetails = ({ clients }) => {
-  //   const { dispatch } = useClientsContext();
-  //   const { user } = useAuthContext();
+  const { dispatch } = useClientsContext();
+  const { user } = useAuthContext();
+
+  const handleDelete = async () => {
+    if (!user) {
+      return;
+    }
+
+    const response = await fetch("/clients/" + clients._id, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${user.token}`,
+      },
+    });
+
+    const json = await response.json();
+
+    if (response.ok) {
+      dispatch({ type: "DELETE_CLIENTS", payload: json });
+    }
+  };
 
   return (
     <div className="details">
@@ -45,9 +64,9 @@ const ClientDetails = ({ clients }) => {
         Updated:{" "}
         {formatDistanceToNow(new Date(clients.updatedAt), { addSuffix: true })}
       </p>
-      {/* <span className="material-symbols-outlined" onClick={handleDelete}>
+      <span className="material-symbols-outlined" onClick={handleDelete}>
         delete
-      </span> */}
+      </span>
       {/* <InvoiceModal key={invoice._id} invoice={invoice} /> */}
     </div>
   );

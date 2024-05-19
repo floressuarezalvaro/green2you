@@ -3,19 +3,19 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import App from "./App";
+import { ClientsContextProvider } from "./context/ClientContext";
 import { InvoicesContextProvider } from "./context/InvoiceContext";
 import { AuthContextProvider } from "./context/authContext";
-import { ClientsContextProvider } from "./context/ClientContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <AuthContextProvider>
-      <InvoicesContextProvider>
-        <ClientsContextProvider>
+      <ClientsContextProvider>
+        <InvoicesContextProvider>
           <App />
-        </ClientsContextProvider>
-      </InvoicesContextProvider>
+        </InvoicesContextProvider>
+      </ClientsContextProvider>
     </AuthContextProvider>
   </React.StrictMode>
 );
