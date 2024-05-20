@@ -4,9 +4,25 @@ const mongoose = require("mongoose");
 // Get all invoices
 const getAllInvoices = async (req, res) => {
   const user_id = req.user._id;
+  const clientId = req.query.clientId;
 
-  const invoices = await Invoice.find({ user_id }).sort({ createdAt: -1 });
-  res.status(200).json(invoices);
+  if (!clientId) {
+    const invoices = await Invoice.find({ user_id }).sort({
+      createdAt: -1,
+    });
+    res.status(200).json(invoices);
+  }
+
+  if (clientId) {
+    if (!mongoose.Types.ObjectId.isValid(clientId)) {
+      res.status(404).json({ error: "This is not a valid client id" });
+    } else {
+      const invoices = await Invoice.find({ user_id } && { clientId }).sort({
+        createdAt: -1,
+      });
+      res.status(200).json(invoices);
+    }
+  }
 };
 // Get single invoice
 const getInvoice = async (req, res) => {
