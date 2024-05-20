@@ -27,13 +27,12 @@ const Client = () => {
 
     if (user) {
       fetchClients();
-      console.log("fetched clients");
     }
   }, [dispatch, user]);
 
   return (
     <div className="home">
-      <div className="client">
+      <div className="clients">
         {clients &&
           clients.map((client) => (
             <ClientDetails key={client._id} client={client} />
