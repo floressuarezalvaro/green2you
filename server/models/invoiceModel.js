@@ -4,12 +4,16 @@ const Schema = mongoose.Schema;
 
 const invoiceSchema = new Schema(
   {
-    date: {
-      type: Date,
-      required: true,
-    },
     clientName: {
       type: String,
+      required: true,
+    },
+    clientId: {
+      type: String,
+      required: true,
+    },
+    date: {
+      type: Date,
       required: true,
     },
     price: {
