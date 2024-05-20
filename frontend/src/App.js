@@ -10,6 +10,7 @@ import Navbar from "./components/Navbar";
 
 function App() {
   const { user } = useAuthContext();
+  const showMeUser = console.log(user);
 
   return (
     <div className="App">
@@ -31,7 +32,8 @@ function App() {
             />
             <Route
               path="/clients"
-              element={user ? <Client /> : <Navigate to="/login" />}
+              element={user ? <Client /> : showMeUser}
+              // element={<Client />}
             />
           </Routes>
         </div>
