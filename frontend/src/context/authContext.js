@@ -36,8 +36,6 @@ export const AuthContextProvider = ({ children }) => {
     setLoading(false);
   }, []);
 
-  console.log("AuthContext state:", state);
-
   if (loading) {
     return <div>Loading...</div>;
   }
