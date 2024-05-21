@@ -32,7 +32,8 @@ const Client = () => {
 
   return (
     <div className="home">
-      <div className="clients">
+      <div className="invoices">
+        <h3>Clients Page</h3>
         {clients &&
           clients.map((client) => (
             <ClientDetails key={client._id} client={client} />
