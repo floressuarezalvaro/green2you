@@ -1,36 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Dropdown from "react-bootstrap/Dropdown";
 import Form from "react-bootstrap/Form";
-import { useClientsContext } from "../hooks/useClientsContext.js";
-import { useAuthContext } from "../hooks/useAuthContext";
 
 const ClientFilter = () => {
-  const { clients, dispatch } = useClientsContext();
-  const { user } = useAuthContext();
-
-  useEffect(() => {
-    const fetchClients = async () => {
-      const response = await fetch("/clients", {
-        headers: {
-          Authorization: `Bearer ${user.token}`,
-        },
-      });
-      const json = await response.json();
-
-      if (response.ok) {
-        dispatch({ type: "SET_CLIENTS", payload: json });
-        console.log(json);
-      }
-    };
-
-    if (user) {
-      fetchClients();
-    }
-  }, [dispatch, user]);
-
   const CustomToggle = React.forwardRef(({ children, onClick }, ref) => (
     <a
-      href="/clients"
+      href=""
       ref={ref}
       onClick={(e) => {
         e.preventDefault();
@@ -78,10 +53,12 @@ const ClientFilter = () => {
       </Dropdown.Toggle>
 
       <Dropdown.Menu as={CustomMenu}>
-        {clients &&
-          clients.map((client) => (
-            <Dropdown.Item key={client.id}>{client.clientName}</Dropdown.Item>
-          ))}
+        <Dropdown.Item eventKey="1">Red</Dropdown.Item>
+        <Dropdown.Item eventKey="2">Blue</Dropdown.Item>
+        <Dropdown.Item eventKey="3" active>
+          Orange
+        </Dropdown.Item>
+        <Dropdown.Item eventKey="1">Red-Orange</Dropdown.Item>
       </Dropdown.Menu>
     </Dropdown>
   );
