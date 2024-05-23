@@ -1,10 +1,12 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useInvoicesContext } from "../../hooks/useInvoicesContext";
 import { useAuthContext } from "../../hooks/useAuthContext";
+import { useClientsContext } from "../../hooks/useClientsContext";
 
 const InvoiceForm = () => {
   const { dispatch } = useInvoicesContext();
   const { user } = useAuthContext();
+  const { clients } = useClientsContext();
 
   const [clientName, setClientName] = useState("");
   const [date, setDate] = useState("");
@@ -12,6 +14,10 @@ const InvoiceForm = () => {
   const [description, setDescription] = useState("");
   const [error, setError] = useState(null);
   const [emptyFields, setEmptyFields] = useState([]);
+
+  useEffect(() => {
+    console.log("Clients:", clients); // Log the clients array
+  }, [clients]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -56,13 +62,21 @@ const InvoiceForm = () => {
       <h3>Add a new invoice</h3>
 
       <label htmlFor="clientNameField"> Invoice for Client: </label>
-      <input
-        type="text"
+      <select
+        name="clientNameField"
+        id="clientNameField"
         onChange={(e) => setClientName(e.target.value)}
         value={clientName}
         className={emptyFields.includes("clientName") ? "error" : ""}
-        id="clientNameField"
-      />
+      >
+        <option value="">Select a client</option>
+        {clients &&
+          clients.map((client) => (
+            <option key={client._id} value={client.clientName}>
+              {client.clientName}
+            </option>
+          ))}
+      </select>
 
       <label htmlFor="dateField">Date of Service: </label>
       <input
