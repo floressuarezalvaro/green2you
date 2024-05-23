@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useInvoicesContext } from "../../hooks/useInvoicesContext";
 import { useAuthContext } from "../../hooks/useAuthContext";
 import { useClientsContext } from "../../hooks/useClientsContext";
@@ -14,10 +14,6 @@ const InvoiceForm = () => {
   const [description, setDescription] = useState("");
   const [error, setError] = useState(null);
   const [emptyFields, setEmptyFields] = useState([]);
-
-  useEffect(() => {
-    console.log("Clients:", clients); // Log the clients array
-  }, [clients]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
