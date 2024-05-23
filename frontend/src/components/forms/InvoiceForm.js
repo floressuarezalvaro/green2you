@@ -23,7 +23,15 @@ const InvoiceForm = () => {
       return;
     }
 
-    const invoice = { clientName, date, price, description };
+    const clientId = clients.find((client) => client.clientName === clientName);
+
+    const invoice = {
+      clientName,
+      clientId: clientId._id,
+      date,
+      price,
+      description,
+    };
 
     const response = await fetch("/invoices", {
       method: "POST",
