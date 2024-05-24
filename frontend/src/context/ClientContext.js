@@ -28,22 +28,24 @@ export const ClientsContextProvider = ({ children }) => {
     clients: [],
   });
   useEffect(() => {
-    // Example function to fetch clients
-    const fetchClients = async () => {
-      const response = await fetch("/clients", {
-        headers: {
-          Authorization: `Bearer ${user.token}`,
-        },
-      });
-      const data = await response.json();
+    if (user && user.token) {
+      // Example function to fetch clients
+      const fetchClients = async () => {
+        const response = await fetch("/clients", {
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+        });
+        const data = await response.json();
 
-      if (response.ok) {
-        dispatch({ type: "SET_CLIENTS", payload: data });
-      }
-    };
+        if (response.ok) {
+          dispatch({ type: "SET_CLIENTS", payload: data });
+        }
+      };
 
-    fetchClients();
-  }, [user.token]);
+      fetchClients();
+    }
+  }, [user]);
 
   return (
     <ClientsContext.Provider value={{ ...state, dispatch }}>
