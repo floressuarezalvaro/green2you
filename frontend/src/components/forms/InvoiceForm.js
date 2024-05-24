@@ -23,11 +23,19 @@ const InvoiceForm = () => {
       return;
     }
 
-    const clientId = clients.find((client) => client.clientName === clientName);
+    const selectedClient = clients.find(
+      (client) => client.clientName === clientName
+    );
+
+    if (!selectedClient) {
+      setError("Please select a valid client. Then try again");
+      setEmptyFields(["clientName"]);
+      return;
+    }
 
     const invoice = {
       clientName,
-      clientId: clientId._id,
+      clientId: selectedClient._id,
       date,
       price,
       description,
@@ -69,7 +77,10 @@ const InvoiceForm = () => {
       <select
         name="clientNameField"
         id="clientNameField"
-        onChange={(e) => setClientName(e.target.value)}
+        onChange={(e) => {
+          setClientName(e.target.value);
+          setError(null);
+        }}
         value={clientName}
         className={emptyFields.includes("clientName") ? "error" : ""}
       >

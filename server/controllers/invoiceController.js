@@ -50,6 +50,9 @@ const createInvoice = async (req, res) => {
   if (!clientName) {
     emptyFields.push("clientName");
   }
+  if (!clientId) {
+    emptyFields.push("clientId");
+  }
   if (!price) {
     emptyFields.push("price");
   }
