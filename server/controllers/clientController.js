@@ -5,9 +5,14 @@ const mongoose = require("mongoose");
 const getAllClients = async (req, res) => {
   const user_id = req.user._id;
 
-  const clients = await Client.find({ user_id }).sort({ createdAt: -1 });
-  res.status(200).json(clients);
+  try {
+    const clients = await Client.find({ user_id }).sort({ createdAt: -1 });
+    res.status(200).json(clients);
+  } catch (error) {
+    res.status(500).json({ error: "Internal server error" });
+  }
 };
+
 // Get single client
 const getClient = async (req, res) => {
   const { id } = req.params;
@@ -16,11 +21,15 @@ const getClient = async (req, res) => {
     return res.status(404).json({ error: "This is not a valid id" });
   }
 
-  const client = await Client.findById(id);
-  if (!client) {
-    return res.status(400).json({ error: "No invoice found" });
+  try {
+    const client = await Client.findById(id);
+    if (!client) {
+      return res.status(404).json({ error: "No client found" });
+    }
+    res.status(200).json(client);
+  } catch (error) {
+    res.status(500).json({ error: "Internal server error" });
   }
-  res.status(200).json(client);
 };
 
 // Create new client
@@ -34,24 +43,24 @@ const createClient = async (req, res) => {
     clientCity,
     clientState,
     clientZip,
+    clientCycleDate,
   } = req.body;
 
   // error handling
   let emptyFields = [];
 
-  if (!clientName) {
-    emptyFields.push("clientName");
+  if (!clientName) emptyFields.push("clientName");
+  if (!clientEmail) emptyFields.push("clientEmail");
+  if (!clientPhoneNumber) emptyFields.push("clientPhoneNumber");
+  if (!clientCycleDate || clientCycleDate < 1 || clientCycleDate > 31) {
+    emptyFields.push("clientCycleDate");
   }
-  if (!clientEmail) {
-    emptyFields.push("clientEmail");
-  }
-  if (!clientPhoneNumber) {
-    emptyFields.push("clientPhoneNumber");
-  }
+
   if (emptyFields.length > 0) {
-    return res
-      .status(400)
-      .json({ error: "Please fill in all the required fields", emptyFields });
+    return res.status(400).json({
+      error: "Please fill in all the required fields",
+      emptyFields,
+    });
   }
 
   // add client to DB
@@ -66,40 +75,55 @@ const createClient = async (req, res) => {
       clientCity,
       clientState,
       clientZip,
+      clientCycleDate,
       user_id,
     });
-    res.status(200).json(client);
+    res.status(201).json(client);
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    res.status(500).json({ error: "Internal server error" });
   }
 };
 
-// delete client
+// Delete client
 const deleteClient = async (req, res) => {
   const { id } = req.params;
+
   if (!mongoose.Types.ObjectId.isValid(id)) {
-    res.status(404).json({ error: "This is not a valid id" });
+    return res.status(404).json({ error: "This is not a valid id" });
   }
-  const client = await Client.findOneAndDelete({ _id: id });
-  if (!client) {
-    return res.status(400).json({ error: "No invoice found" });
+
+  try {
+    const client = await Client.findOneAndDelete({ _id: id });
+    if (!client) {
+      return res.status(404).json({ error: "No client found" });
+    }
+    res.status(200).json(client);
+  } catch (error) {
+    res.status(500).json({ error: "Internal server error" });
   }
-  res.status(200).json(client);
 };
 
-// update a client
-
+// Update a client
 const updateClient = async (req, res) => {
   const { id } = req.params;
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
-    res.status(404).json({ error: "This is not a valid id" });
+    return res.status(404).json({ error: "This is not a valid id" });
   }
-  const client = await Client.findOneAndUpdate({ _id: id }, { ...req.body });
-  if (!client) {
-    return res.status(400).json({ error: "No invoice found" });
+
+  try {
+    const client = await Client.findOneAndUpdate(
+      { _id: id },
+      { ...req.body },
+      { new: true }
+    );
+    if (!client) {
+      return res.status(404).json({ error: "No client found" });
+    }
+    res.status(200).json(client);
+  } catch (error) {
+    res.status(500).json({ error: "Internal server error" });
   }
-  res.status(200).json(client);
 };
 
 module.exports = {

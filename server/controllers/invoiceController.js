@@ -96,7 +96,11 @@ const updateInvoice = async (req, res) => {
   if (!mongoose.Types.ObjectId.isValid(id)) {
     res.status(404).json({ error: "This is not a valid id" });
   }
-  const invoice = await Invoice.findOneAndUpdate({ _id: id }, { ...req.body });
+  const invoice = await Invoice.findOneAndUpdate(
+    { _id: id },
+    { ...req.body },
+    { new: true }
+  );
   if (!invoice) {
     return res.status(400).json({ error: "No invoice found" });
   }

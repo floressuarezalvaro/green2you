@@ -36,6 +36,10 @@ const clientSchema = new Schema(
       type: Number,
       required: false,
     },
+    clientCycleDate: {
+      type: Number,
+      required: false,
+    },
     user_id: {
       type: String,
       required: true,
