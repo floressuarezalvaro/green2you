@@ -40,16 +40,13 @@ const getInvoice = async (req, res) => {
 };
 // Create new invoice
 const createInvoice = async (req, res) => {
-  const { date, clientName, clientId, price, description } = req.body;
+  const { date, clientId, price, description } = req.body;
 
   let emptyFields = [];
 
   if (!date) {
     emptyFields.push("date");
   }
-  // if (!clientName) {
-  //   emptyFields.push("clientName");
-  // }
   if (!clientId) {
     emptyFields.push("clientName");
   }
@@ -70,7 +67,6 @@ const createInvoice = async (req, res) => {
     const user_id = req.user._id;
     const invoice = await Invoice.create({
       date,
-      clientName,
       clientId,
       price,
       description,
