@@ -5,10 +5,10 @@ import { useClientsContext } from "../../hooks/useClientsContext";
 
 const InvoiceForm = () => {
   const { dispatch } = useInvoicesContext();
-  const { user, logout } = useAuthContext(); // Access logout function
+  const { user, logout } = useAuthContext();
   const { clients } = useClientsContext();
 
-  const [clientName, setClientName] = useState("");
+  const [clientId, setClientId] = useState("");
   const [date, setDate] = useState("");
   const [price, setPrice] = useState("");
   const [description, setDescription] = useState("");
@@ -23,19 +23,8 @@ const InvoiceForm = () => {
       return;
     }
 
-    const selectedClient = clients.find(
-      (client) => client.clientName === clientName
-    );
-
-    if (!selectedClient) {
-      setError("Please select a valid client. Then try again");
-      setEmptyFields(["clientName"]);
-      return;
-    }
-
     const invoice = {
-      clientName,
-      clientId: selectedClient._id,
+      clientId,
       date,
       price,
       description,
@@ -52,6 +41,7 @@ const InvoiceForm = () => {
       });
 
       const json = await response.json();
+      console.log(json);
 
       if (response.status === 401) {
         logout();
@@ -64,8 +54,8 @@ const InvoiceForm = () => {
         console.log(json.emptyFields);
       }
       if (response.ok) {
-        setClientName("");
         setDate("");
+        setClientId("");
         setPrice("");
         setDescription("");
         setError(null);
@@ -82,21 +72,21 @@ const InvoiceForm = () => {
     <form className="create" onSubmit={handleSubmit}>
       <h3>Add a new invoice</h3>
 
-      <label htmlFor="clientNameField"> Invoice for Client: </label>
+      <label htmlFor="clientIdField"> Invoice for Client: </label>
       <select
-        name="clientNameField"
-        id="clientNameField"
+        name="clientIdField"
+        id="clientIdField"
         onChange={(e) => {
-          setClientName(e.target.value);
-          setError(null);
+          setClientId(e.target.value);
+          console.log(e.target.value);
         }}
-        value={clientName}
+        value={clientId}
         className={emptyFields.includes("clientName") ? "error" : ""}
       >
         <option value="">Select a client</option>
         {clients &&
           clients.map((client) => (
-            <option key={client._id} value={client.clientName}>
+            <option key={client._id} value={client._id}>
               {client.clientName}
             </option>
           ))}

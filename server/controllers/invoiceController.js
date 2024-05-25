@@ -47,11 +47,11 @@ const createInvoice = async (req, res) => {
   if (!date) {
     emptyFields.push("date");
   }
-  if (!clientName) {
-    emptyFields.push("clientName");
-  }
+  // if (!clientName) {
+  //   emptyFields.push("clientName");
+  // }
   if (!clientId) {
-    emptyFields.push("clientId");
+    emptyFields.push("clientName");
   }
   if (!price) {
     emptyFields.push("price");

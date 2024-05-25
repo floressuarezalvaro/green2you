@@ -1,5 +1,7 @@
+import { useState, useEffect } from "react";
 import { useInvoicesContext } from "../hooks/useInvoicesContext";
 import { useAuthContext } from "../hooks/useAuthContext";
+import { useClientsContext } from "../hooks/useClientsContext";
 import formatDistanceToNow from "date-fns/formatDistanceToNow";
 
 import InvoiceModal from "./modals/InvoiceModal";
@@ -7,9 +9,19 @@ import InvoiceModal from "./modals/InvoiceModal";
 const InvoiceDetails = ({ invoice }) => {
   const { dispatch } = useInvoicesContext();
   const { user } = useAuthContext();
+  const { clients } = useClientsContext();
+  const [clientName, setClientName] = useState("");
 
-  // deleting
+  useEffect(() => {
+    if (invoice.clientId) {
+      const client = clients.find((client) => client._id === invoice.clientId);
+      if (client) {
+        setClientName(client.clientName);
+      }
+    }
+  }, [invoice.clientId, clients]);
 
+  // Deleting
   const handleDelete = async () => {
     if (!user) {
       return;
@@ -31,7 +43,7 @@ const InvoiceDetails = ({ invoice }) => {
 
   return (
     <div className="details">
-      <h4>{invoice.clientName}</h4>
+      <h4>{clientName}</h4>
       <p>
         <strong>Date of Service: </strong>
         {invoice.date}

@@ -6,7 +6,7 @@ const invoiceSchema = new Schema(
   {
     clientName: {
       type: String,
-      required: true,
+      required: false,
     },
     clientId: {
       type: String,

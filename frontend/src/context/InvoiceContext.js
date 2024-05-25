@@ -14,7 +14,9 @@ export const invoicesReducer = (state, action) => {
       };
     case "DELETE_INVOICE":
       return {
-        invoices: state.invoices.filter((w) => w._id !== action.payload._id),
+        invoices: state.invoices.filter(
+          (invoice) => invoice._id !== action.payload._id
+        ),
       };
     // case "UPDATE_INVOICE":
     //   return {
