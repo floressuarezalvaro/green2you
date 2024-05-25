@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import { useAuthContext } from "./hooks/useAuthContext";
 
 // pages & components
@@ -13,29 +13,27 @@ function App() {
 
   return (
     <div className="App">
-      <BrowserRouter>
-        <Navbar />
-        <div className="pages">
-          <Routes>
-            <Route
-              path="/"
-              element={user ? <Home /> : <Navigate to="/login" />}
-            />
-            <Route
-              path="/login"
-              element={!user ? <LogIn /> : <Navigate to="/" />}
-            />
-            <Route
-              path="/signup"
-              element={!user ? <SignUp /> : <Navigate to="/" />}
-            />
-            <Route
-              path="/clients"
-              element={user ? <Client /> : <Navigate to="/login" />}
-            />
-          </Routes>
-        </div>
-      </BrowserRouter>
+      <Navbar />
+      <div className="pages">
+        <Routes>
+          <Route
+            path="/"
+            element={user ? <Home /> : <Navigate to="/login" />}
+          />
+          <Route
+            path="/login"
+            element={!user ? <LogIn /> : <Navigate to="/" />}
+          />
+          <Route
+            path="/signup"
+            element={!user ? <SignUp /> : <Navigate to="/" />}
+          />
+          <Route
+            path="/clients"
+            element={user ? <Client /> : <Navigate to="/login" />}
+          />
+        </Routes>
+      </div>
     </div>
   );
 }

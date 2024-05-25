@@ -9,26 +9,35 @@ import ClientForm from "../components/forms/ClientForm.js";
 // actual page
 const Client = () => {
   const { clients, dispatch } = useClientsContext();
-  const { user } = useAuthContext();
+  const { user, logout } = useAuthContext();
 
   useEffect(() => {
     const fetchClients = async () => {
-      const response = await fetch("/clients", {
-        headers: {
-          Authorization: `Bearer ${user.token}`,
-        },
-      });
-      const json = await response.json();
+      try {
+        const response = await fetch("/clients", {
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+        });
 
-      if (response.ok) {
+        if (!response.ok) {
+          if (response.status === 401) {
+            logout();
+          }
+          return;
+        }
+
+        const json = await response.json();
         dispatch({ type: "SET_CLIENTS", payload: json });
+      } catch (error) {
+        console.error("Failed to fetch clients:", error);
       }
     };
 
     if (user) {
       fetchClients();
     }
-  }, [dispatch, user]);
+  }, [dispatch, user, logout]);
 
   return (
     <div className="home">

@@ -1,4 +1,5 @@
 import { createContext, useReducer, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export const AuthContext = createContext();
 
@@ -24,6 +25,7 @@ export const AuthContextProvider = ({ children }) => {
   });
 
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("user"));
@@ -36,12 +38,18 @@ export const AuthContextProvider = ({ children }) => {
     setLoading(false);
   }, []);
 
+  const logout = () => {
+    localStorage.removeItem("user");
+    dispatch({ type: "LOGOUT" });
+    navigate("/login");
+  };
+
   if (loading) {
     return <div>Loading...</div>;
   }
 
   return (
-    <AuthContext.Provider value={{ ...state, dispatch }}>
+    <AuthContext.Provider value={{ ...state, dispatch, logout }}>
       {children}
     </AuthContext.Provider>
   );

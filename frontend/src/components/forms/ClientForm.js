@@ -4,7 +4,7 @@ import { useAuthContext } from "../../hooks/useAuthContext";
 
 const ClientForm = () => {
   const { dispatch } = useClientsContext();
-  const { user } = useAuthContext();
+  const { user, logout } = useAuthContext(); // Access logout function
 
   const [clientName, setClientName] = useState("");
   const [clientEmail, setClientEmail] = useState("");
@@ -36,33 +36,42 @@ const ClientForm = () => {
       clientZip,
     };
 
-    const response = await fetch("/clients", {
-      method: "POST",
-      body: JSON.stringify(client),
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${user.token}`,
-      },
-    });
+    try {
+      const response = await fetch("/clients", {
+        method: "POST",
+        body: JSON.stringify(client),
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${user.token}`,
+        },
+      });
 
-    const json = await response.json();
+      const json = await response.json();
 
-    if (!response.ok) {
-      setError(json.error);
-      setEmptyFields(json.emptyFields);
-    }
-    if (response.ok) {
-      setClientName("");
-      setClientEmail("");
-      setClientPhoneNumber("");
-      setClientStreetLineOne("");
-      setClientStreetLineTwo("");
-      setClientCity("");
-      setClientState("");
-      setClientZip("");
-      setError(null);
-      setEmptyFields([]);
-      dispatch({ type: "CREATE_CLIENT", payload: json });
+      if (response.status === 401) {
+        logout();
+        return;
+      }
+
+      if (!response.ok) {
+        setError(json.error);
+        setEmptyFields(json.emptyFields);
+      }
+      if (response.ok) {
+        setClientName("");
+        setClientEmail("");
+        setClientPhoneNumber("");
+        setClientStreetLineOne("");
+        setClientStreetLineTwo("");
+        setClientCity("");
+        setClientState("");
+        setClientZip("");
+        setError(null);
+        setEmptyFields([]);
+        dispatch({ type: "CREATE_CLIENT", payload: json });
+      }
+    } catch (err) {
+      console.error("Failed to create client", err);
     }
   };
 

@@ -5,7 +5,7 @@ import { useClientsContext } from "../../hooks/useClientsContext";
 
 const InvoiceForm = () => {
   const { dispatch } = useInvoicesContext();
-  const { user } = useAuthContext();
+  const { user, logout } = useAuthContext(); // Access logout function
   const { clients } = useClientsContext();
 
   const [clientName, setClientName] = useState("");
@@ -41,31 +41,40 @@ const InvoiceForm = () => {
       description,
     };
 
-    const response = await fetch("/invoices", {
-      method: "POST",
-      body: JSON.stringify(invoice),
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${user.token}`,
-      },
-    });
+    try {
+      const response = await fetch("/invoices", {
+        method: "POST",
+        body: JSON.stringify(invoice),
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${user.token}`,
+        },
+      });
 
-    const json = await response.json();
+      const json = await response.json();
 
-    if (!response.ok) {
-      setError(json.error);
-      setEmptyFields(json.emptyFields);
-      console.log(json.emptyFields);
-    }
-    if (response.ok) {
-      setClientName("");
-      setDate("");
-      setPrice("");
-      setDescription("");
-      setError(null);
-      setEmptyFields([]);
-      console.log("New Invoice Added", json);
-      dispatch({ type: "CREATE_INVOICE", payload: json });
+      if (response.status === 401) {
+        logout();
+        return;
+      }
+
+      if (!response.ok) {
+        setError(json.error);
+        setEmptyFields(json.emptyFields);
+        console.log(json.emptyFields);
+      }
+      if (response.ok) {
+        setClientName("");
+        setDate("");
+        setPrice("");
+        setDescription("");
+        setError(null);
+        setEmptyFields([]);
+        console.log("New Invoice Added", json);
+        dispatch({ type: "CREATE_INVOICE", payload: json });
+      }
+    } catch (err) {
+      console.error("Failed to create invoice", err);
     }
   };
 
