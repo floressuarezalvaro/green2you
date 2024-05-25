@@ -52,9 +52,9 @@ const createClient = async (req, res) => {
   if (!clientName) emptyFields.push("clientName");
   if (!clientEmail) emptyFields.push("clientEmail");
   if (!clientPhoneNumber) emptyFields.push("clientPhoneNumber");
-  if (!clientCycleDate || clientCycleDate < 1 || clientCycleDate > 31) {
-    emptyFields.push("clientCycleDate");
-  }
+  // if (!clientCycleDate || clientCycleDate < 1 || clientCycleDate > 31) {
+  //   emptyFields.push("clientCycleDate");
+  // }
 
   if (emptyFields.length > 0) {
     return res.status(400).json({

@@ -27,14 +27,18 @@ const getInvoice = async (req, res) => {
   const { id } = req.params;
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
-    return res.status(404).json({ error: "This is not a valid id" });
+    return res.status(400).json({ error: "This is not a valid id" });
   }
 
-  const invoice = await Invoice.findById(id);
-  if (!invoice) {
-    return res.status(400).json({ error: "No invoice found" });
+  try {
+    const invoice = await Invoice.findById(id);
+    if (!invoice) {
+      return res.status(404).json({ error: "No invoice found" });
+    }
+    res.status(200).json(invoice);
+  } catch (error) {
+    res.status(500).json({ error: "Internal server error" });
   }
-  res.status(200).json(invoice);
 };
 // Create new invoice
 const createInvoice = async (req, res) => {
@@ -42,18 +46,11 @@ const createInvoice = async (req, res) => {
 
   let emptyFields = [];
 
-  if (!date) {
-    emptyFields.push("date");
-  }
-  if (!clientId) {
-    emptyFields.push("clientName");
-  }
-  if (!price) {
-    emptyFields.push("price");
-  }
-  if (!description) {
-    emptyFields.push("description");
-  }
+  if (!date) emptyFields.push("date");
+  if (!clientId) emptyFields.push("clientName");
+  if (!price) emptyFields.push("price");
+  if (!description) emptyFields.push("description");
+
   if (emptyFields.length > 0) {
     return res
       .status(400)
@@ -70,22 +67,28 @@ const createInvoice = async (req, res) => {
       description,
       user_id,
     });
-    res.status(200).json(invoice);
+    res.status(201).json(invoice);
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    res.status(500).json({ error: "Internal server error" });
   }
 };
 // delete new invoice
 const deleteInvoice = async (req, res) => {
   const { id } = req.params;
+
   if (!mongoose.Types.ObjectId.isValid(id)) {
-    res.status(404).json({ error: "This is not a valid id" });
+    return res.status(400).json({ error: "This is not a valid id" });
   }
-  const invoice = await Invoice.findOneAndDelete({ _id: id });
-  if (!invoice) {
-    return res.status(400).json({ error: "No invoice found" });
+
+  try {
+    const invoice = await Invoice.findOneAndDelete({ _id: id });
+    if (!invoice) {
+      return res.status(404).json({ error: "No invoice found" });
+    }
+    res.status(200).json(invoice);
+  } catch (error) {
+    res.status(500).json({ error: "Internal server error" });
   }
-  res.status(200).json(invoice);
 };
 
 // update an invoice
@@ -94,17 +97,22 @@ const updateInvoice = async (req, res) => {
   const { id } = req.params;
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
-    res.status(404).json({ error: "This is not a valid id" });
+    return res.status(400).json({ error: "This is not a valid id" });
   }
-  const invoice = await Invoice.findOneAndUpdate(
-    { _id: id },
-    { ...req.body },
-    { new: true }
-  );
-  if (!invoice) {
-    return res.status(400).json({ error: "No invoice found" });
+
+  try {
+    const invoice = await Invoice.findOneAndUpdate(
+      { _id: id },
+      { ...req.body },
+      { new: true }
+    );
+    if (!invoice) {
+      return res.status(404).json({ error: "No invoice found" });
+    }
+    res.status(200).json(invoice);
+  } catch (error) {
+    res.status(500).json({ error: "Internal server error" });
   }
-  res.status(200).json(invoice);
 };
 
 module.exports = {
