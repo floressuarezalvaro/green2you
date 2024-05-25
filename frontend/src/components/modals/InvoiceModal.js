@@ -1,12 +1,13 @@
-import { useState } from "react";
-// import { useInvoicesContext } from "../../hooks/useInvoicesContext";
+import { useState, useEffect } from "react";
+import { useClientsContext } from "../../hooks/useClientsContext";
 import { useAuthContext } from "../../hooks/useAuthContext";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 
 const InvoiceModal = ({ invoice }) => {
-  // const { dispatch } = useInvoicesContext();
+  const { clients } = useClientsContext();
+  const [clientName, setClientName] = useState("");
   const { user } = useAuthContext();
   //   for modal
   const [show, setShow] = useState(false);
@@ -16,6 +17,15 @@ const InvoiceModal = ({ invoice }) => {
   //   states for updating
   const [error, setError] = useState(null);
   const [updateInvoiceForm, setUpdateInvoiceForm] = useState();
+
+  useEffect(() => {
+    if (invoice.clientId) {
+      const client = clients.find((client) => client._id === invoice.clientId);
+      if (client) {
+        setClientName(client.clientName);
+      }
+    }
+  }, [invoice.clientId, clients]);
 
   const onChange = (e) => {
     setUpdateInvoiceForm({
@@ -48,7 +58,6 @@ const InvoiceModal = ({ invoice }) => {
     }
     if (response.ok) {
       window.location.reload();
-      // dispatch({ type: "UPDATE_INVOICE", payload: json });
     }
   };
 
@@ -60,7 +69,7 @@ const InvoiceModal = ({ invoice }) => {
 
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Update Form</Modal.Title>
+          <Modal.Title>Update Invoice</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form>
@@ -68,10 +77,11 @@ const InvoiceModal = ({ invoice }) => {
               <Form.Label>Name of Client</Form.Label>
               <Form.Control
                 type="text"
-                placeholder={invoice.clientName}
+                placeholder={clientName}
                 autoFocus
                 onChange={onChange}
-                name="clientName"
+                name="clientId"
+                disabled
               />
             </Form.Group>
 
