@@ -14,6 +14,7 @@ const ClientForm = () => {
   const [clientCity, setClientCity] = useState("");
   const [clientState, setClientState] = useState("");
   const [clientZip, setClientZip] = useState("");
+  const [clientCycleDate, setClientCycleDate] = useState("");
   const [error, setError] = useState(null);
   const [emptyFields, setEmptyFields] = useState([]);
 
@@ -34,6 +35,7 @@ const ClientForm = () => {
       clientCity,
       clientState,
       clientZip,
+      clientCycleDate,
     };
 
     try {
@@ -54,8 +56,10 @@ const ClientForm = () => {
       }
 
       if (!response.ok) {
+        console.log(clientCycleDate);
         setError(json.error);
         setEmptyFields(json.emptyFields);
+        console.log(json.emptyFields);
       }
       if (response.ok) {
         setClientName("");
@@ -66,6 +70,7 @@ const ClientForm = () => {
         setClientCity("");
         setClientState("");
         setClientZip("");
+        setClientCycleDate("");
         setError(null);
         setEmptyFields([]);
         dispatch({ type: "CREATE_CLIENT", payload: json });
@@ -144,6 +149,15 @@ const ClientForm = () => {
         onChange={(e) => setClientZip(e.target.value)}
         value={clientZip}
         id="clientZipField"
+      />
+
+      <label htmlFor="clientCycleDateField">Cycle Date: </label>
+      <input
+        type="number"
+        onChange={(e) => setClientCycleDate(e.target.value)}
+        value={clientCycleDate}
+        id="clientCycleDateField"
+        className={emptyFields.includes("clientCycleDate") ? "error" : ""}
       />
 
       <button>Create New Client</button>

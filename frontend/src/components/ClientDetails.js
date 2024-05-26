@@ -60,6 +60,10 @@ const ClientDetails = ({ client }) => {
         {client.clientZip}
       </p>
       <p>
+        <strong>Cycle Date: </strong>
+        {client.clientCycleDate}
+      </p>
+      <p>
         Created:{" "}
         {formatDistanceToNow(new Date(client.createdAt), { addSuffix: true })}
       </p>
