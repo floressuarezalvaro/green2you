@@ -1,4 +1,5 @@
 const nodemailer = require("nodemailer");
+const EmailTracker = require("../models/emailTrackerModel");
 
 const transporter = nodemailer.createTransport({
   service: "gmail",
@@ -17,8 +18,26 @@ const welcomeEmail = async (to, subject, text) => {
       subject,
       text,
     });
+
+    const emailLog = new EmailTracker({
+      emailType: "WelcomeEmail",
+      emailTo: to,
+      emailSubject: subject,
+      emailText: text,
+      emailSuccess: true,
+    });
+    await emailLog.save();
     console.log("Email sent:", info.response);
   } catch (error) {
+    const emailLog = new EmailTracker({
+      emailType: "WelcomeEmail",
+      emailTo: to,
+      emailSubject: subject,
+      emailText: text,
+      emailSuccess: false,
+      emailError: error,
+    });
+    await emailLog.save();
     console.error("Error sending email:", error);
   }
 };

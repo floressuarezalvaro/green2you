@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const validator = require("validator");
 
 const Schema = mongoose.Schema;
 
@@ -11,6 +12,7 @@ const clientSchema = new Schema(
     clientEmail: {
       type: String,
       required: true,
+      unique: true,
     },
     clientPhoneNumber: {
       type: Number,
@@ -47,5 +49,16 @@ const clientSchema = new Schema(
   },
   { timestamps: true }
 );
+
+clientSchema.statics.signupClient = async function (clientEmail) {
+  if (!validator.isEmail(clientEmail)) {
+    throw Error("This is not a valid email");
+  }
+
+  const exists = await this.findOne({ clientEmail });
+  if (exists) {
+    throw Error("Email exists");
+  }
+};
 
 module.exports = mongoose.model("Client", clientSchema);

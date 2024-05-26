@@ -68,6 +68,8 @@ const createClient = async (req, res) => {
 
   // add client to DB
   try {
+    await Client.signupClient(clientEmail);
+
     const user_id = req.user._id;
     const client = await Client.create({
       clientName,
@@ -89,6 +91,13 @@ const createClient = async (req, res) => {
     );
     res.status(201).json(client);
   } catch (error) {
+    // Handle errors thrown by the signupClient method
+    if (error.message === "This is not a valid email") {
+      return res.status(400).json({ error: error.message });
+    } else if (error.message === "Email exists") {
+      return res.status(400).json({ error: "Email already exists" });
+    }
+    // Handle other errors
     res.status(500).json({ error: "Internal server error" });
   }
 };
