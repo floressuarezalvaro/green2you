@@ -145,6 +145,16 @@ const ClientModal = ({ client }) => {
               />
             </Form.Group>
 
+            <Form.Group className="mb-3" controlId="clientCycleDateField">
+              <Form.Label>Cycle Date: </Form.Label>
+              <Form.Control
+                type="number"
+                placeholder={client.clientCycleDate}
+                onChange={onChange}
+                name="clientCycleDate"
+              />
+            </Form.Group>
+
             {error && <div className="error">{error}</div>}
           </Form>
         </Modal.Body>

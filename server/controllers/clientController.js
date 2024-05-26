@@ -108,9 +108,16 @@ const deleteClient = async (req, res) => {
 // Update a client
 const updateClient = async (req, res) => {
   const { id } = req.params;
+  const { clientCycleDate } = req.body;
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
     return res.status(404).json({ error: "This is not a valid id" });
+  }
+
+  if (clientCycleDate !== "") {
+    if (clientCycleDate < 1 || clientCycleDate > 31) {
+      return res.status(404).json({ error: "This is not a valid cycle date" });
+    }
   }
 
   try {
