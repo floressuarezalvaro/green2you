@@ -12,6 +12,8 @@ const Client = () => {
   const { user, logout } = useAuthContext();
 
   useEffect(() => {
+    if (!user) return;
+
     const fetchClients = async () => {
       try {
         const response = await fetch("/clients", {

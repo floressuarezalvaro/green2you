@@ -9,14 +9,20 @@ const InvoiceModal = ({ invoice }) => {
   const { clients } = useClientsContext();
   const [clientName, setClientName] = useState("");
   const { user } = useAuthContext();
-  //   for modal
+  // for modal
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  //   states for updating
+  // states for updating
   const [error, setError] = useState(null);
-  const [updateInvoiceForm, setUpdateInvoiceForm] = useState();
+  const [updateInvoiceForm, setUpdateInvoiceForm] = useState({
+    date: invoice.date
+      ? new Date(invoice.date).toISOString().split("T")[0]
+      : "",
+    price: invoice.price,
+    description: invoice.description,
+  });
 
   useEffect(() => {
     if (invoice.clientId) {
@@ -62,7 +68,7 @@ const InvoiceModal = ({ invoice }) => {
   };
 
   return (
-    <div className="modal-show" style={{}}>
+    <div className="modal-show">
       <Button variant="primary" onClick={handleShow}>
         Update
       </Button>
@@ -79,8 +85,6 @@ const InvoiceModal = ({ invoice }) => {
                 type="text"
                 placeholder={clientName}
                 autoFocus
-                onChange={onChange}
-                name="clientId"
                 disabled
               />
             </Form.Group>
@@ -89,8 +93,7 @@ const InvoiceModal = ({ invoice }) => {
               <Form.Label>Date of Service</Form.Label>
               <Form.Control
                 type="date"
-                placeholder={invoice.date}
-                autoFocus
+                value={updateInvoiceForm.date}
                 onChange={onChange}
                 name="date"
               />
@@ -100,8 +103,7 @@ const InvoiceModal = ({ invoice }) => {
               <Form.Label>Price</Form.Label>
               <Form.Control
                 type="number"
-                placeholder={invoice.price}
-                autoFocus
+                value={updateInvoiceForm.price}
                 onChange={onChange}
                 name="price"
               />
@@ -112,7 +114,7 @@ const InvoiceModal = ({ invoice }) => {
               <Form.Control
                 as="textarea"
                 rows={3}
-                placeholder={invoice.description}
+                value={updateInvoiceForm.description}
                 onChange={onChange}
                 name="description"
               />

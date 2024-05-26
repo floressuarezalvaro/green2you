@@ -12,6 +12,7 @@ const Home = () => {
 
   useEffect(() => {
     const fetchInvoices = async () => {
+      if (!user) return;
       try {
         const response = await fetch("/invoices", {
           headers: {

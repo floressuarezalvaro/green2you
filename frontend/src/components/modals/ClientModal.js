@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useAuthContext } from "../../hooks/useAuthContext";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
@@ -6,14 +6,24 @@ import Modal from "react-bootstrap/Modal";
 
 const ClientModal = ({ client }) => {
   const { user } = useAuthContext();
-  //   for modal
+  // for modal
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  //   states for updating
+  // states for updating
   const [error, setError] = useState(null);
-  const [updateClientForm, setUpdateClientForm] = useState();
+  const [updateClientForm, setUpdateClientForm] = useState({
+    clientName: client.clientName || "",
+    clientEmail: client.clientEmail || "",
+    clientPhoneNumber: client.clientPhoneNumber || "",
+    clientStreetLineOne: client.clientStreetLineOne || "",
+    clientStreetLineTwo: client.clientStreetLineTwo || "",
+    clientCity: client.clientCity || "",
+    clientState: client.clientState || "",
+    clientZip: client.clientZip || "",
+    clientCycleDate: client.clientCycleDate || "",
+  });
 
   const onChange = (e) => {
     setUpdateClientForm({
@@ -50,7 +60,7 @@ const ClientModal = ({ client }) => {
   };
 
   return (
-    <div className="modal-show" style={{}}>
+    <div className="modal-show">
       <Button variant="primary" onClick={handleShow}>
         Update
       </Button>
@@ -65,7 +75,7 @@ const ClientModal = ({ client }) => {
               <Form.Label>Name of Client</Form.Label>
               <Form.Control
                 type="text"
-                placeholder={client.clientName}
+                value={updateClientForm.clientName}
                 autoFocus
                 onChange={onChange}
                 name="clientName"
@@ -76,7 +86,7 @@ const ClientModal = ({ client }) => {
               <Form.Label>Email: </Form.Label>
               <Form.Control
                 type="text"
-                placeholder={client.clientEmail}
+                value={updateClientForm.clientEmail}
                 autoFocus
                 onChange={onChange}
                 name="clientEmail"
@@ -87,7 +97,7 @@ const ClientModal = ({ client }) => {
               <Form.Label>Phone Number: </Form.Label>
               <Form.Control
                 type="number"
-                placeholder={client.clientPhoneNumber}
+                value={updateClientForm.clientPhoneNumber}
                 autoFocus
                 onChange={onChange}
                 name="clientPhoneNumber"
@@ -98,7 +108,7 @@ const ClientModal = ({ client }) => {
               <Form.Label>Address 1: </Form.Label>
               <Form.Control
                 type="text"
-                placeholder={client.clientStreetLineOne}
+                value={updateClientForm.clientStreetLineOne}
                 autoFocus
                 onChange={onChange}
                 name="clientStreetLineOne"
@@ -109,7 +119,7 @@ const ClientModal = ({ client }) => {
               <Form.Label>Address 2: </Form.Label>
               <Form.Control
                 type="text"
-                placeholder={client.clientStreetLineTwo}
+                value={updateClientForm.clientStreetLineTwo}
                 onChange={onChange}
                 name="clientStreetLineTwo"
               />
@@ -119,7 +129,7 @@ const ClientModal = ({ client }) => {
               <Form.Label>City: </Form.Label>
               <Form.Control
                 type="text"
-                placeholder={client.clientCity}
+                value={updateClientForm.clientCity}
                 onChange={onChange}
                 name="clientCity"
               />
@@ -129,7 +139,7 @@ const ClientModal = ({ client }) => {
               <Form.Label>State: </Form.Label>
               <Form.Control
                 type="text"
-                placeholder={client.clientState}
+                value={updateClientForm.clientState}
                 onChange={onChange}
                 name="clientState"
               />
@@ -139,7 +149,7 @@ const ClientModal = ({ client }) => {
               <Form.Label>Zip Code:</Form.Label>
               <Form.Control
                 type="number"
-                placeholder={client.clientZip}
+                value={updateClientForm.clientZip}
                 onChange={onChange}
                 name="clientZip"
               />
@@ -149,7 +159,7 @@ const ClientModal = ({ client }) => {
               <Form.Label>Cycle Date: </Form.Label>
               <Form.Control
                 type="number"
-                placeholder={client.clientCycleDate}
+                value={updateClientForm.clientCycleDate}
                 onChange={onChange}
                 name="clientCycleDate"
               />
