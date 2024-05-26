@@ -1,4 +1,5 @@
 const Client = require("../models/clientModel");
+const { welcomeEmail } = require("../utils/emailHandler");
 const mongoose = require("mongoose");
 
 // Get all clients
@@ -80,6 +81,12 @@ const createClient = async (req, res) => {
       clientCycleDate,
       user_id,
     });
+
+    await welcomeEmail(
+      clientEmail,
+      "Welcome to Green2You",
+      `Hello ${clientName}. If you are receiving this, it's because you are now enrolled in Green2You's automated invoice service. Greetings! `
+    );
     res.status(201).json(client);
   } catch (error) {
     res.status(500).json({ error: "Internal server error" });
