@@ -3,6 +3,7 @@ import { useInvoicesContext } from "../hooks/useInvoicesContext";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { useClientsContext } from "../hooks/useClientsContext";
 import formatDistanceToNow from "date-fns/formatDistanceToNow";
+import { format } from "date-fns";
 
 import InvoiceModal from "./modals/InvoiceModal";
 
@@ -41,12 +42,14 @@ const InvoiceDetails = ({ invoice }) => {
     }
   };
 
+  const formattedDate = format(new Date(invoice.date), "MM/dd/yyyy");
+
   return (
     <div className="details">
       <h4>{clientName}</h4>
       <p>
         <strong>Date of Service: </strong>
-        {invoice.date}
+        {formattedDate}
       </p>
       <p>
         <strong>Price (USD): </strong>

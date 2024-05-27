@@ -4,7 +4,7 @@ import { useAuthContext } from "../../hooks/useAuthContext";
 
 const ClientForm = () => {
   const { dispatch } = useClientsContext();
-  const { user, logout } = useAuthContext(); // Access logout function
+  const { user, logout } = useAuthContext();
 
   const [clientName, setClientName] = useState("");
   const [clientEmail, setClientEmail] = useState("");
