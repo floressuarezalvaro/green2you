@@ -39,13 +39,15 @@ const Profile = () => {
     fetchInvoices();
   }, [dispatch, user, clientId]);
 
-  const selectedClient = clients.find((client) => client._id === clientId);
+  const selectedClient = clients
+    ? clients.find((client) => client._id === clientId)
+    : null;
 
   return (
     <div className="invoices">
       <h3>Profile Page</h3>
       <ClientSelector
-        clients={clients}
+        clients={clients || []}
         clientId={clientId}
         setClientId={setClientId}
       />
@@ -55,7 +57,7 @@ const Profile = () => {
       {selectedClient && (
         <>
           <h3>Invoices</h3>
-          <InvoiceList invoices={invoices} />
+          <InvoiceList invoices={invoices || []} />
         </>
       )}
     </div>
