@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useInvoicesContext } from "../hooks/useInvoicesContext";
 import { useClientsContext } from "../hooks/useClientsContext";
 import { useAuthContext } from "../hooks/useAuthContext";
+import formatDistanceToNow from "date-fns/formatDistanceToNow";
 
 const Profile = () => {
   const { invoices, dispatch } = useInvoicesContext();
@@ -38,17 +39,7 @@ const Profile = () => {
     fetchInvoices();
   }, [dispatch, user, clientId]);
 
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-
-  //   if (!user) {
-  //     setError("Login required");
-  //     return;
-  //   }
-
-  //   const selectedProfile = { clientId };
-  //   console.log(selectedProfile);
-  // };
+  const selectedClient = clients.find((client) => client._id === clientId);
 
   return (
     <div className="invoices">
@@ -74,9 +65,60 @@ const Profile = () => {
               </option>
             ))}
         </select>
-        {/* <button>Select Profile</button> */}
       </form>
 
+      {selectedClient && (
+        <div className="details">
+          <h3>Profile </h3>
+          <h4>{selectedClient.clientName}</h4>
+          <p>
+            <strong>Email: </strong>
+            {selectedClient.clientEmail}
+          </p>
+          <p>
+            <strong>Phone Number: </strong>
+            {selectedClient.clientPhoneNumber}
+          </p>
+          <p>
+            <strong>Address 1: </strong>
+            {selectedClient.clientStreetLineOne}
+          </p>
+          <p>
+            <strong>Address 2: </strong>
+            {selectedClient.clientStreetLineTwo}
+          </p>
+          <p>
+            <strong>City: </strong>
+            {selectedClient.clientCity}
+          </p>
+          <p>
+            <strong>State: </strong>
+            {selectedClient.clientState}
+          </p>
+          <p>
+            <strong>Zip Code: </strong>
+            {selectedClient.clientZip}
+          </p>
+          <p>
+            <strong>Cycle Date: </strong>
+            {selectedClient.clientCycleDate}
+          </p>
+          <p>
+            Created:{" "}
+            {formatDistanceToNow(new Date(selectedClient.createdAt), {
+              addSuffix: true,
+            })}
+          </p>
+          <p>
+            Updated:{" "}
+            {formatDistanceToNow(new Date(selectedClient.updatedAt), {
+              addSuffix: true,
+            })}
+          </p>
+        </div>
+      )}
+
+      {selectedClient && <h3>Invoices </h3>}
       {invoices &&
         invoices.map((invoice) => (
           <div key={invoice._id}>
