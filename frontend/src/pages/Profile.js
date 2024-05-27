@@ -4,7 +4,7 @@ import { useClientsContext } from "../hooks/useClientsContext";
 import { useAuthContext } from "../hooks/useAuthContext";
 
 const Profile = () => {
-  const { dispatch } = useInvoicesContext();
+  const { invoices, dispatch } = useInvoicesContext();
   const { clients } = useClientsContext();
   const { user } = useAuthContext();
 
@@ -13,7 +13,6 @@ const Profile = () => {
   useEffect(() => {
     const fetchInvoices = async () => {
       if (!user || !clientId) return;
-      console.log(clientId);
       try {
         const response = await fetch(`/invoices?clientId=${clientId}`, {
           headers: {
@@ -30,6 +29,7 @@ const Profile = () => {
 
         const json = await response.json();
         dispatch({ type: "SET_INVOICES", payload: json });
+        console.log(json);
       } catch (error) {
         console.error("Failed to fetch invoices:", error);
       }
@@ -38,26 +38,69 @@ const Profile = () => {
     fetchInvoices();
   }, [dispatch, user, clientId]);
 
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+
+  //   if (!user) {
+  //     setError("Login required");
+  //     return;
+  //   }
+
+  //   const selectedProfile = { clientId };
+  //   console.log(selectedProfile);
+  // };
+
   return (
-    <form className="create">
-      <label htmlFor="clientIdField"> Select Client: </label>
-      <select
-        name="clientIdField"
-        id="clientIdField"
-        onChange={(e) => {
-          setClientId(e.target.value);
-        }}
-        value={clientId}
+    <div className="invoices">
+      <h3>Profile Page</h3>
+      <form
+        className="create"
+        // onSubmit={handleSubmit}
       >
-        <option value="">Select From List</option>
-        {clients &&
-          clients.map((client) => (
-            <option key={client._id} value={client._id}>
-              {client.clientName}
-            </option>
-          ))}
-      </select>
-    </form>
+        <label htmlFor="clientIdField"> Select Client: </label>
+        <select
+          name="clientIdField"
+          id="clientIdField"
+          onChange={(e) => {
+            setClientId(e.target.value);
+          }}
+          value={clientId}
+        >
+          <option value="">Select From List</option>
+          {clients &&
+            clients.map((client) => (
+              <option key={client._id} value={client._id}>
+                {client.clientName}
+              </option>
+            ))}
+        </select>
+        {/* <button>Select Profile</button> */}
+      </form>
+
+      {invoices &&
+        invoices.map((invoice) => (
+          <div key={invoice._id}>
+            <div className="details">
+              <p>
+                <strong>Invoice ID: </strong>
+                {invoice._id}
+              </p>
+              <p>
+                <strong>Date of Service: </strong>
+                {invoice.date}
+              </p>
+              <p>
+                <strong>Price (USD): </strong>
+                {invoice.price}
+              </p>
+              <p>
+                <strong>Service Description: </strong>
+                {invoice.description}
+              </p>
+            </div>
+          </div>
+        ))}
+    </div>
   );
 };
 
