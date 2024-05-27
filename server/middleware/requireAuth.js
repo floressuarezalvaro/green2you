@@ -18,7 +18,6 @@ const requireAuth = async (req, res, next) => {
     req.user = await User.findOne({ _id }).select("_id");
     next();
   } catch (error) {
-    console.log(error);
     res.status(401).json({ error: "Credentials timed out. Log in again." });
   }
 };

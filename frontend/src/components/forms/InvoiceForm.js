@@ -41,7 +41,6 @@ const InvoiceForm = () => {
       });
 
       const json = await response.json();
-      console.log(json);
 
       if (response.status === 401) {
         logout();
@@ -60,7 +59,6 @@ const InvoiceForm = () => {
         setDescription("");
         setError(null);
         setEmptyFields([]);
-        console.log("New Invoice Added", json);
         dispatch({ type: "CREATE_INVOICE", payload: json });
       }
     } catch (err) {
@@ -78,7 +76,6 @@ const InvoiceForm = () => {
         id="clientIdField"
         onChange={(e) => {
           setClientId(e.target.value);
-          console.log(e.target.value);
         }}
         value={clientId}
         className={emptyFields.includes("clientName") ? "error" : ""}

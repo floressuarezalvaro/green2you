@@ -56,7 +56,6 @@ const ClientForm = () => {
       }
 
       if (!response.ok) {
-        console.log(clientCycleDate);
         setError(json.error);
         setEmptyFields(json.emptyFields);
         console.log(json.emptyFields);

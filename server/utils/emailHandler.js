@@ -27,7 +27,6 @@ const welcomeEmail = async (to, subject, text) => {
       emailSuccess: true,
     });
     await emailLog.save();
-    console.log("Email sent:", info.response);
   } catch (error) {
     const emailLog = new EmailTracker({
       emailType: "WelcomeEmail",
@@ -38,7 +37,6 @@ const welcomeEmail = async (to, subject, text) => {
       emailError: error,
     });
     await emailLog.save();
-    console.error("Error sending email:", error);
   }
 };
 
