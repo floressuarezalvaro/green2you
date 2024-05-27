@@ -1,4 +1,5 @@
 const Client = require("../models/clientModel");
+const Invoice = require("../models/invoiceModel");
 const { welcomeEmail } = require("../utils/emailHandler");
 const mongoose = require("mongoose");
 
@@ -113,7 +114,10 @@ const deleteClient = async (req, res) => {
   }
 
   try {
+    await Invoice.deleteMany({ clientId: id });
+
     const client = await Client.findOneAndDelete({ _id: id });
+
     if (!client) {
       return res.status(404).json({ error: "No client found" });
     }
