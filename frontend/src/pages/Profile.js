@@ -1,19 +1,21 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useInvoicesContext } from "../hooks/useInvoicesContext";
+import { useClientsContext } from "../hooks/useClientsContext";
 import { useAuthContext } from "../hooks/useAuthContext";
 
-// components
-import InvoiceDetails from "../components/InvoiceDetails";
+const Profile = () => {
+  const { dispatch } = useInvoicesContext();
+  const { clients } = useClientsContext();
+  const { user } = useAuthContext();
 
-const Home = () => {
-  const { invoices, dispatch } = useInvoicesContext();
-  const { user, logout } = useAuthContext();
+  const [clientId, setClientId] = useState("");
 
   useEffect(() => {
     const fetchInvoices = async () => {
-      if (!user) return;
+      if (!user || !clientId) return;
+      console.log(clientId);
       try {
-        const response = await fetch("/invoices", {
+        const response = await fetch(`/invoices?clientId=${clientId}`, {
           headers: {
             Authorization: `Bearer ${user.token}`,
           },
@@ -21,6 +23,7 @@ const Home = () => {
 
         if (!response.ok) {
           if (response.status === 401) {
+            // Handle unauthorized
           }
           return;
         }
@@ -32,22 +35,30 @@ const Home = () => {
       }
     };
 
-    if (user) {
-      fetchInvoices();
-    }
-  }, [dispatch, user, logout]);
+    fetchInvoices();
+  }, [dispatch, user, clientId]);
 
   return (
-    <div className="home">
-      <div className="invoices">
-        <h3>Profile Page</h3>
-        {invoices &&
-          invoices.map((invoice) => (
-            <InvoiceDetails key={invoice._id} invoice={invoice} />
+    <form className="create">
+      <label htmlFor="clientIdField"> Select Client: </label>
+      <select
+        name="clientIdField"
+        id="clientIdField"
+        onChange={(e) => {
+          setClientId(e.target.value);
+        }}
+        value={clientId}
+      >
+        <option value="">Select From List</option>
+        {clients &&
+          clients.map((client) => (
+            <option key={client._id} value={client._id}>
+              {client.clientName}
+            </option>
           ))}
-      </div>
-    </div>
+      </select>
+    </form>
   );
 };
 
-export default Home;
+export default Profile;
