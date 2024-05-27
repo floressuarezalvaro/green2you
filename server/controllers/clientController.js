@@ -93,9 +93,11 @@ const createClient = async (req, res) => {
   } catch (error) {
     // Handle errors thrown by the signupClient method
     if (error.message === "This is not a valid email") {
-      return res.status(400).json({ error: error.message });
+      emptyFields.push("clientEmail"); // Push clientEmail to emptyFields array
+      return res.status(400).json({ error: error.message, emptyFields });
     } else if (error.message === "Email exists") {
-      return res.status(400).json({ error: "Email already exists" });
+      emptyFields.push("clientEmail"); // Push clientEmail to emptyFields array
+      return res.status(400).json({ error: error.message, emptyFields });
     }
     // Handle other errors
     res.status(500).json({ error: "Internal server error" });
