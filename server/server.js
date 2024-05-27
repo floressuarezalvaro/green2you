@@ -5,6 +5,7 @@ const mongoose = require("mongoose");
 const invoiceRoutes = require("./routes/invoiceRoutes");
 const userRoutes = require("./routes/userRoutes");
 const clientRoutes = require("./routes/clientRoutes");
+const emailRoutes = require("./routes/emailRoutes");
 
 // express app
 const app = express();
@@ -20,6 +21,7 @@ app.use((req, res, next) => {
 app.use("/invoices", invoiceRoutes);
 app.use("/clients", clientRoutes);
 app.use("/users", userRoutes);
+app.use("/emails", emailRoutes);
 
 mongoose
   .connect(process.env.MONGO_URI)
