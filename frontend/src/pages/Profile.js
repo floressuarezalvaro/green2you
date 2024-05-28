@@ -1,21 +1,22 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import { useParams } from "react-router-dom";
 import { useInvoicesContext } from "../hooks/useInvoicesContext";
 import { useClientsContext } from "../hooks/useClientsContext";
 import { useAuthContext } from "../hooks/useAuthContext";
 import formatDistanceToNow from "date-fns/formatDistanceToNow";
 
 const Profile = () => {
+  const { clientId } = useParams();
   const { invoices, dispatch } = useInvoicesContext();
   const { clients } = useClientsContext();
   const { user } = useAuthContext();
 
-  const [clientId, setClientId] = useState("");
-
   useEffect(() => {
     const fetchInvoices = async () => {
       if (!user || !clientId) return;
+
       try {
-        const response = await fetch(`/invoices?clientId=${clientId}`, {
+        const response = await fetch(`/clients/profile/${clientId}`, {
           headers: {
             Authorization: `Bearer ${user.token}`,
           },
@@ -28,9 +29,9 @@ const Profile = () => {
           return;
         }
 
-        const json = await response.json();
-        dispatch({ type: "SET_INVOICES", payload: json });
-        console.log(json);
+        const data = await response.json();
+        dispatch({ type: "SET_INVOICES", payload: data });
+        console.log(data);
       } catch (error) {
         console.error("Failed to fetch invoices:", error);
       }
@@ -39,53 +40,27 @@ const Profile = () => {
     fetchInvoices();
   }, [dispatch, user, clientId]);
 
-  const selectedClient = clients
-    ? clients.find((client) => client._id === clientId)
-    : null;
+  const selectedClient =
+    clients?.find((client) => client._id === clientId) || null;
 
   return (
     <div className="invoices">
       <h3>Profile Page</h3>
-      <ClientSelector
-        clients={clients || []}
-        clientId={clientId}
-        setClientId={setClientId}
-      />
 
       {selectedClient && <ClientDetails client={selectedClient} />}
 
-      {selectedClient && (
+      {selectedClient && invoices?.length > 0 && (
         <>
           <h3>Invoices</h3>
-          <InvoiceList invoices={invoices || []} />
+          <InvoiceList invoices={invoices} />
         </>
       )}
     </div>
   );
 };
 
-const ClientSelector = ({ clients, clientId, setClientId }) => (
-  <form className="create">
-    <label htmlFor="clientIdField">Select Client:</label>
-    <select
-      name="clientIdField"
-      id="clientIdField"
-      onChange={(e) => setClientId(e.target.value)}
-      value={clientId}
-    >
-      <option value="">Select From List</option>
-      {clients.map((client) => (
-        <option key={client._id} value={client._id}>
-          {client.clientName}
-        </option>
-      ))}
-    </select>
-  </form>
-);
-
 const ClientDetails = ({ client }) => (
   <div className="details">
-    <h3>Profile</h3>
     <h4>{client.clientName}</h4>
     <p>
       <strong>Email:</strong> {client.clientEmail}
@@ -125,21 +100,19 @@ const ClientDetails = ({ client }) => (
 const InvoiceList = ({ invoices }) => (
   <>
     {invoices.map((invoice) => (
-      <div key={invoice._id}>
-        <div className="details">
-          <p>
-            <strong>Invoice ID:</strong> {invoice._id}
-          </p>
-          <p>
-            <strong>Date of Service:</strong> {invoice.date}
-          </p>
-          <p>
-            <strong>Amount (USD):</strong> {invoice.amount}
-          </p>
-          <p>
-            <strong>Service Description:</strong> {invoice.description}
-          </p>
-        </div>
+      <div key={invoice._id} className="details">
+        <p>
+          <strong>Invoice ID:</strong> {invoice._id}
+        </p>
+        <p>
+          <strong>Date of Service:</strong> {invoice.date}
+        </p>
+        <p>
+          <strong>Amount (USD):</strong> {invoice.amount}
+        </p>
+        <p>
+          <strong>Service Description:</strong> {invoice.description}
+        </p>
       </div>
     ))}
   </>

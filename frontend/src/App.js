@@ -33,8 +33,12 @@ function App() {
             path="/clients"
             element={user ? <Client /> : <Navigate to="/login" />}
           />
-          <Route
+          {/* <Route
             path="/profile"
+            element={user ? <Profile /> : <Navigate to="/login" />}
+          /> */}
+          <Route
+            path="/profile/:clientId"
             element={user ? <Profile /> : <Navigate to="/login" />}
           />
         </Routes>
