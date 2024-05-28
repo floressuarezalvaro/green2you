@@ -3,6 +3,13 @@ const fs = require("fs");
 
 const Invoice = require("../models/invoiceModel");
 
+const green2YouLogo = (doc) => {
+  doc.fontSize(16).text("Green2You", { align: "left" });
+  doc.fontSize(12).text("6520 SW 190th Ave", { align: "left" });
+  doc.text("Beaverton, OR 97078", { align: "left" });
+  doc.moveDown();
+};
+
 // Get all clients
 const printInvoice = async (req, res) => {
   const { clientId } = req.params;
@@ -24,12 +31,13 @@ const printInvoice = async (req, res) => {
   // Pipe the PDF into the response
   doc.pipe(res);
 
-  // Add content to PDF
-  doc.fontSize(25).text("Invoice", { align: "center" });
+  green2YouLogo(doc);
+
+  doc.fontSize(20).text("Invoice", { align: "center" });
   doc.moveDown();
 
   invoices.forEach((invoice) => {
-    doc.fontSize(16).text(`Invoice ID: ${invoice._id}`);
+    doc.fontSize(12).text(`Invoice ID: ${invoice._id}`);
     doc.text(`Date: ${invoice.date}`);
     doc.text(`Amount: ${invoice.amount}`);
 
@@ -38,7 +46,8 @@ const printInvoice = async (req, res) => {
     doc.moveDown();
   });
 
-  doc.fontSize(18).text(`Total Amount: ${totalAmount}`, { align: "right" });
+  doc.fontSize(14).text(`Total Amount:`, { align: "right", underline: true });
+  doc.fontSize(12).text(`${totalAmount}`, { align: "right" });
 
   doc.end();
 };
