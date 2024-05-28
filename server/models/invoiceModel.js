@@ -12,7 +12,7 @@ const invoiceSchema = new Schema(
       type: Date,
       required: true,
     },
-    price: {
+    amount: {
       type: Number,
       required: true,
     },

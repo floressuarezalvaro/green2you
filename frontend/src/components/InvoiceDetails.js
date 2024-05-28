@@ -52,8 +52,8 @@ const InvoiceDetails = ({ invoice }) => {
         {formattedDate}
       </p>
       <p>
-        <strong>Price (USD): </strong>
-        {invoice.price}
+        <strong>Amount(USD): </strong>
+        {invoice.amount}
       </p>
       <p>
         <strong>Service Description: </strong>

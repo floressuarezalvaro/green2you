@@ -10,7 +10,7 @@ const InvoiceForm = () => {
 
   const [clientId, setClientId] = useState("");
   const [date, setDate] = useState("");
-  const [price, setPrice] = useState("");
+  const [amount, setAmount] = useState("");
   const [description, setDescription] = useState("");
   const [error, setError] = useState(null);
   const [emptyFields, setEmptyFields] = useState([]);
@@ -26,7 +26,7 @@ const InvoiceForm = () => {
     const invoice = {
       clientId,
       date,
-      price,
+      amount,
       description,
     };
 
@@ -55,7 +55,7 @@ const InvoiceForm = () => {
       if (response.ok) {
         setDate("");
         setClientId("");
-        setPrice("");
+        setAmount("");
         setDescription("");
         setError(null);
         setEmptyFields([]);
@@ -98,13 +98,13 @@ const InvoiceForm = () => {
         id="dateField"
       />
 
-      <label htmlFor="priceField">Price: </label>
+      <label htmlFor="amountField">Amount: </label>
       <input
         type="number"
-        onChange={(e) => setPrice(e.target.value)}
-        value={price}
-        className={emptyFields.includes("price") ? "error" : ""}
-        id="priceField"
+        onChange={(e) => setAmount(e.target.value)}
+        value={amount}
+        className={emptyFields.includes("amount") ? "error" : ""}
+        id="amountField"
       />
 
       <label htmlFor="descriptionField">Service Description: </label>

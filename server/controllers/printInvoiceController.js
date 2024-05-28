@@ -30,7 +30,7 @@ const printInvoice = async (req, res) => {
   invoices.forEach((invoice) => {
     doc.fontSize(16).text(`Invoice ID: ${invoice._id}`);
     doc.text(`Date: ${invoice.date}`);
-    doc.text(`Amount: ${invoice.price}`);
+    doc.text(`Amount: ${invoice.amount}`);
     doc.text(`Description: ${invoice.description}`);
     doc.moveDown();
   });

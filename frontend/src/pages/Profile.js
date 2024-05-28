@@ -134,7 +134,7 @@ const InvoiceList = ({ invoices }) => (
             <strong>Date of Service:</strong> {invoice.date}
           </p>
           <p>
-            <strong>Price (USD):</strong> {invoice.price}
+            <strong>Amount (USD):</strong> {invoice.amount}
           </p>
           <p>
             <strong>Service Description:</strong> {invoice.description}

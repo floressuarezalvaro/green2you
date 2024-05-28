@@ -22,7 +22,7 @@ const InvoiceModal = ({ invoice }) => {
     date: invoice.date
       ? new Date(invoice.date).toISOString().split("T")[0]
       : "",
-    price: invoice.price,
+    amount: invoice.amount,
     description: invoice.description,
   });
 
@@ -101,13 +101,13 @@ const InvoiceModal = ({ invoice }) => {
               />
             </Form.Group>
 
-            <Form.Group className="mb-3" controlId="priceUpdateField">
-              <Form.Label>Price</Form.Label>
+            <Form.Group className="mb-3" controlId="amountUpdateField">
+              <Form.Label>Amount</Form.Label>
               <Form.Control
                 type="number"
-                value={updateInvoiceForm.price}
+                value={updateInvoiceForm.amount}
                 onChange={onChange}
-                name="price"
+                name="amount"
               />
             </Form.Group>
 
