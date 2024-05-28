@@ -6,6 +6,7 @@ const Invoice = require("../models/invoiceModel");
 // Get all clients
 const printInvoice = async (req, res) => {
   const { clientId } = req.params;
+  let totalAmount = 0;
 
   const invoices = await Invoice.find({ clientId }).sort({ createdAt: -1 });
 
@@ -31,9 +32,13 @@ const printInvoice = async (req, res) => {
     doc.fontSize(16).text(`Invoice ID: ${invoice._id}`);
     doc.text(`Date: ${invoice.date}`);
     doc.text(`Amount: ${invoice.amount}`);
-    doc.text(`Description: ${invoice.description}`);
+
+    totalAmount += invoice.amount;
+
     doc.moveDown();
   });
+
+  doc.fontSize(18).text(`Total Amount: ${totalAmount}`, { align: "right" });
 
   doc.end();
 };
