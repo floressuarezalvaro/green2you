@@ -7,7 +7,9 @@ import Modal from "react-bootstrap/Modal";
 
 const InvoiceModal = ({ invoice }) => {
   const { clients } = useClientsContext();
-  const [clientName, setClientName] = useState("");
+  const [clientName, setClientName] = useState({
+    clientName: clients.clientName || "",
+  });
   const { user } = useAuthContext();
   // for modal
   const [show, setShow] = useState(false);
