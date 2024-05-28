@@ -34,6 +34,25 @@ const getClient = async (req, res) => {
   }
 };
 
+// Get Profile
+const getProfile = async (req, res) => {
+  const { clientId } = req.params;
+
+  if (!mongoose.Types.ObjectId.isValid(clientId)) {
+    return res.status(404).json({ error: "This is not a valid client id" });
+  }
+
+  try {
+    const invoice = await Invoice.find({ clientId });
+    if (!invoice) {
+      return res.status(404).json({ error: "No invoices found" });
+    }
+    res.status(200).json(invoice);
+  } catch (error) {
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
 // Create new client
 const createClient = async (req, res) => {
   const {
@@ -160,6 +179,7 @@ const updateClient = async (req, res) => {
 module.exports = {
   createClient,
   getAllClients,
+  getProfile,
   getClient,
   deleteClient,
   updateClient,

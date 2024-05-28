@@ -4,6 +4,7 @@ const {
   getAllClients,
   createClient,
   getClient,
+  getProfile,
   deleteClient,
   updateClient,
 } = require("../controllers/clientController");
@@ -18,6 +19,8 @@ router.use(requireAuth);
 router.get("/", getAllClients);
 
 router.get("/:id", getClient);
+
+router.get("/profile/:clientId", getProfile);
 
 router.post("/", createClient);
 
