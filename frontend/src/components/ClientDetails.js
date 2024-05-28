@@ -40,30 +40,6 @@ const ClientDetails = ({ client }) => {
         {client.clientPhoneNumber}
       </p>
       <p>
-        <strong>Address 1: </strong>
-        {client.clientStreetLineOne}
-      </p>
-      <p>
-        <strong>Address 2: </strong>
-        {client.clientStreetLineTwo}
-      </p>
-      <p>
-        <strong>City: </strong>
-        {client.clientCity}
-      </p>
-      <p>
-        <strong>State: </strong>
-        {client.clientState}
-      </p>
-      <p>
-        <strong>Zip Code: </strong>
-        {client.clientZip}
-      </p>
-      <p>
-        <strong>Cycle Date: </strong>
-        {client.clientCycleDate}
-      </p>
-      <p>
         Created:{" "}
         {formatDistanceToNow(new Date(client.createdAt), { addSuffix: true })}
       </p>
