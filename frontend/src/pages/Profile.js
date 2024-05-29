@@ -31,7 +31,6 @@ const Profile = () => {
 
         const data = await response.json();
         dispatch({ type: "SET_INVOICES", payload: data });
-        console.log(data);
       } catch (error) {
         console.error("Failed to fetch invoices:", error);
       }
@@ -59,43 +58,71 @@ const Profile = () => {
   );
 };
 
-const ClientDetails = ({ client }) => (
-  <div className="details">
-    <h4>{client.clientName}</h4>
-    <p>
-      <strong>Email:</strong> {client.clientEmail}
-    </p>
-    <p>
-      <strong>Phone Number:</strong> {client.clientPhoneNumber}
-    </p>
-    <p>
-      <strong>Address 1:</strong> {client.clientStreetLineOne}
-    </p>
-    <p>
-      <strong>Address 2:</strong> {client.clientStreetLineTwo}
-    </p>
-    <p>
-      <strong>City:</strong> {client.clientCity}
-    </p>
-    <p>
-      <strong>State:</strong> {client.clientState}
-    </p>
-    <p>
-      <strong>Zip Code:</strong> {client.clientZip}
-    </p>
-    <p>
-      <strong>Cycle Date:</strong> {client.clientCycleDate}
-    </p>
-    <p>
-      Created:{" "}
-      {formatDistanceToNow(new Date(client.createdAt), { addSuffix: true })}
-    </p>
-    <p>
-      Updated:{" "}
-      {formatDistanceToNow(new Date(client.updatedAt), { addSuffix: true })}
-    </p>
-  </div>
-);
+const ClientDetails = ({ client }) => {
+  const { user } = useAuthContext();
+  const { dispatch } = useClientsContext();
+
+  const handleDelete = async (e) => {
+    e.preventDefault();
+    if (!user) {
+      return;
+    }
+
+    const response = await fetch("/clients/" + client._id, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${user.token}`,
+      },
+    });
+
+    const json = await response.json();
+
+    if (response.ok) {
+      dispatch({ type: "DELETE_CLIENT", payload: json });
+    }
+  };
+
+  return (
+    <div className="details">
+      <h4>{client.clientName}</h4>
+      <p>
+        <strong>Email:</strong> {client.clientEmail}
+      </p>
+      <p>
+        <strong>Phone Number:</strong> {client.clientPhoneNumber}
+      </p>
+      <p>
+        <strong>Address 1:</strong> {client.clientStreetLineOne}
+      </p>
+      <p>
+        <strong>Address 2:</strong> {client.clientStreetLineTwo}
+      </p>
+      <p>
+        <strong>City:</strong> {client.clientCity}
+      </p>
+      <p>
+        <strong>State:</strong> {client.clientState}
+      </p>
+      <p>
+        <strong>Zip Code:</strong> {client.clientZip}
+      </p>
+      <p>
+        <strong>Cycle Date:</strong> {client.clientCycleDate}
+      </p>
+      <p>
+        Created:{" "}
+        {formatDistanceToNow(new Date(client.createdAt), { addSuffix: true })}
+      </p>
+      <p>
+        Updated:{" "}
+        {formatDistanceToNow(new Date(client.updatedAt), { addSuffix: true })}
+      </p>
+      <span className="material-symbols-outlined" onClick={handleDelete}>
+        delete
+      </span>
+    </div>
+  );
+};
 
 const InvoiceList = ({ invoices }) => (
   <>
