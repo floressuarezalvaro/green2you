@@ -7,14 +7,14 @@ import Client from "./pages/Client";
 import Profile from "./pages/Profile";
 import LogIn from "./pages/Login";
 import SignUp from "./pages/SignUp";
-import Navbar from "./components/Navbar";
+import NavigationBar from "./components/Navbar";
 
 function App() {
   const { user } = useAuthContext();
 
   return (
     <div className="App">
-      <Navbar />
+      <NavigationBar />
       <div className="pages">
         <Routes>
           <Route
@@ -33,10 +33,6 @@ function App() {
             path="/clients"
             element={user ? <Client /> : <Navigate to="/login" />}
           />
-          {/* <Route
-            path="/profile"
-            element={user ? <Profile /> : <Navigate to="/login" />}
-          /> */}
           <Route
             path="/profile/:clientId"
             element={user ? <Profile /> : <Navigate to="/login" />}
