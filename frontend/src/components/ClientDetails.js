@@ -1,5 +1,4 @@
 import formatDistanceToNow from "date-fns/formatDistanceToNow";
-
 import ClientModal from "./modals/ClientModal";
 
 const ClientDetails = ({ client }) => {

@@ -4,6 +4,7 @@ import { useInvoicesContext } from "../hooks/useInvoicesContext";
 import { useClientsContext } from "../hooks/useClientsContext";
 import { useAuthContext } from "../hooks/useAuthContext";
 import formatDistanceToNow from "date-fns/formatDistanceToNow";
+import ClientModal from "../components/modals/ClientModal";
 
 const Profile = () => {
   const { clientId } = useParams();
@@ -120,6 +121,7 @@ const ClientDetails = ({ client }) => {
       <span className="material-symbols-outlined" onClick={handleDelete}>
         delete
       </span>
+      <ClientModal key={client._id} client={client} />
     </div>
   );
 };
