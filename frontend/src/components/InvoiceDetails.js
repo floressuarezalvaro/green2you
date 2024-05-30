@@ -1,15 +1,12 @@
 import { useState, useEffect } from "react";
-import { useInvoicesContext } from "../hooks/useInvoicesContext";
-import { useAuthContext } from "../hooks/useAuthContext";
 import { useClientsContext } from "../hooks/useClientsContext";
 import formatDistanceToNow from "date-fns/formatDistanceToNow";
 import { format } from "date-fns";
 
 import InvoiceModal from "./modals/InvoiceModal";
+import DeleteInvoice from "../components/DeleteInvoice";
 
 const InvoiceDetails = ({ invoice }) => {
-  const { dispatch } = useInvoicesContext();
-  const { user } = useAuthContext();
   const { clients } = useClientsContext();
   const [clientName, setClientName] = useState("");
 
@@ -21,26 +18,6 @@ const InvoiceDetails = ({ invoice }) => {
       }
     }
   }, [invoice.clientId, clients]);
-
-  // Deleting
-  const handleDelete = async () => {
-    if (!user) {
-      return;
-    }
-
-    const response = await fetch("/invoices/" + invoice._id, {
-      method: "DELETE",
-      headers: {
-        Authorization: `Bearer ${user.token}`,
-      },
-    });
-
-    const json = await response.json();
-
-    if (response.ok) {
-      dispatch({ type: "DELETE_INVOICE", payload: json });
-    }
-  };
 
   const formattedDate = format(new Date(invoice.date), "MM/dd/yyyy");
 
@@ -67,9 +44,7 @@ const InvoiceDetails = ({ invoice }) => {
         Updated:{" "}
         {formatDistanceToNow(new Date(invoice.updatedAt), { addSuffix: true })}
       </p>
-      <span className="material-symbols-outlined" onClick={handleDelete}>
-        delete
-      </span>
+      <DeleteInvoice key={`delete-${invoice._id}`} invoice={invoice} />
       <InvoiceModal key={invoice._id} invoice={invoice} />
     </div>
   );
