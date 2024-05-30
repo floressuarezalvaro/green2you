@@ -18,7 +18,6 @@ const DeleteInvoice = ({ invoice }) => {
     });
 
     const json = await response.json();
-    console.log(json);
 
     if (response.ok) {
       dispatch({ type: "DELETE_INVOICE", payload: json });
