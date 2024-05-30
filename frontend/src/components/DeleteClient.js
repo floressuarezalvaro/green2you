@@ -1,16 +1,17 @@
-import { useInvoicesContext } from "../hooks/useInvoicesContext";
+import { useClientsContext } from "../hooks/useClientsContext";
 import { useAuthContext } from "../hooks/useAuthContext";
 
-const DeleteInvoice = ({ invoice }) => {
-  const { dispatch } = useInvoicesContext();
+const DeleteClient = ({ client }) => {
+  const { dispatch } = useClientsContext();
   const { user } = useAuthContext();
 
-  const handleDelete = async () => {
+  const handleDelete = async (e) => {
+    e.preventDefault();
     if (!user) {
       return;
     }
 
-    const response = await fetch("/invoices/" + invoice._id, {
+    const response = await fetch("/clients/" + client._id, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${user.token}`,
@@ -20,7 +21,7 @@ const DeleteInvoice = ({ invoice }) => {
     const json = await response.json();
 
     if (response.ok) {
-      dispatch({ type: "DELETE_INVOICE", payload: json });
+      dispatch({ type: "DELETE_CLIENT", payload: json });
     }
   };
   return (
@@ -30,4 +31,4 @@ const DeleteInvoice = ({ invoice }) => {
   );
 };
 
-export default DeleteInvoice;
+export default DeleteClient;
