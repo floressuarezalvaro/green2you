@@ -6,6 +6,7 @@ import { useAuthContext } from "../hooks/useAuthContext";
 import formatDistanceToNow from "date-fns/formatDistanceToNow";
 import ClientModal from "../components/modals/ClientModal";
 import InvoiceModal from "../components/modals/InvoiceModal";
+import DeleteInvoice from "../components/DeleteInvoice";
 
 const Profile = () => {
   const { clientId } = useParams();
@@ -143,7 +144,8 @@ const InvoiceList = ({ invoices }) => (
         <p>
           <strong>Service Description:</strong> {invoice.description}
         </p>
-        <InvoiceModal key={invoice._id} invoice={invoice} />
+        <InvoiceModal key={`modal-${invoice._id}`} invoice={invoice} />
+        <DeleteInvoice key={`delete-${invoice._id}`} invoice={invoice} />
       </div>
     ))}
   </>
