@@ -61,6 +61,12 @@ header a {
   color: var(--primary);
 }
 
+.invoices h5{
+  margin: 20px 10px 20px 20px;
+  font-size: 1.2em;
+  color: var(black);
+}
+
 .details p {
   margin: 0;
   font-size: 0.9em;
