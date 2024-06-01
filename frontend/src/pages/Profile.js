@@ -10,6 +10,7 @@ import InvoiceModal from "../components/modals/InvoiceModal";
 import DeleteInvoice from "../components/DeleteInvoice";
 import DeleteClient from "../components/DeleteClient";
 import Statements from "../components/Statements";
+import DownloadPrintInvoice from "../utils/DownloadPrintInvoice";
 
 const Profile = () => {
   const { clientId } = useParams();
@@ -57,6 +58,15 @@ const Profile = () => {
       {selectedClient && invoices?.length > 0 && (
         <>
           <h5>Statements</h5>
+          <>
+            <div>
+              <button
+                onClick={() => DownloadPrintInvoice(selectedClient._id, user)}
+              >
+                Print Invoice
+              </button>
+            </div>
+          </>
           <Statements />
           <h5>Invoices</h5>
           <InvoiceList invoices={invoices} />

@@ -10,7 +10,6 @@ const green2YouLogo = (doc) => {
   doc.moveDown();
 };
 
-// Get all clients
 const printInvoice = async (req, res) => {
   const { clientId } = req.params;
   let totalAmount = 0;
