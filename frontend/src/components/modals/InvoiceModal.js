@@ -6,10 +6,8 @@ import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 
 const InvoiceModal = ({ invoice }) => {
-  const { clients } = useClientsContext();
-  const [clientName, setClientName] = useState({
-    clientName: clients.clientName || "",
-  });
+  const { clients = [] } = useClientsContext(); // Ensure clients is always an array
+  const [clientName, setClientName] = useState(""); // Initialize with an empty string
   const { user } = useAuthContext();
   // for modal
   const [show, setShow] = useState(false);
@@ -27,7 +25,7 @@ const InvoiceModal = ({ invoice }) => {
   });
 
   useEffect(() => {
-    if (invoice.clientId) {
+    if (invoice.clientId && clients.length > 0) {
       const client = clients.find((client) => client._id === invoice.clientId);
       if (client) {
         setClientName(client.clientName);
@@ -85,7 +83,7 @@ const InvoiceModal = ({ invoice }) => {
               <Form.Label>Name of Client</Form.Label>
               <Form.Control
                 type="text"
-                placeholder={clientName}
+                placeholder={clientName || "Loading..."} // Handle loading state
                 autoFocus
                 disabled
               />
