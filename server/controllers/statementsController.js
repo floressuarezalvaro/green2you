@@ -10,8 +10,11 @@ const green2YouLogo = (doc) => {
   doc.moveDown();
 };
 
-const printInvoice = async (req, res) => {
+const printStatement = async (req, res) => {
   const { clientId } = req.params;
+  const month = req.query.month;
+  console.log(month);
+
   let totalAmount = 0;
 
   const invoices = await Invoice.find({ clientId }).sort({ createdAt: -1 });
@@ -32,7 +35,7 @@ const printInvoice = async (req, res) => {
 
   green2YouLogo(doc);
 
-  doc.fontSize(20).text("Invoice", { align: "center" });
+  doc.fontSize(20).text("Statement", { align: "center" });
   doc.moveDown();
 
   invoices.forEach((invoice) => {
@@ -52,5 +55,5 @@ const printInvoice = async (req, res) => {
 };
 
 module.exports = {
-  printInvoice,
+  printStatement,
 };

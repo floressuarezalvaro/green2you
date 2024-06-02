@@ -1,11 +1,11 @@
-const DownloadPrintInvoice = async (clientId, user) => {
+const PrintStatement = async (clientId, user) => {
   if (!user) {
     console.error("User is not authenticated");
     return;
   }
 
   try {
-    const response = await fetch(`/printInvoice/${clientId}`, {
+    const response = await fetch(`/statements/${clientId}`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${user.token}`,
@@ -36,4 +36,4 @@ const DownloadPrintInvoice = async (clientId, user) => {
   }
 };
 
-export default DownloadPrintInvoice;
+export default PrintStatement;

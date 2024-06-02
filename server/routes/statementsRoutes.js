@@ -2,13 +2,13 @@ const express = require("express");
 
 const requireAuth = require("../middleware/requireAuth");
 
-const { printInvoice } = require("../controllers/printInvoiceController");
+const { printStatement } = require("../controllers/statementsController");
 
 const router = express.Router();
 
 // require auth for invoice routes
 router.use(requireAuth);
 
-router.get("/:clientId", printInvoice);
+router.get("/:clientId", printStatement);
 
 module.exports = router;
