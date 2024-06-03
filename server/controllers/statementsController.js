@@ -1,4 +1,5 @@
 const PDFDocument = require("pdfkit");
+const mongoose = require("mongoose");
 const fs = require("fs");
 
 const Invoice = require("../models/invoiceModel");
@@ -56,16 +57,26 @@ const printStatement = async (req, res) => {
 };
 
 const createStatement = async (req, res) => {
-  const {
-    clientId,
-    data,
-    totalAmount,
-    issuedStartDate,
-    issuedEndDate,
-    user_id,
-  } = req.body;
+  const { clientId, issuedStartDate, issuedEndDate, user_id } = req.body;
 
   try {
+    const invoices = await Invoice.find({
+      clientId,
+      date: { $gte: issuedStartDate, $lte: issuedEndDate },
+    });
+
+    const totalAmount = invoices.reduce(
+      (sum, invoice) => sum + invoice.amount,
+      0
+    );
+
+    const data = invoices.map((invoice) => ({
+      _id: invoice._id,
+      date: invoice.date,
+      amount: invoice.amount,
+      description: invoice.description,
+    }));
+
     const statement = await Statement.create({
       clientId,
       data,
@@ -80,7 +91,92 @@ const createStatement = async (req, res) => {
   }
 };
 
+const getAllStatements = async (req, res) => {
+  try {
+    const user_id = req.user._id;
+    const clientId = req.query.clientId;
+
+    let query = { user_id };
+
+    if (clientId) {
+      if (!mongoose.Types.ObjectId.isValid(clientId)) {
+        return res.status(400).json({ error: "This is not a valid client id" });
+      }
+      query.clientId = clientId;
+    }
+
+    const statements = await Statement.find(query).sort({ createdAt: -1 });
+    res.status(200).json(statements);
+  } catch (error) {
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+const getStatement = async (req, res) => {
+  const { id } = req.params;
+
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(400).json({ error: "This is not a valid id" });
+  }
+
+  try {
+    const statement = await Statement.findById(id);
+    if (!statement) {
+      return res.status(404).json({ error: "No statement found" });
+    }
+    res.status(200).json(statement);
+  } catch (error) {
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+const deleteStatement = async (req, res) => {
+  const { id } = req.params;
+
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(400).json({ error: "This is not a valid id" });
+  }
+
+  try {
+    const statement = await Statement.findOneAndDelete({ _id: id });
+    if (!statement) {
+      return res.status(404).json({ error: "No statement found" });
+    }
+    res.status(200).json(statement);
+  } catch (error) {
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+const updateStatement = async (req, res) => {
+  const { id } = req.params;
+
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(400).json({ error: "This is not a valid id" });
+  }
+
+  const { user_id } = req.body;
+
+  try {
+    const statement = await Statement.findOneAndUpdate(
+      { _id: id },
+      { $set: { user_id } },
+      { new: true }
+    );
+    if (!statement) {
+      return res.status(404).json({ error: "No statement found" });
+    }
+    res.status(200).json(statement);
+  } catch (error) {
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
 module.exports = {
   printStatement,
   createStatement,
+  getAllStatements,
+  getStatement,
+  deleteStatement,
+  updateStatement,
 };
