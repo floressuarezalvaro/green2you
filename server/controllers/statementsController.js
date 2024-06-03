@@ -2,7 +2,6 @@ const PDFDocument = require("pdfkit");
 const mongoose = require("mongoose");
 const fs = require("fs");
 
-const Invoice = require("../models/invoiceModel");
 const Statement = require("../models/statementModel");
 
 const green2YouLogo = (doc) => {
@@ -13,47 +12,49 @@ const green2YouLogo = (doc) => {
 };
 
 const printStatement = async (req, res) => {
-  const { clientId } = req.params;
-  const month = req.query.month;
-  console.log(month);
+  const { id } = req.params;
 
-  let totalAmount = 0;
-
-  const invoices = await Invoice.find({ clientId }).sort({ createdAt: -1 });
-
-  if (invoices.length === 0) {
-    return res.status(404).send("No invoices found for this client");
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(400).json({ error: "This is not a valid id" });
   }
 
-  const doc = new PDFDocument();
-  res.setHeader("Content-Type", "application/pdf");
-  res.setHeader(
-    "Content-Disposition",
-    `attachment; filename=invoice_${clientId}.pdf`
-  );
+  try {
+    const statement = await Statement.findById(id);
 
-  // Pipe the PDF into the response
-  doc.pipe(res);
+    if (!statement) {
+      return res.status(404).json({ error: "No statement found" });
+    }
 
-  green2YouLogo(doc);
+    // create doc
+    const doc = new PDFDocument();
+    res.setHeader("Content-Type", "application/pdf");
+    res.setHeader(
+      "Content-Disposition",
+      `attachment; filename=statement${id}.pdf`
+    );
 
-  doc.fontSize(20).text("Statement", { align: "center" });
-  doc.moveDown();
+    // Pipe the PDF into the response
+    doc.pipe(res);
 
-  invoices.forEach((invoice) => {
-    doc.fontSize(12).text(`Invoice ID: ${invoice._id}`);
-    doc.text(`Date: ${invoice.date}`);
-    doc.text(`Amount: ${invoice.amount}`);
-
-    totalAmount += invoice.amount;
-
+    green2YouLogo(doc);
+    doc.fontSize(20).text("Statement", { align: "center" });
     doc.moveDown();
-  });
 
-  doc.fontSize(14).text(`Total Amount:`, { align: "right", underline: true });
-  doc.fontSize(12).text(`${totalAmount}`, { align: "right" });
+    statement.invoiceData.forEach((invoice) => {
+      doc.fontSize(12).text(`Invoice ID: ${invoice._id}`);
+      doc.text(`Date: ${new Date(invoice.date).toDateString()}`);
+      doc.text(`Amount: ${invoice.amount}`);
+      doc.text(`Description: ${invoice.description}`);
+      doc.moveDown();
+    });
 
-  doc.end();
+    doc.fontSize(14).text(`Total Amount:`, { align: "right", underline: true });
+    doc.fontSize(12).text(`${statement.totalAmount}`, { align: "right" });
+
+    doc.end();
+  } catch (error) {
+    res.status(500).json({ error: "Internal server error" });
+  }
 };
 
 const createStatement = async (req, res) => {
@@ -70,7 +71,7 @@ const createStatement = async (req, res) => {
       0
     );
 
-    const data = invoices.map((invoice) => ({
+    const invoiceData = invoices.map((invoice) => ({
       _id: invoice._id,
       date: invoice.date,
       amount: invoice.amount,
@@ -79,7 +80,7 @@ const createStatement = async (req, res) => {
 
     const statement = await Statement.create({
       clientId,
-      data,
+      invoiceData,
       totalAmount,
       issuedStartDate,
       issuedEndDate,

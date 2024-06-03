@@ -27,7 +27,7 @@ const statementSchema = new Schema(
       type: String,
       required: true,
     },
-    data: [
+    invoiceData: [
       {
         type: invoiceSchema,
         required: true,
