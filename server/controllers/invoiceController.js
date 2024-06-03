@@ -44,6 +44,10 @@ const getInvoice = async (req, res) => {
 const createInvoice = async (req, res) => {
   const { date, clientId, amount, description } = req.body;
 
+  if (!mongoose.Types.ObjectId.isValid(clientId)) {
+    return res.status(400).json({ error: "This is not a valid client id" });
+  }
+
   let emptyFields = [];
 
   if (!date) emptyFields.push("date");
