@@ -2,6 +2,7 @@ const PDFDocument = require("pdfkit");
 const fs = require("fs");
 
 const Invoice = require("../models/invoiceModel");
+const Statement = require("../models/statementModel");
 
 const green2YouLogo = (doc) => {
   doc.fontSize(16).text("Green2You", { align: "left" });
@@ -54,6 +55,32 @@ const printStatement = async (req, res) => {
   doc.end();
 };
 
+const createStatement = async (req, res) => {
+  const {
+    clientId,
+    data,
+    totalAmount,
+    issuedStartDate,
+    issuedEndDate,
+    user_id,
+  } = req.body;
+
+  try {
+    const statement = await Statement.create({
+      clientId,
+      data,
+      totalAmount,
+      issuedStartDate,
+      issuedEndDate,
+      user_id,
+    });
+    res.status(201).json(statement);
+  } catch (error) {
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
 module.exports = {
   printStatement,
+  createStatement,
 };
