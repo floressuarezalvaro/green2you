@@ -1,5 +1,7 @@
 import Accordion from "react-bootstrap/Accordion";
 
+import PrintStatement from "../utils/PrintStatement";
+
 const getMonths = () => [
   "January",
   "February",
@@ -17,12 +19,12 @@ const getMonths = () => [
 
 const getYears = () => [2024, 2025];
 
-const StatementsList = () => {
+const StatementsList = ({ clientId, user }) => {
   const months = getMonths();
   const years = getYears();
 
   const handleClick = () => {
-    console.log("clicked");
+    PrintStatement(clientId, user);
   };
 
   return (
