@@ -61,6 +61,10 @@ const printStatement = async (req, res) => {
 const createStatement = async (req, res) => {
   const { clientId, issuedStartDate, issuedEndDate, user_id } = req.body;
 
+  if (!mongoose.Types.ObjectId.isValid(clientId)) {
+    return res.status(400).json({ error: "This is not a valid client id" });
+  }
+
   try {
     const invoices = await Invoice.find({
       clientId,
@@ -95,7 +99,7 @@ const createStatement = async (req, res) => {
 
 const getAllStatements = async (req, res) => {
   const { clientId } = req.params;
-  const { issuedStartDate, issuedEndDate } = req.query;
+  const { month, year } = req.query;
 
   if (!mongoose.Types.ObjectId.isValid(clientId)) {
     return res.status(400).json({ error: "This is not a valid client id" });
@@ -103,15 +107,10 @@ const getAllStatements = async (req, res) => {
 
   let query = { clientId };
 
-  if (issuedStartDate) {
-    query.issuedStartDate = { $gte: new Date(issuedStartDate) };
-  }
-
-  if (issuedEndDate) {
-    if (!query.issuedStartDate) {
-      query.issuedStartDate = {};
-    }
-    query.issuedStartDate.$lte = new Date(issuedEndDate);
+  if (month && year) {
+    const startDate = new Date(year, month - 1, 1);
+    const endDate = new Date(year, month, 0, 23, 59, 59);
+    query.issuedDate = { $gte: startDate, $lte: endDate };
   }
 
   try {
