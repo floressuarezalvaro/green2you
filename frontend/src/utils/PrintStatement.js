@@ -1,3 +1,5 @@
+// create statement context
+
 const PrintStatement = async (clientId, user) => {
   if (!user) {
     console.error("User is not authenticated");
