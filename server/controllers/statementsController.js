@@ -94,26 +94,27 @@ const createStatement = async (req, res) => {
 };
 
 const getAllStatements = async (req, res) => {
+  const { clientId } = req.params;
+  const { issuedStartDate, issuedEndDate } = req.query;
+
+  if (!mongoose.Types.ObjectId.isValid(clientId)) {
+    return res.status(400).json({ error: "This is not a valid client id" });
+  }
+
+  let query = { clientId };
+
+  if (issuedStartDate) {
+    query.issuedStartDate = { $gte: new Date(issuedStartDate) };
+  }
+
+  if (issuedEndDate) {
+    if (!query.issuedStartDate) {
+      query.issuedStartDate = {};
+    }
+    query.issuedStartDate.$lte = new Date(issuedEndDate);
+  }
+
   try {
-    const { clientId } = req.params;
-    const { issuedStartDate, issuedEndDate } = req.query;
-
-    let query = { clientId };
-
-    if (!mongoose.Types.ObjectId.isValid(clientId)) {
-      return res.status(400).json({ error: "This is not a valid client id" });
-    }
-    if (issuedStartDate) {
-      query.issuedStartDate = { $gte: new Date(issuedStartDate) };
-    }
-
-    if (issuedEndDate) {
-      if (!query.issuedStartDate) {
-        query.issuedStartDate = {};
-      }
-      query.issuedStartDate.$lte = new Date(issuedEndDate);
-    }
-
     const statements = await Statement.find(query).sort({
       createdAt: -1,
     });

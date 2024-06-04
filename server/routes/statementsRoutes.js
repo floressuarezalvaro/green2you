@@ -18,9 +18,9 @@ router.use(requireAuth);
 
 router.get("/print/:id", printStatement);
 
-//TODO: Get statements by clientId and createdDate
-router.get("/:clientId/:createdDate", getStatement);
-router.get("/:clientId", getAllStatements);
+router.get("/client/:clientId", getAllStatements);
+
+router.get("/:id", getStatement);
 router.post("/", createStatement);
 router.delete("/:id", deleteStatement);
 router.put("/:id", updateStatement);
