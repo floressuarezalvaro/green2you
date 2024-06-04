@@ -5,7 +5,7 @@ const PrintStatement = async (clientId, user) => {
   }
 
   try {
-    const response = await fetch(`/statements/${clientId}`, {
+    const response = await fetch(`/statements/print/665e2ef472acf63cbe18cd26`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${user.token}`,
@@ -28,9 +28,11 @@ const PrintStatement = async (clientId, user) => {
 
     // optionally print
     const printWindow = window.open(url);
-    printWindow.onload = () => {
-      printWindow.print();
-    };
+    if (printWindow) {
+      printWindow.onload = () => {
+        printWindow.print();
+      };
+    }
   } catch (error) {
     console.error("Error downloading and printing invoice:", error);
   }
