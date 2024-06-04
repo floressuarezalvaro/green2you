@@ -19,7 +19,7 @@ router.use(requireAuth);
 router.get("/print/:id", printStatement);
 router.get("/:id", getStatement);
 router.get("/", getAllStatements);
-router.post("/statement", createStatement);
+router.post("/", createStatement);
 router.delete("/:id", deleteStatement);
 router.put("/:id", updateStatement);
 

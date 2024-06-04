@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const fs = require("fs");
 
 const Statement = require("../models/statementModel");
+const Invoice = require("../models/invoiceModel");
 
 const green2YouLogo = (doc) => {
   doc.fontSize(16).text("Green2You", { align: "left" });
