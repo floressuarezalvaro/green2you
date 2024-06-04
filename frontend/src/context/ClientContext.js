@@ -1,5 +1,6 @@
 import { createContext, useReducer, useEffect } from "react";
 import { useAuthContext } from "../hooks/useAuthContext";
+
 export const ClientsContext = createContext();
 
 export const clientsReducer = (state, action) => {
@@ -14,7 +15,9 @@ export const clientsReducer = (state, action) => {
       };
     case "DELETE_CLIENT":
       return {
-        clients: state.clients.filter((c) => c._id !== action.payload._id),
+        clients: state.clients.filter(
+          (client) => client._id !== action.payload._id
+        ),
       };
     default:
       return state;
