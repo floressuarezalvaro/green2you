@@ -81,19 +81,25 @@ const createStatement = async (req, res) => {
       date: invoice.date,
       amount: invoice.amount,
       description: invoice.description,
+      clientId: invoice.clientId, // Include clientId
+      user_id: invoice.user_id, // Include user_id
     }));
 
     const statement = await Statement.create({
       clientId,
       invoiceData,
       totalAmount,
-      issuedStartDate,
-      issuedEndDate,
+      issuedStartDate: new Date(issuedStartDate),
+      issuedEndDate: new Date(issuedEndDate),
       user_id,
     });
+
     res.status(201).json(statement);
   } catch (error) {
-    res.status(500).json({ error: "Internal server error" });
+    console.error("Error creating statement:", error.message);
+    res
+      .status(500)
+      .json({ error: "Internal server error", message: error.message });
   }
 };
 

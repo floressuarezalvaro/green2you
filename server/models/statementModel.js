@@ -1,25 +1,7 @@
 const mongoose = require("mongoose");
+const Invoice = require("./invoiceModel");
 
 const Schema = mongoose.Schema;
-
-const invoiceSchema = new Schema({
-  _id: {
-    type: String,
-    required: true,
-  },
-  date: {
-    type: Date,
-    required: true,
-  },
-  amount: {
-    type: Number,
-    required: true,
-  },
-  description: {
-    type: String,
-    required: true,
-  },
-});
 
 const statementSchema = new Schema(
   {
@@ -29,7 +11,7 @@ const statementSchema = new Schema(
     },
     invoiceData: [
       {
-        type: invoiceSchema,
+        type: Invoice.schema,
         required: true,
       },
     ],
