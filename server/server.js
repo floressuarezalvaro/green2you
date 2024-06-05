@@ -25,13 +25,27 @@ app.use("/users", userRoutes);
 app.use("/emails", emailRoutes);
 app.use("/statements", statementsRoutes);
 
-mongoose
-  .connect(process.env.MONGO_URI)
-  .then(() => {
-    app.listen(process.env.PORT, () => {
-      console.log("connected to db & listening on port", process.env.PORT);
+// Error handling middleware
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send("Something broke!");
+});
+
+const connectWithRetry = () => {
+  mongoose
+    .connect(process.env.MONGO_URI)
+    .then(() => {
+      app.listen(process.env.PORT, () => {
+        console.log("Connected to db & listening on port", process.env.PORT);
+      });
+    })
+    .catch((error) => {
+      console.error(
+        "Database connection failed, retrying in 5 seconds...",
+        error
+      );
+      setTimeout(connectWithRetry, 5000);
     });
-  })
-  .catch((error) => {
-    console.log(error);
-  });
+};
+
+connectWithRetry();
