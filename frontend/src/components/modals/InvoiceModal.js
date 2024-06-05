@@ -6,8 +6,8 @@ import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 
 const InvoiceModal = ({ invoice }) => {
-  const { clients = [] } = useClientsContext(); // Ensure clients is always an array
-  const [clientName, setClientName] = useState(""); // Initialize with an empty string
+  const { clients = [] } = useClientsContext();
+  const [clientName, setClientName] = useState("");
   const { user } = useAuthContext();
   // for modal
   const [show, setShow] = useState(false);
@@ -25,7 +25,7 @@ const InvoiceModal = ({ invoice }) => {
   });
 
   useEffect(() => {
-    if (invoice.clientId && clients.length > 0) {
+    if (invoice.clientId && clients && clients.length > 0) {
       const client = clients.find((client) => client._id === invoice.clientId);
       if (client) {
         setClientName(client.clientName);

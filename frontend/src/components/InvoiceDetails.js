@@ -7,11 +7,11 @@ import InvoiceModal from "./modals/InvoiceModal";
 import DeleteInvoice from "../components/DeleteInvoice";
 
 const InvoiceDetails = ({ invoice }) => {
-  const { clients } = useClientsContext();
+  const { clients = [] } = useClientsContext();
   const [clientName, setClientName] = useState("");
 
   useEffect(() => {
-    if (invoice.clientId) {
+    if (invoice.clientId && clients && clients.length > 0) {
       const client = clients.find((client) => client._id === invoice.clientId);
       if (client) {
         setClientName(client.clientName);
