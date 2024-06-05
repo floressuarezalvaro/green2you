@@ -109,16 +109,20 @@ const getAllStatements = async (req, res) => {
 
   if (month && year) {
     const startDate = new Date(year, month - 1, 1);
-    const endDate = new Date(year, month, 0, 23, 59, 59);
-    query.issuedDate = { $gte: startDate, $lte: endDate };
+    const endDate = new Date(year, month, 0, 23, 59, 59, 999);
+
+    query.issuedStartDate = { $lte: endDate };
+    query.issuedEndDate = { $gte: startDate };
   }
 
   try {
     const statements = await Statement.find(query).sort({
       createdAt: -1,
     });
+
     res.status(200).json(statements);
   } catch (error) {
+    console.error("Error fetching statements:", error);
     res.status(500).json({ error: "Internal server error" });
   }
 };

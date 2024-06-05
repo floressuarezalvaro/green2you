@@ -53,4 +53,6 @@ const statementSchema = new Schema(
   { timestamps: true }
 );
 
+statementSchema.index({ createdAt: 1 });
+
 module.exports = mongoose.model("Statement", statementSchema);
