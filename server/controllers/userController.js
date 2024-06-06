@@ -1,5 +1,6 @@
 const User = require("../models/userModel");
 const jwt = require("jsonwebtoken");
+const mongoose = require("mongoose");
 
 const createToken = (_id) => {
   return jwt.sign({ _id }, process.env.JWTSECRET, { expiresIn: "1d" });
@@ -75,6 +76,7 @@ const deleteUser = async (req, res) => {
     if (!user) {
       return res.status(404).json({ error: "No user found" });
     }
+    res.status(200).json(user);
   } catch (error) {
     res.status(500).json({ error: "Internal server error" });
   }
@@ -97,6 +99,7 @@ const updateUser = async (req, res) => {
     if (!user) {
       return res.status(404).json({ error: "No user found" });
     }
+    res.status(200).json(user);
   } catch (error) {
     res.status(500).json({ error: "Internal server error" });
   }
