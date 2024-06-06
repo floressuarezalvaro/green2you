@@ -34,4 +34,79 @@ const signUpUser = async (req, res) => {
   }
 };
 
-module.exports = { loginUser, signUpUser };
+const getAllUsers = async (req, res) => {
+  try {
+    const users = await User.find({}).sort({ createdAt: -1 });
+    res.status(200).json(users);
+  } catch (error) {
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+const getUser = async (req, res) => {
+  const { id } = req.params;
+
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(400).json({ error: "This is not a valid id" });
+  }
+
+  try {
+    const user = await User.findById(id);
+
+    if (!user) {
+      return res.status(404).json({ error: "No user found" });
+    }
+    res.status(200).json(user);
+  } catch (error) {
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+const deleteUser = async (req, res) => {
+  const { id } = req.params;
+
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(400).json({ error: "This is not a valid id" });
+  }
+
+  try {
+    const user = await User.findOneAndDelete({ _id: id });
+
+    if (!user) {
+      return res.status(404).json({ error: "No user found" });
+    }
+  } catch (error) {
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+const updateUser = async (req, res) => {
+  const { id } = req.params;
+
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(400).json({ error: "This is not a valid id" });
+  }
+
+  try {
+    const user = await User.findOneAndUpdate(
+      { _id: id },
+      { ...req.body },
+      { new: true }
+    );
+
+    if (!user) {
+      return res.status(404).json({ error: "No user found" });
+    }
+  } catch (error) {
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+module.exports = {
+  loginUser,
+  signUpUser,
+  getAllUsers,
+  getUser,
+  deleteUser,
+  updateUser,
+};
