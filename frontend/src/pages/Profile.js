@@ -57,7 +57,7 @@ const Profile = () => {
       {selectedClient && invoices?.length > 0 && (
         <>
           <h5>Statements</h5>
-          <Statements client={selectedClient._id} user={user} />
+          <Statements client={selectedClient._id} />
           <h5>Invoices</h5>
           <InvoiceList invoices={invoices} />
         </>

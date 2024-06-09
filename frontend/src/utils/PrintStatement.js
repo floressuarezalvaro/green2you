@@ -1,13 +1,13 @@
 // create statement context
 
-const PrintStatement = async (clientId, user) => {
+const PrintStatement = async (user, id) => {
   if (!user) {
     console.error("User is not authenticated");
     return;
   }
 
   try {
-    const response = await fetch(`/statements/print/665e2ef472acf63cbe18cd26`, {
+    const response = await fetch(`/statements/print/${id}`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${user.token}`,
