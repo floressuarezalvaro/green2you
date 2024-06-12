@@ -97,39 +97,40 @@ const StatementsList = ({ client }) => {
 
   return (
     <div className="accordion">
-      <div className="invoices">
-        <Accordion>
-          {years.length === 0 ? (
-            <p>You have no statements yet.</p>
-          ) : (
-            years.map((year) => (
-              <Accordion.Item eventKey={`eventKey-${year}`} key={year}>
-                <Accordion.Header>{year}</Accordion.Header>
+      <Accordion>
+        {years.length === 0 ? (
+          <p>You have no statements yet.</p>
+        ) : (
+          years.map((year) => (
+            <Accordion.Item eventKey={`eventKey-${year}`} key={year}>
+              <Accordion.Header>{year}</Accordion.Header>
 
-                {months.map((month) => (
-                  <Accordion.Body key={month}>
-                    <h5>{month}</h5>
-                    {statementGroups[year] && statementGroups[year][month] ? (
-                      statementGroups[year][month].map((statement) => (
-                        <div key={statement._id}>
-                          <p onClick={(e) => handleClick(e, statement._id)}>
-                            <strong>Statement ID</strong> {statement._id}
-                          </p>
-                          <p>
-                            Day: {new Date(statement.issuedEndDate).getDate()}
-                          </p>
-                        </div>
-                      ))
-                    ) : (
-                      <p>You have no statements available for this period.</p>
-                    )}
-                  </Accordion.Body>
-                ))}
-              </Accordion.Item>
-            ))
-          )}
-        </Accordion>
-      </div>
+              {months.map((month) => (
+                <Accordion.Body key={month}>
+                  <h4>{month}</h4>
+                  {statementGroups[year] && statementGroups[year][month] ? (
+                    statementGroups[year][month].map((statement) => (
+                      <div key={statement._id}>
+                        <p>
+                          Day: {new Date(statement.issuedEndDate).getDate()}
+                          <span
+                            onClick={(e) => handleClick(e, statement._id)}
+                            className="material-symbols-outlined"
+                          >
+                            open_in_new
+                          </span>
+                        </p>
+                      </div>
+                    ))
+                  ) : (
+                    <p>You have no statements available for this period.</p>
+                  )}
+                </Accordion.Body>
+              ))}
+            </Accordion.Item>
+          ))
+        )}
+      </Accordion>
     </div>
   );
 };
