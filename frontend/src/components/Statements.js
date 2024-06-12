@@ -108,7 +108,7 @@ const StatementsList = ({ client }) => {
     <div className="accordion">
       <Accordion>
         {years.length === 0 ? (
-          <p>You have no statements yet.</p>
+          <p className="no-statements">You have no statements yet.</p>
         ) : (
           years.map((year) => (
             <Accordion.Item eventKey={`eventKey-${year}`} key={year}>
@@ -120,7 +120,7 @@ const StatementsList = ({ client }) => {
                   {statementGroups[year] && statementGroups[year][month] ? (
                     statementGroups[year][month].map((statement) => (
                       <div key={statement._id}>
-                        <p>
+                        <p className="statement">
                           {formatOpeningClosingDate(
                             statement.issuedStartDate,
                             statement.issuedEndDate
@@ -135,7 +135,9 @@ const StatementsList = ({ client }) => {
                       </div>
                     ))
                   ) : (
-                    <p>You have no statements available for this period.</p>
+                    <p className="no-statements">
+                      You have no statements available for this period.
+                    </p>
                   )}
                 </Accordion.Body>
               ))}

@@ -52,6 +52,12 @@ header a {
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.05);
 }
 
+.accordion-body {
+  border-radius: 10px;
+  position: relative;
+  box-shadow: 2px 5px 5px rgba(0, 0, 0, 0.05);
+}
+
 .accordion span {
   position: relative;
   cursor: pointer;
@@ -62,9 +68,17 @@ header a {
   margin-left: 10px;
 }
 
-.accordion p {
+.statement {
   display: flex;
   padding-left: 10px;
+  margin: 0;
+  align-items: center; 
+  font-size: 0.9em;
+  color: #555;
+}
+.no-statements {
+  display: flex;
+  padding: 10px;
   margin: 0;
   align-items: center; 
   font-size: 0.9em;
@@ -74,7 +88,7 @@ header a {
 .accordion h4 {
   margin: 0;
   padding: 5px;
-  padding-bottom: 10px;
+  padding-bottom: px;
   font-size: 1.1em;
   color: black;
 }
