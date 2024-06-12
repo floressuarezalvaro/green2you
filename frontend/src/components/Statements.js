@@ -47,6 +47,15 @@ const StatementsList = ({ client }) => {
     return { month, year };
   };
 
+  const formatOpeningClosingDate = (startDateStr, endDateStr) => {
+    const startDate = new Date(startDateStr);
+    const endDate = new Date(endDateStr);
+    const options = { year: "numeric", month: "long", day: "numeric" };
+    const formattedStartDate = startDate.toLocaleDateString(undefined, options);
+    const formattedEndDate = endDate.toLocaleDateString(undefined, options);
+    return `Opening - Closing Date: ${formattedStartDate} - ${formattedEndDate}`;
+  };
+
   useEffect(() => {
     if (!user) return;
 
@@ -112,7 +121,10 @@ const StatementsList = ({ client }) => {
                     statementGroups[year][month].map((statement) => (
                       <div key={statement._id}>
                         <p>
-                          Day: {new Date(statement.issuedEndDate).getDate()}
+                          {formatOpeningClosingDate(
+                            statement.issuedStartDate,
+                            statement.issuedEndDate
+                          )}
                           <span
                             onClick={(e) => handleClick(e, statement._id)}
                             className="material-symbols-outlined"

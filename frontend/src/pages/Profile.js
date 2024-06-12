@@ -111,9 +111,6 @@ const InvoiceList = ({ invoices }) => (
     {invoices.map((invoice) => (
       <div key={invoice._id} className="details">
         <p>
-          <strong>Invoice ID:</strong> {invoice._id}
-        </p>
-        <p>
           <strong>Date of Service:</strong> {invoice.date}
         </p>
         <p>
