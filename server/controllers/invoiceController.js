@@ -1,5 +1,6 @@
 const Invoice = require("../models/invoiceModel");
 const mongoose = require("mongoose");
+const moment = require("moment-timezone");
 
 // Get all invoices
 const getAllInvoices = async (req, res) => {
@@ -61,11 +62,16 @@ const createInvoice = async (req, res) => {
       .json({ error: "Please fill in all the fields", emptyFields });
   }
 
+  // Set the date to 5:30 PM PT
+  const dateTime = moment
+    .tz(date, "America/Los_Angeles")
+    .set({ hour: 12, minute: 0, second: 0, millisecond: 0 });
+
   // add invoice to DB
   try {
     const user_id = req.user._id;
     const invoice = await Invoice.create({
-      date,
+      date: dateTime,
       clientId,
       amount,
       description,
@@ -76,6 +82,7 @@ const createInvoice = async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 };
+
 // delete new invoice
 const deleteInvoice = async (req, res) => {
   const { id } = req.params;

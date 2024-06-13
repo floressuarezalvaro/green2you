@@ -8,7 +8,7 @@ import InvoiceForm from "../components/forms/InvoiceForm";
 
 const Home = () => {
   const { invoices, dispatch } = useInvoicesContext();
-  const { user, logout } = useAuthContext(); // Include logout in the destructure
+  const { user, logout } = useAuthContext();
 
   useEffect(() => {
     const fetchInvoices = async () => {
