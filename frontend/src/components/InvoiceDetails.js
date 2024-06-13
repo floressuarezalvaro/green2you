@@ -6,7 +6,7 @@ import { format } from "date-fns";
 import InvoiceModal from "./modals/InvoiceModal";
 import DeleteInvoice from "../components/DeleteInvoice";
 
-const InvoiceDetails = ({ invoice }) => {
+const InvoiceDetails = ({ invoice, hideClientName = false }) => {
   const { clients = [] } = useClientsContext();
   const [clientName, setClientName] = useState("");
 
@@ -23,7 +23,7 @@ const InvoiceDetails = ({ invoice }) => {
 
   return (
     <div className="details">
-      <h4>{clientName}</h4>
+      {!hideClientName && <h4>{clientName}</h4>}
       <p>
         <strong>Date of Service: </strong>
         {formattedDate}

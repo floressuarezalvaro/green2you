@@ -6,8 +6,7 @@ import { useAuthContext } from "../hooks/useAuthContext";
 import formatDistanceToNow from "date-fns/formatDistanceToNow";
 
 import ClientModal from "../components/modals/ClientModal";
-import InvoiceModal from "../components/modals/InvoiceModal";
-import DeleteInvoice from "../components/DeleteInvoice";
+import InvoiceDetails from "../components/InvoiceDetails";
 import DeleteClient from "../components/DeleteClient";
 import Statements from "../components/Statements";
 
@@ -59,7 +58,14 @@ const Profile = () => {
           <h5>Statements</h5>
           <Statements client={selectedClient._id} />
           <h5>Invoices</h5>
-          <InvoiceList invoices={invoices} />
+          {invoices &&
+            invoices.map((invoice) => (
+              <InvoiceDetails
+                key={invoice._id}
+                invoice={invoice}
+                hideClientName={true}
+              />
+            ))}
         </>
       )}
     </div>
@@ -104,26 +110,6 @@ const ClientDetails = ({ client }) => (
     <ClientModal key={`modal-${client._id}`} client={client} />
     <DeleteClient key={`delete-${client._id}`} client={client} />
   </div>
-);
-
-const InvoiceList = ({ invoices }) => (
-  <>
-    {invoices.map((invoice) => (
-      <div key={invoice._id} className="details">
-        <p>
-          <strong>Date of Service:</strong> {invoice.date}
-        </p>
-        <p>
-          <strong>Amount (USD):</strong> {invoice.amount}
-        </p>
-        <p>
-          <strong>Service Description:</strong> {invoice.description}
-        </p>
-        <InvoiceModal key={`modal-${invoice._id}`} invoice={invoice} />
-        <DeleteInvoice key={`delete-${invoice._id}`} invoice={invoice} />
-      </div>
-    ))}
-  </>
 );
 
 export default Profile;
