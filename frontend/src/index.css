@@ -1,14 +1,19 @@
+/* Variables */
 :root {
   --primary:  #1aac83;
   --error: #e7195a;
 }
+
+/* Reset/Global Styles */
 body {
   background: #f1f1f1;
   margin: 0;
   font-family: 'Times New Roman', Times, serif;
 }
-header{
-  background: #1aac83;
+
+/* Base Elements */
+header {
+  background: var(--primary);
 }
 
 header .container {
@@ -24,26 +29,62 @@ header a {
   color: #333;
   text-decoration: none;
 }
-.modal-show {
+
+label, input, select {
   display: block;
-  position: initial
 }
+
+input, select {
+  padding: 10px;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  width: 100%;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+select {
+  appearance: none; 
+  -webkit-appearance: none; 
+  -moz-appearance: none; 
+  padding: 10px;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  width: 100%;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-sizing: border-box;
+  background: url('data:image/svg+xml;charset=US-ASCII,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="5" viewBox="0 0 10 5"><path fill="%23333" d="M0 0l5 5 5-5z"/></svg>') no-repeat right 15px center;
+  background-color: #fff;
+  background-size: 10px 5px;
+}
+
+select::-ms-expand {
+  display: none; 
+}
+
+/* Layout Styles */
 .pages {
   max-width: 1400px;
   padding: 20px;
   margin: 0 auto;
 }
 
-.home {
+.home, .client-home {
   display: grid;
-  grid-template-columns: 3fr 1fr;
-  gap: 100px;
+  grid-template-columns: 3fr 1.1fr;
+  gap: 50px;
 }
 
-.client-home {
-  display: grid;
-  grid-template-columns: 3fr 1fr;
-  gap: 100px;
+/* Component Styles */
+.modal-show {
+  display: block;
+  position: initial
+}
+
+.modal-show button {
+ margin-top: 10px;
 }
 
 .accordion {
@@ -68,29 +109,27 @@ header a {
   margin-left: 10px;
 }
 
-.statement {
-  display: flex;
-  padding-left: 10px;
-  margin: 0;
-  align-items: center; 
-  font-size: 0.9em;
-  color: #555;
-}
-.no-statements {
-  display: flex;
-  padding: 10px;
-  margin: 0;
-  align-items: center; 
-  font-size: 0.9em;
-  color: #555;
-}
-
 .accordion h4 {
   margin: 0;
   padding: 5px;
   padding-bottom: px;
   font-size: 1.1em;
   color: black;
+}
+
+.statement, .no-statements {
+  display: flex;
+  align-items: center;
+  font-size: 0.9em;
+  color: #555;
+}
+
+.statement {
+  padding-left: 10px;
+}
+
+.no-statements {
+  padding: 10px;
 }
 
 .details {
@@ -106,12 +145,6 @@ header a {
   margin: 0 0 10px 0;
   font-size: 1.2em;
   color: var(--primary);
-}
-
-.invoices h5{
-  margin: 20px 10px 20px 20px;
-  font-size: 1.2em;
-  color: var(black);
 }
 
 .details p {
@@ -138,19 +171,12 @@ header a {
   font-size: 1.75em;
 }
 
-label, input, select {
-  display: block;
+.invoices h5{
+  margin: 20px 10px 20px 20px;
+  font-size: 1.2em;
+  color: var(black);
 }
 
-input, select {
-  padding: 10px;
-  margin-top: 10px;
-  margin-bottom: 20px;
-  width: 100%;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  box-sizing: border-box;
-}
 
 form button {
   background: var(--primary);
@@ -160,8 +186,22 @@ form button {
   font-family: Georgia, 'Times New Roman', Times, serif;
   border-radius: 4px;
   cursor: pointer;
+  margin-top: 10px;
 }
 
+nav {
+  display: flex;
+  align-items: center;
+}
+
+form.signup, form.login {
+  max-width: 400px;
+  margin: 40px auto;
+  padding: 20px;
+  background: #fff;
+  border-radius: 4px;
+}
+å
 div.error {
   padding: 10px;
   background: #ffefef;
@@ -175,11 +215,7 @@ input.error, select.error {
   border: 1px solid var(--error)
 }
 
-nav {
-  display: flex;
-  align-items: center;
-}
-
+/* Utility Classes */
 nav a {
   margin-left: 10px;
 }
@@ -193,12 +229,4 @@ nav button {
   cursor: pointer;
   font-size: 1em;
   margin-left: 10px;
-}
-
-form.signup, form.login {
-  max-width: 400px;
-  margin: 40px auto;
-  padding: 20px;
-  background: #fff;
-  border-radius: 4px;
 }
