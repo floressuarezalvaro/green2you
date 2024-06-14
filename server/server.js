@@ -37,7 +37,6 @@ const connectWithRetry = () => {
         console.log("Connected to db & listening on port", process.env.PORT);
       });
       cron.schedule("0 0 * * *", generateMonthlyStatements);
-      console.log("Scheduler is running...");
     })
     .catch((error) => {
       console.error(

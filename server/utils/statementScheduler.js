@@ -15,15 +15,14 @@ const generateMonthlyStatements = async () => {
       const user_id = client.user_id;
       const clientCycleDate = client.clientCycleDate;
 
-      // Set issuedStartDate to the clientCycleDate of the previous month
-      const issuedStartDate = moment()
+      const issuedStartDate = moment
+        .tz({ day: clientCycleDate + 1 }, "America/Los_Angeles")
         .subtract(1, "month")
-        .date(clientCycleDate)
         .startOf("day")
         .toISOString();
-      // Set issuedEndDate to the clientCycleDate of the current month
-      const issuedEndDate = moment()
-        .date(clientCycleDate)
+
+      const issuedEndDate = moment
+        .tz({ day: clientCycleDate }, "America/Los_Angeles")
         .endOf("day")
         .toISOString();
 
