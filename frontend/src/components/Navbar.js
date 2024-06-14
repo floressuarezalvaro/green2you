@@ -17,20 +17,28 @@ const NavigationBar = () => {
           <h1>Green2You</h1>
         </Link>
         <nav>
-          {user && (
-            <div>
-              <span>{user.email}</span>
-              <Link to="/clients">Clients Page</Link>
-              <button onClick={handleClick}>Log Out</button>
-            </div>
-          )}
+          <div className="links">
+            {user && (
+              <>
+                <Link to="/invoices">Invoices Page</Link>
+                <Link to="/clients">Clients Page</Link>
+              </>
+            )}
+          </div>
 
-          {!user && (
-            <div>
-              <Link to="/login">Login</Link>
-              <Link to="/signup">Signup</Link>
-            </div>
-          )}
+          <div className="user-controls">
+            {user ? (
+              <>
+                <span>{user.email}</span>
+                <button onClick={handleClick}>Log Out</button>
+              </>
+            ) : (
+              <>
+                <Link to="/login">Login</Link>
+                <Link to="/signup">Signup</Link>
+              </>
+            )}
+          </div>
         </nav>
       </div>
     </header>

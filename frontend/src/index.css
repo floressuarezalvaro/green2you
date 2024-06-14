@@ -192,6 +192,7 @@ form button {
 nav {
   display: flex;
   align-items: center;
+  width: 100%;
 }
 
 form.signup, form.login {
@@ -216,6 +217,18 @@ input.error, select.error {
 }
 
 /* Utility Classes */
+
+nav .links {
+  display: flex;
+  align-items: center;
+}
+
+nav .user-controls {
+  margin-left: auto; 
+  display: flex;
+  align-items: center; 
+}
+
 nav a {
   margin-left: 10px;
 }
@@ -229,4 +242,10 @@ nav button {
   cursor: pointer;
   font-size: 1em;
   margin-left: 10px;
+}
+
+.user-controls {
+  margin-left: auto; 
+  display: flex;
+  align-items: center; 
 }
