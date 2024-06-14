@@ -14,7 +14,9 @@ const NavigationBar = () => {
     <header>
       <div className="container">
         <Link to="/">
-          <h1>Green2You</h1>
+          <div className="logo">
+            <h2>Green2You</h2>
+          </div>
         </Link>
         <nav>
           <div className="nav-left-controls">

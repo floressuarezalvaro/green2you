@@ -24,10 +24,23 @@ header .container {
   align-items: center;
   justify-content: space-between;
 }
+header .logo { 
+  cursor: pointer;
+  margin-right: 20px;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  box-sizing: border-box;
+  padding-left: 10px;
+  padding-right: 10px;
+}
 
 header a { 
   color: #333;
   text-decoration: none;
+}
+
+header a:hover {
+  color: #fff;
 }
 
 label, input, select {
