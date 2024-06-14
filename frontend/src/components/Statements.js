@@ -1,9 +1,9 @@
 import { useEffect } from "react";
 import Accordion from "react-bootstrap/Accordion";
-
 import PrintStatement from "../utils/PrintStatement";
 import { useStatementsContext } from "../hooks/useStatementsContext";
 import { useAuthContext } from "../hooks/useAuthContext";
+import moment from "moment-timezone";
 
 const getMonths = () => [
   "January",
@@ -40,19 +40,17 @@ const StatementsList = ({ client }) => {
 
   const formatIssuedDate = (dateStr) => {
     const date = new Date(dateStr);
-    const monthOptions = { month: "long" };
-    const yearOptions = { year: "numeric" };
-    const month = date.toLocaleDateString(undefined, monthOptions);
-    const year = date.toLocaleDateString(undefined, yearOptions);
+    const month = date.toLocaleDateString(undefined, { month: "long" });
+    const year = date.toLocaleDateString(undefined, { year: "numeric" });
     return { month, year };
   };
 
   const formatOpeningClosingDate = (startDateStr, endDateStr) => {
-    const startDate = new Date(startDateStr);
-    const endDate = new Date(endDateStr);
-    const options = { year: "numeric", month: "long", day: "numeric" };
-    const formattedStartDate = startDate.toLocaleDateString(undefined, options);
-    const formattedEndDate = endDate.toLocaleDateString(undefined, options);
+    const startDate = moment.tz(startDateStr, "UTC").tz("America/Los_Angeles");
+    const endDate = moment.tz(endDateStr, "UTC").tz("America/Los_Angeles");
+
+    const formattedStartDate = startDate.format("MMMM D, YYYY");
+    const formattedEndDate = endDate.format("MMMM D, YYYY");
     return `Opening - Closing Date: ${formattedStartDate} - ${formattedEndDate}`;
   };
 

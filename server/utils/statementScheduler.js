@@ -1,4 +1,4 @@
-const moment = require("moment");
+const moment = require("moment-timezone");
 const Client = require("../models/clientModel");
 const createStatement =
   require("../controllers/statementsController").createStatement;
