@@ -35,4 +35,8 @@ const statementSchema = new Schema(
   { timestamps: true }
 );
 
+statementSchema.index({ clientId: 1 });
+statementSchema.index({ issuedStartDate: 1, issuedEndDate: 1 });
+statementSchema.index({ createdAt: -1 });
+
 module.exports = mongoose.model("Statement", statementSchema);

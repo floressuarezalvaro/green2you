@@ -32,4 +32,6 @@ const emailTrackerSchema = new Schema(
   { timestamps: true }
 );
 
+emailTrackerSchema.index({ createdAt: -1 });
+
 module.exports = mongoose.model("emailTracker", emailTrackerSchema);

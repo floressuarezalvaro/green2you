@@ -16,6 +16,9 @@ const userSchema = new Schema({
   },
 });
 
+userSchema.index({ email: 1 });
+userSchema.index({ createdAt: -1 });
+
 // static signup method
 userSchema.statics.signup = async function (email, password) {
   // validation

@@ -50,6 +50,9 @@ const clientSchema = new Schema(
   { timestamps: true }
 );
 
+clientSchema.index({ user_id: 1 });
+clientSchema.index({ createdAt: -1 });
+
 clientSchema.statics.signupClient = async function (clientEmail) {
   if (!validator.isEmail(clientEmail)) {
     throw Error("This is not a valid email");
