@@ -2,7 +2,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import { useAuthContext } from "./hooks/useAuthContext";
 
 // pages & components
-import Home from "./pages/Home";
+import Invoice from "./pages/Invoice";
 import Client from "./pages/Client";
 import Profile from "./pages/Profile";
 import LogIn from "./pages/Login";
@@ -18,8 +18,8 @@ function App() {
       <div className="pages">
         <Routes>
           <Route
-            path="/"
-            element={user ? <Home /> : <Navigate to="/login" />}
+            path="/invoices"
+            element={user ? <Invoice /> : <Navigate to="/login" />}
           />
           <Route
             path="/login"

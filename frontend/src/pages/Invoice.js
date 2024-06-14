@@ -6,7 +6,7 @@ import { useAuthContext } from "../hooks/useAuthContext";
 import InvoiceDetails from "../components/InvoiceDetails";
 import InvoiceForm from "../components/forms/InvoiceForm";
 
-const Home = () => {
+const Invoice = () => {
   const { invoices, dispatch } = useInvoicesContext();
   const { user, logout } = useAuthContext();
 
@@ -52,4 +52,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default Invoice;
