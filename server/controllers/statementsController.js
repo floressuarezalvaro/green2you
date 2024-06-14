@@ -81,8 +81,8 @@ const createStatement = async (req, res) => {
       date: invoice.date,
       amount: invoice.amount,
       description: invoice.description,
-      clientId: invoice.clientId, // Include clientId
-      user_id: invoice.user_id, // Include user_id
+      clientId: invoice.clientId,
+      user_id: invoice.user_id,
     }));
 
     const statement = await Statement.create({
