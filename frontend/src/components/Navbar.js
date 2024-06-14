@@ -17,7 +17,7 @@ const NavigationBar = () => {
           <h1>Green2You</h1>
         </Link>
         <nav>
-          <div className="links">
+          <div className="nav-left-controls">
             {user && (
               <>
                 <Link to="/invoices">Invoices Page</Link>
@@ -26,7 +26,7 @@ const NavigationBar = () => {
             )}
           </div>
 
-          <div className="user-controls">
+          <div className="nav-right-controls">
             {user ? (
               <>
                 <span>{user.email}</span>

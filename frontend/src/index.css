@@ -218,12 +218,12 @@ input.error, select.error {
 
 /* Utility Classes */
 
-nav .links {
+.nav-left-controls {
   display: flex;
   align-items: center;
 }
 
-nav .user-controls {
+.nav-right-controls {
   margin-left: auto; 
   display: flex;
   align-items: center; 
@@ -242,10 +242,4 @@ nav button {
   cursor: pointer;
   font-size: 1em;
   margin-left: 10px;
-}
-
-.user-controls {
-  margin-left: auto; 
-  display: flex;
-  align-items: center; 
 }
