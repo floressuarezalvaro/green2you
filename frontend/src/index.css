@@ -2,6 +2,7 @@
 :root {
   --primary:  #1aac83;
   --secondary: white;
+  --tertiary: black;
   --error: #e7195a;
 }
 
@@ -95,6 +96,27 @@ select::-ms-expand {
 }
 
 /* Component Styles */
+.home {
+  position: relative;
+  max-width: 80%;
+  margin: 40px auto;
+  padding: 30px 40px;
+  border-radius: 10px;
+  background: var(--secondary);
+  border: 1px solid var(--primary);
+  color: var(--primary);
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.home-details {
+  position: relative;
+  max-width: 80%;
+  margin: 10px auto;
+  background: var(--secondary);
+  color: var(--tertiary);
+}
+
 .modal-show {
   display: block;
   position: initial
@@ -131,7 +153,7 @@ select::-ms-expand {
   padding: 5px;
   padding-bottom: px;
   font-size: 1.1em;
-  color: black;
+  color: var(--tertiary);
 }
 
 .statement, .no-statements {
@@ -181,15 +203,20 @@ select::-ms-expand {
   color: #333;
 }
 
-.invoices h3, .clients h3 {
-  color: var(--secondary);
+.invoices, .clients, .profile {
+  background: var(--secondary);
+  border-radius: 8px;
+  border: 1px solid var(--primary);
+}
+.invoices h3, .clients h3, .profile h3 {
+  color: var(--primary);
   text-align: center;
   border-radius: 4px;
-  margin: 0 0 10px 20px;
   font-size: 1.75em;
+  padding-top: 20px;
 }
 
-.invoices h5, .clients h5 {
+.invoices h5, .clients h5, .profile h5 {
   margin: 20px 10px 20px 20px;
   font-size: 1.2em;
   color: var(--secondary);
@@ -204,6 +231,11 @@ select::-ms-expand {
   margin: 0 auto;
   height: auto; 
   border: 1px solid var(--primary);
+}
+
+.create h3 {
+  text-align: center;
+  color: var(--primary)
 }
 
 form button {

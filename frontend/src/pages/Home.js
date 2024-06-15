@@ -8,9 +8,11 @@ const Home = () => {
   }
 
   return (
-    <div className="Home">
-      <h1>Welcome to the Home page</h1>
-      <p>Click on the links above to navigate</p>
+    <div className="home">
+      <h1>Welcome to Green2You</h1>
+      <div className="home-details">
+        <p>Click on the links above to navigate</p>
+      </div>
     </div>
   );
 };

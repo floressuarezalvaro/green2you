@@ -48,7 +48,7 @@ const Profile = () => {
     clients?.find((client) => client._id === clientId) || null;
 
   return (
-    <div className="invoices">
+    <div className="profile">
       <h3>Profile Page</h3>
 
       {selectedClient && <ClientDetails client={selectedClient} />}
