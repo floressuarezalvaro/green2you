@@ -42,7 +42,7 @@ const Client = () => {
   }, [dispatch, user, logout]);
 
   return (
-    <div className="home">
+    <div className="page-separation">
       <div className="invoices">
         <h3>Clients Page</h3>
         {clients &&

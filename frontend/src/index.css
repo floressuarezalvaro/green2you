@@ -85,9 +85,9 @@ select::-ms-expand {
   margin: 0 auto;
 }
 
-.home, .client-home {
+.page-separation{
   display: grid;
-  grid-template-columns: 3fr 1.1fr;
+  grid-template-columns: 3fr 1.2fr;
   gap: 50px;
 }
 

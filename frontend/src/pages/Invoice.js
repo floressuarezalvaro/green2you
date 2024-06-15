@@ -39,7 +39,7 @@ const Invoice = () => {
   }, [dispatch, user, logout]);
 
   return (
-    <div className="home">
+    <div className="page-separation">
       <div className="invoices">
         <h3>Invoices Page</h3>
         {invoices &&
