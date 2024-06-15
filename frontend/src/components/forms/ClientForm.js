@@ -81,7 +81,7 @@ const ClientForm = () => {
 
   return (
     <form className="create" onSubmit={handleSubmit}>
-      <h3>Add a new client</h3>
+      <h3>Add Client</h3>
 
       <label htmlFor="clientNameField">Client Name: </label>
       <input

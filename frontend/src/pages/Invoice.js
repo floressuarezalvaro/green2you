@@ -47,7 +47,9 @@ const Invoice = () => {
             <InvoiceDetails key={invoice._id} invoice={invoice} />
           ))}
       </div>
-      <InvoiceForm />
+      <div>
+        <InvoiceForm />
+      </div>
     </div>
   );
 };

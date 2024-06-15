@@ -68,7 +68,7 @@ const InvoiceForm = () => {
 
   return (
     <form className="create" onSubmit={handleSubmit}>
-      <h3>Add a new invoice</h3>
+      <h3>Add Invoice</h3>
 
       <label htmlFor="clientIdField"> Invoice for Client: </label>
       <select

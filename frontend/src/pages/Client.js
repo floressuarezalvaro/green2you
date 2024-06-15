@@ -43,14 +43,16 @@ const Client = () => {
 
   return (
     <div className="page-separation">
-      <div className="invoices">
+      <div className="clients">
         <h3>Clients Page</h3>
         {clients &&
           clients.map((client) => (
             <ClientDetails key={client._id} client={client} />
           ))}
       </div>
-      <ClientForm />
+      <div>
+        <ClientForm />
+      </div>
     </div>
   );
 };
