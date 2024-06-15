@@ -8,31 +8,38 @@ const LogIn = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     await login(email, password);
   };
 
   return (
     <form className="login" onSubmit={handleSubmit}>
-      <h3>Log In</h3>
-
-      <label htmlFor="userEmail">Email: </label>
-      <input
-        type="email"
-        autoComplete="on"
-        onChange={(e) => setEmail(e.target.value)}
-        value={email}
-        id="userEmail"
-      />
-
-      <label htmlFor="userPassword"> Password: </label>
-      <input
-        type="password"
-        autoComplete="on"
-        onChange={(e) => setPassword(e.target.value)}
-        value={password}
-        id="userPassword"
-      />
+      <h3>Login</h3>
+      <div className="input-box">
+        <input
+          type="email"
+          autoComplete="on"
+          onChange={(e) => setEmail(e.target.value)}
+          value={email}
+          id="userEmail"
+          placeholder="Email"
+        />
+        <span className="material-symbols-outlined">person</span>
+      </div>
+      <div className="input-box">
+        <input
+          type="password"
+          autoComplete="on"
+          onChange={(e) => setPassword(e.target.value)}
+          value={password}
+          id="userPassword"
+          placeholder="Password"
+        />
+        <span className="material-symbols-outlined">lock</span>
+      </div>
+      <div className="forgot-register">
+        <a href="#">Forgot password?</a>
+        <a href="/signup">Register</a>
+      </div>
       <button disabled={isLoading}>Login</button>
       {error && <div className="error">{error}</div>}
     </form>

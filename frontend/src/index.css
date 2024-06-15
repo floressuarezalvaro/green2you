@@ -41,6 +41,7 @@ header a {
 
 header a:hover {
   color: #fff;
+  text-decoration: underline;
 }
 
 label, input, select {
@@ -197,9 +198,10 @@ form button {
   color: #fff;
   padding: 10px;
   font-family: Georgia, 'Times New Roman', Times, serif;
-  border-radius: 4px;
+  border-radius: 40px;
   cursor: pointer;
   margin-top: 10px;
+  width: 100%;
 }
 
 nav {
@@ -208,14 +210,62 @@ nav {
   width: 100%;
 }
 
-form.signup, form.login {
-  max-width: 400px;
+form.login, form.signup {
+  position: relative;
+  max-width: 420px;
   margin: 40px auto;
-  padding: 20px;
+  padding: 30px 40px;
   background: #fff;
-  border-radius: 4px;
+  border-radius: 10px;
+  background: transparent;
+  backdrop-filter: blur(20px);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
-å
+
+.login input, .signup input {
+  padding: 10px 20px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  width: 100%;
+  border: 1px solid #ddd;
+  border-radius: 40px;
+  box-sizing: border-box;
+}
+.login h3, .signup h3 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.input-box {
+  position: relative;
+}
+
+.input-box span {
+position: absolute;
+right: 20px;
+transform: translateY(-50%);
+font-size: 20px;
+top: 50%;
+}
+
+.forgot-register {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14.5px;
+  margin: -5px 25px 10px;
+}
+
+.forgot-register a {
+  text-decoration: none;
+  color: #555;
+}
+
+.forgot-register a:hover {
+  color: var(--primary);
+  text-decoration: underline;
+}
+
 div.error {
   padding: 10px;
   background: #ffefef;
