@@ -15,6 +15,8 @@ const ClientForm = () => {
   const [clientState, setClientState] = useState("");
   const [clientZip, setClientZip] = useState("");
   const [clientCycleDate, setClientCycleDate] = useState("");
+  const [clientWelcomeEmailEnabled, setClientWelcomeEmailEnabled] =
+    useState(false);
   const [error, setError] = useState(null);
   const [emptyFields, setEmptyFields] = useState([]);
 
@@ -36,6 +38,7 @@ const ClientForm = () => {
       clientState,
       clientZip,
       clientCycleDate,
+      clientWelcomeEmailEnabled,
     };
 
     try {
@@ -70,6 +73,7 @@ const ClientForm = () => {
         setClientState("");
         setClientZip("");
         setClientCycleDate("");
+        setClientWelcomeEmailEnabled(false);
         setError(null);
         setEmptyFields([]);
         dispatch({ type: "CREATE_CLIENT", payload: json });
@@ -83,7 +87,7 @@ const ClientForm = () => {
     <form className="create" onSubmit={handleSubmit}>
       <h3>Add Client</h3>
 
-      <label htmlFor="clientNameField">Client Name: </label>
+      <label htmlFor="clientNameField">Client Name</label>
       <input
         type="text"
         onChange={(e) => setClientName(e.target.value)}
@@ -92,7 +96,7 @@ const ClientForm = () => {
         id="clientNameField"
       />
 
-      <label htmlFor="clientEmailField">Email: </label>
+      <label htmlFor="clientEmailField">Email</label>
       <input
         type="text"
         onChange={(e) => setClientEmail(e.target.value)}
@@ -101,7 +105,7 @@ const ClientForm = () => {
         id="clientEmailField"
       />
 
-      <label htmlFor="clientPhoneNumberField">Phone Number:</label>
+      <label htmlFor="clientPhoneNumberField">Phone Number</label>
       <input
         type="number"
         onChange={(e) => setClientPhoneNumber(e.target.value)}
@@ -110,7 +114,7 @@ const ClientForm = () => {
         id="clientPhoneNumberField"
       />
 
-      <label htmlFor="clientStreetLineOneField">Address 1: </label>
+      <label htmlFor="clientStreetLineOneField">Address 1</label>
       <input
         type="text"
         onChange={(e) => setClientStreetLineOne(e.target.value)}
@@ -118,7 +122,7 @@ const ClientForm = () => {
         id="clientStreetLineOneField"
       />
 
-      <label htmlFor="clientStreetLineTwoField">Address 2: </label>
+      <label htmlFor="clientStreetLineTwoField">Address 2</label>
       <input
         type="text"
         onChange={(e) => setClientStreetLineTwo(e.target.value)}
@@ -126,7 +130,7 @@ const ClientForm = () => {
         id="clientStreetLineTwoField"
       />
 
-      <label htmlFor="clientCityField">City: </label>
+      <label htmlFor="clientCityField">City</label>
       <input
         type="text"
         onChange={(e) => setClientCity(e.target.value)}
@@ -134,7 +138,7 @@ const ClientForm = () => {
         id="clientCityField"
       />
 
-      <label htmlFor="clientStateField">State: </label>
+      <label htmlFor="clientStateField">State</label>
       <input
         type="text"
         onChange={(e) => setClientState(e.target.value)}
@@ -142,7 +146,7 @@ const ClientForm = () => {
         id="clientStateField"
       />
 
-      <label htmlFor="clientZipField">Zip Code: </label>
+      <label htmlFor="clientZipField">Zip Code</label>
       <input
         type="number"
         onChange={(e) => setClientZip(e.target.value)}
@@ -150,7 +154,7 @@ const ClientForm = () => {
         id="clientZipField"
       />
 
-      <label htmlFor="clientCycleDateField">Cycle Date: </label>
+      <label htmlFor="clientCycleDateField">Cycle Date</label>
       <input
         type="number"
         onChange={(e) => setClientCycleDate(e.target.value)}
@@ -158,6 +162,27 @@ const ClientForm = () => {
         id="clientCycleDateField"
         className={emptyFields.includes("clientCycleDate") ? "error" : ""}
       />
+
+      <div className="toggle-switch-container">
+        <label htmlFor="clientWelcomeEmailEnabledField">Welcome Email</label>
+
+        <div className="toggle-switch">
+          <input
+            type="checkbox"
+            className="toggle-switch-checkbox"
+            onChange={(e) => setClientWelcomeEmailEnabled(e.target.checked)}
+            value={clientWelcomeEmailEnabled}
+            id="clientWelcomeEmailEnabledField"
+          />
+          <label
+            className="toggle-switch-label"
+            htmlFor="clientWelcomeEmailEnabledField"
+          >
+            <span className="toggle-switch-inner"></span>
+            <span className="toggle-switch-switch"></span>
+          </label>
+        </div>
+      </div>
 
       <button>Create New Client</button>
       {error && <div className="error">{error}</div>}

@@ -83,7 +83,7 @@ const ClientModal = ({ client }) => {
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="clientEmailField">
-              <Form.Label>Email: </Form.Label>
+              <Form.Label>Email</Form.Label>
               <Form.Control
                 type="text"
                 value={updateClientForm.clientEmail}
@@ -94,7 +94,7 @@ const ClientModal = ({ client }) => {
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="clientPhoneNumberField">
-              <Form.Label>Phone Number: </Form.Label>
+              <Form.Label>Phone Number</Form.Label>
               <Form.Control
                 type="number"
                 value={updateClientForm.clientPhoneNumber}
@@ -105,7 +105,7 @@ const ClientModal = ({ client }) => {
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="clientStreetLineOneField">
-              <Form.Label>Address 1: </Form.Label>
+              <Form.Label>Address 1</Form.Label>
               <Form.Control
                 type="text"
                 value={updateClientForm.clientStreetLineOne}
@@ -116,7 +116,7 @@ const ClientModal = ({ client }) => {
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="clientStreetLineTwoField">
-              <Form.Label>Address 2: </Form.Label>
+              <Form.Label>Address 2</Form.Label>
               <Form.Control
                 type="text"
                 value={updateClientForm.clientStreetLineTwo}
@@ -126,7 +126,7 @@ const ClientModal = ({ client }) => {
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="clientCityField">
-              <Form.Label>City: </Form.Label>
+              <Form.Label>City</Form.Label>
               <Form.Control
                 type="text"
                 value={updateClientForm.clientCity}
@@ -136,7 +136,7 @@ const ClientModal = ({ client }) => {
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="clientState">
-              <Form.Label>State: </Form.Label>
+              <Form.Label>State</Form.Label>
               <Form.Control
                 type="text"
                 value={updateClientForm.clientState}
@@ -146,7 +146,7 @@ const ClientModal = ({ client }) => {
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="clientZipField">
-              <Form.Label>Zip Code:</Form.Label>
+              <Form.Label>Zip Code</Form.Label>
               <Form.Control
                 type="number"
                 value={updateClientForm.clientZip}
@@ -156,7 +156,7 @@ const ClientModal = ({ client }) => {
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="clientCycleDateField">
-              <Form.Label>Cycle Date: </Form.Label>
+              <Form.Label>Cycle Date</Form.Label>
               <Form.Control
                 type="number"
                 value={updateClientForm.clientCycleDate}

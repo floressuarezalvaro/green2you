@@ -70,7 +70,7 @@ const InvoiceForm = () => {
     <form className="create" onSubmit={handleSubmit}>
       <h3>Add Invoice</h3>
 
-      <label htmlFor="clientIdField"> Invoice for Client: </label>
+      <label htmlFor="clientIdField"> Invoice for Client</label>
       <select
         name="clientIdField"
         id="clientIdField"
@@ -89,7 +89,7 @@ const InvoiceForm = () => {
           ))}
       </select>
 
-      <label htmlFor="dateField">Date of Service: </label>
+      <label htmlFor="dateField">Date of Service</label>
       <input
         type="date"
         onChange={(e) => setDate(e.target.value)}
@@ -98,7 +98,7 @@ const InvoiceForm = () => {
         id="dateField"
       />
 
-      <label htmlFor="amountField">Amount: </label>
+      <label htmlFor="amountField">Amount</label>
       <input
         type="number"
         onChange={(e) => setAmount(e.target.value)}
@@ -107,7 +107,7 @@ const InvoiceForm = () => {
         id="amountField"
       />
 
-      <label htmlFor="descriptionField">Service Description: </label>
+      <label htmlFor="descriptionField">Service Description</label>
       <input
         type="text"
         onChange={(e) => setDescription(e.target.value)}

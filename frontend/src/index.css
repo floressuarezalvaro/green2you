@@ -253,6 +253,64 @@ select::-ms-expand {
   color: var(--primary)
 }
 
+.toggle-switch-container {
+  display: flex;
+  align-items: center;
+  margin: 20px 30px 10px 30px;
+  justify-content: space-between;
+}
+
+.toggle-switch-container label {
+  margin-right: 10px;
+  font-size: 1em;
+  color: var(--tertiary);
+}
+
+.toggle-switch {
+  position: relative;
+  width: 50px;
+  display: inline-block;
+}
+
+.toggle-switch-checkbox {
+  display: none;
+}
+
+.toggle-switch-label {
+  display: block;
+  overflow: hidden;
+  cursor: pointer;
+  height: 26px;
+  width: 50px;
+  border: 2px solid var(--primary);
+  border-radius: 15px;
+  background-color: var(--secondary);
+  transition: background-color 0.3s ease-in;
+  position: relative;
+}
+
+.toggle-switch-label:before {
+  content: "";
+  display: block;
+  width: 18px;
+  height: 18px;
+  background: var(--primary);
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  border-radius: 50%;
+  transition: all 0.3s ease-in;
+}
+
+.toggle-switch-checkbox:checked + .toggle-switch-label {
+  background-color: var(--primary);
+}
+
+.toggle-switch-checkbox:checked + .toggle-switch-label:before {
+  left: 26px;
+  background-color: var(--secondary);
+}
+
 form button {
   background: var(--primary);
   border: 0;
