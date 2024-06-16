@@ -163,7 +163,6 @@ select::-ms-expand {
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.05)
 }
 
-
 .statement, .no-statements {
   display: flex;
   align-items: center;
@@ -188,7 +187,7 @@ select::-ms-expand {
   box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.05)
 }
 
-.details h4{
+.details h4 {
   margin: 0 0 10px 0;
   font-size: 1.2em;
   color: var(--primary);
@@ -256,7 +255,7 @@ select::-ms-expand {
 .toggle-switch-container {
   display: flex;
   align-items: center;
-  margin: 20px 30px 10px 30px;
+  margin: 10px 20px;
   justify-content: space-between;
 }
 
@@ -296,7 +295,7 @@ select::-ms-expand {
   height: 18px;
   background: var(--primary);
   position: absolute;
-  top: 3px;
+  top: 2px;
   left: 3px;
   border-radius: 50%;
   transition: all 0.3s ease-in;
