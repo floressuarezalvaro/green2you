@@ -65,6 +65,8 @@ const createClient = async (req, res) => {
     clientState,
     clientZip,
     clientCycleDate,
+    clientWelcomeEmailEnabled,
+    clientAutoStatementsEnabled,
   } = req.body;
 
   // error handling
@@ -101,14 +103,18 @@ const createClient = async (req, res) => {
       clientState,
       clientZip,
       clientCycleDate,
+      clientWelcomeEmailEnabled,
+      clientAutoStatementsEnabled,
       user_id,
     });
 
-    await welcomeEmail(
-      clientEmail,
-      "Welcome to Green2You",
-      `Hello ${clientName}. If you are receiving this, it's because you are now enrolled in Green2You's automated invoice service. Greetings! `
-    );
+    if (clientWelcomeEmailEnabled === true) {
+      await welcomeEmail(
+        clientEmail,
+        "Welcome to Green2You",
+        `Hello ${clientName}. If you are receiving this, it's because you are now enrolled in Green2You's automated invoice service. Greetings! `
+      );
+    }
     res.status(201).json(client);
   } catch (error) {
     // Handle errors thrown by the signupClient method

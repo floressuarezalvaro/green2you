@@ -42,6 +42,14 @@ const clientSchema = new Schema(
       type: Number,
       required: false,
     },
+    clientWelcomeEmailEnabled: {
+      type: Boolean,
+      required: false,
+    },
+    clientAutoStatementsEnabled: {
+      type: Boolean,
+      required: false,
+    },
     user_id: {
       type: String,
       required: true,
