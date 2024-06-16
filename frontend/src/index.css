@@ -127,9 +127,9 @@ select::-ms-expand {
 }
 
 .accordion {
+  padding: 0 10px;
   border-radius: 4px;
   position: relative;
-  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.05);
 }
 
 .accordion-body {
@@ -155,6 +155,14 @@ select::-ms-expand {
   font-size: 1.1em;
   color: var(--tertiary);
 }
+.statements-wrapper {
+  border-radius: 4px;
+  margin: 10px;
+  padding: 20px;
+  position: relative;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.05)
+}
+
 
 .statement, .no-statements {
   display: flex;
@@ -174,10 +182,10 @@ select::-ms-expand {
 .details {
   background: #fff;
   border-radius: 4px;
-  margin: 20px auto;
+  margin: 10px;
   padding: 20px;
   position: relative;
-  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.05)
+  box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.05)
 }
 
 .details h4{
@@ -217,9 +225,16 @@ select::-ms-expand {
 }
 
 .invoices h5, .clients h5, .profile h5 {
-  margin: 20px 10px 20px 20px;
+  text-align: center;
+  margin: 20px 0;
   font-size: 1.2em;
-  color: var(--secondary);
+  color: var(--primary);
+}
+
+.statements-wrapper h5 {
+  text-align: center;
+  margin: 0 0 10px 0;
+  font-size: 1.2em;
 }
 
 .create {

@@ -55,8 +55,10 @@ const Profile = () => {
 
       {selectedClient && invoices?.length > 0 && (
         <>
-          <h5>Statements</h5>
-          <Statements client={selectedClient._id} />
+          <div className="statements-wrapper">
+            <h5>Statements</h5>
+            <Statements client={selectedClient._id} />
+          </div>
           <h5>Invoices</h5>
           {invoices &&
             invoices.map((invoice) => (
