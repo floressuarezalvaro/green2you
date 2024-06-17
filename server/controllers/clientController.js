@@ -1,6 +1,6 @@
 const Client = require("../models/clientModel");
 const Invoice = require("../models/invoiceModel");
-const { welcomeEmail } = require("../utils/emailHandler");
+const { sendEmail } = require("../utils/emailHandler");
 const mongoose = require("mongoose");
 
 // Get all clients
@@ -109,7 +109,8 @@ const createClient = async (req, res) => {
     });
 
     if (clientWelcomeEmailEnabled === true) {
-      await welcomeEmail(
+      await sendEmail(
+        "Welcome Email",
         clientEmail,
         "Welcome to Green2You",
         `Hello ${clientName}. If you are receiving this, it's because you are now enrolled in Green2You's automated invoice service. Greetings! `

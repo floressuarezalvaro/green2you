@@ -10,17 +10,18 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-const welcomeEmail = async (to, subject, text) => {
+const sendEmail = async (type, to, subject, text) => {
   try {
     const info = await transporter.sendMail({
       from: process.env.EMAIL_USER,
+      type,
       to,
       subject,
       text,
     });
 
     const emailLog = new EmailTracker({
-      emailType: "WelcomeEmail",
+      emailType: type,
       emailTo: to,
       emailSubject: subject,
       emailText: text,
@@ -29,7 +30,7 @@ const welcomeEmail = async (to, subject, text) => {
     await emailLog.save();
   } catch (error) {
     const emailLog = new EmailTracker({
-      emailType: "WelcomeEmail",
+      emailType: type,
       emailTo: to,
       emailSubject: subject,
       emailText: text,
@@ -40,4 +41,4 @@ const welcomeEmail = async (to, subject, text) => {
   }
 };
 
-module.exports = { welcomeEmail };
+module.exports = { sendEmail };
