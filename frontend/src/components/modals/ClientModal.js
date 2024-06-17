@@ -3,6 +3,7 @@ import { useAuthContext } from "../../hooks/useAuthContext";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
+import ToggleSwitch from "../../utils/ToggleSwitch";
 
 const ClientModal = ({ client }) => {
   const { user } = useAuthContext();
@@ -23,12 +24,14 @@ const ClientModal = ({ client }) => {
     clientState: client.clientState || "",
     clientZip: client.clientZip || "",
     clientCycleDate: client.clientCycleDate || "",
+    clientAutoStatementsEnabled: client.clientAutoStatementsEnabled || false,
   });
 
   const onChange = (e) => {
+    const { name, value, type, checked } = e.target;
     setUpdateClientForm({
       ...updateClientForm,
-      [e.target.name]: e.target.value,
+      [name]: type === "checkbox" ? checked : value,
     });
   };
 
@@ -76,7 +79,6 @@ const ClientModal = ({ client }) => {
               <Form.Control
                 type="text"
                 value={updateClientForm.clientName}
-                autoFocus
                 onChange={onChange}
                 name="clientName"
               />
@@ -87,7 +89,6 @@ const ClientModal = ({ client }) => {
               <Form.Control
                 type="text"
                 value={updateClientForm.clientEmail}
-                autoFocus
                 onChange={onChange}
                 name="clientEmail"
               />
@@ -98,7 +99,6 @@ const ClientModal = ({ client }) => {
               <Form.Control
                 type="number"
                 value={updateClientForm.clientPhoneNumber}
-                autoFocus
                 onChange={onChange}
                 name="clientPhoneNumber"
               />
@@ -109,7 +109,6 @@ const ClientModal = ({ client }) => {
               <Form.Control
                 type="text"
                 value={updateClientForm.clientStreetLineOne}
-                autoFocus
                 onChange={onChange}
                 name="clientStreetLineOne"
               />
@@ -162,6 +161,19 @@ const ClientModal = ({ client }) => {
                 value={updateClientForm.clientCycleDate}
                 onChange={onChange}
                 name="clientCycleDate"
+              />
+            </Form.Group>
+
+            <Form.Group
+              className="mb-3"
+              controlId="clientAutoStatementsEnabledField"
+            >
+              <Form.Label>Automatic Statements</Form.Label>
+              <ToggleSwitch
+                checked={updateClientForm.clientAutoStatementsEnabled}
+                onChange={onChange}
+                name="clientAutoStatementsEnabled"
+                id="clientAutoStatementsEnabledField"
               />
             </Form.Group>
 

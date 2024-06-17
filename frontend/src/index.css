@@ -1,6 +1,6 @@
 /* Variables */
 :root {
-  --primary:  #1aac83;
+  --primary: #1aac83;
   --secondary: white;
   --tertiary: black;
   --error: #e7195a;
@@ -29,7 +29,8 @@ header .container {
   justify-content: space-between;
   border-bottom: 1px solid #ddd;
 }
-header .logo { 
+
+header .logo {
   color: var(--secondary);
   cursor: pointer;
   margin-right: 20px;
@@ -39,7 +40,7 @@ header .logo {
   padding-right: 10px;
 }
 
-header a { 
+header a {
   color: var(--secondary);
   text-decoration: none;
 }
@@ -63,9 +64,9 @@ input, select {
 }
 
 select {
-  appearance: none; 
-  -webkit-appearance: none; 
-  -moz-appearance: none; 
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
   padding: 10px;
   margin-top: 10px;
   margin-bottom: 20px;
@@ -79,7 +80,7 @@ select {
 }
 
 select::-ms-expand {
-  display: none; 
+  display: none;
 }
 
 /* Layout Styles */
@@ -119,11 +120,11 @@ select::-ms-expand {
 
 .modal-show {
   display: block;
-  position: initial
+  position: initial;
 }
 
 .modal-show button {
- margin-top: 10px;
+  margin-top: 10px;
 }
 
 .accordion {
@@ -144,23 +145,23 @@ select::-ms-expand {
   background: #f1f1f1;
   padding: 3px;
   border-radius: 50%;
-  color: blue; 
+  color: blue;
   margin-left: 10px;
 }
 
 .accordion h4 {
   margin: 0;
   padding: 5px;
-  padding-bottom: px;
   font-size: 1.1em;
   color: var(--tertiary);
 }
+
 .statements-wrapper {
   border-radius: 4px;
   margin: 10px;
   padding: 20px;
   position: relative;
-  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.05)
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.05);
 }
 
 .statement, .no-statements {
@@ -184,7 +185,7 @@ select::-ms-expand {
   margin: 10px;
   padding: 20px;
   position: relative;
-  box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.05)
+  box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.05);
 }
 
 .details h4 {
@@ -215,6 +216,7 @@ select::-ms-expand {
   border-radius: 8px;
   border: 1px solid var(--primary);
 }
+
 .invoices h3, .clients h3, .profile h3 {
   color: var(--primary);
   text-align: center;
@@ -243,13 +245,13 @@ select::-ms-expand {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   max-width: 400px;
   margin: 0 auto;
-  height: auto; 
+  height: auto;
   border: 1px solid var(--primary);
 }
 
 .create h3 {
   text-align: center;
-  color: var(--primary)
+  color: var(--primary);
 }
 
 .toggle-switch-container {
@@ -257,6 +259,10 @@ select::-ms-expand {
   align-items: center;
   margin: 10px 20px;
   justify-content: space-between;
+}
+
+.modal-toggle-switch-container {
+display: flex;
 }
 
 .toggle-switch-container label {
@@ -310,6 +316,8 @@ select::-ms-expand {
   background-color: var(--secondary);
 }
 
+
+
 form button {
   background: var(--primary);
   border: 0;
@@ -349,6 +357,7 @@ form.login, form.signup {
   border-radius: 40px;
   box-sizing: border-box;
 }
+
 .login h3, .signup h3 {
   text-align: center;
   margin-bottom: 20px;
@@ -360,11 +369,11 @@ form.login, form.signup {
 }
 
 .input-box span {
-position: absolute;
-right: 20px;
-transform: translateY(-50%);
-font-size: 20px;
-top: 50%;
+  position: absolute;
+  right: 20px;
+  transform: translateY(-50%);
+  font-size: 20px;
+  top: 50%;
 }
 
 .forgot-register {
@@ -393,20 +402,19 @@ div.error {
 }
 
 input.error, select.error {
-  border: 1px solid var(--error)
+  border: 1px solid var(--error);
 }
 
 /* Utility Classes */
-
 .nav-left-controls {
   display: flex;
   align-items: center;
 }
 
 .nav-right-controls {
-  margin-left: auto; 
+  margin-left: auto;
   display: flex;
-  align-items: center; 
+  align-items: center;
   color: var(--secondary);
 }
 
