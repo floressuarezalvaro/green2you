@@ -2,6 +2,7 @@ const moment = require("moment-timezone");
 const Client = require("../models/clientModel");
 const createStatement =
   require("../controllers/statementsController").createStatement;
+const { sendStatementByEmail } = require("../utils/emailHandler");
 
 const generateMonthlyStatements = async () => {
   const today = moment().date();
@@ -10,14 +11,7 @@ const generateMonthlyStatements = async () => {
   try {
     const clients = await Client.find({ clientCycleDate: today });
 
-    clients.forEach(async (client) => {
-      if (
-        client.clientAutoStatementsEnabled === false ||
-        client.clientAutoStatementsEnabled === null
-      ) {
-        return;
-      }
-
+    for (const client of clients) {
       const clientId = client._id;
       const user_id = client.user_id;
       const clientCycleDate = client.clientCycleDate;
@@ -43,9 +37,11 @@ const generateMonthlyStatements = async () => {
       const req = { body: statementData };
       const res = {
         status: (statusCode) => ({
-          json: (data) => {
+          json: async (data) => {
             if (statusCode === 201) {
-              console.log(`Statement created for client: ${client.clientName}`);
+              if (client.clientAutoStatementsEnabled === true) {
+                await sendStatementByEmail(client.clientEmail, data._id);
+              }
             } else {
               console.error(
                 `Error creating statement for client: ${client.clientName}`,
@@ -57,7 +53,7 @@ const generateMonthlyStatements = async () => {
       };
 
       await createStatement(req, res);
-    });
+    }
   } catch (error) {
     console.error("Error generating monthly statements:", error);
   }
