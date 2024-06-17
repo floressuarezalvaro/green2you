@@ -50,7 +50,7 @@ const Client = () => {
             <ClientDetails key={client._id} client={client} />
           ))}
       </div>
-      <div>
+      <div className="form-container">
         <ClientForm />
       </div>
     </div>

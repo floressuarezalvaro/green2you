@@ -91,9 +91,17 @@ select::-ms-expand {
 }
 
 .page-separation {
-  display: grid;
-  grid-template-columns: 3fr 1.2fr;
+  display: flex;
   gap: 50px;
+  align-items: flex-start;
+}
+
+.clients, .invoices {
+  flex: 3;
+}
+
+.form-container {
+  flex: 1.2;
 }
 
 /* Component Styles */

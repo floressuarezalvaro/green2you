@@ -47,7 +47,7 @@ const Invoice = () => {
             <InvoiceDetails key={invoice._id} invoice={invoice} />
           ))}
       </div>
-      <div>
+      <div className="form-container">
         <InvoiceForm />
       </div>
     </div>
