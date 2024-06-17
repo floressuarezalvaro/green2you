@@ -11,6 +11,13 @@ const generateMonthlyStatements = async () => {
     const clients = await Client.find({ clientCycleDate: today });
 
     clients.forEach(async (client) => {
+      if (
+        client.clientAutoStatementsEnabled === false ||
+        client.clientAutoStatementsEnabled === null
+      ) {
+        return;
+      }
+
       const clientId = client._id;
       const user_id = client.user_id;
       const clientCycleDate = client.clientCycleDate;
