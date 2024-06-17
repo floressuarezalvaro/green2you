@@ -117,8 +117,8 @@ const getAllStatements = async (req, res) => {
     const startDate = new Date(year, month - 1, 1);
     const endDate = new Date(year, month, 0, 23, 59, 59, 999);
 
-    query.issuedStartDate = { $lte: endDate };
-    query.issuedEndDate = { $gte: startDate };
+    query.issuedStartDate = { $gte: startDate };
+    query.issuedEndDate = { $lte: endDate };
   }
 
   try {
