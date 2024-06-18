@@ -62,9 +62,9 @@ const sendStatementByEmail = async (clientEmail, statementId) => {
     const statementUrl = `http://localhost:4000/statements/print/${statementId}`;
     const response = await axios.get(statementUrl, {
       responseType: "arraybuffer",
-      // headers: {
-      //   Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjYwZDM2MGNmMTAxODNjYzMxNGUxODUiLCJpYXQiOjE3MTg2NTMxNzAsImV4cCI6MTcxODczOTU3MH0.E_zYIfn6_BVXScUh9hXrXQDktnHEXOIfb0XT7BobYDg`,
-      // },
+      headers: {
+        "x-api-key": process.env.API_KEY,
+      },
     });
 
     const pdfBuffer = Buffer.from(response.data, "binary");
