@@ -8,6 +8,7 @@ const {
   getUser,
   deleteUser,
   updateUser,
+  resetUserPassword,
 } = require("../controllers/userController");
 
 const router = express.Router();
@@ -19,5 +20,6 @@ router.get("/", getAllUsers);
 router.get("/:id", getUser);
 router.delete("/:id", deleteUser);
 router.put("/:id", updateUser);
+router.post("/resetpassword", resetUserPassword);
 
 module.exports = router;

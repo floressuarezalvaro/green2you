@@ -66,4 +66,36 @@ userSchema.statics.login = async function (email, password) {
   return user;
 };
 
+userSchema.statics.resetPassword = async function (
+  email,
+  oldPassword,
+  newPassword
+) {
+  if (!email || !oldPassword || !newPassword) {
+    throw Error("All fields are required");
+  }
+  const user = await this.findOne({ email });
+
+  if (!user) {
+    throw Error("Invalid login credential");
+  }
+
+  const oldMatch = await bcrypt.compare(oldPassword, user.password);
+  if (!oldMatch) {
+    throw Error("Old password is incorrect");
+  }
+
+  if (!validator.isStrongPassword(newPassword)) {
+    throw Error("New password is not strong enough");
+  }
+
+  const salt = await bcrypt.genSalt(10);
+  const hash = await bcrypt.hash(newPassword, salt);
+
+  user.password = hash;
+  await user.save();
+
+  return user;
+};
+
 module.exports = mongoose.model("User", userSchema);

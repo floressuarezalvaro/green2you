@@ -35,6 +35,21 @@ const signUpUser = async (req, res) => {
   }
 };
 
+const resetUserPassword = async (req, res) => {
+  const { email, oldPassword, newPassword } = req.body;
+
+  if (!email || !oldPassword || !newPassword) {
+    return res.status(400).json({ error: "All fields are required" });
+  }
+
+  try {
+    const user = await User.resetPassword(email, oldPassword, newPassword);
+    res.status(200).json({ message: "Password reset successful" });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
 const getAllUsers = async (req, res) => {
   try {
     const users = await User.find({}).sort({ createdAt: -1 });
@@ -112,4 +127,5 @@ module.exports = {
   getUser,
   deleteUser,
   updateUser,
+  resetUserPassword,
 };
