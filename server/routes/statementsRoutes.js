@@ -1,6 +1,7 @@
 const express = require("express");
 
 const requireAuth = require("../middleware/requireAuth");
+const requireAPIKey = require("../middleware/requireAPIKey");
 
 const {
   printStatement,
@@ -14,7 +15,8 @@ const {
 const router = express.Router();
 
 router.get("/print/:id", printStatement);
-router.post("/", createStatement);
+
+router.post("/", requireAPIKey, createStatement);
 
 router.use(requireAuth);
 
