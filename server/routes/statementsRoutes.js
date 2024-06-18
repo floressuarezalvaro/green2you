@@ -13,15 +13,13 @@ const {
 
 const router = express.Router();
 
-// require auth for invoice routes
+router.get("/print/:id", printStatement);
+router.post("/", createStatement);
+
 router.use(requireAuth);
 
-router.get("/print/:id", printStatement);
-
 router.get("/client/:clientId", getAllStatements);
-
 router.get("/:id", getStatement);
-router.post("/", createStatement);
 router.delete("/:id", deleteStatement);
 router.put("/:id", updateStatement);
 

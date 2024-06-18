@@ -10,7 +10,7 @@ const PrintStatement = async (user, id) => {
     const response = await fetch(`/statements/print/${id}`, {
       method: "GET",
       headers: {
-        Authorization: `Bearer ${user.token}`,
+        // Authorization: `Bearer ${user.token}`,
         "Content-Type": "application/pdf",
       },
     });
