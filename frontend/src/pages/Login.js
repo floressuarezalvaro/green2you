@@ -37,7 +37,7 @@ const LogIn = () => {
         <span className="material-symbols-outlined">lock</span>
       </div>
       <div className="forgot-register">
-        <a href="#">Forgot password?</a>
+        <a href="/forgotpassword">Forgot password?</a>
         <a href="/signup">Register</a>
       </div>
       <button disabled={isLoading}>Login</button>

@@ -14,7 +14,7 @@ const ForgotResetPassword = () => {
 
   return (
     <form className="login" onSubmit={handleSubmit}>
-      <h3>Password Reset</h3>
+      <h3>New Password</h3>
       <div className="input-box">
         <input
           type="password"

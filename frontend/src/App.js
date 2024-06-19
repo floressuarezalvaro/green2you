@@ -10,6 +10,7 @@ import LogIn from "./pages/Login";
 import SignUp from "./pages/SignUp";
 import ForgotResetPassword from "./pages/ForgotResetPassword";
 import NavigationBar from "./components/Navbar";
+import TokenToEmail from "./pages/TokenToEmail";
 
 function App() {
   const { user } = useAuthContext();
@@ -26,6 +27,10 @@ function App() {
           <Route
             path="/signup"
             element={!user ? <SignUp /> : <Navigate to="/" />}
+          />
+          <Route
+            path="/forgotpassword"
+            element={!user ? <TokenToEmail /> : <Navigate to="/" />}
           />
           <Route
             path="/resetpassword/:token"

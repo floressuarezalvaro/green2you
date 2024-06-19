@@ -66,9 +66,7 @@ const forgotPassword = async (req, res) => {
   try {
     const token = await User.forgotPassword(email);
 
-    const resetUrl = `${req.protocol}://${req.get(
-      "host"
-    )}/resetpassword/${token}`;
+    const resetUrl = `${process.env.FRONTEND_URL}/resetpassword/${token}`;
     const subject = "Password Reset Request";
     const text = `You are receiving this because we received a requested the reset of the password for your account. Please click on the following link, or paste this into your browser to complete the process within one hour of receiving it: ${resetUrl}`;
 
