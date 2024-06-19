@@ -8,6 +8,7 @@ import Client from "./pages/Client";
 import Profile from "./pages/Profile";
 import LogIn from "./pages/Login";
 import SignUp from "./pages/SignUp";
+import ForgotResetPassword from "./pages/ForgotResetPassword";
 import NavigationBar from "./components/Navbar";
 
 function App() {
@@ -19,20 +20,24 @@ function App() {
       <div className="pages">
         <Routes>
           <Route
-            path="/"
-            element={user ? <Home /> : <Navigate to="/login" />}
-          />
-          <Route
-            path="/invoices"
-            element={user ? <Invoice /> : <Navigate to="/login" />}
-          />
-          <Route
             path="/login"
             element={!user ? <LogIn /> : <Navigate to="/" />}
           />
           <Route
             path="/signup"
             element={!user ? <SignUp /> : <Navigate to="/" />}
+          />
+          <Route
+            path="/resetpassword/:token"
+            element={!user ? <ForgotResetPassword /> : <Navigate to="/" />}
+          />
+          <Route
+            path="/"
+            element={user ? <Home /> : <Navigate to="/login" />}
+          />
+          <Route
+            path="/invoices"
+            element={user ? <Invoice /> : <Navigate to="/login" />}
           />
           <Route
             path="/clients"
