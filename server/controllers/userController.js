@@ -2,6 +2,8 @@ const User = require("../models/userModel");
 const jwt = require("jsonwebtoken");
 const mongoose = require("mongoose");
 
+const { sendEmail } = require("../utils/emailHandler");
+
 const createToken = (_id) => {
   return jwt.sign({ _id }, process.env.JWTSECRET, { expiresIn: "1d" });
 };
@@ -35,7 +37,7 @@ const signUpUser = async (req, res) => {
   }
 };
 
-const resetUserPassword = async (req, res) => {
+const resetPassword = async (req, res) => {
   const { email, oldPassword, newPassword } = req.body;
 
   if (!email || !oldPassword || !newPassword) {
@@ -44,6 +46,51 @@ const resetUserPassword = async (req, res) => {
 
   try {
     const user = await User.resetPassword(email, oldPassword, newPassword);
+    const token = createToken(user._id);
+
+    res
+      .status(200)
+      .json({ email, token, message: "Password reset successful" });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
+const forgotPassword = async (req, res) => {
+  const { email } = req.body;
+
+  if (!email) {
+    return res.status(400).json({ error: "Email is required" });
+  }
+
+  try {
+    const token = await User.forgotPassword(email);
+
+    const resetUrl = `${req.protocol}://${req.get(
+      "host"
+    )}/resetpassword/${token}`;
+    const subject = "Password Reset Request";
+    const text = `You are receiving this because we received a requested the reset of the password for your account. Please click on the following link, or paste this into your browser to complete the process within one hour of receiving it: ${resetUrl}`;
+
+    await sendEmail("Password Reset", email, subject, text);
+
+    res.status(200).json({ message: "Password reset link sent to email" });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
+const resetPasswordWithToken = async (req, res) => {
+  const { token } = req.params;
+  const { password } = req.body;
+
+  if (!password) {
+    return res.status(400).json({ error: "New password is required" });
+  }
+
+  try {
+    await User.resetPassword(null, null, password, token);
+
     res.status(200).json({ message: "Password reset successful" });
   } catch (error) {
     res.status(400).json({ error: error.message });
@@ -127,5 +174,7 @@ module.exports = {
   getUser,
   deleteUser,
   updateUser,
-  resetUserPassword,
+  resetPassword,
+  forgotPassword,
+  resetPasswordWithToken,
 };

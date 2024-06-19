@@ -14,6 +14,8 @@ const userSchema = new Schema({
     type: String,
     required: true,
   },
+  resetPasswordToken: String,
+  resetPasswordExpires: Date,
 });
 
 userSchema.index({ email: 1 });
@@ -69,20 +71,31 @@ userSchema.statics.login = async function (email, password) {
 userSchema.statics.resetPassword = async function (
   email,
   oldPassword,
-  newPassword
+  newPassword,
+  token = null
 ) {
-  if (!email || !oldPassword || !newPassword) {
-    throw Error("All fields are required");
-  }
-  const user = await this.findOne({ email });
+  let user;
 
-  if (!user) {
-    throw Error("Invalid login credential");
-  }
-
-  const oldMatch = await bcrypt.compare(oldPassword, user.password);
-  if (!oldMatch) {
-    throw Error("Old password is incorrect");
+  if (token) {
+    user = await this.findOne({
+      resetPasswordToken: token,
+      resetPasswordExpires: { $gt: Date.now() },
+    });
+    if (!user) {
+      throw Error("Invalid or expired password reset token");
+    }
+  } else {
+    if (!email || !oldPassword || !newPassword) {
+      throw Error("All fields are required");
+    }
+    user = await this.findOne({ email });
+    if (!user) {
+      throw Error("Invalid login credential");
+    }
+    const oldMatch = await bcrypt.compare(oldPassword, user.password);
+    if (!oldMatch) {
+      throw Error("Old password is incorrect");
+    }
   }
 
   if (!validator.isStrongPassword(newPassword)) {
@@ -93,9 +106,31 @@ userSchema.statics.resetPassword = async function (
   const hash = await bcrypt.hash(newPassword, salt);
 
   user.password = hash;
+  user.resetPasswordToken = undefined;
+  user.resetPasswordExpires = undefined;
   await user.save();
 
   return user;
+};
+
+userSchema.statics.forgotPassword = async function (email) {
+  if (!email) {
+    throw Error("Email is required");
+  }
+
+  const user = await this.findOne({ email });
+
+  if (!user) {
+    throw Error("Invalid Email");
+  }
+
+  const token = Math.random().toString(36).slice(-8);
+
+  user.resetPasswordToken = token;
+  user.resetPasswordExpires = Date.now() + 3600000; // 1 hour
+  await user.save();
+
+  return token;
 };
 
 module.exports = mongoose.model("User", userSchema);
