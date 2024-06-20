@@ -6,7 +6,7 @@ const NavigationBar = () => {
   const { logout } = useLogout();
   const { user } = useAuthContext();
 
-  const handleClick = () => {
+  const handleLogout = () => {
     logout();
   };
 
@@ -32,7 +32,10 @@ const NavigationBar = () => {
             {user ? (
               <>
                 <span>{user.email}</span>
-                <button onClick={handleClick}>Log Out</button>
+                <Link to="/settings" className="material-symbols-outlined">
+                  manage_accounts
+                </Link>
+                <button onClick={handleLogout}>Log Out</button>
               </>
             ) : (
               <>
