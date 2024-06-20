@@ -1,10 +1,10 @@
 import { useState } from "react";
-import { useAuthContext } from "./useAuthContext";
+import { useNavigate } from "react-router-dom";
 
 export const useResetToken = () => {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(null);
-  const { dispatch } = useAuthContext();
+  const navigate = useNavigate();
 
   const resetToken = async (password, token) => {
     setIsLoading(true);
@@ -22,13 +22,8 @@ export const useResetToken = () => {
       setError(json.error);
     }
     if (response.ok) {
-      // save user to local storage
-      localStorage.setItem("user", JSON.stringify(json));
-
-      // update auth context
-      dispatch({ type: "LOGIN", payload: json });
-
       setIsLoading(false);
+      navigate(`/login`);
     }
   };
   return { resetToken, isLoading, error };
