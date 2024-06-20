@@ -1,8 +1,8 @@
-import Toast from "react-bootstrap/Toast";
 import { useEffect } from "react";
+import Toast from "react-bootstrap/Toast";
 import ToastContainer from "react-bootstrap/ToastContainer";
 
-const PasswordResetToast = ({ duration, text }) => {
+const ToastRedirect = ({ duration, text }) => {
   useEffect(() => {
     const timer = setTimeout(() => {
       window.location.href = "/login";
@@ -24,4 +24,4 @@ const PasswordResetToast = ({ duration, text }) => {
   );
 };
 
-export default PasswordResetToast;
+export default ToastRedirect;
