@@ -1,34 +1,47 @@
 import { useState } from "react";
 import { useResetToken } from "../hooks/useResetToken";
+import PasswordResetToast from "../components/Toast";
 
 const ForgotResetPassword = () => {
   const [password, setPassword] = useState("");
-  const { resetToken, error, isLoading } = useResetToken();
+  const { resetToken, isLoading } = useResetToken();
+  const [showToast, setShowToast] = useState(false);
+  const [submitError, setSubmitError] = useState(null);
 
   const token = window.location.pathname.split("/")[2];
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await resetToken(password, token);
+    try {
+      await resetToken(password, token);
+      setShowToast(true);
+      setSubmitError(null);
+    } catch (err) {
+      setSubmitError(err.message);
+      setShowToast(false);
+    }
   };
 
   return (
-    <form className="login" onSubmit={handleSubmit}>
-      <h3>New Password</h3>
-      <div className="input-box">
-        <input
-          type="password"
-          autoComplete="on"
-          onChange={(e) => setPassword(e.target.value)}
-          value={password}
-          id="userPassword"
-          placeholder="Password"
-        />
-        <span className="material-symbols-outlined">lock</span>
-      </div>
-      <button disabled={isLoading}>Login</button>
-      {error && <div className="error">{error}</div>}
-    </form>
+    <div>
+      {showToast && <PasswordResetToast duration={5000} />}
+      <form className="login" onSubmit={handleSubmit}>
+        <h3>New Password</h3>
+        <div className="input-box">
+          <input
+            type="password"
+            autoComplete="on"
+            onChange={(e) => setPassword(e.target.value)}
+            value={password}
+            id="userPassword"
+            placeholder="Password"
+          />
+          <span className="material-symbols-outlined">lock</span>
+        </div>
+        <button disabled={isLoading}>Login</button>
+        {submitError && <div className="error">{submitError}</div>}
+      </form>
+    </div>
   );
 };
 

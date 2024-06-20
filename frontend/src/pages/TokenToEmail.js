@@ -16,7 +16,6 @@ const TokenToEmail = () => {
     if (!response.ok) {
       console.log(json.error);
     }
-    console.log(response);
   };
 
   return (
