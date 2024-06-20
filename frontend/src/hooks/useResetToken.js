@@ -2,10 +2,8 @@ import { useState } from "react";
 
 export const useResetToken = () => {
   const [error, setError] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
 
   const resetToken = async (password, token) => {
-    setIsLoading(true);
     setError(null);
 
     try {
@@ -20,14 +18,12 @@ export const useResetToken = () => {
         throw new Error(json.error);
       }
 
-      setIsLoading(false);
       return json;
     } catch (error) {
-      setIsLoading(false);
       setError(error.message);
       throw error;
     }
   };
 
-  return { resetToken, isLoading, error };
+  return { resetToken, error };
 };

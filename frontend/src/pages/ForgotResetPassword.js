@@ -4,7 +4,7 @@ import PasswordResetToast from "../components/Toast";
 
 const ForgotResetPassword = () => {
   const [password, setPassword] = useState("");
-  const { resetToken, isLoading } = useResetToken();
+  const { resetToken } = useResetToken();
   const [showToast, setShowToast] = useState(false);
   const [submitError, setSubmitError] = useState(null);
 
@@ -16,6 +16,7 @@ const ForgotResetPassword = () => {
       await resetToken(password, token);
       setShowToast(true);
       setSubmitError(null);
+      setPassword("");
     } catch (err) {
       setSubmitError(err.message);
       setShowToast(false);
@@ -38,7 +39,7 @@ const ForgotResetPassword = () => {
           />
           <span className="material-symbols-outlined">lock</span>
         </div>
-        <button disabled={isLoading}>Login</button>
+        <button>Reset Password</button>
         {submitError && <div className="error">{submitError}</div>}
       </form>
     </div>
