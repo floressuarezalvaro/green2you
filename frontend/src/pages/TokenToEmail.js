@@ -28,14 +28,19 @@ const TokenToEmail = () => {
     }
   };
 
+  const handleToastClose = () => {
+    setShowToast(false);
+  };
+
   return (
     <div>
       {showToast && (
         <ToastRedirect
-          duration={5000}
+          duration={10000}
           text={
             "Email was sent! Use the link sent via email to help reset your password."
           }
+          onClose={handleToastClose}
         />
       )}
       <form className="login" onSubmit={handleSubmit}>

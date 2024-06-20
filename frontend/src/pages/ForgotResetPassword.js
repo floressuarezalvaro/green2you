@@ -31,6 +31,7 @@ const ForgotResetPassword = () => {
           text={
             "Your password was reset. Please sign in again! We will redirect you shortly!"
           }
+          redirectUrl={"/login"}
         />
       )}
       <form className="login" onSubmit={handleSubmit}>

@@ -2,13 +2,23 @@ import { useEffect } from "react";
 import Toast from "react-bootstrap/Toast";
 import ToastContainer from "react-bootstrap/ToastContainer";
 
-const ToastRedirect = ({ duration, text }) => {
+const ToastRedirect = ({
+  duration,
+  text,
+  redirectUrl = null,
+  onClose = null,
+}) => {
   useEffect(() => {
     const timer = setTimeout(() => {
-      window.location.href = "/login";
+      if (redirectUrl) {
+        window.location.href = redirectUrl;
+      } else if (onClose) {
+        onClose();
+      }
     }, duration);
+
     return () => clearTimeout(timer);
-  }, [duration]);
+  }, [duration, redirectUrl, onClose]);
 
   return (
     <ToastContainer position="top-end" className="p-3">
