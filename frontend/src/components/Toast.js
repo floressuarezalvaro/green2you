@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import Toast from "react-bootstrap/Toast";
 import ToastContainer from "react-bootstrap/ToastContainer";
 
-const ToastRedirect = ({
+const ToastMessage = ({
   duration,
   text,
   redirectUrl = null,
@@ -34,4 +34,4 @@ const ToastRedirect = ({
   );
 };
 
-export default ToastRedirect;
+export default ToastMessage;

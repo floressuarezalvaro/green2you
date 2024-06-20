@@ -1,5 +1,5 @@
 import { useState } from "react";
-import ToastRedirect from "../components/Toast";
+import ToastMessage from "../components/Toast";
 
 const TokenToEmail = () => {
   const [email, setEmail] = useState("");
@@ -35,7 +35,7 @@ const TokenToEmail = () => {
   return (
     <div>
       {showToast && (
-        <ToastRedirect
+        <ToastMessage
           duration={10000}
           text={
             "Email was sent! Use the link sent via email to help reset your password."

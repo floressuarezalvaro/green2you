@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useResetToken } from "../hooks/useResetToken";
-import ToastRedirect from "../components/Toast";
+import ToastMessage from "../components/Toast";
 
 const ForgotResetPassword = () => {
   const [password, setPassword] = useState("");
@@ -26,7 +26,7 @@ const ForgotResetPassword = () => {
   return (
     <div>
       {showToast && (
-        <ToastRedirect
+        <ToastMessage
           duration={5000}
           text={
             "Your password was reset. Please sign in again! We will redirect you shortly!"
