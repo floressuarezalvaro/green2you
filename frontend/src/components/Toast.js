@@ -21,9 +21,9 @@ const ToastMessage = ({
   }, [duration, redirectUrl, onClose]);
 
   return (
-    <ToastContainer position="top-end" className="p-3">
+    <ToastContainer position="top-start" className="p-3">
       <Toast>
-        <Toast.Header>
+        <Toast.Header closeButton={false}>
           <strong className="me-auto">Success</strong>
         </Toast.Header>
         <Toast.Body>

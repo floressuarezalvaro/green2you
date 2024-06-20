@@ -38,7 +38,7 @@ const Settings = () => {
     <div className="profile">
       {showToast && (
         <ToastMessage
-          duration={10000}
+          duration={3000}
           text={"Password was reset!"}
           onClose={handleToastClose}
         />
