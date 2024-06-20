@@ -25,7 +25,14 @@ const ForgotResetPassword = () => {
 
   return (
     <div>
-      {showToast && <PasswordResetToast duration={5000} />}
+      {showToast && (
+        <PasswordResetToast
+          duration={5000}
+          text={
+            "Your password was reset. Please sign in again! We will redirect you shortly!"
+          }
+        />
+      )}
       <form className="login" onSubmit={handleSubmit}>
         <h3>New Password</h3>
         <div className="input-box">
