@@ -35,7 +35,7 @@ const Settings = () => {
   };
 
   return (
-    <div className="profile">
+    <div>
       {showToast && (
         <ToastMessage
           duration={3000}
@@ -43,9 +43,8 @@ const Settings = () => {
           onClose={handleToastClose}
         />
       )}
-      <h3>Settings Page</h3>
-      <form onSubmit={handleSubmit}>
-        <h4>Reset Password</h4>
+      <form className="login" onSubmit={handleSubmit}>
+        <h3>Reset Password</h3>
 
         <div className="input-box">
           <input
