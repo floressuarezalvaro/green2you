@@ -446,3 +446,28 @@ nav button {
   font-size: 1em;
   margin-left: 10px;
 }
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  padding: 10px 0;
+  margin-left: 10px;
+  list-style: none;
+}
+
+.page-item {
+  margin: 0 5px;
+}
+
+.page-link {
+  padding: 8px 16px;
+  text-decoration: none;
+  color: #007bff;
+  cursor: pointer;
+}
+
+.page-item.active .page-link {
+  background-color: var(--primary);
+  color: white;
+  border-radius: 5px;
+}

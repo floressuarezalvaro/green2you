@@ -1,15 +1,18 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useClientsContext } from "../hooks/useClientsContext.js";
 import { useAuthContext } from "../hooks/useAuthContext";
 
 // components below
 import ClientDetails from "../components/ClientDetails";
 import ClientForm from "../components/forms/ClientForm.js";
+import Pagination from "../components/Pagination.js";
 
 // actual page
 const Client = () => {
   const { clients, dispatch } = useClientsContext();
   const { user, logout } = useAuthContext();
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 5;
 
   useEffect(() => {
     if (!user) return;
@@ -41,14 +44,26 @@ const Client = () => {
     }
   }, [dispatch, user, logout]);
 
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = clients.slice(indexOfFirstItem, indexOfLastItem);
+
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
   return (
     <div className="page-separation">
       <div className="clients">
         <h3>Clients Page</h3>
-        {clients &&
-          clients.map((client) => (
+        {currentItems &&
+          currentItems.map((client) => (
             <ClientDetails key={client._id} client={client} />
           ))}
+        <Pagination
+          itemsPerPage={itemsPerPage}
+          totalItems={clients.length}
+          paginate={paginate}
+          currentPage={currentPage}
+        />
       </div>
       <div className="form-container">
         <ClientForm />
