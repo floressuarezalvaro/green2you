@@ -7,7 +7,7 @@ import formatDistanceToNow from "date-fns/formatDistanceToNow";
 
 import ClientModal from "../components/modals/ClientModal";
 import InvoiceDetails from "../components/InvoiceDetails";
-import WarningDeleteModal from "../components/modals/WarningDeleteModal.js";
+import DeleteClientModal from "../components/modals/WarningDeleteClient.js";
 import Statements from "../components/Statements";
 import Pagination from "../components/Pagination.js";
 
@@ -135,7 +135,7 @@ const ClientDetails = ({ client }) => (
       {formatDistanceToNow(new Date(client.updatedAt), { addSuffix: true })}
     </p>
     <ClientModal key={`modal-${client._id}`} client={client} />
-    <WarningDeleteModal key={`delete-${client._id}`} client={client} />
+    <DeleteClientModal key={`delete-${client._id}`} client={client} />
   </div>
 );
 

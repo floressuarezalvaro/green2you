@@ -5,7 +5,7 @@ import { useClientsContext } from "../../hooks/useClientsContext";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 
-const ClientModal = ({ client }) => {
+const DeleteClientModal = ({ client }) => {
   const { user } = useAuthContext();
   const { dispatch } = useClientsContext();
   const navigate = useNavigate();
@@ -65,4 +65,4 @@ const ClientModal = ({ client }) => {
   );
 };
 
-export default ClientModal;
+export default DeleteClientModal;
