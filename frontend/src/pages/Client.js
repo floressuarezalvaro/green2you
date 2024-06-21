@@ -6,12 +6,14 @@ import { useAuthContext } from "../hooks/useAuthContext";
 import ClientDetails from "../components/ClientDetails";
 import ClientForm from "../components/forms/ClientForm.js";
 import Pagination from "../components/Pagination.js";
+import ClientSearch from "../components/forms/ClientSearch";
 
 // actual page
 const Client = () => {
   const { clients, dispatch } = useClientsContext();
   const { user, logout } = useAuthContext();
   const [currentPage, setCurrentPage] = useState(1);
+  const [searchTerm, setSearchTerm] = useState("");
   const itemsPerPage = 5;
 
   useEffect(() => {
@@ -48,9 +50,14 @@ const Client = () => {
     return <div>Loading...</div>;
   }
 
+  // Filter clients based on the search term
+  const filteredClients = clients.filter((client) =>
+    client.clientName.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = clients.slice(indexOfFirstItem, indexOfLastItem);
+  const currentItems = filteredClients.slice(indexOfFirstItem, indexOfLastItem);
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
@@ -58,14 +65,15 @@ const Client = () => {
     <div className="page-separation">
       <div className="clients">
         <h3>Clients Page</h3>
+        <ClientSearch setClientName={setSearchTerm} />
         {currentItems &&
           currentItems.map((client) => (
             <ClientDetails key={client._id} client={client} />
           ))}
-        {clients.length > itemsPerPage && (
+        {filteredClients.length > itemsPerPage && (
           <Pagination
             itemsPerPage={itemsPerPage}
-            totalItems={clients.length}
+            totalItems={filteredClients.length}
             paginate={paginate}
             currentPage={currentPage}
           />

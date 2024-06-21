@@ -3,6 +3,7 @@
   --primary: #1aac83;
   --secondary: white;
   --tertiary: black;
+  --quaternary: blue;
   --error: #e7195a;
 }
 
@@ -37,8 +38,7 @@ header .logo {
   margin-right: 20px;
   border-radius: 8px;
   box-sizing: border-box;
-  padding-left: 10px;
-  padding-right: 10px;
+  padding: 0 10px;
 }
 
 header a {
@@ -68,16 +68,8 @@ select {
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
-  padding: 10px;
-  margin-top: 10px;
-  margin-bottom: 20px;
-  width: 100%;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  box-sizing: border-box;
+  margin: 10px 0 20px 0;
   background: url('data:image/svg+xml;charset=US-ASCII,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="5" viewBox="0 0 10 5"><path fill="%23333" d="M0 0l5 5 5-5z"/></svg>') no-repeat right 15px center;
-  background-color: #fff;
-  background-size: 10px 5px;
 }
 
 select::-ms-expand {
@@ -359,8 +351,7 @@ form.login, form.signup {
 
 .login input, .signup input {
   padding: 10px 20px;
-  margin-top: 20px;
-  margin-bottom: 20px;
+  margin: 20px 0;
   width: 100%;
   border: 1px solid var(--primary);
   border-radius: 40px;
@@ -371,6 +362,29 @@ form.login, form.signup {
   text-align: center;
   margin-bottom: 20px;
   color: var(--secondary);
+}
+
+.search-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+form.search {
+  position: relative;
+  width: 100%;
+  max-width: 90%;
+  padding: 10px;
+}
+
+.search input {
+  padding: 10px 20px;
+  margin: 10px;
+  width: 100%;
+  border: 1px solid var(--primary);
+  border-radius: 40px;
+  box-sizing: border-box;
 }
 
 .input-box {
