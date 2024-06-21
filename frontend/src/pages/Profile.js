@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useInvoicesContext } from "../hooks/useInvoicesContext";
 import { useClientsContext } from "../hooks/useClientsContext";
@@ -9,12 +9,15 @@ import ClientModal from "../components/modals/ClientModal";
 import InvoiceDetails from "../components/InvoiceDetails";
 import DeleteClient from "../components/DeleteClient";
 import Statements from "../components/Statements";
+import Pagination from "../components/Pagination.js";
 
 const Profile = () => {
   const { clientId } = useParams();
   const { invoices, dispatch } = useInvoicesContext();
   const { clients } = useClientsContext();
   const { user } = useAuthContext();
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 5;
 
   useEffect(() => {
     const fetchInvoices = async () => {
@@ -44,6 +47,16 @@ const Profile = () => {
     fetchInvoices();
   }, [dispatch, user, clientId]);
 
+  if (!invoices) {
+    return <div>Loading...</div>;
+  }
+
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = invoices.slice(indexOfFirstItem, indexOfLastItem);
+
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
   const selectedClient =
     clients?.find((client) => client._id === clientId) || null;
 
@@ -60,14 +73,22 @@ const Profile = () => {
             <Statements client={selectedClient._id} />
           </div>
           <h5>Invoices</h5>
-          {invoices &&
-            invoices.map((invoice) => (
+          {currentItems &&
+            currentItems.map((invoice) => (
               <InvoiceDetails
                 key={invoice._id}
                 invoice={invoice}
                 hideClientName={true}
               />
             ))}
+          {invoices.length > itemsPerPage && (
+            <Pagination
+              itemsPerPage={itemsPerPage}
+              totalItems={invoices.length}
+              paginate={paginate}
+              currentPage={currentPage}
+            />
+          )}
         </>
       )}
     </div>
