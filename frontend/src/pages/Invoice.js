@@ -41,6 +41,10 @@ const Invoice = () => {
     }
   }, [dispatch, user, logout]);
 
+  if (!invoices) {
+    return <div>Loading...</div>;
+  }
+
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = invoices.slice(indexOfFirstItem, indexOfLastItem);

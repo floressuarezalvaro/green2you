@@ -44,6 +44,10 @@ const Client = () => {
     }
   }, [dispatch, user, logout]);
 
+  if (!clients) {
+    return <div>Loading...</div>;
+  }
+
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = clients.slice(indexOfFirstItem, indexOfLastItem);
