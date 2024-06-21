@@ -1,14 +1,17 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useInvoicesContext } from "../hooks/useInvoicesContext";
 import { useAuthContext } from "../hooks/useAuthContext";
 
 // components
 import InvoiceDetails from "../components/InvoiceDetails";
 import InvoiceForm from "../components/forms/InvoiceForm";
+import Pagination from "../components/Pagination.js";
 
 const Invoice = () => {
   const { invoices, dispatch } = useInvoicesContext();
   const { user, logout } = useAuthContext();
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 5;
 
   useEffect(() => {
     const fetchInvoices = async () => {
@@ -38,14 +41,28 @@ const Invoice = () => {
     }
   }, [dispatch, user, logout]);
 
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = invoices.slice(indexOfFirstItem, indexOfLastItem);
+
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
   return (
     <div className="page-separation">
       <div className="invoices">
         <h3>Invoices Page</h3>
-        {invoices &&
-          invoices.map((invoice) => (
+        {currentItems &&
+          currentItems.map((invoice) => (
             <InvoiceDetails key={invoice._id} invoice={invoice} />
           ))}
+        {invoices.length > itemsPerPage && (
+          <Pagination
+            itemsPerPage={itemsPerPage}
+            totalItems={invoices.length}
+            paginate={paginate}
+            currentPage={currentPage}
+          />
+        )}
       </div>
       <div className="form-container">
         <InvoiceForm />
