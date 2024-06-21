@@ -58,12 +58,14 @@ const Client = () => {
           currentItems.map((client) => (
             <ClientDetails key={client._id} client={client} />
           ))}
-        <Pagination
-          itemsPerPage={itemsPerPage}
-          totalItems={clients.length}
-          paginate={paginate}
-          currentPage={currentPage}
-        />
+        {clients.length > itemsPerPage && (
+          <Pagination
+            itemsPerPage={itemsPerPage}
+            totalItems={clients.length}
+            paginate={paginate}
+            currentPage={currentPage}
+          />
+        )}
       </div>
       <div className="form-container">
         <ClientForm />
