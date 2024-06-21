@@ -1,14 +1,12 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "../../hooks/useAuthContext";
 import { useInvoicesContext } from "../../hooks/useInvoicesContext";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 
-const ClientModal = ({ client }) => {
+const DeleteInvoiceModal = ({ invoice }) => {
   const { user } = useAuthContext();
-  const { dispatch } = useClientsContext();
-  const navigate = useNavigate();
+  const { dispatch } = useInvoicesContext();
 
   // for modal
   const [show, setShow] = useState(false);
@@ -21,7 +19,7 @@ const ClientModal = ({ client }) => {
       return;
     }
 
-    const response = await fetch("/clients/" + client._id, {
+    const response = await fetch("/invoices/" + invoice._id, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${user.token}`,
@@ -31,8 +29,7 @@ const ClientModal = ({ client }) => {
     const json = await response.json();
 
     if (response.ok) {
-      dispatch({ type: "DELETE_CLIENT", payload: json });
-      navigate(`/clients`);
+      dispatch({ type: "DELETE_INVOICE", payload: json });
     }
   };
 
@@ -44,12 +41,12 @@ const ClientModal = ({ client }) => {
 
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Warning Deleting Client</Modal.Title>
+          <Modal.Title>Warning Deleting Invoice</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <p>
-            This will permanently delete this user and all of their data. You
-            will not be able to un-do this action.
+            This will permanently delete this invoice. You will not be able to
+            un-do this action.
           </p>
         </Modal.Body>
         <Modal.Footer>
@@ -57,7 +54,7 @@ const ClientModal = ({ client }) => {
             Close
           </Button>
           <Button variant="danger" onClick={handleDelete}>
-            Delete User
+            Delete Invoice
           </Button>
         </Modal.Footer>
       </Modal>
@@ -65,4 +62,4 @@ const ClientModal = ({ client }) => {
   );
 };
 
-export default ClientModal;
+export default DeleteInvoiceModal;
