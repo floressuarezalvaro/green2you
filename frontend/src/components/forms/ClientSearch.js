@@ -11,13 +11,16 @@ const ClientSearch = ({ setClientName }) => {
   return (
     <div className="search-wrapper">
       <form className="search">
-        <input
-          type="text"
-          onChange={handleInputChange}
-          value={clientName}
-          id="clientNameField"
-          placeholder="Client Quick Search"
-        />
+        <div className="input-box">
+          <input
+            type="text"
+            onChange={handleInputChange}
+            value={clientName}
+            id="clientNameField"
+            placeholder="Client Quick Search"
+          />
+          <span className="material-symbols-outlined">person_search</span>
+        </div>
       </form>
     </div>
   );
