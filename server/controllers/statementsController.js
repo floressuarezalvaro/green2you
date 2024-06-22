@@ -62,9 +62,6 @@ const printStatement = async (req, res) => {
 const createStatement = async (req, res) => {
   const { clientId, issuedStartDate, issuedEndDate, creationMethod } = req.body;
 
-  if (!mongoose.Types.ObjectId.isValid(clientId)) {
-    return res.status(400).json({ error: "This is not a valid client id" });
-  }
   let emptyFields = [];
 
   if (!clientId) emptyFields.push("clientName");
@@ -76,6 +73,10 @@ const createStatement = async (req, res) => {
     return res
       .status(400)
       .json({ error: "Please fill in all the fields", emptyFields });
+  }
+
+  if (!mongoose.Types.ObjectId.isValid(clientId)) {
+    return res.status(400).json({ error: "This is not a valid client id" });
   }
 
   try {

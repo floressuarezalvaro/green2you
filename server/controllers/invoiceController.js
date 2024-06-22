@@ -45,14 +45,10 @@ const getInvoice = async (req, res) => {
 const createInvoice = async (req, res) => {
   const { date, clientId, amount, description } = req.body;
 
-  if (!mongoose.Types.ObjectId.isValid(clientId)) {
-    return res.status(400).json({ error: "This is not a valid client id" });
-  }
-
   let emptyFields = [];
 
-  if (!date) emptyFields.push("date");
   if (!clientId) emptyFields.push("clientName");
+  if (!date) emptyFields.push("date");
   if (!amount) emptyFields.push("amount");
   if (!description) emptyFields.push("description");
 
@@ -60,6 +56,10 @@ const createInvoice = async (req, res) => {
     return res
       .status(400)
       .json({ error: "Please fill in all the fields", emptyFields });
+  }
+
+  if (!mongoose.Types.ObjectId.isValid(clientId)) {
+    return res.status(400).json({ error: "This is not a valid client id" });
   }
 
   // Set the date to 5:30 PM PT
