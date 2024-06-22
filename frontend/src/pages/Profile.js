@@ -46,7 +46,7 @@ const Profile = () => {
     };
 
     fetchInvoices();
-  }, [dispatch, user, clientId]);
+  }, [dispatch, user, logout, clientId]);
 
   if (!invoices) {
     return <div>Loading...</div>;
