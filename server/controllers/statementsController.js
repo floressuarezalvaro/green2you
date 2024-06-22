@@ -104,6 +104,19 @@ const createStatement = async (req, res) => {
 };
 
 const getAllStatements = async (req, res) => {
+  const user_id = req.user._id;
+
+  try {
+    const statements = await Statement.find({ user_id }).sort({
+      createdAt: -1,
+    });
+    res.status(200).json(statements);
+  } catch (error) {
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+const getAllClientStatements = async (req, res) => {
   const { clientId } = req.params;
   const { month, year } = req.query;
 
@@ -197,6 +210,7 @@ module.exports = {
   printStatement,
   createStatement,
   getAllStatements,
+  getAllClientStatements,
   getStatement,
   deleteStatement,
   updateStatement,

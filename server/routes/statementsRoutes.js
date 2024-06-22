@@ -7,6 +7,7 @@ const {
   printStatement,
   createStatement,
   getAllStatements,
+  getAllClientStatements,
   getStatement,
   deleteStatement,
   updateStatement,
@@ -19,7 +20,8 @@ router.post("/", requireAPIKeyOrAuth, createStatement);
 
 router.use(requireAuth);
 
-router.get("/client/:clientId", getAllStatements);
+router.get("/", getAllStatements);
+router.get("/client/:clientId", getAllClientStatements);
 router.get("/:id", getStatement);
 router.delete("/:id", deleteStatement);
 router.put("/:id", updateStatement);
