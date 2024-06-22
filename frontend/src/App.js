@@ -7,6 +7,7 @@ import Settings from "./pages/Settings";
 import Invoice from "./pages/Invoice";
 import Client from "./pages/Client";
 import Profile from "./pages/Profile";
+import Statement from "./pages/Statement";
 import LogIn from "./pages/Login";
 import SignUp from "./pages/SignUp";
 import ForgotResetPassword from "./pages/ForgotResetPassword";
@@ -56,6 +57,10 @@ function App() {
           <Route
             path="/profile/:clientId"
             element={user ? <Profile /> : <Navigate to="/login" />}
+          />
+          <Route
+            path="/statements"
+            element={user ? <Statement /> : <Navigate to="/login" />}
           />
         </Routes>
       </div>

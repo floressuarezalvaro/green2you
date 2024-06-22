@@ -24,6 +24,7 @@ const NavigationBar = () => {
               <>
                 <Link to="/invoices">Invoices Page</Link>
                 <Link to="/clients">Clients Page</Link>
+                <Link to="/statements">Statements Page</Link>
               </>
             )}
           </div>
