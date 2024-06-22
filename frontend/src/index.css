@@ -166,7 +166,7 @@ select::-ms-expand {
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.05);
 }
 
-.statement, .no-statements {
+.statement, .no-statements, .no-invoices {
   display: flex;
   align-items: center;
   font-size: 0.9em;
@@ -179,6 +179,10 @@ select::-ms-expand {
 
 .no-statements {
   padding: 10px;
+}
+
+.no-invoices {
+  padding: 0 0 40px 60px;
 }
 
 .details {

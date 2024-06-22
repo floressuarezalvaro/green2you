@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+
+import { useAuthContext } from "../hooks/useAuthContext";
 import { useInvoicesContext } from "../hooks/useInvoicesContext";
 import { useClientsContext } from "../hooks/useClientsContext";
-import { useAuthContext } from "../hooks/useAuthContext";
 import formatDistanceToNow from "date-fns/formatDistanceToNow";
 
 import ClientModal from "../components/modals/ClientModal";
@@ -12,10 +13,10 @@ import Statements from "../components/Statements";
 import Pagination from "../components/Pagination.js";
 
 const Profile = () => {
+  const { user, logout } = useAuthContext();
   const { clientId } = useParams();
   const { invoices, dispatch } = useInvoicesContext();
   const { clients } = useClientsContext();
-  const { user } = useAuthContext();
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
 
@@ -32,7 +33,7 @@ const Profile = () => {
 
         if (!response.ok) {
           if (response.status === 401) {
-            // Handle unauthorized
+            logout();
           }
           return;
         }
@@ -66,30 +67,37 @@ const Profile = () => {
 
       {selectedClient && <ClientDetails client={selectedClient} />}
 
-      {selectedClient && invoices?.length > 0 && (
+      {selectedClient ? (
         <>
           <div className="statements-wrapper">
             <h5>Statements</h5>
             <Statements client={selectedClient._id} />
           </div>
           <h5>Invoices</h5>
-          {currentItems &&
-            currentItems.map((invoice) => (
-              <InvoiceDetails
-                key={invoice._id}
-                invoice={invoice}
-                hideClientName={true}
-              />
-            ))}
-          {invoices.length > itemsPerPage && (
-            <Pagination
-              itemsPerPage={itemsPerPage}
-              totalItems={invoices.length}
-              paginate={paginate}
-              currentPage={currentPage}
-            />
+          {invoices?.length > 0 ? (
+            <>
+              {currentItems.map((invoice) => (
+                <InvoiceDetails
+                  key={invoice._id}
+                  invoice={invoice}
+                  hideClientName={true}
+                />
+              ))}
+              {invoices.length > itemsPerPage && (
+                <Pagination
+                  itemsPerPage={itemsPerPage}
+                  totalItems={invoices.length}
+                  paginate={paginate}
+                  currentPage={currentPage}
+                />
+              )}
+            </>
+          ) : (
+            <p className="no-invoices">You have no invoices yet.</p>
           )}
         </>
+      ) : (
+        <p>Client not found.</p>
       )}
     </div>
   );
