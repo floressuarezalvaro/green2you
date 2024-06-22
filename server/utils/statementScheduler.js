@@ -30,6 +30,7 @@ const generateMonthlyStatements = async () => {
         clientId,
         issuedStartDate,
         issuedEndDate,
+        creationMethod: "auto",
       };
 
       const req = { body: statementData };

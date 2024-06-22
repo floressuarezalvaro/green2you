@@ -26,9 +26,8 @@ const StatementForm = () => {
       clientId,
       issuedStartDate,
       issuedEndDate,
+      creationMethod: "manual",
     };
-
-    console.log(statement);
 
     try {
       const response = await fetch("/statements", {
@@ -41,7 +40,6 @@ const StatementForm = () => {
       });
 
       const json = await response.json();
-      console.log(json);
 
       if (response.status === 401) {
         logout();
@@ -51,7 +49,6 @@ const StatementForm = () => {
       if (!response.ok) {
         setError(json.error);
         setEmptyFields(json.emptyFields || []);
-        console.log(json.emptyFields);
       }
       if (response.ok) {
         setClientId("");
@@ -94,7 +91,7 @@ const StatementForm = () => {
         type="date"
         onChange={(e) => setIssuedStartDate(e.target.value)}
         value={issuedStartDate}
-        className={emptyFields.includes("issueStartDate") ? "error" : ""}
+        className={emptyFields.includes("issuedStartDate") ? "error" : ""}
         id="issueStartDateField"
       />
 
@@ -103,7 +100,7 @@ const StatementForm = () => {
         type="date"
         onChange={(e) => setIssuedEndDate(e.target.value)}
         value={issuedEndDate}
-        className={emptyFields.includes("issueEndDate") ? "error" : ""}
+        className={emptyFields.includes("issuedEndDate") ? "error" : ""}
         id="issueEndDateField"
       />
 

@@ -27,6 +27,11 @@ const statementSchema = new Schema(
       type: Date,
       required: true,
     },
+    creationMethod: {
+      type: String,
+      required: true,
+      enum: ["auto", "manual"],
+    },
     user_id: {
       type: String,
       required: true,

@@ -60,10 +60,22 @@ const printStatement = async (req, res) => {
 };
 
 const createStatement = async (req, res) => {
-  const { clientId, issuedStartDate, issuedEndDate } = req.body;
+  const { clientId, issuedStartDate, issuedEndDate, creationMethod } = req.body;
 
   if (!mongoose.Types.ObjectId.isValid(clientId)) {
     return res.status(400).json({ error: "This is not a valid client id" });
+  }
+  let emptyFields = [];
+
+  if (!clientId) emptyFields.push("clientName");
+  if (!issuedStartDate) emptyFields.push("issuedStartDate");
+  if (!issuedEndDate) emptyFields.push("issuedEndDate");
+  if (!creationMethod) emptyFields.push("creationMethod");
+
+  if (emptyFields.length > 0) {
+    return res
+      .status(400)
+      .json({ error: "Please fill in all the fields", emptyFields });
   }
 
   try {
@@ -100,6 +112,7 @@ const createStatement = async (req, res) => {
       totalAmount,
       issuedStartDate: new Date(issuedStartDate),
       issuedEndDate: new Date(issuedEndDate),
+      creationMethod,
       user_id,
     });
 
