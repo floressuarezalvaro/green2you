@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { useAuthContext } from "../../hooks/useAuthContext";
+import { useClientsContext } from "../../hooks/useClientsContext";
+
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
@@ -7,6 +9,8 @@ import ToggleSwitch from "../../utils/ToggleSwitch";
 
 const ClientModal = ({ client }) => {
   const { user } = useAuthContext();
+  const { dispatch } = useClientsContext();
+
   // for modal
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
@@ -58,7 +62,8 @@ const ClientModal = ({ client }) => {
       setError(json.error);
     }
     if (response.ok) {
-      window.location.reload();
+      dispatch({ type: "UPDATE_CLIENT", payload: json });
+      handleClose();
     }
   };
 
@@ -91,6 +96,7 @@ const ClientModal = ({ client }) => {
                 value={updateClientForm.clientEmail}
                 onChange={onChange}
                 name="clientEmail"
+                disabled
               />
             </Form.Group>
 

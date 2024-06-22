@@ -12,10 +12,16 @@ export const statementsReducer = (state, action) => {
       return {
         statements: [action.payload, ...state.statements],
       };
-    case "UPDATE_STATEMENT":
+    case "DELETE_STATEMENT":
       return {
         statements: state.statements.filter(
           (statement) => statement._id !== action.payload._id
+        ),
+      };
+    case "UPDATE_STATEMENT":
+      return {
+        statements: state.statements.map((statement) =>
+          statement._id === action.payload._id ? action.payload : statement
         ),
       };
     default:
@@ -25,7 +31,7 @@ export const statementsReducer = (state, action) => {
 
 export const StatementsContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(statementsReducer, {
-    statements: null,
+    statements: [],
   });
 
   return (

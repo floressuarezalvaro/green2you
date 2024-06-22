@@ -1,12 +1,15 @@
 import { useState, useEffect } from "react";
 import { useClientsContext } from "../../hooks/useClientsContext";
+import { useInvoicesContext } from "../../hooks/useInvoicesContext";
 import { useAuthContext } from "../../hooks/useAuthContext";
+
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 
 const InvoiceModal = ({ invoice }) => {
   const { clients = [] } = useClientsContext();
+  const { dispatch } = useInvoicesContext();
   const [clientName, setClientName] = useState("");
   const { user } = useAuthContext();
   // for modal
@@ -63,7 +66,8 @@ const InvoiceModal = ({ invoice }) => {
       setError(json.error);
     }
     if (response.ok) {
-      window.location.reload();
+      dispatch({ type: "UPDATE_INVOICE", payload: json });
+      handleClose();
     }
   };
 

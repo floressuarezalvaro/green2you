@@ -18,10 +18,12 @@ export const invoicesReducer = (state, action) => {
           (invoice) => invoice._id !== action.payload._id
         ),
       };
-    // case "UPDATE_INVOICE":
-    //   return {
-    //     invoices: action.payload,
-    //   };
+    case "UPDATE_INVOICE":
+      return {
+        invoices: state.invoices.map((invoice) =>
+          invoice._id === action.payload._id ? action.payload : invoice
+        ),
+      };
     default:
       return state;
   }
@@ -29,7 +31,7 @@ export const invoicesReducer = (state, action) => {
 
 export const InvoicesContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(invoicesReducer, {
-    invoices: null,
+    invoices: [],
   });
 
   return (
