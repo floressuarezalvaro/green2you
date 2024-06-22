@@ -4,7 +4,7 @@ import formatDistanceToNow from "date-fns/formatDistanceToNow";
 import { format } from "date-fns";
 
 // import InvoiceModal from "./modals/InvoiceModal";
-// import DeleteInvoiceModal from "../components/modals/WarningDeleteInvoice";
+import DeleteStatementModal from "../components/modals/WarningDeleteStatement";
 // import { useStatementsContext } from "../hooks/useStatementsContext";
 
 const StatementDetails = ({ statement }) => {
@@ -56,8 +56,11 @@ const StatementDetails = ({ statement }) => {
           addSuffix: true,
         })}
       </p>
-      {/* <DeleteInvoiceModal key={`delete-${invoice._id}`} invoice={invoice} />
-      <InvoiceModal key={invoice._id} invoice={invoice} /> */}
+      <DeleteStatementModal
+        key={`delete-${statement._id}`}
+        statement={statement}
+      />
+      {/* <InvoiceModal key={invoice._id} invoice={invoice} />  */}
     </div>
   );
 };
