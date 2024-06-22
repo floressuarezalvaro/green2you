@@ -1,22 +1,65 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useAuthContext } from "../../hooks/useAuthContext";
+import { useClientsContext } from "../../hooks/useClientsContext";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 
 const EmailStatementModal = ({ statement }) => {
-  const { user } = useAuthContext();
+  const { user, logout } = useAuthContext();
+  const { clients = [] } = useClientsContext();
 
   // for modal
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
+  const [clientEmail, setClientEmail] = useState("");
+
+  useEffect(() => {
+    const client = clients.find((client) => client._id === statement.clientId);
+    if (client) {
+      setClientEmail(client.clientEmail);
+    }
+  }, [clients, statement.clientId]);
+
   const handleSend = async (e) => {
     e.preventDefault();
-    if (!user) {
+
+    if (!user || !clientEmail) {
       return;
     }
-    console.log("Clicked Send Email");
+
+    const emailDetails = {
+      clientEmail,
+      statementId: statement._id,
+    };
+
+    try {
+      const response = await fetch("/emails/manual-statement-email", {
+        method: "POST",
+        body: JSON.stringify(emailDetails),
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${user.token}`,
+        },
+      });
+
+      const json = await response.json();
+
+      if (response.status === 401) {
+        logout();
+        return;
+      }
+
+      if (!response.ok) {
+        console.error(json.error);
+      }
+      if (response.ok) {
+        console.log("Email sent successfully");
+      }
+    } catch (err) {
+      console.error("Failed to send email");
+    }
   };
 
   return (
@@ -30,7 +73,10 @@ const EmailStatementModal = ({ statement }) => {
           <Modal.Title>Send Email</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <p>This will send the statement to the client's email address.</p>
+          <p>
+            This will send the statement to the client's email address:{" "}
+            {clientEmail}
+          </p>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
