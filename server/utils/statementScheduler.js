@@ -13,7 +13,6 @@ const generateMonthlyStatements = async () => {
 
     for (const client of clients) {
       const clientId = client._id;
-      const user_id = client.user_id;
       const clientCycleDate = client.clientCycleDate;
 
       const issuedStartDate = moment
@@ -31,7 +30,6 @@ const generateMonthlyStatements = async () => {
         clientId,
         issuedStartDate,
         issuedEndDate,
-        user_id,
       };
 
       const req = { body: statementData };

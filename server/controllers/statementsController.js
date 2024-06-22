@@ -4,6 +4,7 @@ const fs = require("fs");
 
 const Statement = require("../models/statementModel");
 const Invoice = require("../models/invoiceModel");
+const Client = require("../models/clientModel");
 
 const green2YouLogo = (doc) => {
   doc.fontSize(16).text("Green2You", { align: "left" });
@@ -59,13 +60,21 @@ const printStatement = async (req, res) => {
 };
 
 const createStatement = async (req, res) => {
-  const { clientId, issuedStartDate, issuedEndDate, user_id } = req.body;
+  const { clientId, issuedStartDate, issuedEndDate } = req.body;
 
   if (!mongoose.Types.ObjectId.isValid(clientId)) {
     return res.status(400).json({ error: "This is not a valid client id" });
   }
 
   try {
+    const client = await Client.findById(clientId);
+
+    if (!client) {
+      return res.status(404).json({ error: "Client not found" });
+    }
+
+    const user_id = client.user_id;
+
     const invoices = await Invoice.find({
       clientId,
       date: { $gte: issuedStartDate, $lte: issuedEndDate },
