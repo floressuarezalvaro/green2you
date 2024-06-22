@@ -1,15 +1,22 @@
 import { useState, useEffect } from "react";
+import { useAuthContext } from "../hooks/useAuthContext";
 import { useClientsContext } from "../hooks/useClientsContext";
 import formatDistanceToNow from "date-fns/formatDistanceToNow";
 import { format } from "date-fns";
 
-// import InvoiceModal from "./modals/InvoiceModal";
-import DeleteStatementModal from "../components/modals/WarningDeleteStatement";
-// import { useStatementsContext } from "../hooks/useStatementsContext";
+import EmailStatementModal from "../components/modals/WarningEmailStatement";
+import DeleteStatementModal from "./modals/WarningDeleteStatement";
+import PrintStatement from "../utils/PrintStatement";
 
 const StatementDetails = ({ statement }) => {
+  const { user } = useAuthContext();
   const { clients = [] } = useClientsContext();
   const [clientName, setClientName] = useState("");
+
+  const handleClick = async (e, id) => {
+    e.preventDefault();
+    PrintStatement(user, id);
+  };
 
   useEffect(() => {
     if (statement.clientId && clients && clients.length > 0) {
@@ -60,7 +67,15 @@ const StatementDetails = ({ statement }) => {
         key={`delete-${statement._id}`}
         statement={statement}
       />
-      {/* <InvoiceModal key={invoice._id} invoice={invoice} />  */}
+      <div className="button-separator">
+        <EmailStatementModal key={statement._id} statement={statement} />
+        <button
+          onClick={(e) => handleClick(e, statement._id)}
+          className="material-symbols-outlined"
+        >
+          open_in_new
+        </button>
+      </div>
     </div>
   );
 };

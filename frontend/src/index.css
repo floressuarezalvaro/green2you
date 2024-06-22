@@ -3,7 +3,7 @@
   --primary: #1aac83;
   --secondary: white;
   --tertiary: black;
-  --quaternary: blue;
+  --quaternary: #0d6efd;
   --error: #e7195a;
 }
 
@@ -147,7 +147,7 @@ select::-ms-expand {
   background: #f1f1f1;
   padding: 3px;
   border-radius: 50%;
-  color: blue;
+  color: var(--primary);
   margin-left: 10px;
 }
 
@@ -489,4 +489,26 @@ nav button {
   background-color: var(--primary);
   color: white;
   border-radius: 5px;
+}
+
+.button-separator {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.button-separator .email-statement-modal-button,
+.button-separator button {
+  background: var(--quaternary);
+  border: 0;
+  color: var(--secondary);
+  padding: 10px 20px; 
+  cursor: pointer;
+  font-size: 16px; 
+  height: 40px; 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 10px;
+  border-radius: 8px;
+  box-sizing: border-box;
 }
