@@ -8,7 +8,7 @@ import EmailStatementModal from "../components/modals/WarningEmailStatement";
 import DeleteStatementModal from "./modals/WarningDeleteStatement";
 import PrintStatement from "../utils/PrintStatement";
 
-const StatementDetails = ({ statement }) => {
+const StatementDetails = ({ statement, handleShowToast }) => {
   const { user } = useAuthContext();
   const { clients = [] } = useClientsContext();
   const [clientName, setClientName] = useState("");
@@ -68,7 +68,11 @@ const StatementDetails = ({ statement }) => {
         statement={statement}
       />
       <div className="button-separator">
-        <EmailStatementModal key={statement._id} statement={statement} />
+        <EmailStatementModal
+          key={statement._id}
+          statement={statement}
+          handleShowToast={handleShowToast}
+        />
         <button
           onClick={(e) => handleClick(e, statement._id)}
           className="material-symbols-outlined"

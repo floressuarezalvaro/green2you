@@ -4,7 +4,7 @@ import { useClientsContext } from "../../hooks/useClientsContext";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 
-const EmailStatementModal = ({ statement }) => {
+const EmailStatementModal = ({ statement, handleShowToast }) => {
   const { user, logout } = useAuthContext();
   const { clients = [] } = useClientsContext();
 
@@ -55,7 +55,8 @@ const EmailStatementModal = ({ statement }) => {
         console.error(json.error);
       }
       if (response.ok) {
-        console.log("Email sent successfully");
+        handleClose();
+        handleShowToast();
       }
     } catch (err) {
       console.error("Failed to send email");
