@@ -1,13 +1,24 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useLogout } from "../hooks/useLogout";
 import { useAuthContext } from "../hooks/useAuthContext";
+import Settings from "./SettingsOffcanvas";
+import ToastMessage from "./Toast";
 
 const NavigationBar = () => {
   const { logout } = useLogout();
   const { user } = useAuthContext();
+  const [showToast, setShowToast] = useState(false);
 
   const handleLogout = () => {
     logout();
+  };
+
+  const handleShowToast = () => {
+    setShowToast(true);
+  };
+  const handleToastClose = () => {
+    setShowToast(false);
   };
 
   return (
@@ -33,9 +44,7 @@ const NavigationBar = () => {
             {user ? (
               <>
                 <span>{user.email}</span>
-                <Link to="/settings" className="material-symbols-outlined">
-                  manage_accounts
-                </Link>
+                <Settings onShowToast={handleShowToast} />
                 <button onClick={handleLogout}>Log Out</button>
               </>
             ) : (
@@ -47,6 +56,13 @@ const NavigationBar = () => {
           </div>
         </nav>
       </div>
+      {showToast && (
+        <ToastMessage
+          duration={3000}
+          text={"Password was Reset!"}
+          onClose={handleToastClose}
+        />
+      )}
     </header>
   );
 };
