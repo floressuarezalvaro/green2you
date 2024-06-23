@@ -40,41 +40,45 @@ function Settings({ onShowToast }) {
       </button>
 
       <Offcanvas show={show} onHide={handleClose} placement="end">
-        <Offcanvas.Header closeButton>
-          <Offcanvas.Title>Settings</Offcanvas.Title>
-        </Offcanvas.Header>
-        <Offcanvas.Body>
-          <div>
-            <form className="login" onSubmit={handleSubmit}>
-              <h3>Reset Password</h3>
+        <div className="offcanvas-wrapper">
+          <Offcanvas.Header closeButton>
+            <Offcanvas.Title>
+              <h3>Settings</h3>
+            </Offcanvas.Title>
+          </Offcanvas.Header>
+          <Offcanvas.Body>
+            <div>
+              <form className="offcanvasPassword" onSubmit={handleSubmit}>
+                <h5>Reset Password</h5>
 
-              <div className="input-box">
-                <input
-                  type="password"
-                  autoComplete="on"
-                  onChange={(e) => setOldPassword(e.target.value)}
-                  value={oldPassword}
-                  id="setOldPassword"
-                  placeholder="Old Password"
-                />
-                <span className="material-symbols-outlined">lock</span>
-              </div>
-              <div className="input-box">
-                <input
-                  type="password"
-                  autoComplete="on"
-                  onChange={(e) => setNewPassword(e.target.value)}
-                  value={newPassword}
-                  id="setNewPassword"
-                  placeholder="New Password"
-                />
-                <span className="material-symbols-outlined">lock</span>
-              </div>
-              <button>Reset Password</button>
-              {submitError && <div className="error">{submitError}</div>}
-            </form>
-          </div>
-        </Offcanvas.Body>
+                <div className="input-box">
+                  <input
+                    type="password"
+                    autoComplete="on"
+                    onChange={(e) => setOldPassword(e.target.value)}
+                    value={oldPassword}
+                    id="setOldPassword"
+                    placeholder="Old Password"
+                  />
+                  <span className="material-symbols-outlined">lock</span>
+                </div>
+                <div className="input-box">
+                  <input
+                    type="password"
+                    autoComplete="on"
+                    onChange={(e) => setNewPassword(e.target.value)}
+                    value={newPassword}
+                    id="setNewPassword"
+                    placeholder="New Password"
+                  />
+                  <span className="material-symbols-outlined">lock</span>
+                </div>
+                <button>Reset Password</button>
+                {submitError && <div className="error">{submitError}</div>}
+              </form>
+            </div>
+          </Offcanvas.Body>
+        </div>
       </Offcanvas>
     </>
   );

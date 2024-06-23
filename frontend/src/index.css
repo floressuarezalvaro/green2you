@@ -381,6 +381,14 @@ form.search {
   border-radius: 4px;
 }
 
+.offcanvas-header {
+  color: var(--primary);
+}
+
+.offcanvas-wrapper h5 {
+  color: var(--primary);
+}
+
 .create {
   background: var(--secondary);
   padding: 20px;
