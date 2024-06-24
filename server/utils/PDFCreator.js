@@ -31,6 +31,7 @@ const printStatement = async (req, res) => {
 
   try {
     const statement = await Statement.findById(id);
+
     const displayCreatedDate = new Date(statement.createdAt).toLocaleString(
       "en-US",
       {
@@ -60,6 +61,9 @@ const printStatement = async (req, res) => {
 
     // Client Contact Information
     green2YouLogo(doc);
+    const availableWidth =
+      doc.page.width - doc.page.margins.left - doc.page.margins.right;
+
     doc.text(selectedClient.clientName, { align: "left" });
     doc.text(selectedClient.clientStreetLineOne, { align: "left" });
     if (selectedClient.clientStreetLineTwo) {
@@ -85,9 +89,23 @@ const printStatement = async (req, res) => {
 
     // line end
 
-    // Header
-    doc.text("BILLING DETAIL");
-    doc.text("SERVICES");
+    // Header Line 1
+    doc.text("BILLING DETAIL", doc.page.margins.left, doc.y, {
+      continued: true,
+    });
+    doc
+      .font(font)
+      .text("Amount Due                Amount Due", { align: "right" });
+    doc.moveDown(0.2);
+
+    // Header Line 2
+
+    doc.text("SERVICES", doc.page.margins.left, doc.y, {
+      continued: true,
+    });
+    doc
+      .font(font)
+      .text("By 4/27                    After 4/27", { align: "right" });
     doc.moveDown(0.2);
 
     // line
@@ -100,37 +118,56 @@ const printStatement = async (req, res) => {
     doc.moveDown();
 
     // line end
-
     // Invoice Data
+    // Group invoices by amount and month
+    const groupedInvoices = {};
     statement.invoiceData.forEach((invoice) => {
-      doc.fontSize(10).text(`Date: ${new Date(invoice.date).toDateString()}`);
-      doc.text(`Amount: $${invoice.amount}`);
-      doc.text(`Description: ${invoice.description}`);
+      const month = new Date(invoice.date).toLocaleString("en-US", {
+        month: "long",
+      });
+      const key = `${month}-${invoice.amount}`;
+      if (!groupedInvoices[key]) {
+        groupedInvoices[key] = {
+          count: 0,
+          amount: invoice.amount,
+          total: 0,
+          month: month, // store the month
+          dates: [],
+        };
+      }
+      groupedInvoices[key].count += 1;
+      groupedInvoices[key].total += invoice.amount;
+      groupedInvoices[key].dates.push(new Date(invoice.date).getDate());
+    });
+
+    // Display grouped invoices
+    let totalAmount = 0;
+    Object.keys(groupedInvoices).forEach((key) => {
+      const group = groupedInvoices[key];
+      const dates = group.dates.join(", ");
+      doc.text(
+        `${group.count} X $${group.amount.toFixed(2)} = $${group.total.toFixed(
+          2
+        )} ${group.month} ${dates}`,
+        { align: "left" }
+      );
+      totalAmount += group.total;
       doc.moveDown();
     });
 
-    // Total Amount Headers
-    const dueByText = "Amount Due By April 27th";
-    const dueAfterText = "Amount Due After April 27th";
-
-    const dueByTextWidth = doc.widthOfString(dueByText, {
-      font: font,
+    // Create a string to show each group total amount
+    let totalString = "";
+    Object.keys(groupedInvoices).forEach((key, index) => {
+      const group = groupedInvoices[key];
+      if (index > 0) {
+        totalString += " + ";
+      }
+      totalString += `$${group.total.toFixed(2)}`;
     });
-    const dueAfterTextWidth = doc.widthOfString(dueAfterText, {
-      underline: true,
-    });
 
-    const dueAvailableWidth =
-      doc.page.width - doc.page.margins.left - doc.page.margins.right;
-
-    const xDue = dueAvailableWidth - (dueByTextWidth + dueAfterTextWidth - 65);
-
-    doc.text(dueByText, xDue, doc.y, {
-      continued: true,
-      underline: true,
-    });
-    doc.font(font).text(dueAfterText, { align: "right" });
-    doc.moveDown(1);
+    // Display grand total amount
+    doc.text(`${totalString} = $${totalAmount.toFixed(2)}`, { align: "left" });
+    doc.moveDown();
 
     // Total Amount Values
 
@@ -143,11 +180,8 @@ const printStatement = async (req, res) => {
     });
     const dueAfterAmountWidth = doc.widthOfString(dueAfterAmount);
 
-    const dueAmountAvailableWidth =
-      doc.page.width - doc.page.margins.left - doc.page.margins.right;
-
     const xAmountDue =
-      dueAmountAvailableWidth - (dueByAmountWidth + dueAfterAmountWidth + 40);
+      availableWidth - (dueByAmountWidth + dueAfterAmountWidth + 15);
 
     doc.text(dueByAmount, xAmountDue, doc.y, {
       continued: true,
@@ -175,7 +209,6 @@ const printStatement = async (req, res) => {
     doc.moveDown(0.5);
 
     // comment lines end
-
     const thankYouText = "Thank You.";
     const paymentText = "Mail the payment to my address.";
 
@@ -185,9 +218,6 @@ const printStatement = async (req, res) => {
     const paymentTextWidth = doc.widthOfString(paymentText, {
       font: font,
     });
-
-    const availableWidth =
-      doc.page.width - doc.page.margins.left - doc.page.margins.right;
 
     const x = availableWidth - (thankYouWidth + paymentTextWidth - 65);
 
