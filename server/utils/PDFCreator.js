@@ -22,6 +22,8 @@ const green2YouLogo = (doc) => {
 
 const printStatement = async (req, res) => {
   const { id } = req.params;
+  const font = "Helvetica";
+  const boldFont = "Helvetica-Bold";
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
     return res.status(400).json({ error: "This is not a valid id" });
@@ -56,6 +58,7 @@ const printStatement = async (req, res) => {
     // Pipe the PDF into the response
     doc.pipe(res);
 
+    // Client Contact Information
     green2YouLogo(doc);
     doc.text(selectedClient.clientName, { align: "left" });
     doc.text(selectedClient.clientStreetLineOne, { align: "left" });
@@ -71,29 +74,92 @@ const printStatement = async (req, res) => {
 
     doc.moveDown(1);
 
+    // line
     const topLineY = doc.y;
     doc
       .moveTo(doc.page.margins.left, topLineY)
       .lineTo(doc.page.width - doc.page.margins.right, topLineY)
       .stroke();
 
+    doc.moveDown(0.5);
+
+    // line end
+
+    // Header
+    doc.text("BILLING DETAIL");
+    doc.text("SERVICES");
+    doc.moveDown(0.2);
+
+    // line
+    const header1BottomLineY = doc.y;
+    doc
+      .moveTo(doc.page.margins.left, header1BottomLineY)
+      .lineTo(doc.page.width - doc.page.margins.right, header1BottomLineY)
+      .stroke();
+
     doc.moveDown();
 
+    // line end
+
+    // Invoice Data
     statement.invoiceData.forEach((invoice) => {
-      doc.fontSize(12).text(`Invoice ID: ${invoice._id}`);
-      doc.text(`Date: ${new Date(invoice.date).toDateString()}`);
-      doc.text(`Amount: ${invoice.amount}`);
+      doc.fontSize(10).text(`Date: ${new Date(invoice.date).toDateString()}`);
+      doc.text(`Amount: $${invoice.amount}`);
       doc.text(`Description: ${invoice.description}`);
       doc.moveDown();
     });
 
-    doc.fontSize(14).text(`Amount Due:`, { align: "right", underline: true });
-    doc.fontSize(12).text(`${statement.totalAmount}`, { align: "right" });
-    doc.moveDown();
+    // Total Amount Headers
+    const dueByText = "Amount Due By April 27th";
+    const dueAfterText = "Amount Due After April 27th";
 
-    doc.text("Comments:", { align: "left" });
+    const dueByTextWidth = doc.widthOfString(dueByText, {
+      font: font,
+    });
+    const dueAfterTextWidth = doc.widthOfString(dueAfterText, {
+      underline: true,
+    });
+
+    const dueAvailableWidth =
+      doc.page.width - doc.page.margins.left - doc.page.margins.right;
+
+    const xDue = dueAvailableWidth - (dueByTextWidth + dueAfterTextWidth - 65);
+
+    doc.text(dueByText, xDue, doc.y, {
+      continued: true,
+      underline: true,
+    });
+    doc.font(font).text(dueAfterText, { align: "right" });
     doc.moveDown(1);
 
+    // Total Amount Values
+
+    const dueByAmount = `$${statement.totalAmount}`;
+    const totalAmountAfter = statement.totalAmount + 5;
+    const dueAfterAmount = `$${totalAmountAfter}`;
+
+    const dueByAmountWidth = doc.widthOfString(dueByAmount, {
+      font: font,
+    });
+    const dueAfterAmountWidth = doc.widthOfString(dueAfterAmount);
+
+    const dueAmountAvailableWidth =
+      doc.page.width - doc.page.margins.left - doc.page.margins.right;
+
+    const xAmountDue =
+      dueAmountAvailableWidth - (dueByAmountWidth + dueAfterAmountWidth + 40);
+
+    doc.text(dueByAmount, xAmountDue, doc.y, {
+      continued: true,
+    });
+    doc.font(font).text(dueAfterAmount, { align: "right" });
+    doc.moveDown(1);
+
+    // Comments
+    doc.text("Comments:", doc.page.margins.left);
+    doc.moveDown(1);
+
+    // comment lines
     const commentLineY = doc.y;
     doc
       .moveTo(doc.page.margins.left, commentLineY)
@@ -108,14 +174,16 @@ const printStatement = async (req, res) => {
       .stroke();
     doc.moveDown(0.5);
 
+    // comment lines end
+
     const thankYouText = "Thank You.";
     const paymentText = "Mail the payment to my address.";
 
     const thankYouWidth = doc.widthOfString(thankYouText, {
-      font: "Helvetica-Bold",
+      font: boldFont,
     });
     const paymentTextWidth = doc.widthOfString(paymentText, {
-      font: "Helvetica",
+      font: font,
     });
 
     const availableWidth =
@@ -127,7 +195,7 @@ const printStatement = async (req, res) => {
       continued: true,
       align: "left",
     });
-    doc.font("Helvetica-Bold").text("Thank You.", { align: "right" });
+    doc.font(boldFont).text("Thank You.", { align: "right" });
 
     doc.end();
   } catch (error) {
