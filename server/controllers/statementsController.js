@@ -1,63 +1,8 @@
-const PDFDocument = require("pdfkit");
 const mongoose = require("mongoose");
-const fs = require("fs");
 
 const Statement = require("../models/statementModel");
 const Invoice = require("../models/invoiceModel");
 const Client = require("../models/clientModel");
-
-const green2YouLogo = (doc) => {
-  doc.fontSize(16).text("Green2You", { align: "left" });
-  doc.fontSize(12).text("6520 SW 190th Ave", { align: "left" });
-  doc.text("Beaverton, OR 97078", { align: "left" });
-  doc.moveDown();
-};
-
-const printStatement = async (req, res) => {
-  const { id } = req.params;
-
-  if (!mongoose.Types.ObjectId.isValid(id)) {
-    return res.status(400).json({ error: "This is not a valid id" });
-  }
-
-  try {
-    const statement = await Statement.findById(id);
-
-    if (!statement) {
-      return res.status(404).json({ error: "No statement found" });
-    }
-
-    // create doc
-    const doc = new PDFDocument();
-    res.setHeader("Content-Type", "application/pdf");
-    res.setHeader(
-      "Content-Disposition",
-      `attachment; filename=statement${id}.pdf`
-    );
-
-    // Pipe the PDF into the response
-    doc.pipe(res);
-
-    green2YouLogo(doc);
-    doc.fontSize(20).text("Statement", { align: "center" });
-    doc.moveDown();
-
-    statement.invoiceData.forEach((invoice) => {
-      doc.fontSize(12).text(`Invoice ID: ${invoice._id}`);
-      doc.text(`Date: ${new Date(invoice.date).toDateString()}`);
-      doc.text(`Amount: ${invoice.amount}`);
-      doc.text(`Description: ${invoice.description}`);
-      doc.moveDown();
-    });
-
-    doc.fontSize(14).text(`Total Amount:`, { align: "right", underline: true });
-    doc.fontSize(12).text(`${statement.totalAmount}`, { align: "right" });
-
-    doc.end();
-  } catch (error) {
-    res.status(500).json({ error: "Internal server error" });
-  }
-};
 
 const createStatement = async (req, res) => {
   const { clientId, issuedStartDate, issuedEndDate, creationMethod } = req.body;
@@ -230,7 +175,6 @@ const updateStatement = async (req, res) => {
 };
 
 module.exports = {
-  printStatement,
   createStatement,
   getAllStatements,
   getAllClientStatements,

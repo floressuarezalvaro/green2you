@@ -4,7 +4,6 @@ const requireAuth = require("../middleware/requireAuth");
 const requireAPIKeyOrAuth = require("../middleware/requireAPIKeyOrAuth");
 
 const {
-  printStatement,
   createStatement,
   getAllStatements,
   getAllClientStatements,
@@ -12,6 +11,8 @@ const {
   deleteStatement,
   updateStatement,
 } = require("../controllers/statementsController");
+
+const { printStatement } = require("../utils/PDFCreator");
 
 const router = express.Router();
 
