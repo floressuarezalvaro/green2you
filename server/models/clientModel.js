@@ -20,7 +20,7 @@ const clientSchema = new Schema(
     },
     clientStreetLineOne: {
       type: String,
-      required: false,
+      required: true,
     },
     clientStreetLineTwo: {
       type: String,
@@ -28,27 +28,27 @@ const clientSchema = new Schema(
     },
     clientCity: {
       type: String,
-      required: false,
+      required: true,
     },
     clientState: {
       type: String,
-      required: false,
+      required: true,
     },
     clientZip: {
       type: Number,
-      required: false,
+      required: true,
     },
     clientCycleDate: {
       type: Number,
-      required: false,
+      required: true,
     },
     clientWelcomeEmailEnabled: {
       type: Boolean,
-      required: false,
+      required: true,
     },
     clientAutoStatementsEnabled: {
       type: Boolean,
-      required: false,
+      required: true,
     },
     user_id: {
       type: String,

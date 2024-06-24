@@ -75,6 +75,12 @@ const createClient = async (req, res) => {
   if (!clientName) emptyFields.push("clientName");
   if (!clientEmail) emptyFields.push("clientEmail");
   if (!clientPhoneNumber) emptyFields.push("clientPhoneNumber");
+  if (!clientStreetLineOne) emptyFields.push("clientStreetLineOne");
+  if (!clientCity) emptyFields.push("clientCity");
+  if (!clientState) emptyFields.push("clientState");
+  if (!clientZip) emptyFields.push("clientZip");
+  if (!clientCycleDate) emptyFields.push("clientCycleDate");
+
   if (clientCycleDate !== "") {
     if (clientCycleDate < 1 || clientCycleDate > 31) {
       emptyFields.push("clientCycleDate");
@@ -83,7 +89,7 @@ const createClient = async (req, res) => {
 
   if (emptyFields.length > 0) {
     return res.status(400).json({
-      error: "Please fill in all the required fields",
+      error: "Please check the highlighted fields and try again.",
       emptyFields,
     });
   }

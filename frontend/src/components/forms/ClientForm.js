@@ -123,10 +123,11 @@ const ClientForm = () => {
         type="text"
         onChange={(e) => setClientStreetLineOne(e.target.value)}
         value={clientStreetLineOne}
+        className={emptyFields.includes("clientStreetLineOne") ? "error" : ""}
         id="clientStreetLineOneField"
       />
 
-      <label htmlFor="clientStreetLineTwoField">Address 2</label>
+      <label htmlFor="clientStreetLineTwoField">Address 2 (Optional)</label>
       <input
         type="text"
         onChange={(e) => setClientStreetLineTwo(e.target.value)}
@@ -139,6 +140,7 @@ const ClientForm = () => {
         type="text"
         onChange={(e) => setClientCity(e.target.value)}
         value={clientCity}
+        className={emptyFields.includes("clientCity") ? "error" : ""}
         id="clientCityField"
       />
 
@@ -147,6 +149,7 @@ const ClientForm = () => {
         type="text"
         onChange={(e) => setClientState(e.target.value)}
         value={clientState}
+        className={emptyFields.includes("clientState") ? "error" : ""}
         id="clientStateField"
       />
 
@@ -155,16 +158,17 @@ const ClientForm = () => {
         type="number"
         onChange={(e) => setClientZip(e.target.value)}
         value={clientZip}
+        className={emptyFields.includes("clientZip") ? "error" : ""}
         id="clientZipField"
       />
 
-      <label htmlFor="clientCycleDateField">Cycle Date</label>
+      <label htmlFor="clientCycleDateField">Cycle Date (1-31)</label>
       <input
         type="number"
         onChange={(e) => setClientCycleDate(e.target.value)}
         value={clientCycleDate}
-        id="clientCycleDateField"
         className={emptyFields.includes("clientCycleDate") ? "error" : ""}
+        id="clientCycleDateField"
       />
 
       <div className="toggle-switch-container">

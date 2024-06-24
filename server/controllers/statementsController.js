@@ -17,7 +17,10 @@ const createStatement = async (req, res) => {
   if (emptyFields.length > 0) {
     return res
       .status(400)
-      .json({ error: "Please fill in all the fields", emptyFields });
+      .json({
+        error: "Please check the highlighted fields and try again.",
+        emptyFields,
+      });
   }
 
   if (!mongoose.Types.ObjectId.isValid(clientId)) {
