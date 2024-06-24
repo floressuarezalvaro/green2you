@@ -186,7 +186,11 @@ const printStatement = async (req, res) => {
     doc.text(dueByAmount, xAmountDue, doc.y, {
       continued: true,
     });
-    doc.font(font).text(dueAfterAmount, { align: "right" });
+    if (statement.totalAmount == 0) {
+      doc.font(font).text("$0", { align: "right" });
+    } else {
+      doc.text(dueAfterAmount, { align: "right" });
+    }
     doc.moveDown(1);
 
     // Comments
