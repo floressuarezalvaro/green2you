@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const moment = require("moment-timezone");
 
 const Statement = require("../models/statementModel");
 const Invoice = require("../models/invoiceModel");
@@ -15,12 +16,10 @@ const createStatement = async (req, res) => {
   if (!creationMethod) emptyFields.push("creationMethod");
 
   if (emptyFields.length > 0) {
-    return res
-      .status(400)
-      .json({
-        error: "Please check the highlighted fields and try again.",
-        emptyFields,
-      });
+    return res.status(400).json({
+      error: "Please check the highlighted fields and try again.",
+      emptyFields,
+    });
   }
 
   if (!mongoose.Types.ObjectId.isValid(clientId)) {
@@ -55,12 +54,20 @@ const createStatement = async (req, res) => {
       user_id: invoice.user_id,
     }));
 
+    const pacificIssuedStartDate = moment
+      .tz(issuedStartDate, "America/Los_Angeles")
+      .set({ hour: 0, minute: 0, second: 0, millisecond: 0 });
+
+    const pacificIssuedEndDate = moment
+      .tz(issuedEndDate, "America/Los_Angeles")
+      .set({ hour: 23, minute: 59, second: 59, millisecond: 999 });
+
     const statement = await Statement.create({
       clientId,
       invoiceData,
       totalAmount,
-      issuedStartDate: new Date(issuedStartDate),
-      issuedEndDate: new Date(issuedEndDate),
+      issuedStartDate: pacificIssuedStartDate,
+      issuedEndDate: pacificIssuedEndDate,
       creationMethod,
       user_id,
     });
