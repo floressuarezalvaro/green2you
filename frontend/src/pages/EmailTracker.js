@@ -12,7 +12,7 @@ const EmailTable = () => {
     const fetchEmails = async () => {
       if (!user) return;
       try {
-        const response = await fetch("/emails", {
+        const response = await fetch("/emails?days=60", {
           headers: {
             Authorization: `Bearer ${user.token}`,
           },

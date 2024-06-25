@@ -7,7 +7,17 @@ const validator = require("validator");
 
 const getAllEmails = async (req, res) => {
   try {
-    const emails = await emailTracker.find({}).sort({ createdAt: -1 });
+    const days = parseInt(req.query.days);
+
+    let filter = {};
+
+    if (!isNaN(days)) {
+      const dateDaysAgo = new Date();
+      dateDaysAgo.setDate(dateDaysAgo.getDate() - days);
+      filter.createdAt = { $gte: dateDaysAgo };
+    }
+
+    const emails = await emailTracker.find(filter).sort({ createdAt: -1 });
     res.status(200).json(emails);
   } catch (error) {
     res.status(500).json({ error: "Internal server error" });
@@ -23,12 +33,10 @@ const sendManualStatementEmail = async (req, res) => {
   if (!statementId) emptyFields.push("statementId");
 
   if (emptyFields.length > 0) {
-    return res
-      .status(400)
-      .json({
-        error: "Please check the highlighted fields and try again.",
-        emptyFields,
-      });
+    return res.status(400).json({
+      error: "Please check the highlighted fields and try again.",
+      emptyFields,
+    });
   }
 
   if (!validator.isEmail(clientEmail)) {
