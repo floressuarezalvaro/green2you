@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { useClientsContext } from "../hooks/useClientsContext";
 import formatDistanceToNow from "date-fns/formatDistanceToNow";
-import { format } from "date-fns";
+import moment from "moment-timezone";
 
 import EmailStatementModal from "../components/modals/WarningEmailStatement";
 import DeleteStatementModal from "./modals/WarningDeleteStatement";
@@ -29,14 +29,15 @@ const StatementDetails = ({ statement, handleShowToast }) => {
     }
   }, [statement.clientId, clients]);
 
-  const formattedStartDate = format(
-    new Date(statement.issuedStartDate),
-    "MM/dd/yyyy"
-  );
-  const formattedEndDate = format(
-    new Date(statement.issuedEndDate),
-    "MM/dd/yyyy"
-  );
+  const startDate = moment
+    .tz(statement.issuedStartDate, "UTC")
+    .tz("America/Los_Angeles");
+  const endDate = moment
+    .tz(statement.issuedEndDate, "UTC")
+    .tz("America/Los_Angeles");
+
+  const formattedStartDate = startDate.format("MMMM D, YYYY");
+  const formattedEndDate = endDate.format("MMMM D, YYYY");
 
   return (
     <div className="details">

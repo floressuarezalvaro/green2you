@@ -32,6 +32,10 @@ const printStatement = async (req, res) => {
   try {
     const statement = await Statement.findById(id);
 
+    if (!statement) {
+      return res.status(404).json({ error: "No statement found" });
+    }
+
     const displayCreatedDate = new Date(statement.createdAt).toLocaleString(
       "en-US",
       {
