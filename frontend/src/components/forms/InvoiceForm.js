@@ -11,6 +11,7 @@ const InvoiceForm = () => {
   const { clients } = useClientsContext();
 
   const [clientId, setClientId] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
   const [date, setDate] = useState("");
   const [amount, setAmount] = useState("");
   const [description, setDescription] = useState("");
@@ -57,6 +58,7 @@ const InvoiceForm = () => {
       if (response.ok) {
         setDate("");
         setClientId("");
+        setSearchQuery("");
         setAmount("");
         setDescription("");
         setError(null);
@@ -76,6 +78,8 @@ const InvoiceForm = () => {
         clients={clients}
         clientId={clientId}
         setClientId={setClientId}
+        searchQuery={searchQuery}
+        setSearchQuery={setSearchQuery}
         emptyFields={emptyFields}
       />
 

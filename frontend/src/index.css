@@ -553,3 +553,35 @@ table {
   text-align: center;
   margin-bottom: 20px;
 }
+
+/* Select Client Search */
+.client-select {
+  position: relative;
+  width: 100%;
+}
+
+.client-select .dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: white;
+  border: 1px solid #ccc;
+  max-height: 150px;
+  overflow-y: auto;
+  z-index: 1;
+  padding-left: 0;
+}
+
+.client-select .dropdown-item {
+  padding: 8px;
+  cursor: pointer;
+}
+
+.client-select .dropdown-item:hover {
+  background-color: #f0f0f0;
+}
+
+.client-select input::placeholder {
+  color: var(--tertiary)
+}

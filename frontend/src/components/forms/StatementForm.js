@@ -11,6 +11,7 @@ const StatementForm = () => {
   const { clients } = useClientsContext();
 
   const [clientId, setClientId] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
   const [issuedStartDate, setIssuedStartDate] = useState("");
   const [issuedEndDate, setIssuedEndDate] = useState("");
   const [error, setError] = useState(null);
@@ -54,6 +55,7 @@ const StatementForm = () => {
       }
       if (response.ok) {
         setClientId("");
+        setSearchQuery("");
         setIssuedStartDate("");
         setIssuedEndDate("");
         setError(null);
@@ -73,6 +75,8 @@ const StatementForm = () => {
         clients={clients}
         clientId={clientId}
         setClientId={setClientId}
+        searchQuery={searchQuery}
+        setSearchQuery={setSearchQuery}
         emptyFields={emptyFields}
       />
 
