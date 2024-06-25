@@ -3,6 +3,8 @@ import { useInvoicesContext } from "../../hooks/useInvoicesContext";
 import { useAuthContext } from "../../hooks/useAuthContext";
 import { useClientsContext } from "../../hooks/useClientsContext";
 
+import ClientSelect from "../ClientSelect";
+
 const InvoiceForm = () => {
   const { dispatch } = useInvoicesContext();
   const { user, logout } = useAuthContext();
@@ -70,24 +72,12 @@ const InvoiceForm = () => {
     <form className="create" onSubmit={handleSubmit}>
       <h3>Add Invoice</h3>
 
-      <label htmlFor="clientIdField"> Invoice for Client</label>
-      <select
-        name="clientIdField"
-        id="clientIdField"
-        onChange={(e) => {
-          setClientId(e.target.value);
-        }}
-        value={clientId}
-        className={emptyFields.includes("clientName") ? "error" : ""}
-      >
-        <option value="">Select a client</option>
-        {clients &&
-          clients.map((client) => (
-            <option key={client._id} value={client._id}>
-              {client.clientName}
-            </option>
-          ))}
-      </select>
+      <ClientSelect
+        clients={clients}
+        clientId={clientId}
+        setClientId={setClientId}
+        emptyFields={emptyFields}
+      />
 
       <label htmlFor="dateField">Date of Service</label>
       <input

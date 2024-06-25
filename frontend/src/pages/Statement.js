@@ -2,9 +2,9 @@ import { useEffect, useState } from "react";
 import { useAuthContext } from "../hooks/useAuthContext.js";
 import { useStatementsContext } from "../hooks/useStatementsContext.js";
 
-// components
 import StatementForm from "../components/forms/StatementForm.js";
 import StatementDetails from "../components/StatementDetails.js";
+import ClientSelect from "../components/ClientSelect.js";
 import Pagination from "../components/Pagination.js";
 import ToastMessage from "../components/Toast.js";
 

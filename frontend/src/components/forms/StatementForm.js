@@ -3,6 +3,8 @@ import { useAuthContext } from "../../hooks/useAuthContext";
 import { useStatementsContext } from "../../hooks/useStatementsContext";
 import { useClientsContext } from "../../hooks/useClientsContext";
 
+import ClientSelect from "../ClientSelect";
+
 const StatementForm = () => {
   const { user, logout } = useAuthContext();
   const { dispatch } = useStatementsContext();
@@ -67,24 +69,12 @@ const StatementForm = () => {
     <form className="create" onSubmit={handleSubmit}>
       <h3>Manual Statement Add</h3>
 
-      <label htmlFor="clientIdField"> Statement for Client</label>
-      <select
-        name="clientIdField"
-        id="clientIdField"
-        onChange={(e) => {
-          setClientId(e.target.value);
-        }}
-        value={clientId}
-        className={emptyFields.includes("clientName") ? "error" : ""}
-      >
-        <option value="">Select a client</option>
-        {clients &&
-          clients.map((client) => (
-            <option key={client._id} value={client._id}>
-              {client.clientName}
-            </option>
-          ))}
-      </select>
+      <ClientSelect
+        clients={clients}
+        clientId={clientId}
+        setClientId={setClientId}
+        emptyFields={emptyFields}
+      />
 
       <label htmlFor="issueStartDateField">Issue Start Date</label>
       <input
