@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { useInvoicesContext } from "../hooks/useInvoicesContext";
 import { useAuthContext } from "../hooks/useAuthContext";
+import { useInvoicesContext } from "../hooks/useInvoicesContext";
 
 // components
 import InvoiceDetails from "../components/InvoiceDetails";
@@ -8,8 +8,8 @@ import InvoiceForm from "../components/forms/InvoiceForm";
 import Pagination from "../components/Pagination.js";
 
 const Invoice = () => {
-  const { invoices, dispatch } = useInvoicesContext();
   const { user, logout } = useAuthContext();
+  const { invoices, dispatch } = useInvoicesContext();
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
 

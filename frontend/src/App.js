@@ -12,6 +12,7 @@ import SignUp from "./pages/SignUp";
 import ForgotResetPassword from "./pages/ForgotResetPassword";
 import NavigationBar from "./components/Navbar";
 import TokenToEmail from "./pages/TokenToEmail";
+import EmailTable from "./pages/EmailTracker";
 
 function App() {
   const { user } = useAuthContext();
@@ -56,6 +57,10 @@ function App() {
           <Route
             path="/statements"
             element={user ? <Statement /> : <Navigate to="/login" />}
+          />
+          <Route
+            path="/emails"
+            element={user ? <EmailTable /> : <Navigate to="/login" />}
           />
         </Routes>
       </div>

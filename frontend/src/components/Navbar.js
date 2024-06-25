@@ -33,9 +33,10 @@ const NavigationBar = () => {
           <div className="nav-left-controls">
             {user && (
               <>
-                <Link to="/invoices">Invoices Page</Link>
-                <Link to="/clients">Clients Page</Link>
-                <Link to="/statements">Statements Page</Link>
+                <Link to="/invoices">Invoices</Link>
+                <Link to="/clients">Clients</Link>
+                <Link to="/statements">Statements</Link>
+                <Link to="/emails">Emails</Link>
               </>
             )}
           </div>
