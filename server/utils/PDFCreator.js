@@ -99,17 +99,29 @@ const printStatement = async (req, res) => {
     });
     doc
       .font(font)
-      .text("Amount Due                Amount Due", { align: "right" });
+      .text("Amount Due                 Amount Due", { align: "right" });
     doc.moveDown(0.2);
 
     // Header Line 2
 
+    // Calculate Amount Due Date
+    const issuedDate = new Date(statement.issuedEndDate);
+    const dueDate = new Date(issuedDate);
+    dueDate.setDate(issuedDate.getDate() + 28);
+    const dueMonth = String(dueDate.getMonth() + 1).padStart(2, "0");
+    const dueDay = String(dueDate.getDate()).padStart(2, "0");
+
+    const dueMonthDay = `${dueMonth}/${dueDay}`;
+
+    // print Amount Due Line
     doc.text("SERVICES", doc.page.margins.left, doc.y, {
       continued: true,
     });
     doc
       .font(font)
-      .text("By 4/27                    After 4/27", { align: "right" });
+      .text(`By ${dueMonthDay}                   After ${dueMonthDay}`, {
+        align: "right",
+      });
     doc.moveDown(0.2);
 
     // line
