@@ -67,6 +67,9 @@ const createClient = async (req, res) => {
     clientCycleDate,
     clientWelcomeEmailEnabled,
     clientAutoStatementsEnabled,
+    clientAutoStatementEmailDay,
+    clientPlanWeekly,
+    clientPlanBiweekly,
   } = req.body;
 
   // error handling
@@ -111,6 +114,9 @@ const createClient = async (req, res) => {
       clientCycleDate,
       clientWelcomeEmailEnabled,
       clientAutoStatementsEnabled,
+      clientAutoStatementEmailDay,
+      clientPlanWeekly,
+      clientPlanBiweekly,
       user_id,
     });
 

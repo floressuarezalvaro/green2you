@@ -48,7 +48,19 @@ const clientSchema = new Schema(
     },
     clientAutoStatementsEnabled: {
       type: Boolean,
-      required: true,
+      required: false,
+    },
+    clientAutoStatementEmailDay: {
+      type: Number,
+      required: false,
+    },
+    clientPlanWeekly: {
+      type: String,
+      required: false,
+    },
+    clientPlanBiweekly: {
+      type: String,
+      required: false,
     },
     user_id: {
       type: String,

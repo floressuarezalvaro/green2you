@@ -19,6 +19,10 @@ const ClientForm = () => {
     useState(false);
   const [clientAutoStatementsEnabled, setClientAutoStatementsEnabled] =
     useState(false);
+  const [clientAutoStatementEmailDay, setClientAutoStatementEmailDay] =
+    useState(false);
+  const [clientPlanWeekly, setClientPlanWeekly] = useState("");
+  const [clientPlanBiweekly, setClientPlanBiweekly] = useState("");
   const [error, setError] = useState(null);
   const [emptyFields, setEmptyFields] = useState([]);
 
@@ -42,6 +46,9 @@ const ClientForm = () => {
       clientCycleDate,
       clientWelcomeEmailEnabled,
       clientAutoStatementsEnabled,
+      clientAutoStatementEmailDay,
+      clientPlanWeekly,
+      clientPlanBiweekly,
     };
 
     try {
@@ -78,6 +85,9 @@ const ClientForm = () => {
         setClientCycleDate("");
         setClientWelcomeEmailEnabled(false);
         setClientAutoStatementsEnabled(false);
+        setClientAutoStatementEmailDay("");
+        setClientPlanWeekly("");
+        setClientPlanBiweekly("");
         setError(null);
         setEmptyFields([]);
         dispatch({ type: "CREATE_CLIENT", payload: json });
@@ -162,13 +172,41 @@ const ClientForm = () => {
         id="clientZipField"
       />
 
-      <label htmlFor="clientCycleDateField">Cycle Date (1-31)</label>
+      <label htmlFor="clientPlanWeeklyField">Weekly Plan</label>
+      <input
+        type="text"
+        onChange={(e) => setClientPlanWeekly(e.target.value)}
+        value={clientPlanWeekly}
+        id="clientPlanWeeklyField"
+      />
+
+      <label htmlFor="clientPlanBiweeklyField">Biweekly Plan</label>
+      <input
+        type="text"
+        onChange={(e) => setClientPlanBiweekly(e.target.value)}
+        value={clientPlanBiweekly}
+        id="clientPlanBiweeklyField"
+      />
+
+      <label htmlFor="clientCycleDateField">
+        Auto Statement Cycle Date (1-31)
+      </label>
       <input
         type="number"
         onChange={(e) => setClientCycleDate(e.target.value)}
         value={clientCycleDate}
         className={emptyFields.includes("clientCycleDate") ? "error" : ""}
         id="clientCycleDateField"
+      />
+
+      <label htmlFor="clientAutoStatementEmailDayField">
+        Auto Email Day (1-31)
+      </label>
+      <input
+        type="number"
+        onChange={(e) => setClientAutoStatementEmailDay(e.target.value)}
+        value={clientAutoStatementEmailDay}
+        id="clientAutoStatementEmailDayField"
       />
 
       <div className="toggle-switch-container">
@@ -192,7 +230,7 @@ const ClientForm = () => {
         </div>
       </div>
 
-      <div className="toggle-switch-container">
+      {/* <div className="toggle-switch-container">
         <label htmlFor="clientAutoStatementsEnabledField">
           Automatic Statements
         </label>
@@ -213,7 +251,7 @@ const ClientForm = () => {
             <span className="toggle-switch-switch"></span>
           </label>
         </div>
-      </div>
+      </div> */}
 
       <button>Create New Client</button>
       {error && <div className="error">{error}</div>}

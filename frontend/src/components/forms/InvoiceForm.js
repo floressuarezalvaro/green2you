@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useInvoicesContext } from "../../hooks/useInvoicesContext";
 import { useAuthContext } from "../../hooks/useAuthContext";
 import { useClientsContext } from "../../hooks/useClientsContext";
@@ -17,6 +17,19 @@ const InvoiceForm = () => {
   const [description, setDescription] = useState("");
   const [error, setError] = useState(null);
   const [emptyFields, setEmptyFields] = useState([]);
+  const [clientPlanWeekly, setClientPlanWeekly] = useState("");
+  const [clientPlanBiweekly, setClientPlanBiweekly] = useState("");
+
+  useEffect(() => {
+    const selectedClient = clients.find((client) => client._id === clientId);
+    if (selectedClient) {
+      setClientPlanWeekly(selectedClient.clientPlanWeekly);
+      setClientPlanBiweekly(selectedClient.clientPlanBiweekly);
+    } else {
+      setClientPlanWeekly("");
+      setClientPlanBiweekly("");
+    }
+  }, [clientId, clients]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -97,6 +110,11 @@ const InvoiceForm = () => {
         type="number"
         onChange={(e) => setAmount(e.target.value)}
         value={amount}
+        placeholder={
+          clientPlanWeekly || clientPlanBiweekly
+            ? `${clientPlanWeekly} or ${clientPlanBiweekly}`
+            : ""
+        }
         className={emptyFields.includes("amount") ? "error" : ""}
         id="amountField"
       />

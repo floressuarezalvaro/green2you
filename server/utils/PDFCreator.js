@@ -134,6 +134,23 @@ const printStatement = async (req, res) => {
     doc.moveDown();
 
     // line end
+
+    // Plan Type
+    const planText = [];
+
+    if (selectedClient.clientPlanWeekly) {
+      planText.push(selectedClient.clientPlanWeekly);
+    }
+
+    if (selectedClient.clientPlanBiweekly) {
+      planText.push(selectedClient.clientPlanBiweekly);
+    }
+
+    if (planText.length > 0) {
+      doc.text(`Plan: ${planText.join(" ")}`, doc.page.margins.left);
+      doc.moveDown();
+    }
+
     // Invoice Data
     // Group invoices by amount and month
     const groupedInvoices = {};

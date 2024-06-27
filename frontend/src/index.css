@@ -405,6 +405,10 @@ form.search {
   color: var(--primary);
 }
 
+#amountField::placeholder {
+  font-size: 12px;
+  color: var(--tertiary); 
+}
 .forgot-register {
   display: flex;
   justify-content: space-between;
