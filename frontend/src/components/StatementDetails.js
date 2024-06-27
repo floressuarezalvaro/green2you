@@ -36,8 +36,13 @@ const StatementDetails = ({ statement, handleShowToast }) => {
     .tz(statement.issuedEndDate, "UTC")
     .tz("America/Los_Angeles");
 
+  const createdDate = moment
+    .tz(statement.createdAt, "UTC")
+    .tz("America/Los_Angeles");
+
   const formattedStartDate = startDate.format("MMMM D, YYYY");
   const formattedEndDate = endDate.format("MMMM D, YYYY");
+  const formattedCreatedDate = createdDate.format("MMMM D, YYYY");
 
   return (
     <div className="details">
@@ -49,6 +54,10 @@ const StatementDetails = ({ statement, handleShowToast }) => {
       <p>
         <strong>Issued End Date: </strong>
         {formattedEndDate}
+      </p>
+      <p>
+        <strong>Statement Created Date: </strong>
+        {formattedCreatedDate}
       </p>
       <p>
         <strong>Total Amount(USD): </strong>
