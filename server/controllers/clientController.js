@@ -69,7 +69,7 @@ const createClient = async (req, res) => {
     clientCycleDate,
     clientWelcomeEmailEnabled,
     clientAutoStatementsEnabled,
-    clientAutoStatementEmailDay,
+    clientStatementCreateDate,
     clientPlanWeekly,
     clientPlanBiweekly,
   } = req.body;
@@ -85,10 +85,17 @@ const createClient = async (req, res) => {
   if (!clientState) emptyFields.push("clientState");
   if (!clientZip) emptyFields.push("clientZip");
   if (!clientCycleDate) emptyFields.push("clientCycleDate");
+  if (!clientStatementCreateDate) emptyFields.push("clientStatementCreateDate");
 
   if (clientCycleDate !== "") {
     if (clientCycleDate < 1 || clientCycleDate > 31) {
       emptyFields.push("clientCycleDate");
+    }
+  }
+
+  if (clientStatementCreateDate !== "") {
+    if (clientStatementCreateDate < 1 || clientStatementCreateDate > 31) {
+      emptyFields.push("clientStatementCreateDate");
     }
   }
 
@@ -116,7 +123,7 @@ const createClient = async (req, res) => {
       clientCycleDate,
       clientWelcomeEmailEnabled,
       clientAutoStatementsEnabled,
-      clientAutoStatementEmailDay,
+      clientStatementCreateDate,
       clientPlanWeekly,
       clientPlanBiweekly,
       user_id,
@@ -179,7 +186,13 @@ const updateClient = async (req, res) => {
 
   if (clientCycleDate !== "") {
     if (clientCycleDate < 1 || clientCycleDate > 31) {
-      return res.status(404).json({ error: "This is not a valid cycle date" });
+      return res.status(404).json({ error: "This is not a valid date" });
+    }
+  }
+
+  if (clientStatementCreateDate !== "") {
+    if (clientStatementCreateDate < 1 || clientStatementCreateDate > 31) {
+      return res.status(404).json({ error: "This is not a valid date" });
     }
   }
 

@@ -12,7 +12,7 @@ const green2YouLogo = (doc) => {
   });
   doc
     .fontSize(10)
-    .text("6520 SW 190th AVE, BEAVERTON, OR 97078", { align: "center" });
+    .text("6520 SW 190TH AVE, BEAVERTON, OR 97078", { align: "center" });
   doc.text("PROFESSIONAL LANDSCAPE MAINTENANCE", { align: "center" });
   doc.text("ALVARO (503)330-4596     SAUL(503)318-3089", { align: "center" });
   doc.text("Email: Saulflo@msn.com", { align: "center" });

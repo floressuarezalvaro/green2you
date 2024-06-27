@@ -9,7 +9,7 @@ const generateMonthlyStatements = async () => {
   console.log("Today is:", today);
 
   try {
-    const clients = await Client.find({ clientCycleDate: today });
+    const clients = await Client.find({ clientStatementCreateDate: today });
 
     for (const client of clients) {
       const clientId = client._id;
