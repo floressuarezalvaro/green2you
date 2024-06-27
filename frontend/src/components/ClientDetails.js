@@ -33,12 +33,24 @@ const ClientDetails = ({ client }) => {
         {client.clientPhoneNumber}
       </p>
       <p>
-        <strong>Cycle Date: </strong>
+        <strong>Weekly Plan: </strong>
+        {client.clientPlanWeekly}
+      </p>
+      <p>
+        <strong>Biweekly Plan: </strong>
+        {client.clientPlanBiweekly}
+      </p>
+      <p>
+        <strong>Cycle End Date: </strong>
         {client.clientCycleDate}
       </p>
       <p>
-        <strong>Automatic Statements: </strong>
-        {client.clientAutoStatementsEnabled ? "Yes" : "No"}
+        <strong>Statement Create Date: </strong>
+        {client.clientStatementCreateDate}
+      </p>
+      <p>
+        <strong>Auto Email Statements: </strong>
+        {client.clientAutoEmailStatementsEnabled ? "Yes" : "No"}
       </p>
       <p>
         Created:{" "}

@@ -14,15 +14,17 @@ const ClientForm = () => {
   const [clientCity, setClientCity] = useState("");
   const [clientState, setClientState] = useState("");
   const [clientZip, setClientZip] = useState("");
-  const [clientCycleDate, setClientCycleDate] = useState("");
-  const [clientWelcomeEmailEnabled, setClientWelcomeEmailEnabled] =
-    useState(false);
-  const [clientAutoStatementsEnabled, setClientAutoStatementsEnabled] =
-    useState(false);
-  const [clientStatementCreateDate, setClientStatementCreateDate] =
-    useState(false);
   const [clientPlanWeekly, setClientPlanWeekly] = useState("");
   const [clientPlanBiweekly, setClientPlanBiweekly] = useState("");
+  const [clientCycleDate, setClientCycleDate] = useState("");
+  const [clientStatementCreateDate, setClientStatementCreateDate] =
+    useState("");
+  const [clientWelcomeEmailEnabled, setClientWelcomeEmailEnabled] =
+    useState(false);
+  const [
+    clientAutoEmailStatementsEnabled,
+    setClientAutoEmailStatementsEnabled,
+  ] = useState(false);
   const [error, setError] = useState(null);
   const [emptyFields, setEmptyFields] = useState([]);
 
@@ -45,7 +47,7 @@ const ClientForm = () => {
       clientZip,
       clientCycleDate,
       clientWelcomeEmailEnabled,
-      clientAutoStatementsEnabled,
+      clientAutoEmailStatementsEnabled,
       clientStatementCreateDate,
       clientPlanWeekly,
       clientPlanBiweekly,
@@ -84,7 +86,7 @@ const ClientForm = () => {
         setClientZip("");
         setClientCycleDate("");
         setClientWelcomeEmailEnabled(false);
-        setClientAutoStatementsEnabled(false);
+        setClientAutoEmailStatementsEnabled(false);
         setClientStatementCreateDate("");
         setClientPlanWeekly("");
         setClientPlanBiweekly("");
@@ -232,7 +234,7 @@ const ClientForm = () => {
       </div>
 
       <div className="toggle-switch-container">
-        <label htmlFor="clientAutoStatementsEnabledField">
+        <label htmlFor="clientAutoEmailStatementsEnabledField">
           Auto Email Statements
         </label>
 
@@ -240,13 +242,15 @@ const ClientForm = () => {
           <input
             type="checkbox"
             className="toggle-switch-checkbox"
-            onChange={(e) => setClientAutoStatementsEnabled(e.target.checked)}
-            value={clientAutoStatementsEnabled}
-            id="clientAutoStatementsEnabledField"
+            onChange={(e) =>
+              setClientAutoEmailStatementsEnabled(e.target.checked)
+            }
+            value={clientAutoEmailStatementsEnabled}
+            id="clientAutoEmailStatementsEnabledField"
           />
           <label
             className="toggle-switch-label"
-            htmlFor="clientAutoStatementsEnabledField"
+            htmlFor="clientAutoEmailStatementsEnabledField"
           >
             <span className="toggle-switch-inner"></span>
             <span className="toggle-switch-switch"></span>

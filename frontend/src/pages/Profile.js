@@ -132,7 +132,7 @@ const ClientDetails = ({ client }) => (
     </p>
     <p>
       <strong>Automatic Statements: </strong>
-      {client.clientAutoStatementsEnabled ? "Yes" : "No"}
+      {client.clientAutoEmailStatementsEnabled ? "Yes" : "No"}
     </p>
     <p>
       Created:{" "}

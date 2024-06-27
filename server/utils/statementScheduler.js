@@ -38,7 +38,7 @@ const generateMonthlyStatements = async () => {
         status: (statusCode) => ({
           json: async (data) => {
             if (statusCode === 201) {
-              if (client.clientAutoStatementsEnabled === true) {
+              if (client.clientAutoEmailStatementsEnabled === true) {
                 await sendStatementByEmail(client.clientEmail, data._id);
               }
             } else {

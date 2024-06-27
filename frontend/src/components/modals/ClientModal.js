@@ -27,8 +27,11 @@ const ClientModal = ({ client }) => {
     clientCity: client.clientCity || "",
     clientState: client.clientState || "",
     clientZip: client.clientZip || "",
+    clientPlanWeekly: client.clientPlanWeekly || "",
+    clientPlanBiweekly: client.clientPlanBiweekly || "",
     clientCycleDate: client.clientCycleDate || "",
-    clientAutoStatementsEnabled: client.clientAutoStatementsEnabled || false,
+    clientStatementCreateDate: client.clientStatementCreateDate || "",
+    clientAutoEmailStatementsEnabled: client.clientWelcomeEmailEnabled || false,
   });
 
   const onChange = (e) => {
@@ -160,8 +163,28 @@ const ClientModal = ({ client }) => {
               />
             </Form.Group>
 
+            <Form.Group className="mb-3" controlId="clientPlanWeeklyField">
+              <Form.Label>Weekly Plan</Form.Label>
+              <Form.Control
+                type="text"
+                value={updateClientForm.clientPlanWeekly}
+                onChange={onChange}
+                name="clientPlanWeekly"
+              />
+            </Form.Group>
+
+            <Form.Group className="mb-3" controlId="clientPlanBiweeklyField">
+              <Form.Label>Biweekly Plan</Form.Label>
+              <Form.Control
+                type="text"
+                value={updateClientForm.clientPlanBiweekly}
+                onChange={onChange}
+                name="clientPlanBiweekly"
+              />
+            </Form.Group>
+
             <Form.Group className="mb-3" controlId="clientCycleDateField">
-              <Form.Label>Cycle Date</Form.Label>
+              <Form.Label>Cycle End Date (1-31)</Form.Label>
               <Form.Control
                 type="number"
                 value={updateClientForm.clientCycleDate}
@@ -172,14 +195,27 @@ const ClientModal = ({ client }) => {
 
             <Form.Group
               className="mb-3"
-              controlId="clientAutoStatementsEnabledField"
+              controlId="clientStatementCreateDateField"
+            >
+              <Form.Label>Statement Create Date (1-31)</Form.Label>
+              <Form.Control
+                type="number"
+                value={updateClientForm.clientStatementCreateDate}
+                onChange={onChange}
+                name="clientStatementCreateDate"
+              />
+            </Form.Group>
+
+            <Form.Group
+              className="mb-3"
+              controlId="clientAutoEmailStatementsEnabledField"
             >
               <Form.Label>Automatic Statements</Form.Label>
               <ToggleSwitch
-                checked={updateClientForm.clientAutoStatementsEnabled}
+                checked={updateClientForm.clientAutoEmailStatementsEnabled}
                 onChange={onChange}
-                name="clientAutoStatementsEnabled"
-                id="clientAutoStatementsEnabledField"
+                name="clientAutoEmailStatementsEnabled"
+                id="clientAutoEmailStatementsEnabledField"
               />
             </Form.Group>
 
