@@ -29,6 +29,14 @@ const createStatement = async (req, res) => {
   try {
     const client = await Client.findById(clientId);
 
+    const pacificIssuedStartDate = moment
+      .tz(issuedStartDate, "America/Los_Angeles")
+      .set({ hour: 0, minute: 0, second: 0, millisecond: 0 });
+
+    const pacificIssuedEndDate = moment
+      .tz(issuedEndDate, "America/Los_Angeles")
+      .set({ hour: 23, minute: 59, second: 59, millisecond: 999 });
+
     if (!client) {
       return res.status(404).json({ error: "Client not found" });
     }
@@ -37,7 +45,7 @@ const createStatement = async (req, res) => {
 
     const invoices = await Invoice.find({
       clientId,
-      date: { $gte: issuedStartDate, $lte: issuedEndDate },
+      date: { $gte: pacificIssuedStartDate, $lte: pacificIssuedEndDate },
     });
 
     const totalAmount = invoices.reduce(
@@ -53,14 +61,6 @@ const createStatement = async (req, res) => {
       clientId: invoice.clientId,
       user_id: invoice.user_id,
     }));
-
-    const pacificIssuedStartDate = moment
-      .tz(issuedStartDate, "America/Los_Angeles")
-      .set({ hour: 0, minute: 0, second: 0, millisecond: 0 });
-
-    const pacificIssuedEndDate = moment
-      .tz(issuedEndDate, "America/Los_Angeles")
-      .set({ hour: 23, minute: 59, second: 59, millisecond: 999 });
 
     const statement = await Statement.create({
       clientId,
