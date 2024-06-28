@@ -6,6 +6,7 @@ const userRoutes = require("./routes/userRoutes");
 const clientRoutes = require("./routes/clientRoutes");
 const emailRoutes = require("./routes/emailRoutes");
 const statementsRoutes = require("./routes/statementsRoutes");
+const balanceRoutes = require("./routes/balanceRoutes");
 const cron = require("node-cron");
 const generateMonthlyStatements = require("./utils/statementScheduler");
 
@@ -23,6 +24,7 @@ app.use("/clients", clientRoutes);
 app.use("/users", userRoutes);
 app.use("/emails", emailRoutes);
 app.use("/statements", statementsRoutes);
+app.use("/balances", balanceRoutes);
 
 app.use((err, req, res, next) => {
   console.error(err.stack);
