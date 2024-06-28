@@ -210,7 +210,7 @@ const ClientModal = ({ client }) => {
               className="mb-3"
               controlId="clientAutoEmailStatementsEnabledField"
             >
-              <Form.Label>Automatic Statements</Form.Label>
+              <Form.Label>Auto Email Statements</Form.Label>
               <ToggleSwitch
                 checked={updateClientForm.clientAutoEmailStatementsEnabled}
                 onChange={onChange}

@@ -1,4 +1,6 @@
 const Invoice = require("../models/invoiceModel");
+const Client = require("../models/clientModel");
+const Balance = require("../models/balanceModel");
 const mongoose = require("mongoose");
 const moment = require("moment-timezone");
 
@@ -53,12 +55,10 @@ const createInvoice = async (req, res) => {
   if (!description) emptyFields.push("description");
 
   if (emptyFields.length > 0) {
-    return res
-      .status(400)
-      .json({
-        error: "Please check the highlighted fields and try again.",
-        emptyFields,
-      });
+    return res.status(400).json({
+      error: "Please check the highlighted fields and try again.",
+      emptyFields,
+    });
   }
 
   if (!mongoose.Types.ObjectId.isValid(clientId)) {
@@ -73,6 +73,20 @@ const createInvoice = async (req, res) => {
   // add invoice to DB
   try {
     const user_id = req.user._id;
+    const client = await Client.findById(clientId);
+
+    if (!client) {
+      return res.status(404).json({ error: "Client not found" });
+    }
+
+    const balance = await Balance.findOne({ _id: clientId });
+
+    if (!balance) {
+      return res
+        .status(404)
+        .json({ error: "No balance found for the given client id" });
+    }
+
     const invoice = await Invoice.create({
       date: dateTime,
       clientId,
@@ -80,6 +94,8 @@ const createInvoice = async (req, res) => {
       description,
       user_id,
     });
+    const serviceDues = Number(balance.serviceDues) + Number(amount);
+    await Balance.updateOne({ _id: clientId }, { serviceDues: serviceDues });
     res.status(201).json(invoice);
   } catch (error) {
     res.status(500).json({ error: "Internal server error" });
@@ -99,6 +115,19 @@ const deleteInvoice = async (req, res) => {
     if (!invoice) {
       return res.status(404).json({ error: "No invoice found" });
     }
+
+    const clientId = invoice.clientId;
+    const balance = await Balance.findOne({ _id: clientId });
+
+    if (!balance) {
+      return res
+        .status(404)
+        .json({ error: "No balance found for the given client id" });
+    }
+
+    const serviceDues = Number(balance.serviceDues) - Number(invoice.amount);
+    await Balance.updateOne({ _id: clientId }, { serviceDues: serviceDues });
+
     res.status(200).json(invoice);
   } catch (error) {
     res.status(500).json({ error: "Internal server error" });
