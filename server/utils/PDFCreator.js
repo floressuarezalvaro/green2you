@@ -36,19 +36,14 @@ const printStatement = async (req, res) => {
       return res.status(404).json({ error: "No statement found" });
     }
 
-    const displayCreatedDate = new Date(statement.createdAt).toLocaleString(
-      "en-US",
-      {
+    const formatDate = (date) => {
+      return new Date(date).toLocaleString("en-US", {
         timeZone: "America/Los_Angeles",
         month: "2-digit",
         day: "2-digit",
         year: "numeric",
-      }
-    );
-
-    if (!statement) {
-      return res.status(404).json({ error: "No statement found" });
-    }
+      });
+    };
 
     const selectedClient = await Client.findById(statement.clientId);
 
@@ -77,7 +72,10 @@ const printStatement = async (req, res) => {
       `${selectedClient.clientCity}, ${selectedClient.clientState} ${selectedClient.clientZip}`,
       { align: "left" }
     );
+
+    displayCreatedDate = formatDate(statement.createdAt);
     doc.text(`Date: ${displayCreatedDate}`, { align: "left" });
+
     doc.text(selectedClient.clientEmail, { align: "left" });
 
     doc.moveDown(1);
@@ -136,6 +134,14 @@ const printStatement = async (req, res) => {
     // line end
 
     // Plan Type
+
+    displayIssuedStartDate = formatDate(statement.issuedStartDate);
+    displayIssuedEndDate = formatDate(statement.issuedEndDate);
+    doc.text(
+      `Opening/Closing Date: ${displayIssuedStartDate} - ${displayIssuedEndDate}`
+    );
+    doc.moveDown(0.2);
+
     const planText = [];
 
     if (selectedClient.clientPlanWeekly) {
