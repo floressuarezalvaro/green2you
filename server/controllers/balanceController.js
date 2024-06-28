@@ -58,7 +58,6 @@ const createBalance = async (req, res) => {
       newStatementBalance,
       pastDueAmount,
     });
-    console.log(createdBalance);
     res.status(201).json(createdBalance);
   } catch (error) {
     res.status(500).json({ error: "Internal server error" });
@@ -83,7 +82,49 @@ const getBalance = async (req, res) => {
   }
 };
 
+const updateBalance = async (req, res) => {
+  const { id } = req.params;
+
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(400).json({ error: "This is not a valid id" });
+  }
+
+  try {
+    const balance = await Balance.findOneAndUpdate(
+      { _id: id },
+      { ...req.body },
+      { new: true }
+    );
+    if (!balance) {
+      return res.status(404).json({ error: "No balance found" });
+    }
+    res.status(200).json(balance);
+  } catch (error) {
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+const deleteBalance = async (req, res) => {
+  const { id } = req.params;
+
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(400).json({ error: "This is not a valid id" });
+  }
+
+  try {
+    const balance = await Balance.findOneAndDelete({ _id: id });
+    if (!balance) {
+      return res.status(404).json({ error: "No invoice found" });
+    }
+    res.status(200).json(balance);
+  } catch (error) {
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
 module.exports = {
   createBalance,
   getBalance,
+  updateBalance,
+  deleteBalance,
 };
