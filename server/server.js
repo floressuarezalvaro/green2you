@@ -1,13 +1,15 @@
 require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
+const cron = require("node-cron");
+
 const invoiceRoutes = require("./routes/invoiceRoutes");
 const userRoutes = require("./routes/userRoutes");
 const clientRoutes = require("./routes/clientRoutes");
 const emailRoutes = require("./routes/emailRoutes");
 const statementsRoutes = require("./routes/statementsRoutes");
 const balanceRoutes = require("./routes/balanceRoutes");
-const cron = require("node-cron");
+const paymentRoutes = require("./routes/paymentRoutes");
 const generateMonthlyStatements = require("./utils/statementScheduler");
 
 const app = express();
@@ -25,6 +27,7 @@ app.use("/users", userRoutes);
 app.use("/emails", emailRoutes);
 app.use("/statements", statementsRoutes);
 app.use("/balances", balanceRoutes);
+app.use("/payments", paymentRoutes);
 
 app.use((err, req, res, next) => {
   console.error(err.stack);
