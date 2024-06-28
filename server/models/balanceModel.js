@@ -4,16 +4,28 @@ const Schema = mongoose.Schema;
 
 const balanceSchema = new Schema(
   {
+    previousStatementBalance: {
+      type: Number,
+      required: true,
+    },
+    paymentsOrCredits: {
+      type: Number,
+      required: true,
+    },
+    serviceDues: {
+      type: Number,
+      required: true,
+    },
+    newStatementBalance: {
+      type: Number,
+      required: true,
+    },
+    pastDueAmount: {
+      type: Number,
+      required: true,
+    },
     clientId: {
       type: String,
-      required: true,
-    },
-    balance: {
-      type: Number,
-      required: true,
-    },
-    amountDue: {
-      type: Number,
       required: true,
     },
   },

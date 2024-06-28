@@ -4,12 +4,38 @@ const Client = require("../models/clientModel");
 
 const createBalance = async (req, res) => {
   const { id } = req.params;
-  let { amountDue, balance } = req.body;
 
-  amountDue = amountDue ?? 0;
-  balance = balance ?? 0;
+  let {
+    previousStatementBalance,
+    paymentsOrCredits,
+    serviceDues,
+    newStatementBalance,
+    pastDueAmount,
+  } = req.body;
 
-  if (amountDue === "" || balance === "") {
+  previousStatementBalance = previousStatementBalance ?? 0;
+  paymentsOrCredits = paymentsOrCredits ?? 0;
+  serviceDues = serviceDues ?? 0;
+  newStatementBalance = newStatementBalance ?? 0;
+  pastDueAmount = pastDueAmount ?? 0;
+
+  if (
+    isNaN(previousStatementBalance) ||
+    isNaN(paymentsOrCredits) ||
+    isNaN(serviceDues) ||
+    isNaN(newStatementBalance) ||
+    isNaN(pastDueAmount)
+  ) {
+    return res.status(400).json({ error: "All fields must be valid numbers" });
+  }
+
+  if (
+    previousStatementBalance === "" ||
+    paymentsOrCredits === "" ||
+    serviceDues === "" ||
+    newStatementBalance === "" ||
+    pastDueAmount === ""
+  ) {
     return res.status(400).json({ error: "All fields are required" });
   }
 
@@ -26,9 +52,13 @@ const createBalance = async (req, res) => {
     const createdBalance = await Balance.create({
       _id: id,
       clientId: id,
-      amountDue,
-      balance,
+      previousStatementBalance,
+      paymentsOrCredits,
+      serviceDues,
+      newStatementBalance,
+      pastDueAmount,
     });
+    console.log(createdBalance);
     res.status(201).json(createdBalance);
   } catch (error) {
     res.status(500).json({ error: "Internal server error" });
