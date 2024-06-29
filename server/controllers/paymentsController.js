@@ -1,18 +1,18 @@
 const Payment = require("../models/paymentModel");
 const Client = require("../models/clientModel");
-const Invoice = require("../models/invoiceModel");
+const Statement = require("../models/statementModel");
 const Balance = require("../models/balanceModel");
 
 const mongoose = require("mongoose");
 
 const makePayment = async (req, res) => {
-  const { clientId, invoiceId, type, amount, checkDate, checkNumber, memo } =
+  const { clientId, statementId, type, amount, checkDate, checkNumber, memo } =
     req.body;
 
   let emptyFields = [];
 
   if (!clientId) emptyFields.push("clientName");
-  if (!invoiceId) emptyFields.push("invoiceId");
+  if (!statementId) emptyFields.push("statementId");
   if (!type) emptyFields.push("type");
   if (!amount) emptyFields.push("amount");
   if (!checkDate) emptyFields.push("checkDate");
@@ -29,8 +29,8 @@ const makePayment = async (req, res) => {
     return res.status(400).json({ error: "This is not a valid client id" });
   }
 
-  if (!mongoose.Types.ObjectId.isValid(invoiceId)) {
-    return res.status(400).json({ error: "This is not a valid invoice id" });
+  if (!mongoose.Types.ObjectId.isValid(statementId)) {
+    return res.status(400).json({ error: "This is not a valid statement id" });
   }
 
   try {
@@ -39,9 +39,9 @@ const makePayment = async (req, res) => {
       return res.status(404).json({ error: "Client not found" });
     }
 
-    const invoice = await Invoice.findById(invoiceId);
-    if (!invoice) {
-      return res.status(404).json({ error: "Invoice not found" });
+    const statement = await Statement.findById(statementId);
+    if (!statement) {
+      return res.status(404).json({ error: "Statement not found" });
     }
 
     const balance = await Balance.findOne({ _id: clientId });
@@ -54,7 +54,7 @@ const makePayment = async (req, res) => {
 
     const payment = await Payment.create({
       clientId,
-      invoiceId,
+      statementId,
       type,
       amount,
       checkDate,

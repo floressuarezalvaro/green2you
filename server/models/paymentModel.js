@@ -8,7 +8,7 @@ const paymentSchema = new Schema(
       type: String,
       required: true,
     },
-    invoiceId: {
+    statementId: {
       type: String,
       required: true,
     },
