@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const validator = require("validator");
+const Balance = require("./balanceModel");
 
 const Schema = mongoose.Schema;
 
@@ -82,6 +83,22 @@ clientSchema.statics.signupClient = async function (clientEmail) {
   if (exists) {
     throw Error("Email exists");
   }
+};
+
+clientSchema.statics.createClientBalance = async function (clientId) {
+  if (!mongoose.Types.ObjectId.isValid(clientId)) {
+    throw Error(`This is not a valid Client ID: ${clientId}`);
+  }
+
+  await Balance.create({
+    _id: clientId,
+    clientId: clientId,
+    previousStatementBalance: 0,
+    paymentsOrCredits: 0,
+    serviceDues: 0,
+    newStatementBalance: 0,
+    pastDueAmount: 0,
+  });
 };
 
 module.exports = mongoose.model("Client", clientSchema);

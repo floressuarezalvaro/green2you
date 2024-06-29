@@ -137,6 +137,9 @@ const createClient = async (req, res) => {
         `Hello ${clientName}. If you are receiving this, it's because you are now enrolled in Green2You's automated invoice service. Greetings! `
       );
     }
+
+    await Client.createClientBalance(client._id);
+
     res.status(201).json(client);
   } catch (error) {
     // Handle errors thrown by the signupClient method
