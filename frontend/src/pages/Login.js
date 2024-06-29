@@ -38,7 +38,6 @@ const LogIn = () => {
       </div>
       <div className="forgot-register">
         <a href="/forgotpassword">Forgot password?</a>
-        <a href="/signup">Register</a>
       </div>
       <button disabled={isLoading}>Login</button>
       {error && <div className="error">{error}</div>}

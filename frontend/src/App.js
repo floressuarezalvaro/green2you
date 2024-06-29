@@ -8,7 +8,6 @@ import Client from "./pages/Client";
 import Profile from "./pages/Profile";
 import Statement from "./pages/Statement";
 import LogIn from "./pages/Login";
-import SignUp from "./pages/SignUp";
 import ForgotResetPassword from "./pages/ForgotResetPassword";
 import NavigationBar from "./components/Navbar";
 import TokenToEmail from "./pages/TokenToEmail";
@@ -25,10 +24,6 @@ function App() {
           <Route
             path="/login"
             element={!user ? <LogIn /> : <Navigate to="/" />}
-          />
-          <Route
-            path="/signup"
-            element={!user ? <SignUp /> : <Navigate to="/" />}
           />
           <Route
             path="/forgotpassword"

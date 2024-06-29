@@ -51,7 +51,6 @@ const NavigationBar = () => {
             ) : (
               <>
                 <Link to="/login">Login</Link>
-                <Link to="/signup">Signup</Link>
               </>
             )}
           </div>
