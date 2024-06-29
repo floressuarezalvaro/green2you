@@ -1,6 +1,10 @@
 const express = require("express");
 
-const { makePayment } = require("../controllers/paymentsController");
+const {
+  makePayment,
+  getAllPayments,
+  getPaymentsByClient,
+} = require("../controllers/paymentsController");
 
 const requireAuth = require("../middleware/requireAuth");
 
@@ -10,5 +14,7 @@ const router = express.Router();
 router.use(requireAuth);
 
 router.post("/", makePayment);
+router.get("/", getAllPayments);
+router.get("/client/:clientId", getPaymentsByClient);
 
 module.exports = router;

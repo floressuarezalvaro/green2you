@@ -87,4 +87,38 @@ const makePayment = async (req, res) => {
   }
 };
 
-module.exports = { makePayment };
+const getAllPayments = async (req, res) => {
+  try {
+    const payments = await Payment.find().sort({ createdAt: -1 });
+    res.status(201).json(payments);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+const getPaymentsByClient = async (req, res) => {
+  const { clientId } = req.params;
+
+  if (!mongoose.Types.ObjectId.isValid(clientId)) {
+    return res.status(400).json({ error: "This is not a valid client id" });
+  }
+
+  try {
+    const client = await Client.findById(clientId);
+
+    if (!client) {
+      return res.status(404).json({ error: "Client not found" });
+    }
+
+    const payments = await Payment.find({ clientId: clientId }).sort({
+      createdAt: -1,
+    });
+    res.status(201).json(payments);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+module.exports = { makePayment, getAllPayments, getPaymentsByClient };
