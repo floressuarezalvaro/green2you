@@ -9,7 +9,7 @@ import formatDistanceToNow from "date-fns/formatDistanceToNow";
 import ClientModal from "../components/modals/ClientModal";
 import InvoiceDetails from "../components/InvoiceDetails";
 import DeleteClientModal from "../components/modals/WarningDeleteClient.js";
-import Statements from "../components/Statements";
+import Statements from "../components/StatementAccordian.js";
 import Pagination from "../components/Pagination.js";
 
 const Profile = () => {
