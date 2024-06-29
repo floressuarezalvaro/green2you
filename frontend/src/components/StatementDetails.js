@@ -6,6 +6,7 @@ import moment from "moment-timezone";
 
 import EmailStatementModal from "../components/modals/WarningEmailStatement";
 import DeleteStatementModal from "./modals/WarningDeleteStatement";
+import MakePayment from "./modals/PaymentModal";
 import PrintStatement from "../utils/PrintStatement";
 
 const StatementDetails = ({ statement, handleShowToast }) => {
@@ -80,6 +81,11 @@ const StatementDetails = ({ statement, handleShowToast }) => {
       <div className="button-separator">
         <EmailStatementModal
           key={statement._id}
+          statement={statement}
+          handleShowToast={handleShowToast}
+        />
+        <MakePayment
+          // key={statement._id}
           statement={statement}
           handleShowToast={handleShowToast}
         />
