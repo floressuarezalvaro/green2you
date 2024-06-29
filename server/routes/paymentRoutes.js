@@ -4,6 +4,8 @@ const {
   makePayment,
   getAllPayments,
   getPaymentsByClient,
+  getPaymentsById,
+  deletePayment,
 } = require("../controllers/paymentsController");
 
 const requireAuth = require("../middleware/requireAuth");
@@ -16,5 +18,7 @@ router.use(requireAuth);
 router.post("/", makePayment);
 router.get("/", getAllPayments);
 router.get("/client/:clientId", getPaymentsByClient);
+router.get("/:id", getPaymentsById);
+router.delete("/:id", deletePayment);
 
 module.exports = router;

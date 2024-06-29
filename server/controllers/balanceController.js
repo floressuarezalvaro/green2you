@@ -82,6 +82,16 @@ const getBalance = async (req, res) => {
   }
 };
 
+const getAllBalances = async (req, res) => {
+  try {
+    const balances = await Balance.find().sort({ createdAt: -1 });
+
+    res.status(200).json(balances);
+  } catch (error) {
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
 const updateBalance = async (req, res) => {
   const { id } = req.params;
 
@@ -125,6 +135,7 @@ const deleteBalance = async (req, res) => {
 module.exports = {
   createBalance,
   getBalance,
+  getAllBalances,
   updateBalance,
   deleteBalance,
 };

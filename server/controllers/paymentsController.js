@@ -121,4 +121,80 @@ const getPaymentsByClient = async (req, res) => {
   }
 };
 
-module.exports = { makePayment, getAllPayments, getPaymentsByClient };
+const getPaymentsById = async (req, res) => {
+  const { id } = req.params;
+
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(400).json({ error: "This is not a valid client id" });
+  }
+
+  try {
+    const payment = await Payment.findById(id);
+
+    if (!payment) {
+      return res.status(404).json({ error: "Payment not found" });
+    }
+
+    res.status(201).json(payment);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+const deletePayment = async (req, res) => {
+  const { id } = req.params;
+
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(400).json({ error: "This is not a valid client id" });
+  }
+
+  try {
+    const payment = await Payment.findByIdAndDelete(id);
+
+    if (!payment) {
+      return res.status(404).json({ error: "Payment not found" });
+    }
+
+    const clientId = payment.clientId;
+
+    if (!clientId) {
+      return res.status(404).json({ error: "Payment not found" });
+    }
+
+    const balance = await Balance.findOne({ _id: clientId });
+    const amount = payment.amount;
+    const type = payment.type;
+
+    if (type === "credit") {
+      const increaseBalance =
+        Number(balance.paymentsOrCredits) + Number(amount);
+      await Balance.updateOne(
+        { _id: clientId },
+        { paymentsOrCredits: increaseBalance }
+      );
+    }
+
+    if (type === "debit") {
+      const decreaseBalance =
+        Number(balance.paymentsOrCredits) - Number(amount);
+      await Balance.updateOne(
+        { _id: clientId },
+        { paymentsOrCredits: decreaseBalance }
+      );
+    }
+
+    res.status(201).json(payment);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+module.exports = {
+  makePayment,
+  getAllPayments,
+  getPaymentsByClient,
+  getPaymentsById,
+  deletePayment,
+};

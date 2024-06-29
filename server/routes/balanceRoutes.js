@@ -3,6 +3,7 @@ const express = require("express");
 const {
   createBalance,
   getBalance,
+  getAllBalances,
   updateBalance,
   deleteBalance,
 } = require("../controllers/balanceController");
@@ -16,6 +17,7 @@ router.use(requireAuth);
 
 router.post("/:id", createBalance);
 router.get("/:id", getBalance);
+router.get("/", getAllBalances);
 router.put("/:id", updateBalance);
 router.delete("/:id", deleteBalance);
 
