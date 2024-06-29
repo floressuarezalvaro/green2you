@@ -4,6 +4,7 @@ const moment = require("moment-timezone");
 const Statement = require("../models/statementModel");
 const Invoice = require("../models/invoiceModel");
 const Client = require("../models/clientModel");
+const Balance = require("../models/balanceModel");
 
 const createStatement = async (req, res) => {
   const { clientId, issuedStartDate, issuedEndDate, creationMethod } = req.body;
@@ -29,6 +30,16 @@ const createStatement = async (req, res) => {
   try {
     const client = await Client.findById(clientId);
 
+    if (!client) {
+      return res.status(404).json({ error: "Client not found" });
+    }
+
+    const balance = await Balance.findOne({ _id: clientId });
+
+    if (!balance) {
+      return res.status(404).json({ error: "Balance not found" });
+    }
+
     const pacificIssuedStartDate = moment
       .tz(issuedStartDate, "America/Los_Angeles")
       .set({ hour: 0, minute: 0, second: 0, millisecond: 0 });
@@ -36,10 +47,6 @@ const createStatement = async (req, res) => {
     const pacificIssuedEndDate = moment
       .tz(issuedEndDate, "America/Los_Angeles")
       .set({ hour: 23, minute: 59, second: 59, millisecond: 999 });
-
-    if (!client) {
-      return res.status(404).json({ error: "Client not found" });
-    }
 
     const user_id = client.user_id;
 
@@ -71,6 +78,25 @@ const createStatement = async (req, res) => {
       creationMethod,
       user_id,
     });
+
+    const previousStatementBalance = balance.newStatementBalance;
+
+    const updatedNewStatementBalance =
+      Number(balance.paymentsOrCredits) +
+      Number(previousStatementBalance) +
+      Number(balance.pastDueAmount) +
+      Number(balance.serviceDues);
+
+    await Balance.findOneAndUpdate(
+      { _id: clientId },
+      {
+        previousStatementBalance: previousStatementBalance,
+        newStatementBalance: updatedNewStatementBalance,
+        paymentsOrCredits: 0,
+        serviceDues: 0,
+        pastDueAmount: 0,
+      }
+    );
 
     res.status(201).json(statement);
   } catch (error) {
