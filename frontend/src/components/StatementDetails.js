@@ -65,8 +65,8 @@ const StatementDetails = ({ statement, handleShowToast }) => {
         {statement.totalAmount}
       </p>
       <p>
-        <strong>Service Description: </strong>
-        {statement.description}
+        <strong>Is Paid: </strong>
+        {statement.isPaid ? "Yes" : "No"}
       </p>
       <p>
         Created:{" "}
