@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useAuthContext } from "../../hooks/useAuthContext";
-import { useStatementsContext } from "../../hooks/useStatementsContext";
 
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
@@ -8,7 +7,6 @@ import Modal from "react-bootstrap/Modal";
 
 const MakePayment = ({ statement }) => {
   const { user, logout } = useAuthContext();
-  const { dispatch } = useStatementsContext();
 
   // for modal
   const [show, setShow] = useState(false);
@@ -57,8 +55,8 @@ const MakePayment = ({ statement }) => {
       console(json.error);
     }
     if (response.ok) {
-      dispatch({ type: "UPDATE_STATEMENT", payload: json });
       handleClose();
+      window.location.reload();
     }
   };
 

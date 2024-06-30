@@ -71,17 +71,6 @@ const createStatement = async (req, res) => {
       user_id: invoice.user_id,
     }));
 
-    const statement = await Statement.create({
-      clientId,
-      invoiceData,
-      totalAmount,
-      issuedStartDate: pacificIssuedStartDate,
-      issuedEndDate: pacificIssuedEndDate,
-      creationMethod,
-      user_id,
-      isPaid,
-    });
-
     const previousStatementBalance = balance.newStatementBalance;
 
     const updatedNewStatementBalance =
@@ -100,6 +89,17 @@ const createStatement = async (req, res) => {
         pastDueAmount: 0,
       }
     );
+
+    const statement = await Statement.create({
+      clientId,
+      invoiceData,
+      totalAmount,
+      issuedStartDate: pacificIssuedStartDate,
+      issuedEndDate: pacificIssuedEndDate,
+      creationMethod,
+      user_id,
+      isPaid,
+    });
 
     res.status(201).json(statement);
   } catch (error) {
