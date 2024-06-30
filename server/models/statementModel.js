@@ -32,6 +32,10 @@ const statementSchema = new Schema(
       required: true,
       enum: ["auto", "manual"],
     },
+    isPaid: {
+      type: Boolean,
+      required: true,
+    },
     user_id: {
       type: String,
       required: true,

@@ -65,10 +65,13 @@ const makePayment = async (req, res) => {
     if (type === "credit") {
       const decreaseBalance =
         Number(balance.paymentsOrCredits) - Number(amount);
+
       await Balance.updateOne(
         { _id: clientId },
         { paymentsOrCredits: decreaseBalance }
       );
+
+      await Statement.updateOne({ _id: statementId }, { isPaid: "true" });
     }
 
     if (type === "debit") {

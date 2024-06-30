@@ -110,6 +110,7 @@ const InvoiceModal = ({ invoice }) => {
                 value={updateInvoiceForm.amount}
                 onChange={onChange}
                 name="amount"
+                disabled
               />
             </Form.Group>
 
