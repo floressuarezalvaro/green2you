@@ -80,12 +80,12 @@ const StatementDetails = ({ statement, handleShowToast }) => {
       />
       <div className="button-separator">
         <EmailStatementModal
-          key={statement._id}
+          key={`email-${statement._id}`}
           statement={statement}
           handleShowToast={handleShowToast}
         />
         <MakePayment
-          // key={statement._id}
+          key={`payment-${statement._id}`}
           statement={statement}
           handleShowToast={handleShowToast}
         />
