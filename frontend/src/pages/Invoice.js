@@ -25,6 +25,7 @@ const Invoice = () => {
 
         if (!response.ok) {
           if (response.status === 401) {
+            logout();
           }
           return;
         }

@@ -3,7 +3,7 @@ import { useAuthContext } from "../hooks/useAuthContext";
 import Pagination from "../components/Pagination";
 
 const EmailTable = () => {
-  const { user } = useAuthContext();
+  const { user, logout } = useAuthContext();
   const [emails, setEmails] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
@@ -17,12 +17,13 @@ const EmailTable = () => {
             Authorization: `Bearer ${user.token}`,
           },
         });
-
         if (!response.ok) {
           if (response.status === 401) {
+            logout();
           }
           return;
         }
+
         const json = await response.json();
         setEmails(json);
       } catch (error) {
@@ -31,7 +32,7 @@ const EmailTable = () => {
     };
 
     fetchEmails();
-  }, [user]);
+  }, [user, logout]);
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
