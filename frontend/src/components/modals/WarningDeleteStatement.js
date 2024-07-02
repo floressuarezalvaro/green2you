@@ -5,10 +5,9 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 
 const DeleteStatementModal = ({ statement }) => {
-  const { user } = useAuthContext();
+  const { user, logout } = useAuthContext();
   const { dispatch } = useStatementsContext();
 
-  // for modal
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -16,7 +15,7 @@ const DeleteStatementModal = ({ statement }) => {
   const handleDelete = async (e) => {
     e.preventDefault();
     if (!user) {
-      return;
+      logout();
     }
 
     const response = await fetch("/statements/" + statement._id, {

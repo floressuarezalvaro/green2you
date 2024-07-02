@@ -1,32 +1,26 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useAuthContext } from "../../hooks/useAuthContext";
-import { useClientsContext } from "../../hooks/useClientsContext";
+
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 
-const EmailStatementModal = ({ statement, handleShowToast }) => {
+const EmailStatementModal = ({
+  statement,
+  handleShowToast,
+  clientName,
+  clientEmail,
+}) => {
   const { user, logout } = useAuthContext();
-  const { clients = [] } = useClientsContext();
 
-  // for modal
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-
-  const [clientEmail, setClientEmail] = useState("");
-
-  useEffect(() => {
-    const client = clients.find((client) => client._id === statement.clientId);
-    if (client) {
-      setClientEmail(client.clientEmail);
-    }
-  }, [clients, statement.clientId]);
 
   const handleSend = async (e) => {
     e.preventDefault();
 
     if (!user || !clientEmail) {
-      return;
+      logout();
     }
 
     const emailDetails = {
@@ -75,7 +69,7 @@ const EmailStatementModal = ({ statement, handleShowToast }) => {
         </Modal.Header>
         <Modal.Body>
           <p>
-            This will send the statement to the client's email address:{" "}
+            This will send the statement to {clientName}'s email address:{" "}
             {clientEmail}
           </p>
         </Modal.Body>

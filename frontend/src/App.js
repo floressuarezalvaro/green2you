@@ -1,7 +1,6 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 import { useAuthContext } from "./hooks/useAuthContext";
 
-// pages & components
 import Home from "./pages/Home";
 import Invoice from "./pages/Invoice";
 import Client from "./pages/Client";
@@ -83,7 +82,7 @@ function App() {
             }
           />
           <Route
-            path="/emails"
+            path="/logs"
             element={
               user && user.role === "admin" ? (
                 <EmailTable />

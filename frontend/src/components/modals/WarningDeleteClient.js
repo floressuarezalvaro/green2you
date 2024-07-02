@@ -6,11 +6,10 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 
 const DeleteClientModal = ({ client }) => {
-  const { user } = useAuthContext();
+  const { user, logout } = useAuthContext();
   const { dispatch } = useClientsContext();
   const navigate = useNavigate();
 
-  // for modal
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -18,7 +17,7 @@ const DeleteClientModal = ({ client }) => {
   const handleDelete = async (e) => {
     e.preventDefault();
     if (!user) {
-      return;
+      logout();
     }
 
     const response = await fetch("/clients/" + client._id, {

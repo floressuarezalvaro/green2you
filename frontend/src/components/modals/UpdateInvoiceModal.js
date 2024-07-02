@@ -1,23 +1,19 @@
-import { useState, useEffect } from "react";
-import { useClientsContext } from "../../hooks/useClientsContext";
-import { useInvoicesContext } from "../../hooks/useInvoicesContext";
+import { useState } from "react";
 import { useAuthContext } from "../../hooks/useAuthContext";
+import { useInvoicesContext } from "../../hooks/useInvoicesContext";
 
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 
-const InvoiceModal = ({ invoice }) => {
-  const { clients = [] } = useClientsContext();
+const UpdateInvoiceModal = ({ invoice, clientName }) => {
+  const { user, logout } = useAuthContext();
   const { dispatch } = useInvoicesContext();
-  const [clientName, setClientName] = useState("");
-  const { user } = useAuthContext();
-  // for modal
+
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  // states for updating
   const [error, setError] = useState(null);
   const [updateInvoiceForm, setUpdateInvoiceForm] = useState({
     date: invoice.date
@@ -26,15 +22,6 @@ const InvoiceModal = ({ invoice }) => {
     amount: invoice.amount,
     description: invoice.description,
   });
-
-  useEffect(() => {
-    if (invoice.clientId && clients && clients.length > 0) {
-      const client = clients.find((client) => client._id === invoice.clientId);
-      if (client) {
-        setClientName(client.clientName);
-      }
-    }
-  }, [invoice.clientId, clients]);
 
   const onChange = (e) => {
     setUpdateInvoiceForm({
@@ -47,8 +34,7 @@ const InvoiceModal = ({ invoice }) => {
     e.preventDefault();
 
     if (!user) {
-      setError("Login required");
-      return;
+      logout();
     }
 
     const response = await fetch("/invoices/" + invoice._id, {
@@ -87,7 +73,7 @@ const InvoiceModal = ({ invoice }) => {
               <Form.Label>Name of Client</Form.Label>
               <Form.Control
                 type="text"
-                placeholder={clientName || "Loading..."} // Handle loading state
+                placeholder={clientName || "Loading..."}
                 autoFocus
                 disabled
               />
@@ -140,4 +126,4 @@ const InvoiceModal = ({ invoice }) => {
   );
 };
 
-export default InvoiceModal;
+export default UpdateInvoiceModal;

@@ -5,10 +5,9 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 
 const DeleteInvoiceModal = ({ invoice }) => {
-  const { user } = useAuthContext();
+  const { user, logout } = useAuthContext();
   const { dispatch } = useInvoicesContext();
 
-  // for modal
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -16,7 +15,7 @@ const DeleteInvoiceModal = ({ invoice }) => {
   const handleDelete = async (e) => {
     e.preventDefault();
     if (!user) {
-      return;
+      logout();
     }
 
     const response = await fetch("/invoices/" + invoice._id, {

@@ -7,16 +7,14 @@ import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 import ToggleSwitch from "../../utils/ToggleSwitch";
 
-const ClientModal = ({ client }) => {
-  const { user } = useAuthContext();
+const UpdateClientModal = ({ client }) => {
+  const { user, logout } = useAuthContext();
   const { dispatch } = useClientsContext();
 
-  // for modal
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  // states for updating
   const [error, setError] = useState(null);
   const [updateClientForm, setUpdateClientForm] = useState({
     clientName: client.clientName || "",
@@ -46,8 +44,7 @@ const ClientModal = ({ client }) => {
     e.preventDefault();
 
     if (!user) {
-      setError("Login required");
-      return;
+      logout();
     }
 
     const response = await fetch("/clients/" + client._id, {
@@ -235,4 +232,4 @@ const ClientModal = ({ client }) => {
   );
 };
 
-export default ClientModal;
+export default UpdateClientModal;

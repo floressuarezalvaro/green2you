@@ -6,13 +6,14 @@ import moment from "moment-timezone";
 
 import EmailStatementModal from "../components/modals/WarningEmailStatement";
 import DeleteStatementModal from "./modals/WarningDeleteStatement";
-import MakePayment from "./modals/PaymentModal";
+import MakePaymentModal from "./modals/MakePaymentModal";
 import PrintStatement from "../utils/PrintStatement";
 
 const StatementDetails = ({ statement, handleShowToast }) => {
   const { user } = useAuthContext();
   const { clients = [] } = useClientsContext();
   const [clientName, setClientName] = useState("");
+  const [clientEmail, setClientEmail] = useState("");
 
   const handleClick = async (e, id) => {
     e.preventDefault();
@@ -26,6 +27,7 @@ const StatementDetails = ({ statement, handleShowToast }) => {
       );
       if (client) {
         setClientName(client.clientName);
+        setClientEmail(client.clientEmail);
       }
     }
   }, [statement.clientId, clients]);
@@ -87,10 +89,13 @@ const StatementDetails = ({ statement, handleShowToast }) => {
       <div className="button-separator">
         <EmailStatementModal
           key={`email-${statement._id}`}
+          clientName={clientName}
+          clientEmail={clientEmail}
           statement={statement}
           handleShowToast={handleShowToast}
         />
-        <MakePayment
+        <MakePaymentModal
+          clientName={clientName}
           key={`payment-${statement._id}`}
           statement={statement}
           handleShowToast={handleShowToast}

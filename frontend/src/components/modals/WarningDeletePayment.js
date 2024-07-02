@@ -5,7 +5,7 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 
 const DeletePaymentModal = ({ payment }) => {
-  const { user } = useAuthContext();
+  const { user, logout } = useAuthContext();
   const { dispatch } = usePaymentsContext();
 
   // for modal
@@ -16,7 +16,7 @@ const DeletePaymentModal = ({ payment }) => {
   const handleDelete = async (e) => {
     e.preventDefault();
     if (!user) {
-      return;
+      logout();
     }
 
     const response = await fetch("/payments/" + payment._id, {

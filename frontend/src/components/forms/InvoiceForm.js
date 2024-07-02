@@ -1,13 +1,13 @@
 import { useState, useEffect } from "react";
-import { useInvoicesContext } from "../../hooks/useInvoicesContext";
 import { useAuthContext } from "../../hooks/useAuthContext";
+import { useInvoicesContext } from "../../hooks/useInvoicesContext";
 import { useClientsContext } from "../../hooks/useClientsContext";
 
 import ClientSelect from "../ClientSelect";
 
 const InvoiceForm = () => {
-  const { dispatch } = useInvoicesContext();
   const { user, logout } = useAuthContext();
+  const { dispatch } = useInvoicesContext();
   const { clients } = useClientsContext();
 
   const [clientId, setClientId] = useState("");
@@ -35,8 +35,7 @@ const InvoiceForm = () => {
     e.preventDefault();
 
     if (!user) {
-      setError("Login required");
-      return;
+      logout();
     }
 
     const invoice = {

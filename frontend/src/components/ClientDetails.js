@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "../hooks/useAuthContext";
 import formatDistanceToNow from "date-fns/formatDistanceToNow";
 
-import ClientModal from "./modals/ClientModal";
+import UpdateClientModal from "./modals/UpdateClientModal";
 
 const ClientDetails = ({ client }) => {
   const { user } = useAuthContext();
@@ -56,7 +56,7 @@ const ClientDetails = ({ client }) => {
         Updated:{" "}
         {formatDistanceToNow(new Date(client.updatedAt), { addSuffix: true })}
       </p>
-      <ClientModal key={client._id} client={client} />
+      <UpdateClientModal key={client._id} client={client} />
       <span
         className="material-symbols-outlined"
         onClick={handleProfileRedirect}

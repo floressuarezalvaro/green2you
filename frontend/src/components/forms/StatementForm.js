@@ -21,8 +21,7 @@ const StatementForm = () => {
     e.preventDefault();
 
     if (!user) {
-      setError("Login required");
-      return;
+      logout();
     }
 
     const statement = {

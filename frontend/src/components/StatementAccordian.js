@@ -1,8 +1,9 @@
 import { useEffect } from "react";
+import { useAuthContext } from "../hooks/useAuthContext";
+import { useStatementsContext } from "../hooks/useStatementsContext";
+
 import Accordion from "react-bootstrap/Accordion";
 import PrintStatement from "../utils/PrintStatement";
-import { useStatementsContext } from "../hooks/useStatementsContext";
-import { useAuthContext } from "../hooks/useAuthContext";
 import moment from "moment-timezone";
 
 const getMonths = () => [
@@ -30,8 +31,8 @@ const getYears = (statements) => {
 };
 
 const StatementsList = ({ client }) => {
-  const { statements, dispatch } = useStatementsContext();
   const { user, logout } = useAuthContext();
+  const { statements, dispatch } = useStatementsContext();
 
   const handleClick = async (e, id) => {
     e.preventDefault();
@@ -55,7 +56,9 @@ const StatementsList = ({ client }) => {
   };
 
   useEffect(() => {
-    if (!user) return;
+    if (!user) {
+      logout();
+    }
 
     const fetchStatements = async () => {
       try {

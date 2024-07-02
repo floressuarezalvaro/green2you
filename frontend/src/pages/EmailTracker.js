@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useAuthContext } from "../hooks/useAuthContext";
+
 import Pagination from "../components/Pagination";
 
 const EmailTable = () => {
@@ -11,7 +12,9 @@ const EmailTable = () => {
 
   useEffect(() => {
     const fetchEmails = async () => {
-      if (!user) return;
+      if (!user) {
+        logout();
+      }
 
       try {
         const response = await fetch("/emails?days=60", {

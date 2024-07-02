@@ -35,11 +35,11 @@ const NavigationBar = () => {
           <div className="nav-left-controls">
             {user && user.role === "admin" && (
               <>
-                <Link to="/invoices">Invoices</Link>
                 <Link to="/clients">Clients</Link>
+                <Link to="/invoices">Invoices</Link>
                 <Link to="/statements">Statements</Link>
-                <Link to="/emails">Emails</Link>
                 <Link to="/payments">Payments</Link>
+                <Link to="/logs">Logs</Link>
               </>
             )}
             {user && user.role === "client" && (

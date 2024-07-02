@@ -1,10 +1,10 @@
 import { useState } from "react";
-import { useClientsContext } from "../../hooks/useClientsContext";
 import { useAuthContext } from "../../hooks/useAuthContext";
+import { useClientsContext } from "../../hooks/useClientsContext";
 
 const ClientForm = () => {
-  const { dispatch } = useClientsContext();
   const { user, logout } = useAuthContext();
+  const { dispatch } = useClientsContext();
 
   const [clientName, setClientName] = useState("");
   const [clientEmail, setClientEmail] = useState("");
@@ -32,8 +32,7 @@ const ClientForm = () => {
     e.preventDefault();
 
     if (!user) {
-      setError("Login required");
-      return;
+      logout();
     }
 
     const client = {

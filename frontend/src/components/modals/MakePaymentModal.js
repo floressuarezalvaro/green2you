@@ -5,10 +5,9 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 
-const MakePayment = ({ statement }) => {
+const MakePaymentModal = ({ statement, clientName }) => {
   const { user, logout } = useAuthContext();
 
-  // for modal
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -35,7 +34,6 @@ const MakePayment = ({ statement }) => {
     e.preventDefault();
 
     if (!user) {
-      setError("Login required");
       logout();
     }
 
@@ -73,6 +71,16 @@ const MakePayment = ({ statement }) => {
 
         <Modal.Body>
           <Form>
+            <Form.Group className="mb-3" controlId="amountField">
+              <Form.Label>Client Name</Form.Label>
+              <Form.Control
+                type="text"
+                value={clientName}
+                name="name"
+                disabled
+              />
+            </Form.Group>
+
             <Form.Group className="mb-3" controlId="amountField">
               <Form.Label>Amount</Form.Label>
               <Form.Control
@@ -131,4 +139,4 @@ const MakePayment = ({ statement }) => {
   );
 };
 
-export default MakePayment;
+export default MakePaymentModal;

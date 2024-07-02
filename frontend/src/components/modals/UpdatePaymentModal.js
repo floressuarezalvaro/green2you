@@ -8,17 +8,15 @@ import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 
 const UpdatePaymentModal = ({ payment }) => {
-  const { user } = useAuthContext();
+  const { user, logout } = useAuthContext();
   const { clients = [] } = useClientsContext();
   const { dispatch } = usePaymentsContext();
   const [clientName, setClientName] = useState("");
 
-  // for modal
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  // states for updating
   const [error, setError] = useState(null);
   const [updatePaymentForm, setUpdatePaymentForm] = useState({
     checkDate: payment.checkDate
@@ -49,8 +47,7 @@ const UpdatePaymentModal = ({ payment }) => {
     e.preventDefault();
 
     if (!user) {
-      setError("Login required");
-      return;
+      logout();
     }
 
     const response = await fetch("/payments/" + payment._id, {

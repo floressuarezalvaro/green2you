@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { useInvoicesContext } from "../hooks/useInvoicesContext";
 
-// components
 import InvoiceDetails from "../components/InvoiceDetails";
 import InvoiceForm from "../components/forms/InvoiceForm";
 import Pagination from "../components/Pagination.js";
@@ -15,7 +14,9 @@ const Invoice = () => {
 
   useEffect(() => {
     const fetchInvoices = async () => {
-      if (!user) return;
+      if (!user) {
+        logout();
+      }
 
       try {
         const response = await fetch("/invoices", {

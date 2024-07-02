@@ -6,7 +6,7 @@ import { useInvoicesContext } from "../hooks/useInvoicesContext";
 import { useClientsContext } from "../hooks/useClientsContext";
 import formatDistanceToNow from "date-fns/formatDistanceToNow";
 
-import ClientModal from "../components/modals/ClientModal";
+import UpdateClientModal from "../components/modals/UpdateClientModal";
 import InvoiceDetails from "../components/InvoiceDetails";
 import DeleteClientModal from "../components/modals/WarningDeleteClient.js";
 import Statements from "../components/StatementAccordian.js";
@@ -142,7 +142,7 @@ const ClientDetails = ({ client }) => (
       Updated:{" "}
       {formatDistanceToNow(new Date(client.updatedAt), { addSuffix: true })}
     </p>
-    <ClientModal key={`modal-${client._id}`} client={client} />
+    <UpdateClientModal key={`modal-${client._id}`} client={client} />
     <DeleteClientModal key={`delete-${client._id}`} client={client} />
   </div>
 );
