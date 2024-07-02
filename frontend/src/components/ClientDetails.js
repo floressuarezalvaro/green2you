@@ -8,16 +8,12 @@ const ClientDetails = ({ client }) => {
   const { user } = useAuthContext();
   const navigate = useNavigate();
 
-  const handleProfileRedirect = async (e) => {
+  const handleProfileRedirect = (e) => {
     e.preventDefault();
-    if (!user) {
-      return;
-    }
-
-    try {
+    if (user && client._id) {
       navigate(`/profile/${client._id}`);
-    } catch (error) {
-      console.error("Failed to log ");
+    } else {
+      console.error("User not logged in or client ID missing");
     }
   };
 
