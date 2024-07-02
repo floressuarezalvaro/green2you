@@ -74,6 +74,12 @@ const StatementDetails = ({ statement, handleShowToast }) => {
           addSuffix: true,
         })}
       </p>
+      <p>
+        Updated:{" "}
+        {formatDistanceToNow(new Date(statement.updatedAt), {
+          addSuffix: true,
+        })}
+      </p>
       <DeleteStatementModal
         key={`delete-${statement._id}`}
         statement={statement}

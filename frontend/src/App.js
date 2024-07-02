@@ -12,6 +12,7 @@ import ForgotResetPassword from "./pages/ForgotResetPassword";
 import NavigationBar from "./components/Navbar";
 import TokenToEmail from "./pages/TokenToEmail";
 import EmailTable from "./pages/EmailTracker";
+import Payment from "./pages/Payment";
 
 function App() {
   const { user } = useAuthContext();
@@ -66,6 +67,16 @@ function App() {
             element={
               user && user.role === "admin" ? (
                 <Statement />
+              ) : (
+                <Navigate to="/login" />
+              )
+            }
+          />
+          <Route
+            path="/payments"
+            element={
+              user && user.role === "admin" ? (
+                <Payment />
               ) : (
                 <Navigate to="/login" />
               )

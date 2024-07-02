@@ -8,6 +8,7 @@ import { ClientsContextProvider } from "./context/ClientContext";
 import { InvoicesContextProvider } from "./context/InvoiceContext";
 import { AuthContextProvider } from "./context/authContext";
 import { StatementsContextProvider } from "./context/StatementContext";
+import { PaymentsContextProvider } from "./context/PaymentContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -17,7 +18,9 @@ root.render(
         <ClientsContextProvider>
           <InvoicesContextProvider>
             <StatementsContextProvider>
-              <App />
+              <PaymentsContextProvider>
+                <App />
+              </PaymentsContextProvider>
             </StatementsContextProvider>
           </InvoicesContextProvider>
         </ClientsContextProvider>

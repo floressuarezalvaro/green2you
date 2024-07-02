@@ -39,6 +39,7 @@ const NavigationBar = () => {
                 <Link to="/clients">Clients</Link>
                 <Link to="/statements">Statements</Link>
                 <Link to="/emails">Emails</Link>
+                <Link to="/payments">Payments</Link>
               </>
             )}
             {user && user.role === "client" && (

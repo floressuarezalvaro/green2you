@@ -1,18 +1,17 @@
 import { useEffect, useState } from "react";
 import { useAuthContext } from "../hooks/useAuthContext";
-import { useClientsContext } from "../hooks/useClientsContext.js";
+import { usePaymentsContext } from "../hooks/usePaymentsContext.js";
 
-import ClientDetails from "../components/ClientDetails";
-import ClientForm from "../components/forms/ClientForm.js";
+import PaymentDetails from "../components/PaymentDetails";
 import Pagination from "../components/Pagination.js";
-import ClientSearch from "../components/forms/ClientSearch";
+// import ClientSearch from "../components/forms/ClientSearch";
 
-const Client = () => {
+const Payment = () => {
   const { user, logout } = useAuthContext();
-  const { clients, dispatch } = useClientsContext();
+  const { payments, dispatch } = usePaymentsContext();
 
   const [currentPage, setCurrentPage] = useState(1);
-  const [searchTerm, setSearchTerm] = useState("");
+  //   const [searchTerm, setSearchTerm] = useState("");
   const itemsPerPage = 5;
 
   useEffect(() => {
@@ -20,9 +19,9 @@ const Client = () => {
       logout();
     }
 
-    const fetchClients = async () => {
+    const fetchPayments = async () => {
       try {
-        const response = await fetch("/clients", {
+        const response = await fetch("/payments", {
           headers: {
             Authorization: `Bearer ${user.token}`,
           },
@@ -36,52 +35,45 @@ const Client = () => {
         }
 
         const json = await response.json();
-        dispatch({ type: "SET_CLIENTS", payload: json });
+        dispatch({ type: "SET_PAYMENTS", payload: json });
       } catch (error) {
-        console.error("Failed to fetch clients:", error);
+        console.error("Failed to fetch payments:", error);
       }
     };
 
-    fetchClients();
+    fetchPayments();
   }, [user, dispatch, logout]);
 
-  if (!clients) {
+  if (!payments) {
     return <div>Loading...</div>;
   }
 
-  const filteredClients = clients.filter((client) =>
-    client.clientName.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = filteredClients.slice(indexOfFirstItem, indexOfLastItem);
+  const currentItems = payments.slice(indexOfFirstItem, indexOfLastItem);
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   return (
     <div className="page-separation">
       <div className="clients">
-        <h3>Clients Page</h3>
-        <ClientSearch setClientName={setSearchTerm} />
+        <h3>Payments Page</h3>
+        {/* <ClientSearch setClientName={setSearchTerm} /> */}
         {currentItems &&
-          currentItems.map((client) => (
-            <ClientDetails key={client._id} client={client} />
+          currentItems.map((payment) => (
+            <PaymentDetails key={payment._id} payment={payment} />
           ))}
-        {filteredClients.length > itemsPerPage && (
+        {payments.length > itemsPerPage && (
           <Pagination
             itemsPerPage={itemsPerPage}
-            totalItems={filteredClients.length}
+            totalItems={payments.length}
             paginate={paginate}
             currentPage={currentPage}
           />
         )}
       </div>
-      <div className="form-container">
-        <ClientForm />
-      </div>
     </div>
   );
 };
 
-export default Client;
+export default Payment;
