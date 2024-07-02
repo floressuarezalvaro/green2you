@@ -41,11 +41,11 @@ const NavigationBar = () => {
                 <Link to="/emails">Emails</Link>
               </>
             )}
-            {/* {user && user.role === "client" && (
+            {user && user.role === "client" && (
               <>
                 <Link to="/invoices">Profile</Link>
               </>
-            )} */}
+            )}
             {/* {user && (
               <>
                 <Link to="/invoices">Referral</Link>

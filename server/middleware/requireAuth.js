@@ -14,8 +14,17 @@ const requireAuth = async (req, res, next) => {
   try {
     const { _id } = jwt.verify(token, process.env.JWTSECRET);
 
-    // finds user and attaches to request
-    req.user = await User.findOne({ _id }).select("_id");
+    req.user = await User.findOne({ _id }).select("_id role");
+    if (!req.user) {
+      return res.status(401).json({ error: "User not found" });
+    }
+
+    if (req.user.role !== "admin") {
+      return res
+        .status(401)
+        .json({ error: "You do not have permission to perform this action." });
+    }
+
     next();
   } catch (error) {
     res.status(401).json({ error: "Credentials timed out. Log in again." });
