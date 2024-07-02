@@ -12,6 +12,7 @@ const Statement = () => {
   const { statements, dispatch } = useStatementsContext();
   const [currentPage, setCurrentPage] = useState(1);
   const [showToast, setShowToast] = useState(false);
+  const [view, setView] = useState("unpaid");
   const itemsPerPage = 5;
 
   const handleShowToast = () => {
@@ -53,34 +54,63 @@ const Statement = () => {
     return <div>Loading...</div>;
   }
 
+  const handleChangeView = (newView) => {
+    setView(newView);
+    setCurrentPage(1);
+  };
+
+  const filteredStatements = statements.filter((statement) =>
+    view === "unpaid" ? !statement.isPaid : statement.isPaid
+  );
+
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = statements.slice(indexOfFirstItem, indexOfLastItem);
+  const currentItems = filteredStatements.slice(
+    indexOfFirstItem,
+    indexOfLastItem
+  );
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   return (
     <div className="page-separation">
       <div className="invoices">
-        <h3>Statements Page</h3>
-        {currentItems &&
+        <h3>
+          Statements Page - {view.charAt(0).toUpperCase() + view.slice(1)}
+        </h3>
+
+        <div className="statements-navbar">
+          <button onClick={() => handleChangeView("unpaid")}>
+            Unpaid Statements
+          </button>
+          <button onClick={() => handleChangeView("paid")}>
+            Paid Statements
+          </button>
+        </div>
+
+        {currentItems.length > 0 ? (
           currentItems.map((statement) => (
             <StatementDetails
               key={statement._id}
               statement={statement}
               handleShowToast={handleShowToast}
             />
-          ))}
-        {statements.length > itemsPerPage && (
+          ))
+        ) : (
+          <p>No {view} statements</p>
+        )}
+        {filteredStatements.length > itemsPerPage && (
           <Pagination
             itemsPerPage={itemsPerPage}
-            totalItems={statements.length}
+            totalItems={filteredStatements.length}
             paginate={paginate}
             currentPage={currentPage}
           />
         )}
       </div>
-      <div className="form-container">{<StatementForm />}</div>
+      <div className="form-container">
+        <StatementForm />
+      </div>
       {showToast && (
         <ToastMessage
           duration={3000}
