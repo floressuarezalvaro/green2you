@@ -8,6 +8,7 @@ const LogIn = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     await login(email, password);
   };
 

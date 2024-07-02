@@ -16,6 +16,7 @@ const Invoice = () => {
   useEffect(() => {
     const fetchInvoices = async () => {
       if (!user) return;
+
       try {
         const response = await fetch("/invoices", {
           headers: {
@@ -37,10 +38,8 @@ const Invoice = () => {
       }
     };
 
-    if (user) {
-      fetchInvoices();
-    }
-  }, [dispatch, user, logout]);
+    fetchInvoices();
+  }, [user, dispatch, logout]);
 
   if (!invoices) {
     return <div>Loading...</div>;

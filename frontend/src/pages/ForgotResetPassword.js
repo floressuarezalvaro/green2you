@@ -12,6 +12,7 @@ const ForgotResetPassword = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     try {
       await resetToken(password, token);
       setShowToast(true);

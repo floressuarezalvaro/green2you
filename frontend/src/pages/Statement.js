@@ -24,6 +24,7 @@ const Statement = () => {
   useEffect(() => {
     const fetchStatements = async () => {
       if (!user) return;
+
       try {
         const response = await fetch("/statements", {
           headers: {
@@ -45,10 +46,8 @@ const Statement = () => {
       }
     };
 
-    if (user) {
-      fetchStatements();
-    }
-  }, [dispatch, user, logout]);
+    fetchStatements();
+  }, [user, dispatch, logout]);
 
   if (!statements) {
     return <div>Loading...</div>;

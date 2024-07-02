@@ -1,17 +1,16 @@
 import { useEffect, useState } from "react";
-import { useClientsContext } from "../hooks/useClientsContext.js";
 import { useAuthContext } from "../hooks/useAuthContext";
+import { useClientsContext } from "../hooks/useClientsContext.js";
 
-// components below
 import ClientDetails from "../components/ClientDetails";
 import ClientForm from "../components/forms/ClientForm.js";
 import Pagination from "../components/Pagination.js";
 import ClientSearch from "../components/forms/ClientSearch";
 
-// actual page
 const Client = () => {
-  const { clients, dispatch } = useClientsContext();
   const { user, logout } = useAuthContext();
+  const { clients, dispatch } = useClientsContext();
+
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
   const itemsPerPage = 5;
@@ -41,16 +40,13 @@ const Client = () => {
       }
     };
 
-    if (user) {
-      fetchClients();
-    }
-  }, [dispatch, user, logout]);
+    fetchClients();
+  }, [user, dispatch, logout]);
 
   if (!clients) {
     return <div>Loading...</div>;
   }
 
-  // Filter clients based on the search term
   const filteredClients = clients.filter((client) =>
     client.clientName.toLowerCase().includes(searchTerm.toLowerCase())
   );

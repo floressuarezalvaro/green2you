@@ -4,6 +4,7 @@ import Pagination from "../components/Pagination";
 
 const EmailTable = () => {
   const { user, logout } = useAuthContext();
+
   const [emails, setEmails] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
@@ -11,6 +12,7 @@ const EmailTable = () => {
   useEffect(() => {
     const fetchEmails = async () => {
       if (!user) return;
+
       try {
         const response = await fetch("/emails?days=60", {
           headers: {

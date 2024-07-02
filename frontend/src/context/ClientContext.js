@@ -38,7 +38,6 @@ export const ClientsContextProvider = ({ children }) => {
   });
   useEffect(() => {
     if (user && user.token) {
-      // Example function to fetch clients
       const fetchClients = async () => {
         const response = await fetch("/clients", {
           headers: {
