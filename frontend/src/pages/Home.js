@@ -1,11 +1,14 @@
+import { useEffect } from "react";
 import { useAuthContext } from "../hooks/useAuthContext";
 
 const Home = () => {
   const { user, logout } = useAuthContext();
 
-  if (!user) {
-    logout();
-  }
+  useEffect(() => {
+    if (!user) {
+      logout();
+    }
+  }, [user, logout]);
 
   return (
     <div className="home">

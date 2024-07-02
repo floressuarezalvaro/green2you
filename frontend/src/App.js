@@ -1,5 +1,5 @@
-import { Routes, Route, Navigate } from "react-router-dom";
-import { useAuthContext } from "./hooks/useAuthContext";
+import { Routes, Route } from "react-router-dom";
+import RoleBasedRoute from "./components/RoleBasedRoute";
 
 // pages & components
 import Home from "./pages/Home";
@@ -14,48 +14,57 @@ import TokenToEmail from "./pages/TokenToEmail";
 import EmailTable from "./pages/EmailTracker";
 
 function App() {
-  const { user } = useAuthContext();
-
   return (
     <div className="App">
       <NavigationBar />
       <div className="pages">
         <Routes>
-          <Route
-            path="/login"
-            element={!user ? <LogIn /> : <Navigate to="/" />}
-          />
-          <Route
-            path="/forgotpassword"
-            element={!user ? <TokenToEmail /> : <Navigate to="/" />}
-          />
+          <Route path="/login" element={<LogIn />} />
+          <Route path="/" element={<Home />} />
+          <Route path="/forgotpassword" element={<TokenToEmail />} />
           <Route
             path="/resetpassword/:token"
-            element={!user ? <ForgotResetPassword /> : <Navigate to="/" />}
-          />
-          <Route
-            path="/"
-            element={user ? <Home /> : <Navigate to="/login" />}
-          />
-          <Route
-            path="/invoices"
-            element={user ? <Invoice /> : <Navigate to="/login" />}
-          />
-          <Route
-            path="/clients"
-            element={user ? <Client /> : <Navigate to="/login" />}
+            element={<ForgotResetPassword />}
           />
           <Route
             path="/profile/:clientId"
-            element={user ? <Profile /> : <Navigate to="/login" />}
+            element={
+              <RoleBasedRoute role="client">
+                <Profile />
+              </RoleBasedRoute>
+            }
+          />
+          <Route
+            path="/invoices"
+            element={
+              <RoleBasedRoute role="admin">
+                <Invoice />
+              </RoleBasedRoute>
+            }
+          />
+          <Route
+            path="/clients"
+            element={
+              <RoleBasedRoute role="admin">
+                <Client />
+              </RoleBasedRoute>
+            }
           />
           <Route
             path="/statements"
-            element={user ? <Statement /> : <Navigate to="/login" />}
+            element={
+              <RoleBasedRoute role="admin">
+                <Statement />
+              </RoleBasedRoute>
+            }
           />
           <Route
             path="/emails"
-            element={user ? <EmailTable /> : <Navigate to="/login" />}
+            element={
+              <RoleBasedRoute role="admin">
+                <EmailTable />
+              </RoleBasedRoute>
+            }
           />
         </Routes>
       </div>
