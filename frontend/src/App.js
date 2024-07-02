@@ -39,11 +39,23 @@ function App() {
           />
           <Route
             path="/invoices"
-            element={user ? <Invoice /> : <Navigate to="/login" />}
+            element={
+              user && user.role === "admin" ? (
+                <Invoice />
+              ) : (
+                <Navigate to="/login" />
+              )
+            }
           />
           <Route
             path="/clients"
-            element={user ? <Client /> : <Navigate to="/login" />}
+            element={
+              user && user.role === "admin" ? (
+                <Client />
+              ) : (
+                <Navigate to="/login" />
+              )
+            }
           />
           <Route
             path="/profile/:clientId"
@@ -51,11 +63,23 @@ function App() {
           />
           <Route
             path="/statements"
-            element={user ? <Statement /> : <Navigate to="/login" />}
+            element={
+              user && user.role === "admin" ? (
+                <Statement />
+              ) : (
+                <Navigate to="/login" />
+              )
+            }
           />
           <Route
             path="/emails"
-            element={user ? <EmailTable /> : <Navigate to="/login" />}
+            element={
+              user && user.role === "admin" ? (
+                <EmailTable />
+              ) : (
+                <Navigate to="/login" />
+              )
+            }
           />
         </Routes>
       </div>

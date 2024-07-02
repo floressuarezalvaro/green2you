@@ -1,13 +1,15 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { useLogout } from "../hooks/useLogout";
+
 import { useAuthContext } from "../hooks/useAuthContext";
+import { useLogout } from "../hooks/useLogout";
+
 import Settings from "./SettingsOffcanvas";
 import ToastMessage from "./Toast";
 
 const NavigationBar = () => {
-  const { logout } = useLogout();
   const { user } = useAuthContext();
+  const { logout } = useLogout();
   const [showToast, setShowToast] = useState(false);
 
   const handleLogout = () => {
@@ -31,7 +33,7 @@ const NavigationBar = () => {
         </Link>
         <nav>
           <div className="nav-left-controls">
-            {user && (
+            {user && user.role === "admin" && (
               <>
                 <Link to="/invoices">Invoices</Link>
                 <Link to="/clients">Clients</Link>
@@ -39,6 +41,17 @@ const NavigationBar = () => {
                 <Link to="/emails">Emails</Link>
               </>
             )}
+            {/* {user && user.role === "client" && (
+              <>
+                <Link to="/invoices">Profile</Link>
+              </>
+            )} */}
+            {/* {user && (
+              <>
+                <Link to="/invoices">Referral</Link>
+                <Link to="/invoices">About us</Link>
+              </>
+            )} */}
           </div>
 
           <div className="nav-right-controls">
