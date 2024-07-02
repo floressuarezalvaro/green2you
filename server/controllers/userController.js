@@ -17,7 +17,7 @@ const loginUser = async (req, res) => {
     // create JWS Token
     const token = createToken(user._id);
 
-    res.status(200).json({ email, token });
+    res.status(200).json({ email, token, role: user.role });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
