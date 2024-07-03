@@ -10,6 +10,7 @@ import UpdateClientModal from "../components/modals/UpdateClientModal";
 import InvoiceDetails from "../components/InvoiceDetails";
 import DeleteClientModal from "../components/modals/WarningDeleteClient.js";
 import Statements from "../components/StatementAccordian.js";
+import AccountSummary from "../components/AccountSummary.js";
 import Pagination from "../components/Pagination.js";
 
 const Profile = () => {
@@ -64,15 +65,12 @@ const Profile = () => {
   return (
     <div className="profile">
       <h3>Profile Page</h3>
-
       {selectedClient && <ClientDetails client={selectedClient} />}
+      <Statements client={selectedClient._id} />
+      <AccountSummary client={selectedClient._id} />
 
       {selectedClient ? (
-        <>
-          <div className="statements-wrapper">
-            <h5>Statements</h5>
-            <Statements client={selectedClient._id} />
-          </div>
+        <div className="profile-invoices">
           <h5>Invoices</h5>
           {invoices?.length > 0 ? (
             <>
@@ -95,7 +93,7 @@ const Profile = () => {
           ) : (
             <p className="no-invoices">You have no invoices yet.</p>
           )}
-        </>
+        </div>
       ) : (
         <p>Client not found.</p>
       )}

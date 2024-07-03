@@ -217,6 +217,26 @@ select::-ms-expand {
   color: #333;
 }
 
+.account-summary {
+  background: #fff;
+  border-radius: 4px;
+  margin: 10px;
+  padding: 20px;
+  position: relative;
+  box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.05);
+}
+
+.account-summary h4 {
+  font-size: 1.2em;
+  color: var(--primary);
+}
+
+.account-summary p {
+  margin: 0;
+  font-size: 0.9em;
+  color: #555;
+}
+
 .invoices, .clients, .profile {
   background: var(--secondary);
   border-radius: 8px;
@@ -232,15 +252,20 @@ select::-ms-expand {
 }
 
 .invoices h5, .clients h5, .profile h5 {
-  text-align: center;
+  text-align: flex-start;
   margin: 20px 0;
   font-size: 1.2em;
   color: var(--primary);
 }
 
 .statements-wrapper h5 {
-  text-align: center;
   margin: 0 0 10px 0;
+  font-size: 1.2em;
+}
+
+.profile-invoices h5 {
+  margin: 10px 0 -10px 10px;
+  padding: 10px 10px 0 20px;
   font-size: 1.2em;
 }
 

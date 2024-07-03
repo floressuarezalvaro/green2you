@@ -106,46 +106,49 @@ const StatementsList = ({ client }) => {
   const months = getMonths();
 
   return (
-    <div className="accordion">
-      <Accordion>
-        {years.length === 0 ? (
-          <p className="no-statements">You have no statements yet.</p>
-        ) : (
-          years.map((year) => (
-            <Accordion.Item eventKey={`eventKey-${year}`} key={year}>
-              <Accordion.Header>{year}</Accordion.Header>
+    <div className="statements-wrapper">
+      <h5>Statements</h5>
+      <div className="accordion">
+        <Accordion>
+          {years.length === 0 ? (
+            <p className="no-statements">You have no statements yet.</p>
+          ) : (
+            years.map((year) => (
+              <Accordion.Item eventKey={`eventKey-${year}`} key={year}>
+                <Accordion.Header>{year}</Accordion.Header>
 
-              {months.map((month) => (
-                <Accordion.Body key={month}>
-                  <h4>{month}</h4>
-                  {statementGroups[year] && statementGroups[year][month] ? (
-                    statementGroups[year][month].map((statement) => (
-                      <div key={statement._id}>
-                        <p className="statement">
-                          {formatOpeningClosingDate(
-                            statement.issuedStartDate,
-                            statement.issuedEndDate
-                          )}
-                          <span
-                            onClick={(e) => handleClick(e, statement._id)}
-                            className="material-symbols-outlined"
-                          >
-                            open_in_new
-                          </span>
-                        </p>
-                      </div>
-                    ))
-                  ) : (
-                    <p className="no-statements">
-                      You have no statements available for this period.
-                    </p>
-                  )}
-                </Accordion.Body>
-              ))}
-            </Accordion.Item>
-          ))
-        )}
-      </Accordion>
+                {months.map((month) => (
+                  <Accordion.Body key={month}>
+                    <h4>{month}</h4>
+                    {statementGroups[year] && statementGroups[year][month] ? (
+                      statementGroups[year][month].map((statement) => (
+                        <div key={statement._id}>
+                          <p className="statement">
+                            {formatOpeningClosingDate(
+                              statement.issuedStartDate,
+                              statement.issuedEndDate
+                            )}
+                            <span
+                              onClick={(e) => handleClick(e, statement._id)}
+                              className="material-symbols-outlined"
+                            >
+                              open_in_new
+                            </span>
+                          </p>
+                        </div>
+                      ))
+                    ) : (
+                      <p className="no-statements">
+                        You have no statements available for this period.
+                      </p>
+                    )}
+                  </Accordion.Body>
+                ))}
+              </Accordion.Item>
+            ))
+          )}
+        </Accordion>
+      </div>
     </div>
   );
 };

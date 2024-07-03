@@ -4,11 +4,12 @@ import { BrowserRouter } from "react-router-dom";
 import "./index.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import App from "./App";
+import { AuthContextProvider } from "./context/authContext";
 import { ClientsContextProvider } from "./context/ClientContext";
 import { InvoicesContextProvider } from "./context/InvoiceContext";
-import { AuthContextProvider } from "./context/authContext";
 import { StatementsContextProvider } from "./context/StatementContext";
 import { PaymentsContextProvider } from "./context/PaymentContext";
+import { BalancesContextProvider } from "./context/BalanceContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -19,7 +20,9 @@ root.render(
           <InvoicesContextProvider>
             <StatementsContextProvider>
               <PaymentsContextProvider>
-                <App />
+                <BalancesContextProvider>
+                  <App />
+                </BalancesContextProvider>
               </PaymentsContextProvider>
             </StatementsContextProvider>
           </InvoicesContextProvider>
