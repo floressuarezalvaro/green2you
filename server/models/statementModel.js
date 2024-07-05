@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const Invoice = require("./invoiceModel");
+const Balance = require("./balanceModel");
 
 const Schema = mongoose.Schema;
 
@@ -13,6 +14,12 @@ const statementSchema = new Schema(
       {
         type: Invoice.schema,
         required: true,
+      },
+    ],
+    balanceData: [
+      {
+        type: Balance.schema,
+        required: false,
       },
     ],
     totalAmount: {
