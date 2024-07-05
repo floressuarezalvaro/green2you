@@ -97,7 +97,7 @@ const Statement = () => {
             />
           ))
         ) : (
-          <p>No {view} statements</p>
+          <p className="no-statements">No {view} statements yet</p>
         )}
         {filteredStatements.length > itemsPerPage && (
           <Pagination

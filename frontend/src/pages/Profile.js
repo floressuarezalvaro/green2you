@@ -65,9 +65,13 @@ const Profile = () => {
   return (
     <div className="profile">
       <h3>Profile Page</h3>
-      {selectedClient && <ClientDetails client={selectedClient} />}
-      <Statements client={selectedClient._id} />
-      <AccountSummary client={selectedClient._id} />
+      {selectedClient && (
+        <>
+          <ClientDetails client={selectedClient} />
+          <Statements client={selectedClient._id} />
+          <AccountSummary client={selectedClient._id} />
+        </>
+      )}
 
       {selectedClient ? (
         <div className="profile-invoices">

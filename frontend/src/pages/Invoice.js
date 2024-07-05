@@ -56,10 +56,13 @@ const Invoice = () => {
     <div className="page-separation">
       <div className="invoices">
         <h3>Invoices Page</h3>
-        {currentItems &&
+        {currentItems > 0 ? (
           currentItems.map((invoice) => (
             <InvoiceDetails key={invoice._id} invoice={invoice} />
-          ))}
+          ))
+        ) : (
+          <p className="no-statements">No Invoices Yet</p>
+        )}
         {invoices.length > itemsPerPage && (
           <Pagination
             itemsPerPage={itemsPerPage}
