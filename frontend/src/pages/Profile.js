@@ -95,7 +95,7 @@ const Profile = () => {
               )}
             </>
           ) : (
-            <p className="no-invoices">You have no invoices yet.</p>
+            <p className="profile-no-invoices">You have no invoices yet.</p>
           )}
         </div>
       ) : (

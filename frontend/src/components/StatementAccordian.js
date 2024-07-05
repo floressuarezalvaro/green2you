@@ -111,7 +111,7 @@ const StatementsList = ({ client }) => {
       <div className="accordion">
         <Accordion>
           {years.length === 0 ? (
-            <p className="no-statements">You have no statements yet.</p>
+            <p className="profile-no-statements">You have no statements yet.</p>
           ) : (
             years.map((year) => (
               <Accordion.Item eventKey={`eventKey-${year}`} key={year}>

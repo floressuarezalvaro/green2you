@@ -173,6 +173,24 @@ select::-ms-expand {
   color: #555;
 }
 
+.profile-no-invoices {
+  display: flex;
+  align-items: center;
+  font-size: 0.9em;
+  color: #555;
+  padding: 10px;
+  margin: 10px 0 20px 20px;
+}
+
+.profile-no-statements {
+  display: flex;
+  align-items: center;
+  font-size: 0.9em;
+  color: #555;
+  padding: 10px 0 10px 0;
+  margin: 10px 0 0 -20px;
+}
+
 .statement {
   padding-left: 10px;
 }
