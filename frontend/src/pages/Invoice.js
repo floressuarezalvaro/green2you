@@ -56,7 +56,7 @@ const Invoice = () => {
     <div className="page-separation">
       <div className="invoices">
         <h3>Invoices Page</h3>
-        {currentItems > 0 ? (
+        {invoices.length > 0 ? (
           currentItems.map((invoice) => (
             <InvoiceDetails key={invoice._id} invoice={invoice} />
           ))
