@@ -19,7 +19,7 @@ const loginUser = async (req, res) => {
     // create JWS Token
     const token = createToken(user._id);
 
-    res.status(200).json({ email, token, role: user.role });
+    res.status(200).json({ email, token, role: user.role, id: user._id });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -47,12 +47,18 @@ const signUpClient = async (req, res) => {
   }
 
   try {
-    const newClientId = await Client.findById(clientId);
+    if (!mongoose.Types.ObjectId.isValid(clientId)) {
+      return res.status(400).json({ error: "Invalid Client ID" });
+    }
 
-    const user = await User.signupClient(email, newClientId);
+    const client = await Client.findById(clientId);
 
+    if (!client) {
+      return res.status(404).json({ error: "Client not found" });
+    }
+
+    const user = await User.signupClient(email, clientId);
     const token = createToken(user._id);
-
     const setPasswordToken = await User.forgotPassword(email);
 
     const resetUrl = `${process.env.FRONTEND_URL}/create-account/${user._id}/${setPasswordToken}`;

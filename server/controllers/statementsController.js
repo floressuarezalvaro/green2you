@@ -88,12 +88,12 @@ const createStatement = async (req, res) => {
       { runValidators: true }
     );
 
-    const statementBalance = await Balance.findOne({ _id: clientId });
+    const updatedBalance = await Balance.findOne({ _id: clientId });
 
     const statement = await Statement.create({
       clientId,
       invoiceData,
-      balanceData: statementBalance,
+      balanceData: updatedBalance,
       totalAmount,
       issuedStartDate: pacificIssuedStartDate,
       issuedEndDate: pacificIssuedEndDate,
