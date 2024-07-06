@@ -12,7 +12,7 @@ const userSchema = new Schema({
   },
   password: {
     type: String,
-    required: true,
+    required: false,
   },
   role: {
     type: String,
@@ -136,6 +136,25 @@ userSchema.statics.forgotPassword = async function (email) {
   await user.save();
 
   return token;
+};
+
+userSchema.statics.signupClient = async function (email, clientId) {
+  if (!email) {
+    throw Error("Email is missing");
+  }
+  if (!validator.isEmail(email)) {
+    throw Error("This is not a valid email");
+  }
+
+  const exists = await this.findOne({ email });
+
+  if (exists) {
+    throw Error("Email exists");
+  }
+
+  const user = await this.create({ _id: clientId, email, role: "client" });
+
+  return user;
 };
 
 module.exports = mongoose.model("User", userSchema);

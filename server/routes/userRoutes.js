@@ -5,6 +5,7 @@ const requireAuth = require("../middleware/requireAuth");
 const {
   loginUser,
   signUpUser,
+  signUpClient,
   getAllUsers,
   getUser,
   deleteUser,
@@ -23,6 +24,7 @@ router.post("/resetpassword/:token", resetPasswordWithToken);
 router.use(requireAuth);
 
 router.post("/signup", signUpUser);
+router.post("/signup-client", signUpClient);
 router.post("/resetpassword", resetPassword);
 router.get("/", getAllUsers);
 router.get("/:id", getUser);

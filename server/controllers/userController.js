@@ -1,4 +1,6 @@
 const User = require("../models/userModel");
+const Client = require("../models/clientModel");
+
 const jwt = require("jsonwebtoken");
 const mongoose = require("mongoose");
 
@@ -22,7 +24,7 @@ const loginUser = async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 };
-// signup user
+
 const signUpUser = async (req, res) => {
   const { email, password, role } = req.body;
 
@@ -32,6 +34,34 @@ const signUpUser = async (req, res) => {
     const token = createToken(user._id);
 
     res.status(200).json({ email, token, role });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
+const signUpClient = async (req, res) => {
+  const { email, clientId } = req.body;
+
+  if (!email || !clientId) {
+    return res.status(400).json({ error: "Email and Client ID are required" });
+  }
+
+  try {
+    const newClientId = await Client.findById(clientId);
+
+    const user = await User.signupClient(email, newClientId);
+
+    const token = createToken(user._id);
+
+    const setPasswordToken = await User.forgotPassword(email);
+
+    const resetUrl = `${process.env.FRONTEND_URL}/create-account/${user._id}/${setPasswordToken}`;
+    const subject = "Access Account - Set Password";
+    const text = `You are receiving this because we are inviting you to access your new Green2You account. To access it, please use this link within one hour of receiving it: ${resetUrl}`;
+
+    await sendEmail("Password Set", email, subject, text);
+
+    res.status(200).json({ email, token, role: user.role });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -168,6 +198,7 @@ const updateUser = async (req, res) => {
 module.exports = {
   loginUser,
   signUpUser,
+  signUpClient,
   getAllUsers,
   getUser,
   deleteUser,
