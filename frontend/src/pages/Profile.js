@@ -4,13 +4,12 @@ import { useParams } from "react-router-dom";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { useInvoicesContext } from "../hooks/useInvoicesContext";
 import { useClientsContext } from "../hooks/useClientsContext";
-import formatDistanceToNow from "date-fns/formatDistanceToNow";
 
-import UpdateClientModal from "../components/modals/UpdateClientModal";
+import ClientDetails from "../components/Profile/ProfileClientDetails";
 import InvoiceDetails from "../components/InvoiceDetails";
-import DeleteClientModal from "../components/modals/WarningDeleteClient.js";
-import Statements from "../components/StatementAccordian.js";
-import AccountSummary from "../components/AccountSummary.js";
+import Statements from "../components/Profile/StatementAccordian.js";
+import AccountSummary from "../components/Profile/AccountSummary.js";
+import ProfilePayments from "../components/Profile/ProfilePayments.js";
 import Pagination from "../components/Pagination.js";
 
 const Profile = () => {
@@ -68,85 +67,44 @@ const Profile = () => {
       {selectedClient && (
         <>
           <ClientDetails client={selectedClient} />
-          <Statements client={selectedClient._id} />
           <AccountSummary client={selectedClient._id} />
+          <Statements client={selectedClient._id} />
         </>
       )}
 
       {selectedClient ? (
-        <div className="profile-invoices">
-          <h5>Invoices</h5>
-          {invoices?.length > 0 ? (
-            <>
-              {currentItems.map((invoice) => (
-                <InvoiceDetails
-                  key={invoice._id}
-                  invoice={invoice}
-                  hideClientName={true}
-                />
-              ))}
-              {invoices.length > itemsPerPage && (
-                <Pagination
-                  itemsPerPage={itemsPerPage}
-                  totalItems={invoices.length}
-                  paginate={paginate}
-                  currentPage={currentPage}
-                />
-              )}
-            </>
-          ) : (
-            <p className="profile-no-invoices">You have no invoices yet.</p>
-          )}
-        </div>
+        <>
+          <div className="profile-invoices">
+            <h5>Invoices</h5>
+            {invoices?.length > 0 ? (
+              <>
+                {currentItems.map((invoice) => (
+                  <InvoiceDetails
+                    key={invoice._id}
+                    invoice={invoice}
+                    hideClientName={true}
+                  />
+                ))}
+                {invoices.length > itemsPerPage && (
+                  <Pagination
+                    itemsPerPage={itemsPerPage}
+                    totalItems={invoices.length}
+                    paginate={paginate}
+                    currentPage={currentPage}
+                  />
+                )}
+              </>
+            ) : (
+              <p className="profile-no-invoices">You have no invoices yet.</p>
+            )}
+          </div>
+          <ProfilePayments />
+        </>
       ) : (
         <p>Client not found.</p>
       )}
     </div>
   );
 };
-
-const ClientDetails = ({ client }) => (
-  <div className="details">
-    <h4>{client.clientName}</h4>
-    <p>
-      <strong>Email:</strong> {client.clientEmail}
-    </p>
-    <p>
-      <strong>Phone Number:</strong> {client.clientPhoneNumber}
-    </p>
-    <p>
-      <strong>Address 1:</strong> {client.clientStreetLineOne}
-    </p>
-    <p>
-      <strong>Address 2:</strong> {client.clientStreetLineTwo}
-    </p>
-    <p>
-      <strong>City:</strong> {client.clientCity}
-    </p>
-    <p>
-      <strong>State:</strong> {client.clientState}
-    </p>
-    <p>
-      <strong>Zip Code:</strong> {client.clientZip}
-    </p>
-    <p>
-      <strong>Cycle Date:</strong> {client.clientCycleDate}
-    </p>
-    <p>
-      <strong>Automatic Statements: </strong>
-      {client.clientAutoEmailStatementsEnabled ? "Yes" : "No"}
-    </p>
-    <p>
-      Created:{" "}
-      {formatDistanceToNow(new Date(client.createdAt), { addSuffix: true })}
-    </p>
-    <p>
-      Updated:{" "}
-      {formatDistanceToNow(new Date(client.updatedAt), { addSuffix: true })}
-    </p>
-    <UpdateClientModal key={`modal-${client._id}`} client={client} />
-    <DeleteClientModal key={`delete-${client._id}`} client={client} />
-  </div>
-);
 
 export default Profile;

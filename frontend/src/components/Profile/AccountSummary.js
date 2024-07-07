@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 
-import { useAuthContext } from "../hooks/useAuthContext";
-import { useBalancesContext } from "../hooks/useBalancesContext";
+import { useAuthContext } from "../../hooks/useAuthContext";
+import { useBalancesContext } from "../../hooks/useBalancesContext";
 
 const AccountSummary = ({ client }) => {
   const { user, logout } = useAuthContext();

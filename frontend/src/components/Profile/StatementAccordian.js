@@ -1,9 +1,9 @@
 import { useEffect } from "react";
-import { useAuthContext } from "../hooks/useAuthContext";
-import { useStatementsContext } from "../hooks/useStatementsContext";
+import { useAuthContext } from "../../hooks/useAuthContext";
+import { useStatementsContext } from "../../hooks/useStatementsContext";
 
 import Accordion from "react-bootstrap/Accordion";
-import PrintStatement from "../utils/PrintStatement";
+import PrintStatement from "../../utils/PrintStatement";
 import moment from "moment-timezone";
 
 const getMonths = () => [
