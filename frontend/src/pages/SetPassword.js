@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useResetToken } from "../hooks/useResetToken";
 import ToastMessage from "../components/Toast";
 
-const ForgotResetPassword = () => {
+const SetPassword = () => {
   const [password, setPassword] = useState("");
   const { resetToken } = useResetToken();
   const [showToast, setShowToast] = useState(false);
@@ -31,7 +31,7 @@ const ForgotResetPassword = () => {
         <ToastMessage
           duration={5000}
           text={
-            "Your password was reset. Please sign in again! We will redirect you shortly!"
+            "Your password was set. Please sign in! We will redirect you shortly!"
           }
           redirectUrl={"/login"}
         />
@@ -49,11 +49,11 @@ const ForgotResetPassword = () => {
           />
           <span className="material-symbols-outlined">lock</span>
         </div>
-        <button>Reset Password</button>
+        <button>Set Password</button>
         {submitError && <div className="error">{submitError}</div>}
       </form>
     </div>
   );
 };
 
-export default ForgotResetPassword;
+export default SetPassword;

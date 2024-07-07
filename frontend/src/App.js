@@ -7,7 +7,7 @@ import Client from "./pages/Client";
 import Profile from "./pages/Profile";
 import Statement from "./pages/Statement";
 import LogIn from "./pages/Login";
-import ForgotResetPassword from "./pages/ForgotResetPassword";
+import SetPassword from "./pages/SetPassword";
 import NavigationBar from "./components/Navbar";
 import TokenToEmail from "./pages/TokenToEmail";
 import EmailTable from "./pages/EmailTracker";
@@ -30,8 +30,8 @@ function App() {
             element={!user ? <TokenToEmail /> : <Navigate to="/" />}
           />
           <Route
-            path="/resetpassword/:token"
-            element={!user ? <ForgotResetPassword /> : <Navigate to="/" />}
+            path="/set-password/:token"
+            element={!user ? <SetPassword /> : <Navigate to="/" />}
           />
           <Route
             path="/"

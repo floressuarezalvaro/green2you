@@ -61,7 +61,7 @@ const signUpClient = async (req, res) => {
     const token = createToken(user._id);
     const setPasswordToken = await User.forgotPassword(email);
 
-    const resetUrl = `${process.env.FRONTEND_URL}/create-account/${user._id}/${setPasswordToken}`;
+    const resetUrl = `${process.env.FRONTEND_URL}/set-password/${setPasswordToken}`;
     const subject = "Access Account - Set Password";
     const text = `You are receiving this because we are inviting you to access your new Green2You account. To access it, please use this link within one hour of receiving it: ${resetUrl}`;
 
@@ -102,7 +102,7 @@ const forgotPassword = async (req, res) => {
   try {
     const token = await User.forgotPassword(email);
 
-    const resetUrl = `${process.env.FRONTEND_URL}/resetpassword/${token}`;
+    const resetUrl = `${process.env.FRONTEND_URL}/set-password/${token}`;
     const subject = "Password Reset Request";
     const text = `You are receiving this because we received a requested the reset of the password for your account. Please click on the following link, or paste this into your browser to complete the process within one hour of receiving it: ${resetUrl}`;
 
