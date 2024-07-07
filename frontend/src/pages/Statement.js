@@ -10,6 +10,7 @@ import ToastMessage from "../components/Toast.js";
 const Statement = () => {
   const { user, logout } = useAuthContext();
   const { statements, dispatch } = useStatementsContext();
+
   const [currentPage, setCurrentPage] = useState(1);
   const [showToast, setShowToast] = useState(false);
   const [view, setView] = useState("unpaid");

@@ -6,11 +6,13 @@ import ClientDetails from "../components/ClientDetails";
 import ClientForm from "../components/forms/ClientForm.js";
 import Pagination from "../components/Pagination.js";
 import ClientSearch from "../components/forms/ClientSearch";
+import ToastMessage from "../components/Toast.js";
 
 const Client = () => {
   const { user, logout } = useAuthContext();
   const { clients, dispatch } = useClientsContext();
 
+  const [showToast, setShowToast] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
   const itemsPerPage = 5;
@@ -53,6 +55,13 @@ const Client = () => {
     client.clientName.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  const handleShowToast = () => {
+    setShowToast(true);
+  };
+  const handleToastClose = () => {
+    setShowToast(false);
+  };
+
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = filteredClients.slice(indexOfFirstItem, indexOfLastItem);
@@ -66,7 +75,11 @@ const Client = () => {
         <ClientSearch setClientName={setSearchTerm} />
         {currentItems &&
           currentItems.map((client) => (
-            <ClientDetails key={client._id} client={client} />
+            <ClientDetails
+              key={client._id}
+              client={client}
+              handleShowToast={handleShowToast}
+            />
           ))}
         {filteredClients.length > itemsPerPage && (
           <Pagination
@@ -80,6 +93,13 @@ const Client = () => {
       <div className="form-container">
         <ClientForm />
       </div>
+      {showToast && (
+        <ToastMessage
+          duration={6000}
+          text={"Invite email was sent to client!"}
+          onClose={handleToastClose}
+        />
+      )}
     </div>
   );
 };

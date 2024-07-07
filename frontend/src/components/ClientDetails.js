@@ -3,8 +3,9 @@ import { useAuthContext } from "../hooks/useAuthContext";
 import formatDistanceToNow from "date-fns/formatDistanceToNow";
 
 import UpdateClientModal from "./modals/UpdateClientModal";
+import WarningClientInviteModal from "./modals/WarningClientInviteModal";
 
-const ClientDetails = ({ client }) => {
+const ClientDetails = ({ client, handleShowToast }) => {
   const { user } = useAuthContext();
   const navigate = useNavigate();
 
@@ -56,7 +57,15 @@ const ClientDetails = ({ client }) => {
         Updated:{" "}
         {formatDistanceToNow(new Date(client.updatedAt), { addSuffix: true })}
       </p>
-      <UpdateClientModal key={client._id} client={client} />
+      <div className="button-separator">
+        <UpdateClientModal key={`update-${client._id}`} client={client} />
+        <WarningClientInviteModal
+          key={`invite-${client._id}`}
+          selectedClient={client}
+          handleShowToast={handleShowToast}
+        />
+      </div>
+
       <span
         className="material-symbols-outlined"
         onClick={handleProfileRedirect}
