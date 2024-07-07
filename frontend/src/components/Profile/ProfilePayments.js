@@ -6,6 +6,7 @@ import { format } from "date-fns";
 import { useAuthContext } from "../../hooks/useAuthContext";
 import { usePaymentsContext } from "../../hooks/usePaymentsContext";
 
+import UpdatePaymentModal from "../modals/UpdatePaymentModal";
 import DeletePaymentModal from "../modals/WarningDeletePayment";
 import Pagination from "../Pagination";
 
@@ -22,7 +23,7 @@ const ProfilePayments = () => {
       if (!user || !clientId) return;
 
       try {
-        const response = await fetch(`/client/${clientId}`, {
+        const response = await fetch(`/payments/client/${clientId}`, {
           headers: {
             Authorization: `Bearer ${user.token}`,
           },
@@ -96,6 +97,10 @@ const ProfilePayments = () => {
               </p>
               <DeletePaymentModal
                 key={`delete-${payment._id}`}
+                payment={payment}
+              />
+              <UpdatePaymentModal
+                key={`update-${payment._id}`}
                 payment={payment}
               />
             </div>

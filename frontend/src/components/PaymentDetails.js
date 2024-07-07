@@ -4,7 +4,7 @@ import formatDistanceToNow from "date-fns/formatDistanceToNow";
 import { format } from "date-fns";
 
 import DeletePaymentModal from "../components/modals/WarningDeletePayment";
-// import UpdatePaymentModal from "./modals/UpdatePaymentModal";
+import UpdatePaymentModal from "./modals/UpdatePaymentModal";
 
 const PaymentDetails = ({ payment }) => {
   const { clients = [] } = useClientsContext();
@@ -53,7 +53,7 @@ const PaymentDetails = ({ payment }) => {
         {formatDistanceToNow(new Date(payment.updatedAt), { addSuffix: true })}
       </p>
       <DeletePaymentModal key={`delete-${payment._id}`} payment={payment} />
-      {/* <UpdatePaymentModal key={payment._id} payment={payment} /> */}
+      <UpdatePaymentModal key={payment._id} payment={payment} />
     </div>
   );
 };

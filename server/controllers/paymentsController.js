@@ -145,6 +145,31 @@ const getPaymentsById = async (req, res) => {
   }
 };
 
+const updatePayment = async (req, res) => {
+  const { id } = req.params;
+
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(400).json({ error: "This is not a valid client id" });
+  }
+
+  try {
+    const payment = await Payment.findOneAndUpdate(
+      { _id: id },
+      { ...req.body },
+      { new: true, runValidators: true }
+    );
+
+    if (!payment) {
+      return res.status(404).json({ error: "Payment not found" });
+    }
+
+    res.status(200).json(payment);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
 const deletePayment = async (req, res) => {
   const { id } = req.params;
 
@@ -199,5 +224,6 @@ module.exports = {
   getAllPayments,
   getPaymentsByClient,
   getPaymentsById,
+  updatePayment,
   deletePayment,
 };

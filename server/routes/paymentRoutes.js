@@ -5,6 +5,7 @@ const {
   getAllPayments,
   getPaymentsByClient,
   getPaymentsById,
+  updatePayment,
   deletePayment,
 } = require("../controllers/paymentsController");
 
@@ -19,6 +20,7 @@ router.post("/", makePayment);
 router.get("/", getAllPayments);
 router.get("/client/:clientId", getPaymentsByClient);
 router.get("/:id", getPaymentsById);
+router.put("/:id", updatePayment);
 router.delete("/:id", deletePayment);
 
 module.exports = router;
