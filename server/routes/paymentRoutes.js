@@ -9,16 +9,19 @@ const {
   deletePayment,
 } = require("../controllers/paymentsController");
 
-const requireAuth = require("../middleware/requireAuth");
+const {
+  requireAdminAuth,
+  requireClientAuth,
+} = require("../middleware/requireAdminOrClientAuth");
 
 const router = express.Router();
 
-// require auth for invoice routes
-router.use(requireAuth);
+router.get("/client/:clientId", requireClientAuth, getPaymentsByClient);
+
+router.use(requireAdminAuth);
 
 router.post("/", makePayment);
 router.get("/", getAllPayments);
-router.get("/client/:clientId", getPaymentsByClient);
 router.get("/:id", getPaymentsById);
 router.put("/:id", updatePayment);
 router.delete("/:id", deletePayment);

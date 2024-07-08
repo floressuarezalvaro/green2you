@@ -8,14 +8,18 @@ const {
   updateClient,
 } = require("../controllers/clientController");
 
-const requireAuth = require("../middleware/requireAuth");
+const {
+  requireAdminAuth,
+  requireClientAuth,
+} = require("../middleware/requireAdminOrClientAuth");
 
 const router = express.Router();
 
-router.use(requireAuth);
+router.get("/:id", requireClientAuth, getClient);
+
+router.use(requireAdminAuth);
 
 router.get("/", getAllClients);
-router.get("/:id", getClient);
 router.post("/", createClient);
 router.delete("/:id", deleteClient);
 router.put("/:id", updateClient);

@@ -1,8 +1,7 @@
 const jwt = require("jsonwebtoken");
 const User = require("../models/userModel");
 
-const requireAuth = async (req, res, next) => {
-  // verify auth
+const requireAuth = (roles) => async (req, res, next) => {
   const { authorization } = req.headers;
 
   if (!authorization) {
@@ -19,7 +18,8 @@ const requireAuth = async (req, res, next) => {
       return res.status(401).json({ error: "User not found" });
     }
 
-    if (req.user.role !== "admin") {
+    const rolesArray = Array.isArray(roles) ? roles : [roles];
+    if (!rolesArray.includes(req.user.role)) {
       return res
         .status(401)
         .json({ error: "You do not have permission to perform this action." });
@@ -31,4 +31,7 @@ const requireAuth = async (req, res, next) => {
   }
 };
 
-module.exports = requireAuth;
+const requireAdminAuth = requireAuth("admin");
+const requireClientAuth = requireAuth(["admin", "client"]);
+
+module.exports = { requireAdminAuth, requireClientAuth };

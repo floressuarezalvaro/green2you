@@ -9,14 +9,18 @@ const {
   updateInvoice,
 } = require("../controllers/invoiceController");
 
-const requireAuth = require("../middleware/requireAuth");
+const {
+  requireAdminAuth,
+  requireClientAuth,
+} = require("../middleware/requireAdminOrClientAuth");
 
 const router = express.Router();
 
-router.use(requireAuth);
-router.get("/", getAllInvoices);
-router.get("/client/:id", getAllClientInvoices);
+router.get("/client/:id", requireClientAuth, getAllClientInvoices);
 
+router.use(requireAdminAuth);
+
+router.get("/", getAllInvoices);
 router.get("/:id", getInvoice);
 router.post("/", createInvoice);
 router.delete("/:id", deleteInvoice);

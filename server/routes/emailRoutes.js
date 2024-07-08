@@ -5,11 +5,11 @@ const {
   sendManualStatementEmail,
 } = require("../controllers/emailController");
 
-const requireAuth = require("../middleware/requireAuth");
+const { requireAdminAuth } = require("../middleware/requireAdminOrClientAuth");
 
 const router = express.Router();
 
-router.use(requireAuth);
+router.use(requireAdminAuth);
 
 router.get("/", getAllEmails);
 router.post("/manual-statement-email", sendManualStatementEmail);

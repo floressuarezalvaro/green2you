@@ -8,15 +8,18 @@ const {
   deleteBalance,
 } = require("../controllers/balanceController");
 
-const requireAuth = require("../middleware/requireAuth");
+const {
+  requireAdminAuth,
+  requireClientAuth,
+} = require("../middleware/requireAdminOrClientAuth");
 
 const router = express.Router();
 
-// require auth for invoice routes
-router.use(requireAuth);
+router.get("/client/:id", requireClientAuth, getBalance);
+
+router.use(requireAdminAuth);
 
 router.post("/:id", createBalance);
-router.get("/:id", getBalance);
 router.get("/", getAllBalances);
 router.put("/:id", updateBalance);
 router.delete("/:id", deleteBalance);

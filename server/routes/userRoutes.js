@@ -1,6 +1,6 @@
 const express = require("express");
 
-const requireAuth = require("../middleware/requireAuth");
+const { requireAdminAuth } = require("../middleware/requireAdminOrClientAuth");
 
 const {
   loginUser,
@@ -20,12 +20,12 @@ const router = express.Router();
 router.post("/login", loginUser);
 router.post("/forgotpassword", forgotPassword);
 router.post("/resetpassword/:token", resetPasswordWithToken);
+router.post("/resetpassword", resetPassword);
 
-router.use(requireAuth);
+router.use(requireAdminAuth);
 
 router.post("/signup", signUpUser);
 router.post("/signup-client", signUpClient);
-router.post("/resetpassword", resetPassword);
 router.get("/", getAllUsers);
 router.get("/:id", getUser);
 router.delete("/:id", deleteUser);

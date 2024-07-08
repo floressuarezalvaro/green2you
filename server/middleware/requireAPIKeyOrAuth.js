@@ -1,4 +1,4 @@
-const requireAuth = require("./requireAuth");
+const { requireClientAuth } = require("./requireAdminOrClientAuth");
 
 const requireAPIKeyOrAuth = (req, res, next) => {
   const apiKey = req.headers["x-api-key"];
@@ -6,7 +6,7 @@ const requireAPIKeyOrAuth = (req, res, next) => {
   if (apiKey && apiKey === process.env.API_KEY) {
     next();
   } else {
-    requireAuth(req, res, next);
+    requireClientAuth(req, res, next);
   }
 };
 
