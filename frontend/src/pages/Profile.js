@@ -1,7 +1,7 @@
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 import { useAuthContext } from "../hooks/useAuthContext";
-import { useClientsContext } from "../hooks/useClientsContext";
 
 import ClientDetails from "../components/Profile/ProfileClientDetails";
 import AccountSummary from "../components/Profile/AccountSummary.js";
@@ -12,14 +12,40 @@ import ProfilePayments from "../components/Profile/ProfilePayments.js";
 const Profile = () => {
   const { user, logout } = useAuthContext();
   const { clientId } = useParams();
-  const { clients } = useClientsContext();
+
+  const [selectedClient, setSelectedClient] = useState(null);
 
   if (!user) {
     logout();
   }
 
-  const selectedClient =
-    clients?.find((client) => client._id === clientId) || null;
+  useEffect(() => {
+    const fetchClient = async () => {
+      if (!user || !clientId) return;
+
+      try {
+        const response = await fetch(`/clients/${clientId}`, {
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+        });
+
+        if (!response.ok) {
+          if (response.status === 401) {
+            logout();
+          }
+          return;
+        }
+
+        const clientData = await response.json();
+        setSelectedClient(clientData);
+      } catch (error) {
+        console.error("Failed to fetch invoices:", error);
+      }
+    };
+
+    fetchClient();
+  }, [user, logout, clientId]);
 
   return (
     <div className="profile">
