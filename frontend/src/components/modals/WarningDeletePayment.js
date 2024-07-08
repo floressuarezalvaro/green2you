@@ -8,7 +8,6 @@ const DeletePaymentModal = ({ payment }) => {
   const { user, logout } = useAuthContext();
   const { dispatch } = usePaymentsContext();
 
-  // for modal
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);

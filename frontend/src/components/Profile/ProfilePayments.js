@@ -57,12 +57,12 @@ const ProfilePayments = () => {
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   return (
-    <div className="details">
-      <h4>Payments</h4>
+    <div>
+      <h5 className="payments-header">Payments</h5>
       {payments.length > 0 ? (
         <>
           {currentItems.map((payment) => (
-            <div key={payment._id} className="payment-details">
+            <div className="details" key={payment._id}>
               <p>
                 <strong>Check Date: </strong>
                 {format(new Date(payment.checkDate), "MM/dd/yyyy")}

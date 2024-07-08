@@ -166,6 +166,13 @@ select::-ms-expand {
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.05);
 }
 
+.payments-header {
+  padding: 10px 0 0px 20px;
+  margin: 0 10px -10px 10px;
+  font-size: 1.2em;
+  color: var(--primary);
+}
+
 .statement, .no-statements, .no-invoices {
   display: flex;
   align-items: center;
@@ -269,7 +276,11 @@ select::-ms-expand {
   padding-top: 20px;
 }
 
-.invoices h5, .clients h5, .profile h5 {
+.profile h5 {
+  color: var(--primary);
+}
+
+.invoices h5, .clients h5 {
   text-align: flex-start;
   margin: 20px 0;
   font-size: 1.2em;

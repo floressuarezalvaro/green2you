@@ -50,7 +50,6 @@ const MakePaymentModal = ({ statement, clientName }) => {
 
     if (!response.ok) {
       setError(json.error);
-      console(json.error);
     }
     if (response.ok) {
       handleClose();
@@ -66,7 +65,7 @@ const MakePaymentModal = ({ statement, clientName }) => {
 
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Make Payment</Modal.Title>
+          <Modal.Title>Record Payment</Modal.Title>
         </Modal.Header>
 
         <Modal.Body>
@@ -131,7 +130,7 @@ const MakePaymentModal = ({ statement, clientName }) => {
           </Button>
 
           <Button variant="success" onClick={handlePayment}>
-            Make Payment
+            Record Payment
           </Button>
         </Modal.Footer>
       </Modal>
