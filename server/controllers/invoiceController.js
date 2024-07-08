@@ -4,7 +4,6 @@ const Balance = require("../models/balanceModel");
 const mongoose = require("mongoose");
 const moment = require("moment-timezone");
 
-// Get all invoices
 const getAllInvoices = async (req, res) => {
   try {
     const user_id = req.user._id;
@@ -25,7 +24,24 @@ const getAllInvoices = async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 };
-// Get single invoice
+
+const getAllClientInvoices = async (req, res) => {
+  const { id } = req.params;
+
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(404).json({ error: "This is not a valid client id" });
+  }
+
+  try {
+    const invoices = await Invoice.find({ clientId: id }).sort({
+      createdAt: -1,
+    });
+    res.status(200).json(invoices);
+  } catch (error) {
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
 const getInvoice = async (req, res) => {
   const { id } = req.params;
 
@@ -43,7 +59,7 @@ const getInvoice = async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 };
-// Create new invoice
+
 const createInvoice = async (req, res) => {
   const { date, clientId, amount, description } = req.body;
 
@@ -102,7 +118,6 @@ const createInvoice = async (req, res) => {
   }
 };
 
-// delete new invoice
 const deleteInvoice = async (req, res) => {
   const { id } = req.params;
 
@@ -134,8 +149,6 @@ const deleteInvoice = async (req, res) => {
   }
 };
 
-// update an invoice
-
 const updateInvoice = async (req, res) => {
   const { id } = req.params;
 
@@ -161,6 +174,7 @@ const updateInvoice = async (req, res) => {
 module.exports = {
   createInvoice,
   getAllInvoices,
+  getAllClientInvoices,
   getInvoice,
   deleteInvoice,
   updateInvoice,

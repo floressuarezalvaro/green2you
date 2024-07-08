@@ -18,7 +18,7 @@ const ProfileInvoices = ({ client }) => {
       if (!user || !client) return;
 
       try {
-        const response = await fetch(`/clients/profile/${client}`, {
+        const response = await fetch(`/invoices/client/${client}`, {
           headers: {
             Authorization: `Bearer ${user.token}`,
           },

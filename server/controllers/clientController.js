@@ -6,7 +6,6 @@ const Balance = require("../models/balanceModel");
 const { sendEmail } = require("../utils/emailHandler");
 const mongoose = require("mongoose");
 
-// Get all clients
 const getAllClients = async (req, res) => {
   const user_id = req.user._id;
 
@@ -18,7 +17,6 @@ const getAllClients = async (req, res) => {
   }
 };
 
-// Get single client
 const getClient = async (req, res) => {
   const { id } = req.params;
 
@@ -37,26 +35,6 @@ const getClient = async (req, res) => {
   }
 };
 
-// Get Profile
-const getProfile = async (req, res) => {
-  const { clientId } = req.params;
-
-  if (!mongoose.Types.ObjectId.isValid(clientId)) {
-    return res.status(404).json({ error: "This is not a valid client id" });
-  }
-
-  try {
-    const invoice = await Invoice.find({ clientId });
-    if (!invoice) {
-      return res.status(404).json({ error: "No invoices found" });
-    }
-    res.status(200).json(invoice);
-  } catch (error) {
-    res.status(500).json({ error: "Internal server error" });
-  }
-};
-
-// Create new client
 const createClient = async (req, res) => {
   const {
     clientName,
@@ -75,7 +53,6 @@ const createClient = async (req, res) => {
     clientPlanBiweekly,
   } = req.body;
 
-  // error handling
   let emptyFields = [];
 
   if (!clientName) emptyFields.push("clientName");
@@ -143,20 +120,17 @@ const createClient = async (req, res) => {
 
     res.status(201).json(client);
   } catch (error) {
-    // Handle errors thrown by the signupClient method
     if (error.message === "This is not a valid email") {
-      emptyFields.push("clientEmail"); // Push clientEmail to emptyFields array
+      emptyFields.push("clientEmail");
       return res.status(400).json({ error: error.message, emptyFields });
     } else if (error.message === "Email exists") {
-      emptyFields.push("clientEmail"); // Push clientEmail to emptyFields array
+      emptyFields.push("clientEmail");
       return res.status(400).json({ error: error.message, emptyFields });
     }
-    // Handle other errors
     res.status(500).json({ error: "Internal server error" });
   }
 };
 
-// Delete client
 const deleteClient = async (req, res) => {
   const { id } = req.params;
 
@@ -180,7 +154,6 @@ const deleteClient = async (req, res) => {
   }
 };
 
-// Update a client
 const updateClient = async (req, res) => {
   const { id } = req.params;
   const { clientCycleDate, clientStatementCreateDate } = req.body;
@@ -219,7 +192,6 @@ const updateClient = async (req, res) => {
 module.exports = {
   createClient,
   getAllClients,
-  getProfile,
   getClient,
   deleteClient,
   updateClient,
