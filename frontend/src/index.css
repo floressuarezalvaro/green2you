@@ -180,7 +180,7 @@ select::-ms-expand {
   color: #555;
 }
 
-.profile-no-invoices {
+.profile-no-invoices, .profile-no-payments {
   display: flex;
   align-items: center;
   font-size: 0.9em;
@@ -189,7 +189,7 @@ select::-ms-expand {
   margin: 10px 0 20px 20px;
 }
 
-.profile-no-statements, .profile-no-payments {
+.profile-no-statements {
   display: flex;
   align-items: center;
   font-size: 0.9em;

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+
 import formatDistanceToNow from "date-fns/formatDistanceToNow";
 import { format } from "date-fns";
 
@@ -10,20 +10,19 @@ import UpdatePaymentModal from "../modals/UpdatePaymentModal";
 import DeletePaymentModal from "../modals/WarningDeletePayment";
 import Pagination from "../Pagination";
 
-const ProfilePayments = () => {
+const ProfilePayments = ({ client }) => {
   const { user, logout } = useAuthContext();
   const { payments, dispatch } = usePaymentsContext();
 
-  const { clientId } = useParams();
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
 
   useEffect(() => {
     const fetchPayments = async () => {
-      if (!user || !clientId) return;
+      if (!user || !client) return;
 
       try {
-        const response = await fetch(`/payments/client/${clientId}`, {
+        const response = await fetch(`/payments/client/${client}`, {
           headers: {
             Authorization: `Bearer ${user.token}`,
           },
@@ -44,7 +43,7 @@ const ProfilePayments = () => {
     };
 
     fetchPayments();
-  }, [dispatch, user, clientId, logout]);
+  }, [dispatch, user, client, logout]);
 
   if (!payments) {
     return <div>Loading...</div>;
