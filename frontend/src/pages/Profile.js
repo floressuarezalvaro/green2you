@@ -52,11 +52,11 @@ const Profile = () => {
       <h3>Profile Page</h3>
       {selectedClient ? (
         <>
-          <ClientDetails client={selectedClient} />
+          <ClientDetails client={selectedClient} user={user.role} />
           <AccountSummary client={selectedClient._id} />
           <Statements client={selectedClient._id} />
           <ProfileInvoices client={selectedClient._id} />
-          <ProfilePayments client={selectedClient._id} />
+          <ProfilePayments client={selectedClient._id} user={user} />
         </>
       ) : (
         <p>Client not found.</p>

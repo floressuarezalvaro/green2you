@@ -10,8 +10,8 @@ import UpdatePaymentModal from "../modals/UpdatePaymentModal";
 import DeletePaymentModal from "../modals/WarningDeletePayment";
 import Pagination from "../Pagination";
 
-const ProfilePayments = ({ client }) => {
-  const { user, logout } = useAuthContext();
+const ProfilePayments = ({ client, user }) => {
+  const { logout } = useAuthContext();
   const { payments, dispatch } = usePaymentsContext();
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -94,14 +94,18 @@ const ProfilePayments = ({ client }) => {
                   addSuffix: true,
                 })}
               </p>
-              <DeletePaymentModal
-                key={`delete-${payment._id}`}
-                payment={payment}
-              />
-              <UpdatePaymentModal
-                key={`update-${payment._id}`}
-                payment={payment}
-              />
+              {user && user.role === "admin" && (
+                <>
+                  <DeletePaymentModal
+                    key={`delete-${payment._id}`}
+                    payment={payment}
+                  />
+                  <UpdatePaymentModal
+                    key={`update-${payment._id}`}
+                    payment={payment}
+                  />
+                </>
+              )}
             </div>
           ))}
           {payments.length > itemsPerPage && (

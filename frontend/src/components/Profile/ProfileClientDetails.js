@@ -2,7 +2,7 @@ import formatDistanceToNow from "date-fns/formatDistanceToNow";
 import UpdateClientModal from "../modals/UpdateClientModal";
 import DeleteClientModal from "../modals/WarningDeleteClient";
 
-const ClientDetails = ({ client }) => (
+const ClientDetails = ({ client, user }) => (
   <div className="details">
     <h4>{client.clientName}</h4>
     <p>
@@ -41,8 +41,12 @@ const ClientDetails = ({ client }) => (
       Updated:{" "}
       {formatDistanceToNow(new Date(client.updatedAt), { addSuffix: true })}
     </p>
-    <UpdateClientModal key={`modal-${client._id}`} client={client} />
-    <DeleteClientModal key={`delete-${client._id}`} client={client} />
+    {user && user === "admin" && (
+      <>
+        <UpdateClientModal key={`modal-${client._id}`} client={client} />
+        <DeleteClientModal key={`delete-${client._id}`} client={client} />
+      </>
+    )}
   </div>
 );
 

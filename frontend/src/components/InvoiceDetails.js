@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useAuthContext } from "../hooks/useAuthContext";
 import { useClientsContext } from "../hooks/useClientsContext";
 import formatDistanceToNow from "date-fns/formatDistanceToNow";
 import { format } from "date-fns";
@@ -7,6 +8,7 @@ import UpdateInvoiceModal from "./modals/UpdateInvoiceModal";
 import DeleteInvoiceModal from "../components/modals/WarningDeleteInvoice";
 
 const InvoiceDetails = ({ invoice, hideClientName = false }) => {
+  const { user } = useAuthContext();
   const { clients = [] } = useClientsContext();
   const [clientName, setClientName] = useState("");
 
@@ -44,12 +46,16 @@ const InvoiceDetails = ({ invoice, hideClientName = false }) => {
         Updated:{" "}
         {formatDistanceToNow(new Date(invoice.updatedAt), { addSuffix: true })}
       </p>
-      <DeleteInvoiceModal key={`delete-${invoice._id}`} invoice={invoice} />
-      <UpdateInvoiceModal
-        key={invoice._id}
-        invoice={invoice}
-        clientName={clientName}
-      />
+      {user && user.role === "admin" && (
+        <>
+          <DeleteInvoiceModal key={`delete-${invoice._id}`} invoice={invoice} />
+          <UpdateInvoiceModal
+            key={invoice._id}
+            invoice={invoice}
+            clientName={clientName}
+          />
+        </>
+      )}
     </div>
   );
 };
