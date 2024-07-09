@@ -30,10 +30,6 @@ const ClientDetails = ({ client, user }) => (
       <strong>Cycle Date:</strong> {client.clientCycleDate}
     </p>
     <p>
-      <strong>Automatic Statements: </strong>
-      {client.clientAutoEmailStatementsEnabled ? "Yes" : "No"}
-    </p>
-    <p>
       Created:{" "}
       {formatDistanceToNow(new Date(client.createdAt), { addSuffix: true })}
     </p>

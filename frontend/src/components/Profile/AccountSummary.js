@@ -3,16 +3,18 @@ import { useEffect } from "react";
 import { useAuthContext } from "../../hooks/useAuthContext";
 import { useBalancesContext } from "../../hooks/useBalancesContext";
 
+import UpdateBalanceModal from "../modals/UpdateBalanceModal";
+
 const AccountSummary = ({ client }) => {
   const { user, logout } = useAuthContext();
   const { balances, dispatch } = useBalancesContext();
 
   useEffect(() => {
-    if (!user) {
-      logout();
-    }
-
     const fetchBalance = async () => {
+      if (!user) {
+        logout();
+      }
+
       try {
         const response = await fetch("/balances/client/" + client, {
           headers: {
@@ -55,8 +57,13 @@ const AccountSummary = ({ client }) => {
         <strong>Service Dues: </strong>${balances.serviceDues}
       </p>
       <p>
-        <strong>New Statement Balance </strong>${balances.newStatementBalance}
+        <strong>New Statement Balance: </strong>${balances.newStatementBalance}
       </p>
+      {user && user.role === "admin" && (
+        <>
+          <UpdateBalanceModal key={balances._id} balances={balances} />
+        </>
+      )}
     </div>
   );
 };
