@@ -67,10 +67,6 @@ const ProfilePayments = ({ client, user }) => {
                 {format(new Date(payment.checkDate), "MM/dd/yyyy")}
               </p>
               <p>
-                <strong>Statement ID: </strong>
-                {payment.statementId}
-              </p>
-              <p>
                 <strong>Amount: </strong>
                 {payment.amount}
               </p>

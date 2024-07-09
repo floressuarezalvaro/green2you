@@ -59,11 +59,14 @@ const ClientDetails = ({ client, handleShowToast }) => {
       </p>
       <div className="button-separator">
         <UpdateClientModal key={`update-${client._id}`} client={client} />
-        <WarningClientInviteModal
-          key={`invite-${client._id}`}
-          selectedClient={client}
-          handleShowToast={handleShowToast}
-        />
+
+        {client && client.clientWelcomeEmailEnabled === false && (
+          <WarningClientInviteModal
+            key={`invite-${client._id}`}
+            selectedClient={client}
+            handleShowToast={handleShowToast}
+          />
+        )}
       </div>
 
       <span
