@@ -12,6 +12,8 @@ const NavigationBar = () => {
   const { logout } = useLogout();
   const [showToast, setShowToast] = useState(false);
 
+  const profileLink = user ? `/profile/${user.id}` : "";
+
   const handleLogout = () => {
     logout();
   };
@@ -44,15 +46,11 @@ const NavigationBar = () => {
             )}
             {user && user.role === "client" && (
               <>
-                <Link to="/invoices">Profile</Link>
+                <Link to={profileLink}>Profile</Link>
+                {/* <Link to="/invoices">Referral</Link>
+                <Link to="/invoices">About us</Link> */}
               </>
             )}
-            {/* {user && (
-              <>
-                <Link to="/invoices">Referral</Link>
-                <Link to="/invoices">About us</Link>
-              </>
-            )} */}
           </div>
 
           <div className="nav-right-controls">
