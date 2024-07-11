@@ -14,8 +14,7 @@ const ClientForm = () => {
   const [clientCity, setClientCity] = useState("");
   const [clientState, setClientState] = useState("");
   const [clientZip, setClientZip] = useState("");
-  const [clientPlanWeekly, setClientPlanWeekly] = useState("");
-  const [clientPlanBiweekly, setClientPlanBiweekly] = useState("");
+  const [clientPlan, setClientPlan] = useState("");
   const [clientCycleDate, setClientCycleDate] = useState("");
   const [clientStatementCreateDate, setClientStatementCreateDate] =
     useState("");
@@ -48,8 +47,7 @@ const ClientForm = () => {
       clientWelcomeEmailEnabled,
       clientAutoEmailStatementsEnabled,
       clientStatementCreateDate,
-      clientPlanWeekly,
-      clientPlanBiweekly,
+      clientPlan,
     };
 
     try {
@@ -87,8 +85,7 @@ const ClientForm = () => {
         setClientWelcomeEmailEnabled(false);
         setClientAutoEmailStatementsEnabled(false);
         setClientStatementCreateDate("");
-        setClientPlanWeekly("");
-        setClientPlanBiweekly("");
+        setClientPlan("");
         setError(null);
         setEmptyFields([]);
         dispatch({ type: "CREATE_CLIENT", payload: json });
@@ -173,20 +170,12 @@ const ClientForm = () => {
         id="clientZipField"
       />
 
-      <label htmlFor="clientPlanWeeklyField">Weekly Plan</label>
+      <label htmlFor="clientPlanField">Client Plan</label>
       <input
         type="text"
-        onChange={(e) => setClientPlanWeekly(e.target.value)}
-        value={clientPlanWeekly}
-        id="clientPlanWeeklyField"
-      />
-
-      <label htmlFor="clientPlanBiweeklyField">Biweekly Plan</label>
-      <input
-        type="text"
-        onChange={(e) => setClientPlanBiweekly(e.target.value)}
-        value={clientPlanBiweekly}
-        id="clientPlanBiweeklyField"
+        onChange={(e) => setClientPlan(e.target.value)}
+        value={clientPlan}
+        id="clientPlanField"
       />
 
       <label htmlFor="clientCycleDateField">Cycle End Date (1-31)</label>

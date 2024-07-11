@@ -30,12 +30,8 @@ const ClientDetails = ({ client, handleShowToast }) => {
         {client.clientPhoneNumber}
       </p>
       <p>
-        <strong>Weekly Plan: </strong>
-        {client.clientPlanWeekly}
-      </p>
-      <p>
-        <strong>Biweekly Plan: </strong>
-        {client.clientPlanBiweekly}
+        <strong>Client Plan: </strong>
+        {client.clientPlan}
       </p>
       <p>
         <strong>Cycle End Date: </strong>

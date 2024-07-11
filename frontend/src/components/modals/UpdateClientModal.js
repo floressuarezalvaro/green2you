@@ -25,8 +25,7 @@ const UpdateClientModal = ({ client }) => {
     clientCity: client.clientCity || "",
     clientState: client.clientState || "",
     clientZip: client.clientZip || "",
-    clientPlanWeekly: client.clientPlanWeekly || "",
-    clientPlanBiweekly: client.clientPlanBiweekly || "",
+    clientPlan: client.clientPlan || "",
     clientCycleDate: client.clientCycleDate || "",
     clientStatementCreateDate: client.clientStatementCreateDate || "",
     clientAutoEmailStatementsEnabled: client.clientWelcomeEmailEnabled || false,
@@ -160,23 +159,13 @@ const UpdateClientModal = ({ client }) => {
               />
             </Form.Group>
 
-            <Form.Group className="mb-3" controlId="clientPlanWeeklyField">
-              <Form.Label>Weekly Plan</Form.Label>
+            <Form.Group className="mb-3" controlId="clientPlanField">
+              <Form.Label>Client Plan</Form.Label>
               <Form.Control
                 type="text"
-                value={updateClientForm.clientPlanWeekly}
+                value={updateClientForm.clientPlan}
                 onChange={onChange}
-                name="clientPlanWeekly"
-              />
-            </Form.Group>
-
-            <Form.Group className="mb-3" controlId="clientPlanBiweeklyField">
-              <Form.Label>Biweekly Plan</Form.Label>
-              <Form.Control
-                type="text"
-                value={updateClientForm.clientPlanBiweekly}
-                onChange={onChange}
-                name="clientPlanBiweekly"
+                name="clientPlan"
               />
             </Form.Group>
 

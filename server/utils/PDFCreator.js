@@ -103,9 +103,9 @@ const printStatement = async (req, res) => {
     // Header Line 2
 
     // Calculate Amount Due Date
-    const issuedDate = new Date(statement.issuedEndDate);
-    const dueDate = new Date(issuedDate);
-    dueDate.setDate(issuedDate.getDate() + 28);
+    const createdDate = new Date(statement.createdAt);
+    const dueDate = new Date(createdDate);
+    dueDate.setDate(createdDate.getDate() + 15);
     const dueMonth = String(dueDate.getMonth() + 1).padStart(2, "0");
     const dueDay = String(dueDate.getDate()).padStart(2, "0");
 
@@ -142,18 +142,8 @@ const printStatement = async (req, res) => {
     );
     doc.moveDown(0.2);
 
-    const planText = [];
-
-    if (selectedClient.clientPlanWeekly) {
-      planText.push(selectedClient.clientPlanWeekly);
-    }
-
-    if (selectedClient.clientPlanBiweekly) {
-      planText.push(selectedClient.clientPlanBiweekly);
-    }
-
-    if (planText.length > 0) {
-      doc.text(`Plan: ${planText.join(" ")}`, doc.page.margins.left);
+    if (selectedClient.clientPlan) {
+      doc.text(`Plan: ${selectedClient.clientPlan}`, doc.page.margins.left);
       doc.moveDown();
     }
 

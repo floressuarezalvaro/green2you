@@ -39,11 +39,7 @@ const clientSchema = new Schema(
       type: Number,
       required: true,
     },
-    clientPlanWeekly: {
-      type: String,
-      required: false,
-    },
-    clientPlanBiweekly: {
+    clientPlan: {
       type: String,
       required: false,
     },

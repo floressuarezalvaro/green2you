@@ -17,17 +17,14 @@ const InvoiceForm = () => {
   const [description, setDescription] = useState("");
   const [error, setError] = useState(null);
   const [emptyFields, setEmptyFields] = useState([]);
-  const [clientPlanWeekly, setClientPlanWeekly] = useState("");
-  const [clientPlanBiweekly, setClientPlanBiweekly] = useState("");
+  const [clientPlan, setClientPlan] = useState("");
 
   useEffect(() => {
     const selectedClient = clients.find((client) => client._id === clientId);
     if (selectedClient) {
-      setClientPlanWeekly(selectedClient.clientPlanWeekly);
-      setClientPlanBiweekly(selectedClient.clientPlanBiweekly);
+      setClientPlan(selectedClient.clientPlan);
     } else {
-      setClientPlanWeekly("");
-      setClientPlanBiweekly("");
+      setClientPlan("");
     }
   }, [clientId, clients]);
 
@@ -109,11 +106,7 @@ const InvoiceForm = () => {
         type="number"
         onChange={(e) => setAmount(e.target.value)}
         value={amount}
-        placeholder={
-          clientPlanWeekly || clientPlanBiweekly
-            ? `${clientPlanWeekly} or ${clientPlanBiweekly}`
-            : ""
-        }
+        placeholder={clientPlan}
         className={emptyFields.includes("amount") ? "error" : ""}
         id="amountField"
       />
