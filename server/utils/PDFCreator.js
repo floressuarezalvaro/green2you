@@ -78,13 +78,53 @@ const printStatement = async (req, res) => {
 
     doc.text(selectedClient.clientEmail, { align: "left" });
 
-    doc.moveDown(1);
+    doc.moveDown(0.75);
 
     // line
-    const topLineY = doc.y;
+    const TopLineY = doc.y;
     doc
-      .moveTo(doc.page.margins.left, topLineY)
-      .lineTo(doc.page.width - doc.page.margins.right, topLineY)
+      .moveTo(doc.page.margins.left, TopLineY)
+      .lineTo(doc.page.width - doc.page.margins.right, TopLineY)
+      .stroke();
+
+    doc.moveDown(0.5);
+
+    // line end
+
+    doc.text(`AMOUNT BILLED LAST MONTHS`);
+
+    doc.text("SERVICES", doc.page.margins.left, doc.y, {
+      continued: true,
+    });
+    doc.font(font).text(`AMOUNT BILLED   AMOUNT PAID   DATE   CHECK#`, {
+      align: "right",
+    });
+    doc.moveDown(0.1);
+
+    // line
+    const historicalDataHeaderEnd = doc.y;
+    doc
+      .moveTo(doc.page.margins.left, historicalDataHeaderEnd)
+      .lineTo(doc.page.width - doc.page.margins.right, historicalDataHeaderEnd)
+      .stroke();
+
+    doc.moveDown(0.5);
+
+    // line end
+    // Historical Data Body
+
+    if (selectedClient.clientPlan) {
+      doc.text(selectedClient.clientPlan, doc.page.margins.left);
+      doc.moveDown();
+    }
+    doc.text(`Historical Statement Body`);
+    doc.moveDown(1.0);
+
+    // line
+    const CurrentBillingLineY = doc.y;
+    doc
+      .moveTo(doc.page.margins.left, CurrentBillingLineY)
+      .lineTo(doc.page.width - doc.page.margins.right, CurrentBillingLineY)
       .stroke();
 
     doc.moveDown(0.5);
@@ -120,7 +160,7 @@ const printStatement = async (req, res) => {
       .text(`By ${dueMonthDay}                   After ${dueMonthDay}`, {
         align: "right",
       });
-    doc.moveDown(0.2);
+    doc.moveDown(0.1);
 
     // line
     const header1BottomLineY = doc.y;
@@ -141,11 +181,6 @@ const printStatement = async (req, res) => {
       `Opening/Closing Date: ${displayIssuedStartDate} - ${displayIssuedEndDate}`
     );
     doc.moveDown(0.2);
-
-    if (selectedClient.clientPlan) {
-      doc.text(`Plan: ${selectedClient.clientPlan}`, doc.page.margins.left);
-      doc.moveDown();
-    }
 
     // Invoice Data
     // Group invoices by amount and month
