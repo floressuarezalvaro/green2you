@@ -22,7 +22,6 @@ const WarningClientInviteModal = ({ selectedClient, handleShowToast }) => {
       clientId: selectedClient._id,
       email: selectedClient.clientEmail,
     };
-    console.log(inviteDetails);
 
     try {
       const response = await fetch("/users/signup-client", {
@@ -36,8 +35,6 @@ const WarningClientInviteModal = ({ selectedClient, handleShowToast }) => {
 
       const json = await response.json();
 
-      console.log(json);
-
       if (response.status === 401) {
         logout();
         return;
@@ -49,6 +46,7 @@ const WarningClientInviteModal = ({ selectedClient, handleShowToast }) => {
       if (response.ok) {
         handleClose();
         handleShowToast();
+        window.location.reload();
       }
     } catch (err) {
       console.error("Failed to send invite");

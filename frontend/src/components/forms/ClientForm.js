@@ -211,7 +211,7 @@ const ClientForm = () => {
         id="clientStatementCreateDateField"
       />
 
-      <div className="toggle-switch-container">
+      {/* <div className="toggle-switch-container">
         <label htmlFor="clientWelcomeEmailEnabledField">Welcome Email</label>
 
         <div className="toggle-switch">
@@ -230,7 +230,7 @@ const ClientForm = () => {
             <span className="toggle-switch-switch"></span>
           </label>
         </div>
-      </div>
+      </div> */}
 
       <div className="toggle-switch-container">
         <label htmlFor="clientAutoEmailStatementsEnabledField">

@@ -87,6 +87,12 @@ const StatementDetails = ({ statement, handleShowToast }) => {
         statement={statement}
       />
       <div className="button-separator">
+        <button
+          onClick={(e) => handleClick(e, statement._id)}
+          className="material-symbols-outlined"
+        >
+          open_in_new
+        </button>
         <EmailStatementModal
           key={`email-${statement._id}`}
           clientName={clientName}
@@ -94,18 +100,14 @@ const StatementDetails = ({ statement, handleShowToast }) => {
           statement={statement}
           handleShowToast={handleShowToast}
         />
-        <MakePaymentModal
-          clientName={clientName}
-          key={`payment-${statement._id}`}
-          statement={statement}
-          handleShowToast={handleShowToast}
-        />
-        <button
-          onClick={(e) => handleClick(e, statement._id)}
-          className="material-symbols-outlined"
-        >
-          open_in_new
-        </button>
+        {statement.isPaid === false && (
+          <MakePaymentModal
+            clientName={clientName}
+            key={`payment-${statement._id}`}
+            statement={statement}
+            handleShowToast={handleShowToast}
+          />
+        )}
       </div>
     </div>
   );

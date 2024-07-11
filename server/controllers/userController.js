@@ -53,6 +53,11 @@ const signUpClient = async (req, res) => {
 
     const client = await Client.findById(clientId);
 
+    await Client.findOneAndUpdate(
+      { _id: clientId },
+      { $set: { clientWelcomeEmailEnabled: true } }
+    );
+
     if (!client) {
       return res.status(404).json({ error: "Client not found" });
     }
@@ -62,8 +67,9 @@ const signUpClient = async (req, res) => {
     const setPasswordToken = await User.forgotPassword(email);
 
     const resetUrl = `${process.env.FRONTEND_URL}/set-password/${setPasswordToken}`;
+    const resetLater = `${process.env.FRONTEND_URL}/forgotpassword`;
     const subject = "Access Account - Set Password";
-    const text = `You are receiving this because we are inviting you to access your new Green2You account. To access it, please use this link within one hour of receiving it: ${resetUrl}`;
+    const text = `You are receiving this because we are inviting you to access your new Green2You account. To access it, please use this link within one hour of receiving it: ${resetUrl}. If you miss the hour window, you can request a new link by going to ${resetLater}. Reach out if you have any issues! `;
 
     await sendEmail("Password Set", email, subject, text);
 
