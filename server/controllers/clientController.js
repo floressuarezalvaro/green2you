@@ -3,7 +3,6 @@ const Invoice = require("../models/invoiceModel");
 const Statement = require("../models/statementModel");
 const Balance = require("../models/balanceModel");
 
-const { sendEmail } = require("../utils/emailHandler");
 const mongoose = require("mongoose");
 
 const getAllClients = async (req, res) => {
@@ -63,6 +62,7 @@ const createClient = async (req, res) => {
   if (!clientZip) emptyFields.push("clientZip");
   if (!clientCycleDate) emptyFields.push("clientCycleDate");
   if (!clientStatementCreateDate) emptyFields.push("clientStatementCreateDate");
+  if (!clientPlan) emptyFields.push("clientPlan");
 
   if (clientCycleDate !== "") {
     if (clientCycleDate < 1 || clientCycleDate > 31) {
@@ -104,15 +104,6 @@ const createClient = async (req, res) => {
       clientPlan,
       user_id,
     });
-
-    if (clientWelcomeEmailEnabled === true) {
-      await sendEmail(
-        "Welcome Email",
-        clientEmail,
-        "Welcome to Green2You",
-        `Hello ${clientName}. If you are receiving this, it's because you are now enrolled in Green2You's automated invoice service. Greetings! `
-      );
-    }
 
     await Client.createClientBalance(client._id);
 

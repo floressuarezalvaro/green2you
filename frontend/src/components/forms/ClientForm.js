@@ -175,6 +175,7 @@ const ClientForm = () => {
         type="text"
         onChange={(e) => setClientPlan(e.target.value)}
         value={clientPlan}
+        className={emptyFields.includes("clientPlan") ? "error" : ""}
         id="clientPlanField"
       />
 

@@ -112,11 +112,7 @@ const printStatement = async (req, res) => {
 
     // line end
     // Historical Data Body
-
-    if (selectedClient.clientPlan) {
-      doc.text(selectedClient.clientPlan, doc.page.margins.left);
-      doc.moveDown();
-    }
+    doc.text(`Plan: ${selectedClient.clientPlan}`, doc.page.margins.left);
     doc.text(`Historical Statement Body`);
     doc.moveDown(1.0);
 
@@ -180,58 +176,80 @@ const printStatement = async (req, res) => {
     doc.text(
       `Opening/Closing Date: ${displayIssuedStartDate} - ${displayIssuedEndDate}`
     );
-    doc.moveDown(0.2);
+    doc.moveDown(0.5);
 
     // Invoice Data
     // Group invoices by amount and month
-    const groupedInvoices = {};
-    statement.invoiceData.forEach((invoice) => {
-      const month = new Date(invoice.date).toLocaleString("en-US", {
+
+    const lowerCaseClientPlan = selectedClient.clientPlan.toLowerCase();
+    const planTypeMonthly = lowerCaseClientPlan.includes("month");
+
+    const monthLong = (date) => {
+      return new Date().toLocaleString("en-US", {
         month: "long",
       });
-      const key = `${month}-${invoice.amount}`;
-      if (!groupedInvoices[key]) {
-        groupedInvoices[key] = {
-          count: 0,
-          amount: invoice.amount,
-          total: 0,
-          month: month, // store the month
-          dates: [],
-        };
+    };
+
+    if (planTypeMonthly) {
+      statement.invoiceData.forEach((invoice) => {
+        doc.text(
+          `${monthLong(invoice.date)} Services $${invoice.amount}/Month`,
+          doc.page.margins.left
+        );
+      });
+    } else {
+      const groupedInvoices = {};
+      statement.invoiceData.forEach((invoice) => {
+        const month = monthLong(invoice.date);
+        const key = `${month}-${invoice.amount}`;
+        if (!groupedInvoices[key]) {
+          groupedInvoices[key] = {
+            count: 0,
+            amount: invoice.amount,
+            total: 0,
+            month: month, // store the month
+            dates: [],
+          };
+        }
+        groupedInvoices[key].count += 1;
+        groupedInvoices[key].total += invoice.amount;
+        groupedInvoices[key].dates.push(new Date(invoice.date).getDate());
+      });
+
+      // Display grouped invoices
+      let totalAmount = 0;
+      const groupedKeys = Object.keys(groupedInvoices);
+      groupedKeys.forEach((key) => {
+        const group = groupedInvoices[key];
+        const dates = group.dates.join(", ");
+        doc.text(
+          `${group.count} X $${group.amount.toFixed(
+            2
+          )} = $${group.total.toFixed(2)} ${group.month} ${dates}`,
+          { align: "left" }
+        );
+        totalAmount += group.total;
+        doc.moveDown(0.5);
+      });
+
+      // Create a string to show each group total amount
+      if (groupedKeys.length > 1) {
+        let totalString = "";
+        groupedKeys.forEach((key, index) => {
+          const group = groupedInvoices[key];
+          if (index > 0) {
+            totalString += " + ";
+          }
+          totalString += `$${group.total.toFixed(2)}`;
+        });
+
+        // Display grand total amount
+        doc.text(`${totalString} = $${totalAmount.toFixed(2)}`, {
+          align: "left",
+        });
+        doc.moveDown();
       }
-      groupedInvoices[key].count += 1;
-      groupedInvoices[key].total += invoice.amount;
-      groupedInvoices[key].dates.push(new Date(invoice.date).getDate());
-    });
-
-    // Display grouped invoices
-    let totalAmount = 0;
-    Object.keys(groupedInvoices).forEach((key) => {
-      const group = groupedInvoices[key];
-      const dates = group.dates.join(", ");
-      doc.text(
-        `${group.count} X $${group.amount.toFixed(2)} = $${group.total.toFixed(
-          2
-        )} ${group.month} ${dates}`,
-        { align: "left" }
-      );
-      totalAmount += group.total;
-      doc.moveDown();
-    });
-
-    // Create a string to show each group total amount
-    let totalString = "";
-    Object.keys(groupedInvoices).forEach((key, index) => {
-      const group = groupedInvoices[key];
-      if (index > 0) {
-        totalString += " + ";
-      }
-      totalString += `$${group.total.toFixed(2)}`;
-    });
-
-    // Display grand total amount
-    doc.text(`${totalString} = $${totalAmount.toFixed(2)}`, { align: "left" });
-    doc.moveDown();
+    }
 
     // Total Amount Values
 

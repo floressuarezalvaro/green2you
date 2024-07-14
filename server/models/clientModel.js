@@ -41,7 +41,7 @@ const clientSchema = new Schema(
     },
     clientPlan: {
       type: String,
-      required: false,
+      required: true,
     },
     clientCycleDate: {
       type: Number,
