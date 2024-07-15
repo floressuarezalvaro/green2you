@@ -185,13 +185,14 @@ const printStatement = async (req, res) => {
     const planTypeMonthly = lowerCaseClientPlan.includes("month");
 
     const monthLong = (date) => {
-      return new Date().toLocaleString("en-US", {
+      return date.toLocaleString("en-US", {
         month: "long",
       });
     };
 
     if (planTypeMonthly) {
       statement.invoiceData.forEach((invoice) => {
+        console.log(invoice.date);
         doc.text(
           `${monthLong(invoice.date)} Services $${invoice.amount}/Month`,
           doc.page.margins.left
