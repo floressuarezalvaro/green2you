@@ -73,7 +73,7 @@ const printStatement = async (req, res) => {
       { align: "left" }
     );
 
-    displayCreatedDate = formatDate(statement.createdAt);
+    const displayCreatedDate = formatDate(statement.createdAt);
     doc.text(`Date: ${displayCreatedDate}`, { align: "left" });
 
     doc.text(selectedClient.clientEmail, { align: "left" });
@@ -171,8 +171,8 @@ const printStatement = async (req, res) => {
 
     // Plan Type
 
-    displayIssuedStartDate = formatDate(statement.issuedStartDate);
-    displayIssuedEndDate = formatDate(statement.issuedEndDate);
+    const displayIssuedStartDate = formatDate(statement.issuedStartDate);
+    const displayIssuedEndDate = formatDate(statement.issuedEndDate);
     doc.text(
       `Opening/Closing Date: ${displayIssuedStartDate} - ${displayIssuedEndDate}`
     );
@@ -181,8 +181,9 @@ const printStatement = async (req, res) => {
     // Invoice Data
     // Group invoices by amount and month
 
-    const lowerCaseClientPlan = selectedClient.clientPlan.toLowerCase();
-    const planTypeMonthly = lowerCaseClientPlan.includes("month");
+    const planTypeMonthly = selectedClient.clientPlan
+      .toLowerCase()
+      .includes("month");
 
     const monthLong = (date) => {
       return date.toLocaleString("en-US", {
@@ -190,39 +191,41 @@ const printStatement = async (req, res) => {
       });
     };
 
+    const groupedInvoices = {};
+    const uniqueInvoices = [];
+
+    statement.invoiceData.forEach((invoice) => {
+      if (invoice.description) {
+        uniqueInvoices.push(invoice);
+      } else {
+        const month = monthLong(invoice.date);
+        const key = `${month}-${invoice.amount}`;
+        if (!groupedInvoices[key]) {
+          groupedInvoices[key] = {
+            count: 0,
+            amount: invoice.amount,
+            total: 0,
+            month: month,
+            dates: [],
+          };
+        }
+        groupedInvoices[key].count += 1;
+        groupedInvoices[key].total += invoice.amount;
+        groupedInvoices[key].dates.push(new Date(invoice.date).getDate());
+      }
+    });
+
     if (planTypeMonthly) {
       statement.invoiceData.forEach((invoice) => {
-        console.log(invoice.date);
-        doc.text(
-          `${monthLong(invoice.date)} Services $${invoice.amount}/Month`,
-          doc.page.margins.left
-        );
-      });
-    } else {
-      const groupedInvoices = {};
-      const uniqueInvoices = [];
-      statement.invoiceData.forEach((invoice) => {
-        if (invoice.description) {
-          uniqueInvoices.push(invoice);
-        } else {
-          const month = monthLong(invoice.date);
-          const key = `${month}-${invoice.amount}`;
-          if (!groupedInvoices[key]) {
-            groupedInvoices[key] = {
-              count: 0,
-              amount: invoice.amount,
-              total: 0,
-              month: month,
-              dates: [],
-            };
-          }
-          groupedInvoices[key].count += 1;
-          groupedInvoices[key].total += invoice.amount;
-          groupedInvoices[key].dates.push(new Date(invoice.date).getDate());
+        if (!invoice.description) {
+          doc.text(
+            `${monthLong(invoice.date)} Services $${invoice.amount}/Month`,
+            doc.page.margins.left
+          );
         }
       });
-
-      // Display grouped invoices
+    } else {
+      // Display grouped invoices for non-monthly plan
       const groupedKeys = Object.keys(groupedInvoices);
       groupedKeys.forEach((key) => {
         const group = groupedInvoices[key];
@@ -233,46 +236,45 @@ const printStatement = async (req, res) => {
           )} = $${group.total.toFixed(2)} ${group.month} ${dates}`,
           { align: "left" }
         );
-
         doc.moveDown(0.5);
       });
+    }
 
-      // Display unique invoices
-      uniqueInvoices.forEach((invoice) => {
-        doc.text(
-          `1 X $${invoice.amount.toFixed(2)} = $${invoice.amount.toFixed(
-            2
-          )} ${monthLong(invoice.date)} ${new Date(invoice.date).getDate()} ${
-            invoice.description
-          }`
-        );
-        doc.moveDown(0.5);
+    // Display unique invoices
+    uniqueInvoices.forEach((invoice) => {
+      doc.text(
+        `1 X $${invoice.amount.toFixed(2)} = $${invoice.amount.toFixed(
+          2
+        )} ${monthLong(invoice.date)} ${new Date(invoice.date).getDate()} ${
+          invoice.description
+        }`
+      );
+      doc.moveDown(0.5);
+    });
+
+    // Create a string to show each group total amount
+    if (Object.keys(groupedInvoices).length + uniqueInvoices.length > 1) {
+      let totalString = "";
+      Object.keys(groupedInvoices).forEach((key, index) => {
+        const group = groupedInvoices[key];
+        if (index > 0) {
+          totalString += " + ";
+        }
+        totalString += `$${group.total.toFixed(2)}`;
       });
 
-      // Create a string to show each group total amount
-      if (groupedKeys.length + uniqueInvoices.length > 1) {
-        let totalString = "";
-        groupedKeys.forEach((key, index) => {
-          const group = groupedInvoices[key];
-          if (index > 0) {
-            totalString += " + ";
-          }
-          totalString += `$${group.total.toFixed(2)}`;
-        });
+      uniqueInvoices.forEach((invoice, index) => {
+        if (Object.keys(groupedInvoices).length > 0 || index > 0) {
+          totalString += " + ";
+        }
+        totalString += `$${invoice.amount.toFixed(2)}`;
+      });
 
-        uniqueInvoices.forEach((invoice, index) => {
-          if (groupedKeys.length > 0 || index > 0) {
-            totalString += " + ";
-          }
-          totalString += `$${invoice.amount.toFixed(2)}`;
-        });
-
-        // Display grand total amount
-        doc.text(`${totalString} = $${statement.totalAmount.toFixed(2)}`, {
-          align: "left",
-        });
-        doc.moveDown();
-      }
+      // Display grand total amount
+      doc.text(`${totalString} = $${statement.totalAmount.toFixed(2)}`, {
+        align: "left",
+      });
+      doc.moveDown();
     }
 
     // Total Amount Values
@@ -339,6 +341,7 @@ const printStatement = async (req, res) => {
 
     doc.end();
   } catch (error) {
+    console.error("Error occurred:", error);
     res.status(500).json({ error: "Internal server error" });
   }
 };
