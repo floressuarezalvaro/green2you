@@ -68,7 +68,6 @@ const createInvoice = async (req, res) => {
   if (!clientId) emptyFields.push("clientName");
   if (!date) emptyFields.push("date");
   if (!amount) emptyFields.push("amount");
-  if (!description) emptyFields.push("description");
 
   if (emptyFields.length > 0) {
     return res.status(400).json({

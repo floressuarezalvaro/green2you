@@ -34,10 +34,14 @@ const InvoiceDetails = ({ invoice, hideClientName = false }) => {
         <strong>Amount(USD): </strong>
         {invoice.amount}
       </p>
-      <p>
-        <strong>Service Description: </strong>
-        {invoice.description}
-      </p>
+
+      {invoice.description && (
+        <p>
+          <strong>Service Description: </strong>
+          {invoice.description}
+        </p>
+      )}
+
       <p>
         Created:{" "}
         {formatDistanceToNow(new Date(invoice.createdAt), { addSuffix: true })}
