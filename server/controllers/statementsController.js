@@ -36,6 +36,8 @@ const createStatement = async (req, res) => {
       return res.status(404).json({ error: "Client not found" });
     }
 
+    const clientPlan = client.clientPlan;
+
     const balance = await Balance.findOne({ _id: clientId });
 
     if (!balance) {
@@ -71,6 +73,29 @@ const createStatement = async (req, res) => {
       user_id: invoice.user_id,
     }));
 
+    const historicalInvoicesEndDate = new Date(issuedStartDate);
+    const historicalInvoicesStartDate = new Date(
+      historicalInvoicesEndDate.getFullYear(),
+      historicalInvoicesEndDate.getMonth() - 12,
+      historicalInvoicesEndDate.getDate(),
+      historicalInvoicesEndDate.getHours(),
+      historicalInvoicesEndDate.getMinutes()
+    );
+
+    const historicalInvoices = await Invoice.find({
+      clientId,
+      date: { $gte: historicalInvoicesStartDate, $lte: pacificIssuedStartDate },
+    });
+
+    const historicalInvoiceData = historicalInvoices.map((invoice) => ({
+      _id: invoice._id,
+      date: invoice.date,
+      amount: invoice.amount,
+      description: invoice.description,
+      clientId: invoice.clientId,
+      user_id: invoice.user_id,
+    }));
+
     const previousStatementBalance = balance.newStatementBalance;
 
     const updatedNewStatementBalance =
@@ -93,11 +118,13 @@ const createStatement = async (req, res) => {
     const statement = await Statement.create({
       clientId,
       invoiceData,
+      historicalInvoiceData,
       balanceData: updatedBalance,
       totalAmount,
       issuedStartDate: pacificIssuedStartDate,
       issuedEndDate: pacificIssuedEndDate,
       creationMethod,
+      clientPlan,
       user_id,
       isPaid,
     });

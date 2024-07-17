@@ -16,12 +16,22 @@ const statementSchema = new Schema(
         required: true,
       },
     ],
+    historicalInvoiceData: [
+      {
+        type: Invoice.schema,
+        required: true,
+      },
+    ],
     balanceData: [
       {
         type: Balance.schema,
         required: false,
       },
     ],
+    clientPlan: {
+      type: String,
+      required: true,
+    },
     totalAmount: {
       type: Number,
       required: true,

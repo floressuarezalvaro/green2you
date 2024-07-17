@@ -47,6 +47,16 @@ const printStatement = async (req, res) => {
 
     const selectedClient = await Client.findById(statement.clientId);
 
+    const planTypeMonthly = statement.clientPlan
+      .toLowerCase()
+      .includes("month");
+
+    const monthLong = (date) => {
+      return date.toLocaleString("en-US", {
+        month: "long",
+      });
+    };
+
     // create doc
     const doc = new PDFDocument();
     res.setHeader("Content-Type", "application/pdf");
@@ -111,9 +121,71 @@ const printStatement = async (req, res) => {
     doc.moveDown(0.5);
 
     // line end
-    // Historical Data Body
-    doc.text(`Plan: ${selectedClient.clientPlan}`, doc.page.margins.left);
-    doc.text(`Historical Statement Body`);
+    doc.text(`Plan: ${statement.clientPlan}`, doc.page.margins.left);
+
+    // Invoice Data
+    // Group invoices by amount and month
+    const historicalGroupedInvoices = {};
+    const historicalUniqueInvoices = [];
+
+    statement.historicalInvoiceData.forEach((invoice) => {
+      if (invoice.description) {
+        historicalUniqueInvoices.push(invoice);
+      } else {
+        const month = monthLong(invoice.date);
+        const key = `${month}-${invoice.amount}`;
+        if (!historicalGroupedInvoices[key]) {
+          historicalGroupedInvoices[key] = {
+            count: 0,
+            amount: invoice.amount,
+            total: 0,
+            month: month,
+            dates: [],
+          };
+        }
+        historicalGroupedInvoices[key].count += 1;
+        historicalGroupedInvoices[key].total += invoice.amount;
+        historicalGroupedInvoices[key].dates.push(
+          new Date(invoice.date).getDate()
+        );
+      }
+    });
+
+    if (planTypeMonthly) {
+      statement.historicalInvoiceData.forEach((invoice) => {
+        if (!invoice.description) {
+          doc.text(
+            `${monthLong(invoice.date)} Services $${invoice.amount}/Month`,
+            doc.page.margins.left
+          );
+        }
+      });
+    } else {
+      // Display grouped invoices for non-monthly plan
+      const groupedKeys = Object.keys(historicalGroupedInvoices);
+      groupedKeys.forEach((key) => {
+        const group = historicalGroupedInvoices[key];
+        const dates = group.dates.join(", ");
+        doc.text(
+          `${group.count} X $${group.amount.toFixed(
+            2
+          )} = $${group.total.toFixed(2)} ${group.month} ${dates}`
+        );
+        doc.moveDown(0.5);
+      });
+    }
+
+    // Display unique invoices
+    historicalUniqueInvoices.forEach((invoice) => {
+      doc.text(
+        `1 X $${invoice.amount.toFixed(2)} = $${invoice.amount.toFixed(
+          2
+        )} ${monthLong(invoice.date)} ${new Date(invoice.date).getDate()} ${
+          invoice.description
+        }`
+      );
+      doc.moveDown(0.5);
+    });
     doc.moveDown(1.0);
 
     // line
@@ -180,17 +252,6 @@ const printStatement = async (req, res) => {
 
     // Invoice Data
     // Group invoices by amount and month
-
-    const planTypeMonthly = selectedClient.clientPlan
-      .toLowerCase()
-      .includes("month");
-
-    const monthLong = (date) => {
-      return date.toLocaleString("en-US", {
-        month: "long",
-      });
-    };
-
     const groupedInvoices = {};
     const uniqueInvoices = [];
 
