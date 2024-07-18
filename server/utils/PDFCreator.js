@@ -186,6 +186,35 @@ const printStatement = async (req, res) => {
       );
       doc.moveDown(0.5);
     });
+
+    if (
+      Object.keys(historicalGroupedInvoices).length +
+        historicalUniqueInvoices.length >
+      1
+    ) {
+      let totalString = "";
+      Object.keys(historicalGroupedInvoices).forEach((key, index) => {
+        const group = historicalGroupedInvoices[key];
+        if (index > 0) {
+          totalString += " + ";
+        }
+        totalString += `$${group.total.toFixed(2)}`;
+      });
+
+      historicalUniqueInvoices.forEach((invoice, index) => {
+        if (Object.keys(historicalGroupedInvoices).length > 0 || index > 0) {
+          totalString += " + ";
+        }
+        totalString += `$${invoice.amount.toFixed(2)}`;
+      });
+
+      // Display grand total amount
+      doc.text(`${totalString} = $${statement.totalAmount.toFixed(2)}`, {
+        align: "left",
+      });
+      doc.moveDown();
+    }
+
     doc.moveDown(1.0);
 
     // line
