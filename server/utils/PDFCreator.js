@@ -126,29 +126,28 @@ const printStatement = async (req, res) => {
     // Invoice Data
     // Group invoices by amount and month
     const historicalGroupedInvoices = {};
-    const historicalUniqueInvoices = [];
+    let totalAmount = 0;
 
     statement.historicalInvoiceData.forEach((invoice) => {
-      if (invoice.description) {
-        historicalUniqueInvoices.push(invoice);
-      } else {
-        const month = monthLong(invoice.date);
-        const key = `${month}-${invoice.amount}`;
-        if (!historicalGroupedInvoices[key]) {
-          historicalGroupedInvoices[key] = {
-            count: 0,
-            amount: invoice.amount,
-            total: 0,
-            month: month,
-            dates: [],
-          };
-        }
-        historicalGroupedInvoices[key].count += 1;
-        historicalGroupedInvoices[key].total += invoice.amount;
-        historicalGroupedInvoices[key].dates.push(
-          new Date(invoice.date).getDate()
-        );
+      const month = monthLong(invoice.date);
+      const key = `${month}-${invoice.amount}`;
+
+      if (!historicalGroupedInvoices[key]) {
+        historicalGroupedInvoices[key] = {
+          count: 0,
+          amount: invoice.amount,
+          total: 0,
+          month: month,
+          dates: [],
+          description: [],
+        };
       }
+      historicalGroupedInvoices[key].count += 1;
+      historicalGroupedInvoices[key].total += invoice.amount;
+      historicalGroupedInvoices[key].dates.push(
+        new Date(invoice.date).getDate()
+      );
+      historicalGroupedInvoices[key].description.push(invoice.description);
     });
 
     if (planTypeMonthly) {
@@ -161,7 +160,6 @@ const printStatement = async (req, res) => {
         }
       });
     } else {
-      // Display grouped invoices for non-monthly plan
       const groupedKeys = Object.keys(historicalGroupedInvoices);
       groupedKeys.forEach((key) => {
         const group = historicalGroupedInvoices[key];
@@ -169,29 +167,16 @@ const printStatement = async (req, res) => {
         doc.text(
           `${group.count} X $${group.amount.toFixed(
             2
-          )} = $${group.total.toFixed(2)} ${group.month} ${dates}`
+          )} = $${group.total.toFixed(2)} ${group.month} ${dates} ${
+            group.description
+          }`
         );
+        totalAmount += group.total;
         doc.moveDown(0.5);
       });
     }
 
-    // Display unique invoices
-    historicalUniqueInvoices.forEach((invoice) => {
-      doc.text(
-        `1 X $${invoice.amount.toFixed(2)} = $${invoice.amount.toFixed(
-          2
-        )} ${monthLong(invoice.date)} ${new Date(invoice.date).getDate()} ${
-          invoice.description
-        }`
-      );
-      doc.moveDown(0.5);
-    });
-
-    if (
-      Object.keys(historicalGroupedInvoices).length +
-        historicalUniqueInvoices.length >
-      1
-    ) {
+    if (Object.keys(historicalGroupedInvoices).length > 1) {
       let totalString = "";
       Object.keys(historicalGroupedInvoices).forEach((key, index) => {
         const group = historicalGroupedInvoices[key];
@@ -201,15 +186,8 @@ const printStatement = async (req, res) => {
         totalString += `$${group.total.toFixed(2)}`;
       });
 
-      historicalUniqueInvoices.forEach((invoice, index) => {
-        if (Object.keys(historicalGroupedInvoices).length > 0 || index > 0) {
-          totalString += " + ";
-        }
-        totalString += `$${invoice.amount.toFixed(2)}`;
-      });
-
       // Display grand total amount
-      doc.text(`${totalString} = $${statement.totalAmount.toFixed(2)}`, {
+      doc.text(`${totalString} = $${totalAmount.toFixed(2)}`, {
         align: "left",
       });
       doc.moveDown();
