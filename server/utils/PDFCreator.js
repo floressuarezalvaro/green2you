@@ -123,75 +123,106 @@ const printStatement = async (req, res) => {
     // line end
     doc.text(`Plan: ${statement.clientPlan}`, doc.page.margins.left);
 
-    // Invoice Data
-    // Group invoices by amount and month
-    const historicalGroupedInvoices = {};
-    let totalAmount = 0;
-
-    statement.historicalInvoiceData.forEach((invoice) => {
-      const month = monthLong(invoice.date);
-      const key = `${month}-${invoice.amount}`;
-
-      if (!historicalGroupedInvoices[key]) {
-        historicalGroupedInvoices[key] = {
-          count: 0,
-          amount: invoice.amount,
-          total: 0,
-          month: month,
-          dates: [],
-          description: [],
-        };
-      }
-      historicalGroupedInvoices[key].count += 1;
-      historicalGroupedInvoices[key].total += invoice.amount;
-      historicalGroupedInvoices[key].dates.push(
-        new Date(invoice.date).getDate()
+    // Historical Statement Data
+    statement.historicalStatementsData.forEach((statement) => {
+      doc.text(
+        `${monthLong(statement.issuedEndDate)} Amount: $${
+          statement.totalAmount
+        }`,
+        doc.page.margins.left
       );
-      historicalGroupedInvoices[key].description.push(invoice.description);
     });
 
-    if (planTypeMonthly) {
-      statement.historicalInvoiceData.forEach((invoice) => {
-        if (!invoice.description) {
-          doc.text(
-            `${monthLong(invoice.date)} Services $${invoice.amount}/Month`,
-            doc.page.margins.left
-          );
-        }
-      });
-    } else {
-      const groupedKeys = Object.keys(historicalGroupedInvoices);
-      groupedKeys.forEach((key) => {
-        const group = historicalGroupedInvoices[key];
-        const dates = group.dates.join(", ");
-        doc.text(
-          `${group.count} X $${group.amount.toFixed(
-            2
-          )} = $${group.total.toFixed(2)} ${group.month} ${dates} ${
-            group.description
-          }`
-        );
-        totalAmount += group.total;
-        doc.moveDown(0.5);
-      });
-    }
+    // Historical Invoice Data
+    // statement.historicalInvoiceData.forEach((invoice) => {
+    //   doc.text(
+    //     `${monthLong(invoice.date)} Services $${invoice.amount}/Month`,
+    //     doc.page.margins.left
+    //   );
+    // });
 
-    if (Object.keys(historicalGroupedInvoices).length > 1) {
-      let totalString = "";
-      Object.keys(historicalGroupedInvoices).forEach((key, index) => {
-        const group = historicalGroupedInvoices[key];
-        if (index > 0) {
-          totalString += " + ";
-        }
-        totalString += `$${group.total.toFixed(2)}`;
-      });
+    // Group invoices by amount and month
+    // const historicalGroupedInvoices = {};
+    // const historicalMonthGroupedInvoices = {};
+    // let totalAmount = 0;
 
-      // Display grand total amount
-      doc.text(`${totalString} = $${totalAmount.toFixed(2)}`, {
-        align: "left",
-      });
-      doc.moveDown();
-    }
+    // statement.historicalInvoiceData.forEach((invoice) => {
+    //   const month = monthLong(invoice.date);
+    //   const key = `${month}-${invoice.amount}`;
+
+    //   if (!historicalGroupedInvoices[key]) {
+    //     historicalGroupedInvoices[key] = {
+    //       count: 0,
+    //       amount: invoice.amount,
+    //       total: 0,
+    //       month: month,
+    //       dates: [],
+    //       description: [],
+    //     };
+    //   }
+    //   historicalGroupedInvoices[key].count += 1;
+    //   historicalGroupedInvoices[key].total += invoice.amount;
+    //   historicalGroupedInvoices[key].dates.push(
+    //     new Date(invoice.date).getDate()
+    //   );
+    //   historicalGroupedInvoices[key].description.push(invoice.description);
+
+    //   if (!historicalMonthGroupedInvoices[month]) {
+    //     historicalMonthGroupedInvoices[month] = {
+    //       monthCount: 0,
+    //       monthTotal: 0,
+    //       monthInvoices: [],
+    //     };
+    //   }
+    //   historicalMonthGroupedInvoices[month].monthCount += 1;
+    //   historicalMonthGroupedInvoices[month].monthTotal += invoice.amount;
+    //   historicalMonthGroupedInvoices[month].monthInvoices.push(invoice);
+    // });
+
+    // if (planTypeMonthly) {
+    //   statement.historicalInvoiceData.forEach((invoice) => {
+    //     if (!invoice.description) {
+    //       doc.text(
+    //         `${monthLong(invoice.date)} Services $${invoice.amount}/Month`,
+    //         doc.page.margins.left
+    //       );
+    //     }
+    //   });
+    // } else {
+    //   const groupedKeys = Object.keys(historicalGroupedInvoices);
+    //   groupedKeys.forEach((key) => {
+    //     const group = historicalGroupedInvoices[key];
+    //     const dates = group.dates.join(", ");
+    //     doc.text(
+    //       `${group.count} X $${group.amount.toFixed(
+    //         2
+    //       )} = $${group.total.toFixed(2)} ${group.month} ${dates} ${
+    //         group.description
+    //       }`
+    //     );
+    //     totalAmount += group.total;
+    //     doc.moveDown(0.5);
+    //   });
+
+    //   const monthGroupedKeys = Object.keys(historicalMonthGroupedInvoices);
+    //   monthGroupedKeys.forEach((month) => {
+    //     const group = historicalMonthGroupedInvoices[month];
+    //     let monthTotal = 0;
+    //     let monthMath = "";
+
+    //     group.monthInvoices.forEach((invoice, index) => {
+    //       monthTotal += invoice.amount;
+    //       monthMath += `$${invoice.amount.toFixed(2)}`;
+    //       if (index < group.monthInvoices.length - 1) {
+    //         monthMath += " + ";
+    //       }
+    //     });
+
+    //     doc.text(`${monthMath} = $${group.monthTotal.toFixed(2)}`);
+    //     totalAmount += group.total;
+    //     doc.moveDown(0.5);
+    //   });
+    // }
 
     doc.moveDown(1.0);
 

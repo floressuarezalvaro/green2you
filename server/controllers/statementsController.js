@@ -73,27 +73,28 @@ const createStatement = async (req, res) => {
       user_id: invoice.user_id,
     }));
 
-    const historicalInvoicesEndDate = new Date(issuedStartDate);
-    const historicalInvoicesStartDate = new Date(
-      historicalInvoicesEndDate.getFullYear(),
-      historicalInvoicesEndDate.getMonth() - 12,
-      historicalInvoicesEndDate.getDate(),
-      historicalInvoicesEndDate.getHours(),
-      historicalInvoicesEndDate.getMinutes()
+    const historicalStatementsEndDate = new Date(pacificIssuedStartDate);
+    const historicalStatementsStartDate = new Date(
+      historicalStatementsEndDate.getFullYear(),
+      historicalStatementsEndDate.getMonth() - 12,
+      historicalStatementsEndDate.getDate(),
+      historicalStatementsEndDate.getHours(),
+      historicalStatementsEndDate.getMinutes()
     );
 
-    const historicalInvoices = await Invoice.find({
+    const historicalStatements = await Statement.find({
       clientId,
-      date: { $gte: historicalInvoicesStartDate, $lte: pacificIssuedStartDate },
+      issuedEndDate: {
+        $gte: historicalStatementsStartDate,
+        $lte: historicalStatementsEndDate,
+      },
     });
 
-    const historicalInvoiceData = historicalInvoices.map((invoice) => ({
-      _id: invoice._id,
-      date: invoice.date,
-      amount: invoice.amount,
-      description: invoice.description,
-      clientId: invoice.clientId,
-      user_id: invoice.user_id,
+    console.log(historicalStatements);
+
+    const historicalStatementsData = historicalStatements.map((statement) => ({
+      totalAmount: statement.totalAmount,
+      issuedEndDate: statement.issuedEndDate,
     }));
 
     const previousStatementBalance = balance.newStatementBalance;
@@ -118,7 +119,7 @@ const createStatement = async (req, res) => {
     const statement = await Statement.create({
       clientId,
       invoiceData,
-      historicalInvoiceData,
+      historicalStatementsData,
       balanceData: updatedBalance,
       totalAmount,
       issuedStartDate: pacificIssuedStartDate,

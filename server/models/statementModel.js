@@ -16,10 +16,16 @@ const statementSchema = new Schema(
         required: true,
       },
     ],
-    historicalInvoiceData: [
+    historicalStatementsData: [
       {
-        type: Invoice.schema,
-        required: true,
+        totalAmount: {
+          type: Number,
+          required: true,
+        },
+        issuedEndDate: {
+          type: Date,
+          required: true,
+        },
       },
     ],
     balanceData: [
