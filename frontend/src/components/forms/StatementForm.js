@@ -29,7 +29,6 @@ const StatementForm = () => {
       issuedStartDate,
       issuedEndDate,
       creationMethod: "manual",
-      isPaid: "false",
     };
 
     try {

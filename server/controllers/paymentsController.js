@@ -71,7 +71,10 @@ const makePayment = async (req, res) => {
         { paymentsOrCredits: decreaseBalance }
       );
 
-      await Statement.updateOne({ _id: statementId }, { isPaid: "true" });
+      await Statement.updateOne(
+        { _id: statementId },
+        { isPaid: true, paidAmount: amount, checkDate, checkNumber }
+      );
     }
 
     if (type === "debit") {

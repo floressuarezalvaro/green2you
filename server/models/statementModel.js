@@ -59,6 +59,18 @@ const statementSchema = new Schema(
       type: Boolean,
       required: true,
     },
+    paidAmount: {
+      type: Number,
+      required: true,
+    },
+    checkNumber: {
+      type: Number,
+      required: false,
+    },
+    checkDate: {
+      type: Date,
+      required: false,
+    },
     user_id: {
       type: String,
       required: true,

@@ -7,8 +7,7 @@ const Client = require("../models/clientModel");
 const Balance = require("../models/balanceModel");
 
 const createStatement = async (req, res) => {
-  const { clientId, issuedStartDate, issuedEndDate, creationMethod, isPaid } =
-    req.body;
+  const { clientId, issuedStartDate, issuedEndDate, creationMethod } = req.body;
 
   let emptyFields = [];
 
@@ -16,7 +15,6 @@ const createStatement = async (req, res) => {
   if (!issuedStartDate) emptyFields.push("issuedStartDate");
   if (!issuedEndDate) emptyFields.push("issuedEndDate");
   if (!creationMethod) emptyFields.push("creationMethod");
-  if (!isPaid) emptyFields.push("isPaid");
 
   if (emptyFields.length > 0) {
     return res.status(400).json({
@@ -90,8 +88,6 @@ const createStatement = async (req, res) => {
       },
     });
 
-    console.log(historicalStatements);
-
     const historicalStatementsData = historicalStatements.map((statement) => ({
       totalAmount: statement.totalAmount,
       issuedEndDate: statement.issuedEndDate,
@@ -127,7 +123,10 @@ const createStatement = async (req, res) => {
       creationMethod,
       clientPlan,
       user_id,
-      isPaid,
+      isPaid: false,
+      paidAmount: 0,
+      checkNumber: null,
+      checkDate: null,
     });
 
     await Balance.findOneAndUpdate(
