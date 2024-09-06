@@ -67,34 +67,36 @@ const printStatement = async (req, res) => {
 
     // Pipe the PDF into the response
     doc.pipe(res);
+    green2YouLogo(doc);
 
     // Client Contact Information
-    green2YouLogo(doc);
-    const availableWidth =
-      doc.page.width - doc.page.margins.left - doc.page.margins.right;
 
-    doc.text(selectedClient.clientName, { align: "left" });
-    doc.text(selectedClient.clientStreetLineOne, { align: "left" });
+    const marginL = doc.page.margins.left;
+    const marginR = doc.page.margins.right;
+    const docWidth = doc.page.width;
+
+    const availableWidth = docWidth - marginL - marginR;
+
+    doc.text(selectedClient.clientName);
+    doc.text(selectedClient.clientStreetLineOne);
     if (selectedClient.clientStreetLineTwo) {
-      doc.text(selectedClient.clientStreetLineTwo, { align: "left" });
+      doc.text(selectedClient.clientStreetLineTwo);
     }
     doc.text(
-      `${selectedClient.clientCity}, ${selectedClient.clientState} ${selectedClient.clientZip}`,
-      { align: "left" }
+      `${selectedClient.clientCity}, ${selectedClient.clientState} ${selectedClient.clientZip}`
     );
 
     const displayCreatedDate = formatDate(statement.createdAt);
-    doc.text(`Date: ${displayCreatedDate}`, { align: "left" });
+    doc.text(`Date: ${displayCreatedDate}`);
 
-    doc.text(selectedClient.clientEmail, { align: "left" });
+    doc.text(selectedClient.clientEmail);
 
     doc.moveDown(0.75);
 
     // line
-    const TopLineY = doc.y;
     doc
-      .moveTo(doc.page.margins.left, TopLineY)
-      .lineTo(doc.page.width - doc.page.margins.right, TopLineY)
+      .moveTo(marginL, doc.y)
+      .lineTo(docWidth - marginR, doc.y)
       .stroke();
 
     doc.moveDown(0.5);
@@ -103,7 +105,7 @@ const printStatement = async (req, res) => {
 
     doc.text(`AMOUNT BILLED LAST MONTHS`);
 
-    doc.text("SERVICES", doc.page.margins.left, doc.y, {
+    doc.text("SERVICES", marginL, doc.y, {
       continued: true,
     });
     doc.font(font).text(`AMOUNT BILLED   AMOUNT PAID   DATE   CHECK#`, {
@@ -112,32 +114,34 @@ const printStatement = async (req, res) => {
     doc.moveDown(0.1);
 
     // line
-    const historicalDataHeaderEnd = doc.y;
     doc
-      .moveTo(doc.page.margins.left, historicalDataHeaderEnd)
-      .lineTo(doc.page.width - doc.page.margins.right, historicalDataHeaderEnd)
+      .moveTo(marginL, doc.y)
+      .lineTo(docWidth - marginR, doc.y)
       .stroke();
 
     doc.moveDown(0.5);
 
     // line end
-    doc.text(`Plan: ${statement.clientPlan}`, doc.page.margins.left);
+    doc.text(`Plan: ${statement.clientPlan}`, marginL);
 
     // Historical Statement Data
+
     statement.historicalStatementsData.forEach((statement) => {
-      doc.text(
-        `${monthLong(statement.issuedEndDate)} Amount: $${
-          statement.totalAmount
-        }`,
-        doc.page.margins.left
-      );
+      doc.text(`${monthLong(statement.issuedEndDate)}`, marginL, doc.y, {
+        continued: true,
+      });
+
+      doc.text(`AMOUNT BILLED   AMOUNT PAID   DATE   CHECK#`, {
+        align: "right",
+      });
+      doc.moveDown(0.2);
     });
 
     // Historical Invoice Data
     // statement.historicalInvoiceData.forEach((invoice) => {
     //   doc.text(
     //     `${monthLong(invoice.date)} Services $${invoice.amount}/Month`,
-    //     doc.page.margins.left
+    //     marginL
     //   );
     // });
 
@@ -184,7 +188,7 @@ const printStatement = async (req, res) => {
     //     if (!invoice.description) {
     //       doc.text(
     //         `${monthLong(invoice.date)} Services $${invoice.amount}/Month`,
-    //         doc.page.margins.left
+    //         marginL
     //       );
     //     }
     //   });
@@ -227,10 +231,9 @@ const printStatement = async (req, res) => {
     doc.moveDown(1.0);
 
     // line
-    const CurrentBillingLineY = doc.y;
     doc
-      .moveTo(doc.page.margins.left, CurrentBillingLineY)
-      .lineTo(doc.page.width - doc.page.margins.right, CurrentBillingLineY)
+      .moveTo(marginL, doc.y)
+      .lineTo(docWidth - marginR, doc.y)
       .stroke();
 
     doc.moveDown(0.5);
@@ -238,7 +241,7 @@ const printStatement = async (req, res) => {
     // line end
 
     // Header Line 1
-    doc.text("BILLING DETAIL", doc.page.margins.left, doc.y, {
+    doc.text("BILLING DETAIL", marginL, doc.y, {
       continued: true,
     });
     doc
@@ -258,7 +261,7 @@ const printStatement = async (req, res) => {
     const dueMonthDay = `${dueMonth}/${dueDay}`;
 
     // print Amount Due Line
-    doc.text("SERVICES", doc.page.margins.left, doc.y, {
+    doc.text("SERVICES", marginL, doc.y, {
       continued: true,
     });
     doc
@@ -269,10 +272,9 @@ const printStatement = async (req, res) => {
     doc.moveDown(0.1);
 
     // line
-    const header1BottomLineY = doc.y;
     doc
-      .moveTo(doc.page.margins.left, header1BottomLineY)
-      .lineTo(doc.page.width - doc.page.margins.right, header1BottomLineY)
+      .moveTo(marginL, doc.y)
+      .lineTo(docWidth - marginR, doc.y)
       .stroke();
 
     doc.moveDown();
@@ -319,7 +321,7 @@ const printStatement = async (req, res) => {
         if (!invoice.description) {
           doc.text(
             `${monthLong(invoice.date)} Services $${invoice.amount}/Month`,
-            doc.page.margins.left
+            marginL
           );
         }
       });
@@ -401,21 +403,20 @@ const printStatement = async (req, res) => {
     doc.moveDown(1);
 
     // Comments
-    doc.text("Comments:", doc.page.margins.left);
+    doc.text("Comments:", marginL);
     doc.moveDown(1);
 
     // comment lines
-    const commentLineY = doc.y;
     doc
-      .moveTo(doc.page.margins.left, commentLineY)
-      .lineTo(doc.page.width - doc.page.margins.right, commentLineY)
+      .moveTo(marginL, doc.y)
+      .lineTo(docWidth - marginR, doc.y)
       .stroke();
 
     doc.moveDown(1.5);
-    const commentLineY2 = doc.y;
+
     doc
-      .moveTo(doc.page.margins.left, commentLineY2)
-      .lineTo(doc.page.width - doc.page.margins.right, commentLineY2)
+      .moveTo(marginL, doc.y)
+      .lineTo(docWidth - marginR, doc.y)
       .stroke();
     doc.moveDown(0.5);
 
