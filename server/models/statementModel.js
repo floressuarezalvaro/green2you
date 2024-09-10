@@ -18,11 +18,23 @@ const statementSchema = new Schema(
     ],
     historicalStatementsData: [
       {
+        issuedEndDate: {
+          type: Date,
+          required: true,
+        },
         totalAmount: {
           type: Number,
           required: true,
         },
-        issuedEndDate: {
+        paidAmount: {
+          type: Number,
+          required: true,
+        },
+        checkNumber: {
+          type: Number,
+          required: true,
+        },
+        checkDate: {
           type: Date,
           required: true,
         },
