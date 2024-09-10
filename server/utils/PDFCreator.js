@@ -69,13 +69,17 @@ const printStatement = async (req, res) => {
     doc.pipe(res);
     green2YouLogo(doc);
 
-    // Client Contact Information
-
+    // layout
     const marginL = doc.page.margins.left;
     const marginR = doc.page.margins.right;
     const docWidth = doc.page.width;
-
     const availableWidth = docWidth - marginL - marginR;
+
+    const column1 = 195;
+    const column2 = 270;
+    const column3 = 318;
+
+    // Client Contact Information
 
     doc.text(selectedClient.clientName);
     doc.text(selectedClient.clientStreetLineOne);
@@ -87,30 +91,30 @@ const printStatement = async (req, res) => {
     );
 
     const displayCreatedDate = formatDate(statement.createdAt);
+    doc.text(`Plan: ${statement.clientPlan}`, marginL);
     doc.text(`Date: ${displayCreatedDate}`);
-
-    doc.text(selectedClient.clientEmail);
 
     doc.moveDown(0.75);
 
-    // line
     doc
       .moveTo(marginL, doc.y)
       .lineTo(docWidth - marginR, doc.y)
       .stroke();
-
     doc.moveDown(0.5);
 
-    // line end
+    // historical billing
 
     doc.text(`AMOUNT BILLED LAST MONTHS`);
 
     doc.text("SERVICES", marginL, doc.y, {
       continued: true,
     });
-    doc.font(font).text(`AMOUNT BILLED   AMOUNT PAID   DATE   CHECK#`, {
-      align: "right",
-    });
+
+    doc
+      .font(font)
+      .text(`AMOUNT BILLED      AMOUNT PAID            DATE        CHECK#`, {
+        align: "right",
+      });
     doc.moveDown(0.1);
 
     // line
@@ -122,18 +126,43 @@ const printStatement = async (req, res) => {
     doc.moveDown(0.5);
 
     // line end
-    doc.text(`Plan: ${statement.clientPlan}`, marginL);
 
     // Historical Statement Data
 
     statement.historicalStatementsData.forEach((statement) => {
-      doc.text(`${monthLong(statement.issuedEndDate)}`, marginL, doc.y, {
-        continued: true,
+      const checkDateFormatted = new Date(
+        statement.checkDate
+      ).toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
       });
 
-      doc.text(`AMOUNT BILLED   AMOUNT PAID   DATE   CHECK#`, {
+      doc.text(
+        `${monthLong(statement.issuedEndDate)} Services`,
+        marginL,
+        doc.y,
+        {
+          continued: true,
+          align: "left",
+        }
+      );
+      doc.text(`$${statement.checkNumber}`, {
+        continued: true,
         align: "right",
       });
+
+      doc.text(`$${statement.totalAmount}`, column1, doc.y, {
+        continued: true,
+        align: "left",
+      });
+
+      doc.text(`$${statement.paidAmount}`, column2, doc.y, { continued: true });
+
+      doc.text(`${checkDateFormatted}`, column3, doc.y, {
+        align: "left",
+      });
+
       doc.moveDown(0.2);
     });
 
@@ -243,6 +272,7 @@ const printStatement = async (req, res) => {
     // Header Line 1
     doc.text("BILLING DETAIL", marginL, doc.y, {
       continued: true,
+      align: "left",
     });
     doc
       .font(font)
