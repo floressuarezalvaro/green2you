@@ -129,42 +129,48 @@ const printStatement = async (req, res) => {
 
     // Historical Statement Data
 
-    statement.historicalStatementsData.forEach((statement) => {
-      const checkDateFormatted = new Date(
-        statement.checkDate
-      ).toLocaleDateString("en-US", {
-        year: "numeric",
-        month: "2-digit",
-        day: "2-digit",
-      });
+    if (statement.historicalStatementsData.length > 0) {
+      statement.historicalStatementsData.forEach((statement) => {
+        const checkDateFormatted = new Date(
+          statement.checkDate
+        ).toLocaleDateString("en-US", {
+          year: "numeric",
+          month: "2-digit",
+          day: "2-digit",
+        });
 
-      doc.text(
-        `${monthLong(statement.issuedEndDate)} Services`,
-        marginL,
-        doc.y,
-        {
+        doc.text(
+          `${monthLong(statement.issuedEndDate)} Services`,
+          marginL,
+          doc.y,
+          {
+            continued: true,
+            align: "left",
+          }
+        );
+        doc.text(`$${statement.checkNumber}`, {
+          continued: true,
+          align: "right",
+        });
+
+        doc.text(`$${statement.totalAmount}`, column1, doc.y, {
           continued: true,
           align: "left",
-        }
-      );
-      doc.text(`$${statement.checkNumber}`, {
-        continued: true,
-        align: "right",
+        });
+
+        doc.text(`$${statement.paidAmount}`, column2, doc.y, {
+          continued: true,
+        });
+
+        doc.text(`${checkDateFormatted}`, column3, doc.y, {
+          align: "left",
+        });
       });
+    } else {
+      doc.text("No historical statements yet", marginL, doc.y);
+    }
 
-      doc.text(`$${statement.totalAmount}`, column1, doc.y, {
-        continued: true,
-        align: "left",
-      });
-
-      doc.text(`$${statement.paidAmount}`, column2, doc.y, { continued: true });
-
-      doc.text(`${checkDateFormatted}`, column3, doc.y, {
-        align: "left",
-      });
-
-      doc.moveDown(0.2);
-    });
+    doc.moveDown(0.2);
 
     // Historical Invoice Data
     // statement.historicalInvoiceData.forEach((invoice) => {
