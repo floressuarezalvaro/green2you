@@ -73,11 +73,6 @@ const printStatement = async (req, res) => {
     const marginL = doc.page.margins.left;
     const marginR = doc.page.margins.right;
     const docWidth = doc.page.width;
-    const availableWidth = docWidth - marginL - marginR;
-
-    const column1 = 195;
-    const column2 = 270;
-    const column3 = 318;
 
     // Client Contact Information
 
@@ -92,7 +87,7 @@ const printStatement = async (req, res) => {
 
     const displayCreatedDate = formatDate(statement.createdAt);
     doc.text(`Plan: ${statement.clientPlan}`, marginL);
-    doc.text(`Date: ${displayCreatedDate}`);
+    doc.text(`${displayCreatedDate}`);
 
     doc.moveDown(0.75);
 
@@ -102,19 +97,21 @@ const printStatement = async (req, res) => {
       .stroke();
     doc.moveDown(0.5);
 
-    // historical billing
+    // Historical billing
 
     doc.text(`AMOUNT BILLED LAST MONTHS`);
 
-    doc.text("SERVICES", marginL, doc.y, {
-      continued: true,
+    doc.text("SERVICES", marginL, doc.y);
+    doc.moveUp();
+    doc.text("AMOUNT BILLED", 250, doc.y);
+    doc.moveUp();
+    doc.text("AMOUNT PAID", 345, doc.y);
+    doc.moveUp();
+    doc.text("DATE", 455, doc.y);
+    doc.moveUp();
+    doc.text("CHECK", {
+      align: "right",
     });
-
-    doc
-      .font(font)
-      .text(`AMOUNT BILLED      AMOUNT PAID            DATE        CHECK#`, {
-        align: "right",
-      });
     doc.moveDown(0.1);
 
     // line
@@ -124,8 +121,6 @@ const printStatement = async (req, res) => {
       .stroke();
 
     doc.moveDown(0.5);
-
-    // line end
 
     // Historical Statement Data
 
@@ -140,128 +135,26 @@ const printStatement = async (req, res) => {
         });
 
         doc.text(
-          `${monthLong(statement.issuedEndDate)} Services`,
+          `${monthLong(statement.issuedEndDate)} Statement`,
           marginL,
-          doc.y,
-          {
-            continued: true,
-            align: "left",
-          }
+          doc.y
         );
-        doc.text(`$${statement.checkNumber}`, {
-          continued: true,
+        doc.moveUp();
+        doc.text(`$${statement.totalAmount}`, 285, doc.y);
+        doc.moveUp();
+        doc.text(`$${statement.paidAmount}`, 375, doc.y);
+        doc.moveUp();
+        doc.text(`${checkDateFormatted}`, 440, doc.y);
+        doc.moveUp();
+        doc.text(`#${statement.checkNumber}`, {
           align: "right",
         });
-
-        doc.text(`$${statement.totalAmount}`, column1, doc.y, {
-          continued: true,
-          align: "left",
-        });
-
-        doc.text(`$${statement.paidAmount}`, column2, doc.y, {
-          continued: true,
-        });
-
-        doc.text(`${checkDateFormatted}`, column3, doc.y, {
-          align: "left",
-        });
+        doc.moveDown(0.2);
       });
     } else {
       doc.text("No historical statements yet", marginL, doc.y);
+      doc.moveDown(0.2);
     }
-
-    doc.moveDown(0.2);
-
-    // Historical Invoice Data
-    // statement.historicalInvoiceData.forEach((invoice) => {
-    //   doc.text(
-    //     `${monthLong(invoice.date)} Services $${invoice.amount}/Month`,
-    //     marginL
-    //   );
-    // });
-
-    // Group invoices by amount and month
-    // const historicalGroupedInvoices = {};
-    // const historicalMonthGroupedInvoices = {};
-    // let totalAmount = 0;
-
-    // statement.historicalInvoiceData.forEach((invoice) => {
-    //   const month = monthLong(invoice.date);
-    //   const key = `${month}-${invoice.amount}`;
-
-    //   if (!historicalGroupedInvoices[key]) {
-    //     historicalGroupedInvoices[key] = {
-    //       count: 0,
-    //       amount: invoice.amount,
-    //       total: 0,
-    //       month: month,
-    //       dates: [],
-    //       description: [],
-    //     };
-    //   }
-    //   historicalGroupedInvoices[key].count += 1;
-    //   historicalGroupedInvoices[key].total += invoice.amount;
-    //   historicalGroupedInvoices[key].dates.push(
-    //     new Date(invoice.date).getDate()
-    //   );
-    //   historicalGroupedInvoices[key].description.push(invoice.description);
-
-    //   if (!historicalMonthGroupedInvoices[month]) {
-    //     historicalMonthGroupedInvoices[month] = {
-    //       monthCount: 0,
-    //       monthTotal: 0,
-    //       monthInvoices: [],
-    //     };
-    //   }
-    //   historicalMonthGroupedInvoices[month].monthCount += 1;
-    //   historicalMonthGroupedInvoices[month].monthTotal += invoice.amount;
-    //   historicalMonthGroupedInvoices[month].monthInvoices.push(invoice);
-    // });
-
-    // if (planTypeMonthly) {
-    //   statement.historicalInvoiceData.forEach((invoice) => {
-    //     if (!invoice.description) {
-    //       doc.text(
-    //         `${monthLong(invoice.date)} Services $${invoice.amount}/Month`,
-    //         marginL
-    //       );
-    //     }
-    //   });
-    // } else {
-    //   const groupedKeys = Object.keys(historicalGroupedInvoices);
-    //   groupedKeys.forEach((key) => {
-    //     const group = historicalGroupedInvoices[key];
-    //     const dates = group.dates.join(", ");
-    //     doc.text(
-    //       `${group.count} X $${group.amount.toFixed(
-    //         2
-    //       )} = $${group.total.toFixed(2)} ${group.month} ${dates} ${
-    //         group.description
-    //       }`
-    //     );
-    //     totalAmount += group.total;
-    //     doc.moveDown(0.5);
-    //   });
-
-    //   const monthGroupedKeys = Object.keys(historicalMonthGroupedInvoices);
-    //   monthGroupedKeys.forEach((month) => {
-    //     const group = historicalMonthGroupedInvoices[month];
-    //     let monthTotal = 0;
-    //     let monthMath = "";
-
-    //     group.monthInvoices.forEach((invoice, index) => {
-    //       monthTotal += invoice.amount;
-    //       monthMath += `$${invoice.amount.toFixed(2)}`;
-    //       if (index < group.monthInvoices.length - 1) {
-    //         monthMath += " + ";
-    //       }
-    //     });
-
-    //     doc.text(`${monthMath} = $${group.monthTotal.toFixed(2)}`);
-    //     totalAmount += group.total;
-    //     doc.moveDown(0.5);
-    //   });
-    // }
 
     doc.moveDown(1.0);
 
@@ -273,20 +166,7 @@ const printStatement = async (req, res) => {
 
     doc.moveDown(0.5);
 
-    // line end
-
-    // Header Line 1
-    doc.text("BILLING DETAIL", marginL, doc.y, {
-      continued: true,
-      align: "left",
-    });
-    doc
-      .font(font)
-      .text("Amount Due                 Amount Due", { align: "right" });
-    doc.moveDown(0.2);
-
-    // Header Line 2
-
+    // Current Bill Headings
     // Calculate Amount Due Date
     const createdDate = new Date(statement.createdAt);
     const dueDate = new Date(createdDate);
@@ -296,15 +176,24 @@ const printStatement = async (req, res) => {
 
     const dueMonthDay = `${dueMonth}/${dueDay}`;
 
-    // print Amount Due Line
-    doc.text("SERVICES", marginL, doc.y, {
-      continued: true,
+    doc.text("BILLING DETAIL", marginL, doc.y);
+    doc.moveUp();
+    doc.text("Amount Due", 390, doc.y);
+    doc.moveUp();
+    doc.text("Amount Due", {
+      align: "right",
     });
-    doc
-      .font(font)
-      .text(`By ${dueMonthDay}                   After ${dueMonthDay}`, {
-        align: "right",
-      });
+
+    doc.moveDown(0.2);
+    doc.text("SERVICES", marginL, doc.y);
+    doc.moveUp();
+
+    doc.text(`By ${dueMonthDay}`, 405, doc.y);
+
+    doc.moveUp();
+    doc.text(`After ${dueMonthDay}`, {
+      align: "right",
+    });
     doc.moveDown(0.1);
 
     // line
@@ -315,14 +204,15 @@ const printStatement = async (req, res) => {
 
     doc.moveDown();
 
-    // line end
-
     // Plan Type
 
     const displayIssuedStartDate = formatDate(statement.issuedStartDate);
     const displayIssuedEndDate = formatDate(statement.issuedEndDate);
+
     doc.text(
-      `Opening/Closing Date: ${displayIssuedStartDate} - ${displayIssuedEndDate}`
+      `Opening/Closing Date: ${displayIssuedStartDate} - ${displayIssuedEndDate}`,
+      marginL,
+      doc.y
     );
     doc.moveDown(0.5);
 
@@ -420,17 +310,10 @@ const printStatement = async (req, res) => {
     const totalAmountAfter = statement.totalAmount + 5;
     const dueAfterAmount = `$${totalAmountAfter}`;
 
-    const dueByAmountWidth = doc.widthOfString(dueByAmount, {
-      font: font,
-    });
-    const dueAfterAmountWidth = doc.widthOfString(dueAfterAmount);
-
-    const xAmountDue =
-      availableWidth - (dueByAmountWidth + dueAfterAmountWidth + 15);
-
-    doc.text(dueByAmount, xAmountDue, doc.y, {
+    doc.text(dueByAmount, 420, doc.y, {
       continued: true,
     });
+
     if (statement.totalAmount == 0) {
       doc.font(font).text("$0", { align: "right" });
     } else {
@@ -438,7 +321,6 @@ const printStatement = async (req, res) => {
     }
     doc.moveDown(1);
 
-    // Comments
     doc.text("Comments:", marginL);
     doc.moveDown(1);
 
@@ -457,19 +339,8 @@ const printStatement = async (req, res) => {
     doc.moveDown(0.5);
 
     // comment lines end
-    const thankYouText = "Thank You.";
-    const paymentText = "Mail the payment to my address.";
 
-    const thankYouWidth = doc.widthOfString(thankYouText, {
-      font: boldFont,
-    });
-    const paymentTextWidth = doc.widthOfString(paymentText, {
-      font: font,
-    });
-
-    const x = availableWidth - (thankYouWidth + paymentTextWidth - 65);
-
-    doc.text("Mail the payment to my address.", x, doc.y, {
+    doc.text("Mail the payment to my address.", 340, doc.y, {
       continued: true,
       align: "left",
     });
