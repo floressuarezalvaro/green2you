@@ -53,7 +53,9 @@ const Profile = () => {
       {selectedClient ? (
         <>
           <ClientDetails client={selectedClient} user={user.role} />
-          <AccountSummary client={selectedClient._id} />
+          {user && user.role === "admin" && (
+            <AccountSummary client={selectedClient._id} />
+          )}
           <Statements client={selectedClient._id} />
           <ProfileInvoices client={selectedClient._id} />
           <ProfilePayments client={selectedClient._id} user={user} />
