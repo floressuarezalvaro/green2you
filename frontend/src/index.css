@@ -160,17 +160,10 @@ select::-ms-expand {
 
 .statements-wrapper {
   border-radius: 4px;
-  margin: 10px;
+  margin: 10px 10px 0px 10px;
   padding: 20px;
   position: relative;
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.05);
-}
-
-.payments-header {
-  padding: 10px 0 0px 20px;
-  margin: 0 10px -10px 10px;
-  font-size: 1.2em;
-  color: var(--primary);
 }
 
 .statement, .no-statements, .no-invoices {
@@ -187,6 +180,16 @@ select::-ms-expand {
   color: #555;
   padding: 10px;
   margin: 10px 0 20px 20px;
+}
+
+.profile-invoice-separator {
+  border-top: 3px solid var(--primary);
+  border-bottom: 3px solid var(--primary);
+  border-radius: 4px;
+}
+.profile-payment-separator {
+  border-bottom: 3px solid var(--primary);
+  border-radius: 4px;
 }
 
 .profile-no-statements {
@@ -292,10 +295,10 @@ select::-ms-expand {
   font-size: 1.2em;
 }
 
-.profile-invoices h5 {
-  margin: 10px 0 -10px 10px;
-  padding: 10px 10px 0 20px;
-  font-size: 1.2em;
+.profile-invoices h5, .payments-header {
+  margin: 10px;
+  text-align: center;
+  font-size: 1.4em;
 }
 
 /* Toggle Switch */

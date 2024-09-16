@@ -57,8 +57,12 @@ const Profile = () => {
             <AccountSummary client={selectedClient._id} />
           )}
           <Statements client={selectedClient._id} />
-          <ProfileInvoices client={selectedClient._id} />
-          <ProfilePayments client={selectedClient._id} user={user} />
+          <div className="profile-invoice-separator">
+            <ProfileInvoices client={selectedClient._id} />
+          </div>
+          <div className="profile-payment-separator">
+            <ProfilePayments client={selectedClient._id} user={user} />
+          </div>
         </>
       ) : (
         <p>Client not found.</p>
