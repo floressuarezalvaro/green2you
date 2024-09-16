@@ -150,6 +150,7 @@ const getPaymentsById = async (req, res) => {
 
 const updatePayment = async (req, res) => {
   const { id } = req.params;
+  const { amount, checkDate, checkNumber } = req.body;
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
     return res.status(400).json({ error: "This is not a valid client id" });
@@ -164,6 +165,18 @@ const updatePayment = async (req, res) => {
 
     if (!payment) {
       return res.status(404).json({ error: "Payment not found" });
+    }
+
+    const statementId = payment.statementId;
+
+    const statement = await Statement.findOneAndUpdate(
+      { _id: statementId },
+      { paidAmount: amount, checkDate, checkNumber },
+      { new: true }
+    );
+
+    if (!statement) {
+      return res.status(404).json({ error: "Statement not found" });
     }
 
     res.status(200).json(payment);

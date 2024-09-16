@@ -63,13 +63,15 @@ const StatementDetails = ({ statement, handleShowToast }) => {
         {formattedCreatedDate}
       </p>
       <p>
-        <strong>Total Amount(USD): </strong>
-        {statement.totalAmount}
+        <strong>Amount Due: </strong> ${statement.totalAmount}
       </p>
-      <p>
-        <strong>Is Paid: </strong>
-        {statement.isPaid ? "Yes" : "No"}
-      </p>
+
+      {statement.paidAmount > 0 && (
+        <p>
+          <strong>Amount Paid:</strong> ${statement.paidAmount}
+        </p>
+      )}
+
       <p>
         Created:{" "}
         {formatDistanceToNow(new Date(statement.createdAt), {
