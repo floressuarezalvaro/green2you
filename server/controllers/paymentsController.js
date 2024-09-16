@@ -171,8 +171,7 @@ const updatePayment = async (req, res) => {
 
     const statement = await Statement.findOneAndUpdate(
       { _id: statementId },
-      { paidAmount: amount, checkDate, checkNumber },
-      { new: true }
+      { paidAmount: amount, checkDate, checkNumber }
     );
 
     if (!statement) {
@@ -226,6 +225,17 @@ const deletePayment = async (req, res) => {
         { _id: clientId },
         { paymentsOrCredits: decreaseBalance }
       );
+    }
+
+    const statementId = payment.statementId;
+
+    const statement = await Statement.findOneAndUpdate(
+      { _id: statementId },
+      { isPaid: false, paidAmount: 0, checkDate: null, checkNumber: null }
+    );
+
+    if (!statement) {
+      return res.status(404).json({ error: "Statement not found" });
     }
 
     res.status(201).json(payment);
