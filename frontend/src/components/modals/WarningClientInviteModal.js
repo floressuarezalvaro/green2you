@@ -46,7 +46,9 @@ const WarningClientInviteModal = ({ selectedClient, handleShowToast }) => {
       if (response.ok) {
         handleClose();
         handleShowToast();
-        window.location.reload();
+        setTimeout(() => {
+          window.location.reload();
+        }, 3000);
       }
     } catch (err) {
       console.error("Failed to send invite");
