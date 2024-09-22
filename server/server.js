@@ -1,7 +1,19 @@
-require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 const cron = require("node-cron");
+const dotenv = require("dotenv");
+
+const envFile =
+  process.env.NODE_ENV === "production"
+    ? ".env.production"
+    : ".env.development";
+dotenv.config({ path: envFile });
+
+if (process.env.NODE_ENV === "development") {
+  console.log("You're in development mode!");
+} else {
+  console.log("You're in production mode!");
+}
 
 const invoiceRoutes = require("./routes/invoiceRoutes");
 const userRoutes = require("./routes/userRoutes");
