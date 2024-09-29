@@ -2,6 +2,7 @@
     "name": "green2you",
     "version": "1.0.0",
     "scripts": {
+      "start": "npm run start --prefix server",
       "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix frontend && npm run build --prefix frontend"
     }
-  }
+}
