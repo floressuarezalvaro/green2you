@@ -14,7 +14,7 @@ const Home = () => {
     <div className="home">
       <h1>Welcome to Green2You</h1>
       <div className="home-details">
-        <p>Click on the links above to navigate</p>
+        <p>Hello, click on the links above to navigate</p>
       </div>
     </div>
   );
