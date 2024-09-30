@@ -42,28 +42,33 @@ app.use("/statements", statementsRoutes);
 app.use("/balances", balanceRoutes);
 app.use("/payments", paymentRoutes);
 
+app.use((req, res, next) => {
+  if (req.originalUrl.startsWith("/api")) {
+    return res.status(404).json({ message: "API route not found" });
+  }
+  next();
+});
+
+if (
+  process.env.NODE_ENV === "production" ||
+  process.env.HEROKU_ENV === "development"
+) {
+  // Serve static files for React app
+  app.use(express.static(path.join(__dirname, "../frontend/build")));
+
+  // Catch-all handler for client-side routing (React)
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "../frontend/build", "index.html"));
+  });
+} else if (process.env.NODE_ENV === "development") {
+  // Local development, frontend handled by Webpack/Vite dev server
+  console.log("Running in local development mode");
+}
+
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).send("Something broke!");
 });
-
-if (
-  process.env.NODE_ENV === "production" &&
-  process.env.HEROKU_ENV !== "development"
-) {
-  // Production environment
-  app.use(express.static(path.join(__dirname, "../frontend/build")));
-
-  // Catch-all handler for any requests that don't match API routes
-  app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname, "../frontend/build", "index.html"));
-  });
-} else if (
-  process.env.HEROKU_ENV === "development" ||
-  process.env.NODE_ENV === "development"
-) {
-  console.log("Running in development mode");
-}
 
 const connectWithRetry = () => {
   mongoose
