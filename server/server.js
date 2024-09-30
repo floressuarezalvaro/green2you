@@ -48,12 +48,12 @@ app.use((err, req, res, next) => {
 });
 
 if (process.env.NODE_ENV === "production") {
-  // Serve the static files from the React app (in frontend/build)
-  app.use(express.static(path.join(__dirname, "frontend/build")));
+  // Serve the static files from the React app located in the '../frontend/build' directory
+  app.use(express.static(path.join(__dirname, "../frontend/build")));
 
   // Catch-all handler for any requests that don't match API routes
   app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname, "frontend/build", "index.html"));
+    res.sendFile(path.join(__dirname, "../frontend/build", "index.html"));
   });
 }
 
