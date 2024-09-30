@@ -47,14 +47,22 @@ app.use((err, req, res, next) => {
   res.status(500).send("Something broke!");
 });
 
-if (process.env.NODE_ENV === "production") {
-  // Serve the static files from the React app located in the '../frontend/build' directory
+if (
+  process.env.NODE_ENV === "production" &&
+  process.env.HEROKU_ENV !== "development"
+) {
+  // Production environment
   app.use(express.static(path.join(__dirname, "../frontend/build")));
 
   // Catch-all handler for any requests that don't match API routes
   app.get("*", (req, res) => {
     res.sendFile(path.join(__dirname, "../frontend/build", "index.html"));
   });
+} else if (
+  process.env.HEROKU_ENV === "development" ||
+  process.env.NODE_ENV === "development"
+) {
+  console.log("Running in development mode");
 }
 
 const connectWithRetry = () => {
