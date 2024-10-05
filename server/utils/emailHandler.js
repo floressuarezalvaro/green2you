@@ -38,6 +38,7 @@ const sendEmail = async (type, to, subject, text, attachment) => {
       emailSubject: subject,
       emailText: text,
       emailSuccess: true,
+      emailError: null,
     });
     await emailLog.save();
   } catch (error) {
@@ -47,7 +48,7 @@ const sendEmail = async (type, to, subject, text, attachment) => {
       emailSubject: subject,
       emailText: text,
       emailSuccess: false,
-      emailError: error,
+      emailError: error.message,
     });
     await emailLog.save();
   }
