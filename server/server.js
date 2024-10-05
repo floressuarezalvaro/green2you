@@ -49,10 +49,7 @@ app.use((req, res, next) => {
   next();
 });
 
-if (
-  process.env.NODE_ENV === "production" ||
-  process.env.HEROKU_ENV === "development"
-) {
+if (process.env.NODE_ENV === "production") {
   // Serve static files for React app
   app.use(express.static(path.join(__dirname, "../frontend/build")));
 
@@ -60,9 +57,6 @@ if (
   app.get("*", (req, res) => {
     res.sendFile(path.join(__dirname, "../frontend/build", "index.html"));
   });
-} else if (process.env.NODE_ENV === "development") {
-  // Local development, frontend handled by Webpack/Vite dev server
-  console.log("Running in local development mode");
 }
 
 app.use((err, req, res, next) => {
