@@ -19,7 +19,10 @@ const Invoice = () => {
       }
 
       try {
-        const response = await fetch("/invoices", {
+        const apiUrl = process.env.REACT_APP_API_URL;
+
+        const response = await fetch(`${apiUrl}/invoices`, {
+          method: "GET",
           headers: {
             Authorization: `Bearer ${user.token}`,
           },

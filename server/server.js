@@ -31,12 +31,17 @@ const app = express();
 app.use(express.json());
 
 const corsOptions = {
-  origin: "https://www.green-2-you.com",
-  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+  origin:
+    process.env.NODE_ENV === "production"
+      ? "https://www.green-2-you.com"
+      : "http://localhost:3000",
+  methods: "GET,PUT,POST,DELETE",
   allowedHeaders: ["Authorization", "Content-Type"],
+  credentials: true,
 };
 
 app.use(cors(corsOptions));
+app.options("*", cors(corsOptions));
 
 app.use((req, res, next) => {
   console.log(req.path, req.method);
