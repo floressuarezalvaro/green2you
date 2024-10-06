@@ -31,6 +31,19 @@ app.use(express.json());
 
 app.use((req, res, next) => {
   console.log(req.path, req.method);
+  // Log request headers
+
+  if (req.path != "/favicon.ico") {
+    console.log("Headers:", req.headers);
+  }
+
+  // Log the authorization header specifically if present
+  if (req.headers.authorization) {
+    console.log("Authorization:", req.headers.authorization);
+  } else {
+    console.log("Authorization header missing");
+  }
+
   next();
 });
 
