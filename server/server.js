@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const cron = require("node-cron");
 const dotenv = require("dotenv");
 const path = require("path");
+const cors = require("cors");
 
 const envFile =
   process.env.NODE_ENV === "production"
@@ -28,6 +29,14 @@ const generateMonthlyStatements = require("./utils/statementScheduler");
 const app = express();
 
 app.use(express.json());
+
+const corsOptions = {
+  origin: "https://www.green-2-you.com",
+  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+  allowedHeaders: ["Authorization", "Content-Type"],
+};
+
+app.use(cors(corsOptions));
 
 app.use((req, res, next) => {
   console.log(req.path, req.method);
