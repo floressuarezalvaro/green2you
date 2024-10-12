@@ -3,7 +3,6 @@ const mongoose = require("mongoose");
 const cron = require("node-cron");
 const dotenv = require("dotenv");
 const path = require("path");
-const cors = require("cors");
 
 const envFile =
   process.env.NODE_ENV === "production"
@@ -28,21 +27,7 @@ const generateMonthlyStatements = require("./utils/statementScheduler");
 
 const app = express();
 
-app.set("trust proxy", 1);
 app.use(express.json());
-
-const corsOptions = {
-  origin:
-    process.env.NODE_ENV === "production"
-      ? "https://www.green-2-you.com"
-      : "http://localhost:3000",
-  methods: "GET,PUT,POST,DELETE",
-  allowedHeaders: ["Authorization", "Content-Type"],
-  credentials: true,
-};
-
-app.use(cors(corsOptions));
-app.options("*", cors(corsOptions));
 
 app.use((req, res, next) => {
   console.log(req.path, req.method);
