@@ -1,4 +1,4 @@
-import { createContext, useReducer, useEffect, useState } from "react";
+import { createContext, useReducer, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 export const AuthContext = createContext();
@@ -13,6 +13,8 @@ export const authReducer = (state, action) => {
     case "LOGOUT": {
       return { user: null, loading: false };
     }
+    case "SET_LOADING_COMPLETE":
+      return { ...state, loading: false };
     default:
       return state;
   }
@@ -24,29 +26,18 @@ export const AuthContextProvider = ({ children }) => {
     loading: true,
   });
 
-  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
-    try {
-      const user = localStorage.getItem("user");
-      console.log("Raw user from localStorage:", user); // Log what is being returned from localStorage
+    const user = JSON.parse(localStorage.getItem("user"));
 
-      if (user) {
-        const parsedUser = JSON.parse(user);
-        console.log("Parsed user object:", parsedUser); // Log parsed user object
-        dispatch({ type: "LOGIN", payload: parsedUser });
-      } else {
-        dispatch({ type: "LOGOUT" });
-      }
-    } catch (error) {
-      console.error("Error restoring user from localStorage:", error); // Log any errors
-    } finally {
-      setLoading(false);
+    if (user) {
+      dispatch({ type: "LOGIN", payload: user });
+    } else {
+      dispatch({ type: "LOGOUT" });
     }
+    dispatch({ type: "SET_LOADING_COMPLETE" });
   }, []);
-
-  console.log("AuthContextProvider is mounted");
 
   const logout = () => {
     localStorage.removeItem("user");
@@ -54,10 +45,9 @@ export const AuthContextProvider = ({ children }) => {
     navigate("/login");
   };
 
-  if (loading) {
+  if (state.loading) {
     return <div>Loading...</div>;
   }
-
   return (
     <AuthContext.Provider value={{ ...state, dispatch, logout }}>
       {children}

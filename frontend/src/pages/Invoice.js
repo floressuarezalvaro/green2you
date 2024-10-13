@@ -14,7 +14,7 @@ const Invoice = () => {
 
   useEffect(() => {
     const fetchInvoices = async () => {
-      if (loading || !user.token) {
+      if (loading || !user || !user.token) {
         return;
       }
 
@@ -41,7 +41,7 @@ const Invoice = () => {
     };
 
     fetchInvoices();
-  }, [loading, user.token, dispatch, logout]);
+  }, [loading, user, dispatch, logout]);
 
   if (!invoices) {
     return <div>Loading...</div>;
