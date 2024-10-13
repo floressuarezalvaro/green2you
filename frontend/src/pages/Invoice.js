@@ -7,14 +7,14 @@ import InvoiceForm from "../components/forms/InvoiceForm";
 import Pagination from "../components/Pagination.js";
 
 const Invoice = () => {
-  const { user, logout } = useAuthContext();
+  const { loading, user, logout } = useAuthContext();
   const { invoices, dispatch } = useInvoicesContext();
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
 
   useEffect(() => {
     const fetchInvoices = async () => {
-      if (!user || !user.token) {
+      if (loading || !user.token) {
         return;
       }
 
@@ -41,7 +41,7 @@ const Invoice = () => {
     };
 
     fetchInvoices();
-  }, [user, user.token, dispatch, logout]);
+  }, [loading, user.token, dispatch, logout]);
 
   if (!invoices) {
     return <div>Loading...</div>;
