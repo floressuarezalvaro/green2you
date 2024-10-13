@@ -14,8 +14,8 @@ const Invoice = () => {
 
   useEffect(() => {
     const fetchInvoices = async () => {
-      if (!user) {
-        logout();
+      if (!user || !user.token) {
+        return;
       }
 
       try {
@@ -41,7 +41,7 @@ const Invoice = () => {
     };
 
     fetchInvoices();
-  }, [user, dispatch, logout]);
+  }, [user, dispatch, logout]); // Add user.token to the dependency array to ensure it waits for the token
 
   if (!invoices) {
     return <div>Loading...</div>;
