@@ -46,6 +46,8 @@ export const AuthContextProvider = ({ children }) => {
     }
   }, []);
 
+  console.log("AuthContextProvider is mounted");
+
   const logout = () => {
     localStorage.removeItem("user");
     dispatch({ type: "LOGOUT" });

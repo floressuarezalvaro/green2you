@@ -13,21 +13,21 @@ import { BalancesContextProvider } from "./context/BalanceContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <React.StrictMode>
-    <BrowserRouter>
-      <AuthContextProvider>
-        <ClientsContextProvider>
-          <InvoicesContextProvider>
-            <StatementsContextProvider>
-              <PaymentsContextProvider>
-                <BalancesContextProvider>
-                  <App />
-                </BalancesContextProvider>
-              </PaymentsContextProvider>
-            </StatementsContextProvider>
-          </InvoicesContextProvider>
-        </ClientsContextProvider>
-      </AuthContextProvider>
-    </BrowserRouter>
-  </React.StrictMode>
+  // <React.StrictMode>
+  <BrowserRouter>
+    <AuthContextProvider>
+      <ClientsContextProvider>
+        <InvoicesContextProvider>
+          <StatementsContextProvider>
+            <PaymentsContextProvider>
+              <BalancesContextProvider>
+                <App />
+              </BalancesContextProvider>
+            </PaymentsContextProvider>
+          </StatementsContextProvider>
+        </InvoicesContextProvider>
+      </ClientsContextProvider>
+    </AuthContextProvider>
+  </BrowserRouter>
+  // </React.StrictMode>
 );
