@@ -28,11 +28,13 @@ export const AuthContextProvider = ({ children }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const user = JSON.parse(localStorage.getItem("user"));
-    console.log("Restored user from localStorage:", user);
+    const user = localStorage.getItem("user");
+    console.log("Raw user from localStorage:", user);
 
     if (user) {
-      dispatch({ type: "LOGIN", payload: user });
+      const parsedUser = JSON.parse(user);
+      console.log("Parsed user object:", parsedUser);
+      dispatch({ type: "LOGIN", payload: parsedUser });
     } else {
       dispatch({ type: "LOGOUT" });
     }
