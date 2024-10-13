@@ -22,8 +22,7 @@ const Invoice = () => {
         const response = await fetch("/invoices", {
           method: "GET",
           headers: {
-            Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NmY1OTZjYmYzNTJkM2NiZjU0NGIzYzgiLCJpYXQiOjE3Mjg4NTI4MTAsImV4cCI6MTcyODkzOTIxMH0.VcYcRs6vGnXwqEBB4IAjPNCJrxPtSJoMnWkkcC1Kq7A`,
-            // Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NmYxZDUxNWUwMTBkYzAwNDdhNjNjODIiLCJpYXQiOjE3Mjg4NTQ0MzMsImV4cCI6MTcyODk0MDgzM30.FxntqVENaVendvR6L61vHTYFYPnbGYz2ER_gfiJE4Cw`,
+            Authorization: `Bearer ${user.token}`,
           },
         });
 
