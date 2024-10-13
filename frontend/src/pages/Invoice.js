@@ -41,7 +41,7 @@ const Invoice = () => {
     };
 
     fetchInvoices();
-  }, [user, dispatch, logout]); // Add user.token to the dependency array to ensure it waits for the token
+  }, [user, user.token, dispatch, logout]);
 
   if (!invoices) {
     return <div>Loading...</div>;
