@@ -28,17 +28,22 @@ export const AuthContextProvider = ({ children }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const user = localStorage.getItem("user");
-    console.log("Raw user from localStorage:", user);
+    try {
+      const user = localStorage.getItem("user");
+      console.log("Raw user from localStorage:", user); // Log what is being returned from localStorage
 
-    if (user) {
-      const parsedUser = JSON.parse(user);
-      console.log("Parsed user object:", parsedUser);
-      dispatch({ type: "LOGIN", payload: parsedUser });
-    } else {
-      dispatch({ type: "LOGOUT" });
+      if (user) {
+        const parsedUser = JSON.parse(user);
+        console.log("Parsed user object:", parsedUser); // Log parsed user object
+        dispatch({ type: "LOGIN", payload: parsedUser });
+      } else {
+        dispatch({ type: "LOGOUT" });
+      }
+    } catch (error) {
+      console.error("Error restoring user from localStorage:", error); // Log any errors
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   }, []);
 
   const logout = () => {
