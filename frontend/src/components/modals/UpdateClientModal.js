@@ -28,7 +28,8 @@ const UpdateClientModal = ({ client }) => {
     clientPlan: client.clientPlan || "",
     clientCycleDate: client.clientCycleDate || "",
     clientStatementCreateDate: client.clientStatementCreateDate || "",
-    clientAutoEmailStatementsEnabled: client.clientWelcomeEmailEnabled || false,
+    clientAutoEmailStatementsEnabled:
+      client.clientAutoEmailStatementsEnabled || false,
   });
 
   const onChange = (e) => {
