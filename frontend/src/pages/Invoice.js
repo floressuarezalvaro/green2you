@@ -22,14 +22,17 @@ const Invoice = () => {
       console.log("Token being used:", token);
 
       try {
-        const response = await fetch("/invoices", {
+        const requestConfig = {
           method: "GET",
           headers: {
             Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
           },
-        });
+        };
 
-        console.log("Request Headers:", response.headers);
+        console.log("Request Config:", requestConfig);
+
+        const response = await fetch("/invoices", requestConfig);
 
         if (!response.ok) {
           console.error("Request failed:", response.status);
