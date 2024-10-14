@@ -37,7 +37,7 @@ function App() {
             path="/"
             element={user ? <Home /> : <Navigate to="/login" />}
           />
-          <Route
+          {/* <Route
             path="/invoices"
             element={
               user && user.role === "admin" ? (
@@ -46,7 +46,13 @@ function App() {
                 <Navigate to="/login" />
               )
             }
+          /> */}
+
+          <Route
+            path="/invoices"
+            element={user ? <Invoice /> : <Navigate to="/login" />}
           />
+
           <Route
             path="/clients"
             element={

@@ -49,6 +49,10 @@ export const ClientsContextProvider = ({ children }) => {
         if (response.ok) {
           dispatch({ type: "SET_CLIENTS", payload: data });
         }
+
+        if (!response.ok) {
+          console.log("clients context no loaded clients");
+        }
       };
 
       fetchClients();

@@ -5,7 +5,7 @@ const requireAuth = (roles) => async (req, res, next) => {
   const { authorization } = req.headers;
 
   if (!authorization) {
-    return res.status(401).json({ error: "Authorization Required" });
+    return res.status(401).json({ error: "Authorization is Required" });
   }
 
   const token = authorization.split(" ")[1];
