@@ -18,15 +18,21 @@ const Invoice = () => {
         return;
       }
 
+      const token = process.env.REACT_APP_API_TOKEN;
+      console.log("Token being used:", token);
+
       try {
         const response = await fetch("/invoices", {
           method: "GET",
           headers: {
-            Authorization: `Bearer ${user.token}`,
+            Authorization: `Bearer ${token}`,
           },
         });
 
+        console.log("Request Headers:", response.headers);
+
         if (!response.ok) {
+          console.error("Request failed:", response.status);
           if (response.status === 401) {
             logout();
           }
