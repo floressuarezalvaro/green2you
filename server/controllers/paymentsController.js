@@ -2,6 +2,7 @@ const Payment = require("../models/paymentModel");
 const Client = require("../models/clientModel");
 const Statement = require("../models/statementModel");
 const Balance = require("../models/balanceModel");
+const moment = require("moment-timezone");
 
 const mongoose = require("mongoose");
 
@@ -33,6 +34,10 @@ const makePayment = async (req, res) => {
     return res.status(400).json({ error: "This is not a valid statement id" });
   }
 
+  const dateTime = moment
+    .tz(checkDate, "America/Los_Angeles")
+    .set({ hour: 12, minute: 0, second: 0, millisecond: 0 });
+
   try {
     const client = await Client.findById(clientId);
     if (!client) {
@@ -57,7 +62,7 @@ const makePayment = async (req, res) => {
       statementId,
       type,
       amount,
-      checkDate,
+      checkDate: dateTime,
       checkNumber,
       memo,
     });
@@ -157,11 +162,18 @@ const updatePayment = async (req, res) => {
   }
 
   try {
-    const payment = await Payment.findOneAndUpdate(
-      { _id: id },
-      { ...req.body },
-      { new: true, runValidators: true }
-    );
+    let updateFields = { ...req.body };
+
+    if (checkDate) {
+      updateFields.checkDate = moment
+        .tz(checkDate, "America/Los_Angeles")
+        .set({ hour: 12, minute: 0, second: 0, millisecond: 0 });
+    }
+
+    const payment = await Payment.findOneAndUpdate({ _id: id }, updateFields, {
+      new: true,
+      runValidators: true,
+    });
 
     if (!payment) {
       return res.status(404).json({ error: "Payment not found" });
@@ -171,7 +183,7 @@ const updatePayment = async (req, res) => {
 
     const statement = await Statement.findOneAndUpdate(
       { _id: statementId },
-      { paidAmount: amount, checkDate, checkNumber }
+      { paidAmount: amount, checkDate: updateFields.checkDate, checkNumber }
     );
 
     if (!statement) {
