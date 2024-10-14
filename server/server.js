@@ -43,7 +43,7 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use("/invoices", invoiceRoutes);
+app.use("/api/invoices", invoiceRoutes);
 app.use("/clients", clientRoutes);
 app.use("/users", userRoutes);
 app.use("/emails", emailRoutes);
@@ -64,6 +64,7 @@ if (process.env.NODE_ENV === "production") {
 
   // Catch-all handler for client-side routing (React)
   app.get("*", (req, res) => {
+    console.log("Catch-all route hit! Serving index.html");
     res.sendFile(path.join(__dirname, "../frontend/build", "index.html"));
   });
 }
