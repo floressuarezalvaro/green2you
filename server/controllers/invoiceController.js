@@ -156,11 +156,17 @@ const updateInvoice = async (req, res) => {
   }
 
   try {
-    const invoice = await Invoice.findOneAndUpdate(
-      { _id: id },
-      { ...req.body },
-      { new: true }
-    );
+    let updateFields = { ...req.body };
+
+    if (updateFields.date) {
+      updateFields.date = moment
+        .tz(updateFields.date, "America/Los_Angeles")
+        .set({ hour: 12, minute: 0, second: 0, millisecond: 0 });
+    }
+
+    const invoice = await Invoice.findOneAndUpdate({ _id: id }, updateFields, {
+      new: true,
+    });
     if (!invoice) {
       return res.status(404).json({ error: "No invoice found" });
     }
