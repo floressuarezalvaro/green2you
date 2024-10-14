@@ -18,7 +18,7 @@ const DeleteInvoiceModal = ({ invoice }) => {
       logout();
     }
 
-    const response = await fetch("/invoices/" + invoice._id, {
+    const response = await fetch("/api/invoices/" + invoice._id, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${user.token}`,

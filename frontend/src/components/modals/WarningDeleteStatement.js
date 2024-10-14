@@ -18,7 +18,7 @@ const DeleteStatementModal = ({ statement }) => {
       logout();
     }
 
-    const response = await fetch("/statements/" + statement._id, {
+    const response = await fetch("/api/statements/" + statement._id, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${user.token}`,

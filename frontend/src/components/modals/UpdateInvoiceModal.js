@@ -37,7 +37,7 @@ const UpdateInvoiceModal = ({ invoice, clientName }) => {
       logout();
     }
 
-    const response = await fetch("/invoices/" + invoice._id, {
+    const response = await fetch("/api/invoices/" + invoice._id, {
       method: "PUT",
       body: JSON.stringify(updateInvoiceForm),
       headers: {

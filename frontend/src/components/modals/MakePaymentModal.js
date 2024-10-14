@@ -37,7 +37,7 @@ const MakePaymentModal = ({ statement, clientName }) => {
       logout();
     }
 
-    const response = await fetch("/payments", {
+    const response = await fetch("/api/payments", {
       method: "POST",
       body: JSON.stringify(makePaymentForm),
       headers: {

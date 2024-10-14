@@ -51,7 +51,7 @@ const ClientForm = () => {
     };
 
     try {
-      const response = await fetch("/clients", {
+      const response = await fetch("/api/clients", {
         method: "POST",
         body: JSON.stringify(client),
         headers: {

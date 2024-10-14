@@ -32,7 +32,7 @@ const StatementForm = () => {
     };
 
     try {
-      const response = await fetch("/statements", {
+      const response = await fetch("/api/statements", {
         method: "POST",
         body: JSON.stringify(statement),
         headers: {

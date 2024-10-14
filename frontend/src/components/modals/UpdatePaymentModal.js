@@ -50,7 +50,7 @@ const UpdatePaymentModal = ({ payment }) => {
       logout();
     }
 
-    const response = await fetch("/payments/" + payment._id, {
+    const response = await fetch("/api/payments/" + payment._id, {
       method: "PUT",
       body: JSON.stringify(updatePaymentForm),
       headers: {

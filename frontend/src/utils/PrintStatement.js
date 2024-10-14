@@ -5,7 +5,7 @@ const PrintStatement = async (user, id) => {
   }
 
   try {
-    const response = await fetch(`/statements/print/${id}`, {
+    const response = await fetch(`/api/statements/print/${id}`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${user.token}`,

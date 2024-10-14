@@ -21,7 +21,7 @@ const Payment = () => {
 
     const fetchPayments = async () => {
       try {
-        const response = await fetch("/payments", {
+        const response = await fetch("/api/payments", {
           headers: {
             Authorization: `Bearer ${user.token}`,
           },

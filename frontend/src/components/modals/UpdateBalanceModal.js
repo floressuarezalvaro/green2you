@@ -38,7 +38,7 @@ const UpdateBalanceModal = ({ balances }) => {
       logout();
     }
 
-    const response = await fetch("/balances/" + balances._id, {
+    const response = await fetch("/api/balances/" + balances._id, {
       method: "PUT",
       body: JSON.stringify(updateBalanceForm),
       headers: {

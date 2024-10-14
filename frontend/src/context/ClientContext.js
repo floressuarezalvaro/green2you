@@ -39,7 +39,7 @@ export const ClientsContextProvider = ({ children }) => {
   useEffect(() => {
     if (user && user.token && user.role === "admin") {
       const fetchClients = async () => {
-        const response = await fetch("/clients", {
+        const response = await fetch("/api/clients", {
           headers: {
             Authorization: `Bearer ${user.token}`,
           },

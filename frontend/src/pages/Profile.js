@@ -24,7 +24,7 @@ const Profile = () => {
       if (!user || !clientId) return;
 
       try {
-        const response = await fetch(`/clients/${clientId}`, {
+        const response = await fetch(`/api/clients/${clientId}`, {
           headers: {
             Authorization: `Bearer ${user.token}`,
           },

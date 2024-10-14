@@ -62,7 +62,7 @@ const StatementsList = ({ client }) => {
 
     const fetchStatements = async () => {
       try {
-        const response = await fetch(`/statements/client/${client}`, {
+        const response = await fetch(`/api/statements/client/${client}`, {
           headers: {
             Authorization: `Bearer ${user.token}`,
           },

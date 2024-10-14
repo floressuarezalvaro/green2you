@@ -60,7 +60,7 @@ const sendStatementByEmail = async (clientEmail, statementId) => {
 
   try {
     // Fetch the PDF from the server
-    const statementUrl = `${process.env.FRONTEND_URL}/statements/print/${statementId}`;
+    const statementUrl = `${process.env.FRONTEND_URL}/api/statements/print/${statementId}`;
     const response = await axios.get(statementUrl, {
       responseType: "arraybuffer",
       headers: {

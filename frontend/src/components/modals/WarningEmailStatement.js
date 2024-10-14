@@ -29,7 +29,7 @@ const EmailStatementModal = ({
     };
 
     try {
-      const response = await fetch("/emails/manual-statement-email", {
+      const response = await fetch("/api/emails/manual-statement-email", {
         method: "POST",
         body: JSON.stringify(emailDetails),
         headers: {

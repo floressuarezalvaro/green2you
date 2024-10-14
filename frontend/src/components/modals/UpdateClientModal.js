@@ -46,7 +46,7 @@ const UpdateClientModal = ({ client }) => {
       logout();
     }
 
-    const response = await fetch("/clients/" + client._id, {
+    const response = await fetch("/api/clients/" + client._id, {
       method: "PUT",
       body: JSON.stringify(updateClientForm),
       headers: {

@@ -18,7 +18,7 @@ const DeletePaymentModal = ({ payment }) => {
       logout();
     }
 
-    const response = await fetch("/payments/" + payment._id, {
+    const response = await fetch("/api/payments/" + payment._id, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${user.token}`,

@@ -28,7 +28,7 @@ const Statement = () => {
       if (!user) return;
 
       try {
-        const response = await fetch("/statements", {
+        const response = await fetch("/api/statements", {
           headers: {
             Authorization: `Bearer ${user.token}`,
           },

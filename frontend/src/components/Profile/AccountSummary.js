@@ -16,7 +16,7 @@ const AccountSummary = ({ client }) => {
       }
 
       try {
-        const response = await fetch("/balances/client/" + client, {
+        const response = await fetch("/api/balances/client/" + client, {
           headers: {
             Authorization: `Bearer ${user.token}`,
           },

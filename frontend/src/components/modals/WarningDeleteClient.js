@@ -20,7 +20,7 @@ const DeleteClientModal = ({ client }) => {
       logout();
     }
 
-    const response = await fetch("/clients/" + client._id, {
+    const response = await fetch("/api/clients/" + client._id, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${user.token}`,

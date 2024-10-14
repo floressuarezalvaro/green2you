@@ -24,7 +24,7 @@ const WarningClientInviteModal = ({ selectedClient, handleShowToast }) => {
     };
 
     try {
-      const response = await fetch("/users/signup-client", {
+      const response = await fetch("/api/users/signup-client", {
         method: "POST",
         body: JSON.stringify(inviteDetails),
         headers: {

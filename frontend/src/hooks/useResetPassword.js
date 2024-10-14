@@ -7,7 +7,7 @@ export const useResetPassword = () => {
     setError(null);
 
     try {
-      const response = await fetch(`/users/resetpassword`, {
+      const response = await fetch(`/api/users/resetpassword`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, oldPassword, newPassword }),

@@ -17,7 +17,7 @@ const EmailTable = () => {
       }
 
       try {
-        const response = await fetch("/emails?days=60", {
+        const response = await fetch("/api/emails?days=60", {
           headers: {
             Authorization: `Bearer ${user.token}`,
           },

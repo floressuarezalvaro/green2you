@@ -29,27 +29,18 @@ const app = express();
 
 app.use(express.json());
 
-app.set("trust proxy", 1);
-
 app.use((req, res, next) => {
   console.log(req.path, req.method);
-  console.log("Headers:", req.headers);
-
-  if (req.headers.authorization) {
-    console.log("Authorization:", req.headers.authorization);
-  } else {
-    console.log("Authorization header missing");
-  }
   next();
 });
 
 app.use("/api/invoices", invoiceRoutes);
-app.use("/clients", clientRoutes);
-app.use("/users", userRoutes);
-app.use("/emails", emailRoutes);
-app.use("/statements", statementsRoutes);
-app.use("/balances", balanceRoutes);
-app.use("/payments", paymentRoutes);
+app.use("/api/clients", clientRoutes);
+app.use("/api/users", userRoutes);
+app.use("/api/emails", emailRoutes);
+app.use("/api/statements", statementsRoutes);
+app.use("/api/balances", balanceRoutes);
+app.use("/api/payments", paymentRoutes);
 
 app.use((req, res, next) => {
   if (req.originalUrl.startsWith("/api")) {
@@ -59,12 +50,9 @@ app.use((req, res, next) => {
 });
 
 if (process.env.NODE_ENV === "production") {
-  // Serve static files for React app
   app.use(express.static(path.join(__dirname, "../frontend/build")));
 
-  // Catch-all handler for client-side routing (React)
   app.get("*", (req, res) => {
-    console.log("Catch-all route hit! Serving index.html");
     res.sendFile(path.join(__dirname, "../frontend/build", "index.html"));
   });
 }

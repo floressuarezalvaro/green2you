@@ -24,7 +24,7 @@ const Client = () => {
 
     const fetchClients = async () => {
       try {
-        const response = await fetch("/clients", {
+        const response = await fetch("/api/clients", {
           headers: {
             Authorization: `Bearer ${user.token}`,
           },

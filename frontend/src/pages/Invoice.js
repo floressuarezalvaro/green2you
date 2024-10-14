@@ -7,35 +7,26 @@ import InvoiceForm from "../components/forms/InvoiceForm";
 import Pagination from "../components/Pagination.js";
 
 const Invoice = () => {
-  const { loading, user, logout } = useAuthContext();
+  const { user, logout } = useAuthContext();
   const { invoices, dispatch } = useInvoicesContext();
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
 
   useEffect(() => {
     const fetchInvoices = async () => {
-      if (loading || !user || !user.token) {
-        return;
+      if (!user) {
+        logout();
       }
 
-      const token = process.env.REACT_APP_API_TOKEN;
-      console.log("Token being used:", token);
-
       try {
-        const requestConfig = {
+        const response = await fetch("/api/invoices", {
           method: "GET",
           headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
+            Authorization: `Bearer ${user.token}`,
           },
-        };
-
-        console.log("Request Config:", requestConfig);
-
-        const response = await fetch("/invoices", requestConfig);
+        });
 
         if (!response.ok) {
-          console.error("Request failed:", response.status);
           if (response.status === 401) {
             logout();
           }
@@ -50,7 +41,7 @@ const Invoice = () => {
     };
 
     fetchInvoices();
-  }, [loading, user, dispatch, logout]);
+  }, [user, dispatch, logout]);
 
   if (!invoices) {
     return <div>Loading...</div>;

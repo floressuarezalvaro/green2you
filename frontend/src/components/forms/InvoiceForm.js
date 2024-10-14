@@ -43,7 +43,7 @@ const InvoiceForm = () => {
     };
 
     try {
-      const response = await fetch("/invoices", {
+      const response = await fetch("/api/invoices", {
         method: "POST",
         body: JSON.stringify(invoice),
         headers: {
