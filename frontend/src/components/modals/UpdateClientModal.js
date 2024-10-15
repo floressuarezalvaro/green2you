@@ -25,9 +25,10 @@ const UpdateClientModal = ({ client }) => {
     clientCity: client.clientCity || "",
     clientState: client.clientState || "",
     clientZip: client.clientZip || "",
-    clientPlan: client.clientPlan || "",
     clientCycleDate: client.clientCycleDate || "",
     clientStatementCreateDate: client.clientStatementCreateDate || "",
+    clientPlan: client.clientPlan || "",
+    clientMonthly: client.clientMonthly || false,
     clientAutoEmailStatementsEnabled:
       client.clientAutoEmailStatementsEnabled || false,
   });
@@ -160,16 +161,6 @@ const UpdateClientModal = ({ client }) => {
               />
             </Form.Group>
 
-            <Form.Group className="mb-3" controlId="clientPlanField">
-              <Form.Label>Client Plan</Form.Label>
-              <Form.Control
-                type="text"
-                value={updateClientForm.clientPlan}
-                onChange={onChange}
-                name="clientPlan"
-              />
-            </Form.Group>
-
             <Form.Group className="mb-3" controlId="clientCycleDateField">
               <Form.Label>Cycle End Date (1-31)</Form.Label>
               <Form.Control
@@ -190,6 +181,26 @@ const UpdateClientModal = ({ client }) => {
                 value={updateClientForm.clientStatementCreateDate}
                 onChange={onChange}
                 name="clientStatementCreateDate"
+              />
+            </Form.Group>
+
+            <Form.Group className="mb-3" controlId="clientPlanField">
+              <Form.Label>Client Plan</Form.Label>
+              <Form.Control
+                type="text"
+                value={updateClientForm.clientPlan}
+                onChange={onChange}
+                name="clientPlan"
+              />
+            </Form.Group>
+
+            <Form.Group className="mb-3" controlId="clientMonthlyField">
+              <Form.Label>Client Monthly</Form.Label>
+              <ToggleSwitch
+                checked={updateClientForm.clientMonthly}
+                onChange={onChange}
+                name="clientMonthly"
+                id="clientMonthlyField"
               />
             </Form.Group>
 

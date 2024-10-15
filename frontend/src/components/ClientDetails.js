@@ -30,16 +30,20 @@ const ClientDetails = ({ client, handleShowToast }) => {
         {client.clientPhoneNumber}
       </p>
       <p>
-        <strong>Client Plan: </strong>
-        {client.clientPlan}
-      </p>
-      <p>
         <strong>Cycle End Date: </strong>
         {client.clientCycleDate}
       </p>
       <p>
         <strong>Statement Create Date: </strong>
         {client.clientStatementCreateDate}
+      </p>
+      <p>
+        <strong>Client Plan: </strong>
+        {client.clientPlan}
+      </p>
+      <p>
+        <strong>Monthly Statement: </strong>
+        {client.clientMonthly ? "Yes" : "No"}
       </p>
       <p>
         <strong>Auto Email Statements: </strong>

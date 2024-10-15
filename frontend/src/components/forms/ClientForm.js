@@ -14,16 +14,18 @@ const ClientForm = () => {
   const [clientCity, setClientCity] = useState("");
   const [clientState, setClientState] = useState("");
   const [clientZip, setClientZip] = useState("");
-  const [clientPlan, setClientPlan] = useState("");
   const [clientCycleDate, setClientCycleDate] = useState("");
   const [clientStatementCreateDate, setClientStatementCreateDate] =
     useState("");
-  const [clientWelcomeEmailEnabled, setClientWelcomeEmailEnabled] =
-    useState(false);
+  const [clientPlan, setClientPlan] = useState("");
+  const [clientMonthly, setClientMonthly] = useState(false);
   const [
     clientAutoEmailStatementsEnabled,
     setClientAutoEmailStatementsEnabled,
   ] = useState(false);
+  const [clientWelcomeEmailEnabled, setClientWelcomeEmailEnabled] =
+    useState(false);
+
   const [error, setError] = useState(null);
   const [emptyFields, setEmptyFields] = useState([]);
 
@@ -44,10 +46,11 @@ const ClientForm = () => {
       clientState,
       clientZip,
       clientCycleDate,
-      clientWelcomeEmailEnabled,
-      clientAutoEmailStatementsEnabled,
       clientStatementCreateDate,
       clientPlan,
+      clientMonthly,
+      clientAutoEmailStatementsEnabled,
+      clientWelcomeEmailEnabled,
     };
 
     try {
@@ -82,10 +85,11 @@ const ClientForm = () => {
         setClientState("");
         setClientZip("");
         setClientCycleDate("");
-        setClientWelcomeEmailEnabled(false);
-        setClientAutoEmailStatementsEnabled(false);
         setClientStatementCreateDate("");
         setClientPlan("");
+        setClientMonthly(false);
+        setClientWelcomeEmailEnabled(false);
+        setClientAutoEmailStatementsEnabled(false);
         setError(null);
         setEmptyFields([]);
         dispatch({ type: "CREATE_CLIENT", payload: json });
@@ -170,15 +174,6 @@ const ClientForm = () => {
         id="clientZipField"
       />
 
-      <label htmlFor="clientPlanField">Client Plan</label>
-      <input
-        type="text"
-        onChange={(e) => setClientPlan(e.target.value)}
-        value={clientPlan}
-        className={emptyFields.includes("clientPlan") ? "error" : ""}
-        id="clientPlanField"
-      />
-
       <label htmlFor="clientCycleDateField">Cycle End Date (1-31)</label>
       <input
         type="number"
@@ -201,26 +196,32 @@ const ClientForm = () => {
         id="clientStatementCreateDateField"
       />
 
-      {/* <div className="toggle-switch-container">
-        <label htmlFor="clientWelcomeEmailEnabledField">Welcome Email</label>
+      <label htmlFor="clientPlanField">Client Plan Description</label>
+      <input
+        type="text"
+        onChange={(e) => setClientPlan(e.target.value)}
+        value={clientPlan}
+        className={emptyFields.includes("clientPlan") ? "error" : ""}
+        id="clientPlanField"
+      />
+
+      <div className="toggle-switch-container">
+        <label htmlFor="clientMonthlyField">Client Monthly</label>
 
         <div className="toggle-switch">
           <input
             type="checkbox"
             className="toggle-switch-checkbox"
-            onChange={(e) => setClientWelcomeEmailEnabled(e.target.checked)}
-            value={clientWelcomeEmailEnabled}
-            id="clientWelcomeEmailEnabledField"
+            onChange={(e) => setClientMonthly(e.target.checked)}
+            value={clientMonthly}
+            id="clientMonthlyField"
           />
-          <label
-            className="toggle-switch-label"
-            htmlFor="clientWelcomeEmailEnabledField"
-          >
+          <label className="toggle-switch-label" htmlFor="clientMonthlyField">
             <span className="toggle-switch-inner"></span>
             <span className="toggle-switch-switch"></span>
           </label>
         </div>
-      </div> */}
+      </div>
 
       <div className="toggle-switch-container">
         <label htmlFor="clientAutoEmailStatementsEnabledField">
@@ -246,6 +247,27 @@ const ClientForm = () => {
           </label>
         </div>
       </div>
+
+      {/* <div className="toggle-switch-container">
+        <label htmlFor="clientWelcomeEmailEnabledField">Welcome Email</label>
+
+        <div className="toggle-switch">
+          <input
+            type="checkbox"
+            className="toggle-switch-checkbox"
+            onChange={(e) => setClientWelcomeEmailEnabled(e.target.checked)}
+            value={clientWelcomeEmailEnabled}
+            id="clientWelcomeEmailEnabledField"
+          />
+          <label
+            className="toggle-switch-label"
+            htmlFor="clientWelcomeEmailEnabledField"
+          >
+            <span className="toggle-switch-inner"></span>
+            <span className="toggle-switch-switch"></span>
+          </label>
+        </div>
+      </div> */}
 
       <button>Create New Client</button>
       {error && <div className="error">{error}</div>}

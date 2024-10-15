@@ -49,6 +49,7 @@ const createClient = async (req, res) => {
     clientAutoEmailStatementsEnabled,
     clientStatementCreateDate,
     clientPlan,
+    clientMonthly,
   } = req.body;
 
   let emptyFields = [];
@@ -102,6 +103,7 @@ const createClient = async (req, res) => {
       clientAutoEmailStatementsEnabled,
       clientStatementCreateDate,
       clientPlan,
+      clientMonthly,
       user_id,
     });
 

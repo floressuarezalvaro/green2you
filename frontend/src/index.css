@@ -306,7 +306,7 @@ select::-ms-expand {
 .toggle-switch-container {
   display: flex;
   align-items: center;
-  margin: 10px 20px;
+  margin: 10px 20px 10px 0px;
   justify-content: space-between;
 }
 

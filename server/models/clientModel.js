@@ -43,6 +43,10 @@ const clientSchema = new Schema(
       type: String,
       required: true,
     },
+    clientMonthly: {
+      type: Boolean,
+      required: true,
+    },
     clientCycleDate: {
       type: Number,
       required: true,
