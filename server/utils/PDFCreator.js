@@ -47,10 +47,6 @@ const printStatement = async (req, res) => {
 
     const selectedClient = await Client.findById(statement.clientId);
 
-    const planTypeMonthly = statement.clientPlan
-      .toLowerCase()
-      .includes("month");
-
     const monthLong = (date) => {
       return date.toLocaleString("en-US", {
         month: "long",
@@ -242,7 +238,7 @@ const printStatement = async (req, res) => {
       }
     });
 
-    if (planTypeMonthly) {
+    if (selectedClient.clientMonthly === true) {
       statement.invoiceData.forEach((invoice) => {
         if (!invoice.description) {
           doc.text(
