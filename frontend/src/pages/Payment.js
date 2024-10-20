@@ -58,11 +58,14 @@ const Payment = () => {
     <div className="page-separation">
       <div className="clients">
         <h3>Payments Page</h3>
-        {/* <ClientSearch setClientName={setSearchTerm} /> */}
-        {currentItems &&
+        {payments.length > 0 ? (
           currentItems.map((payment) => (
             <PaymentDetails key={payment._id} payment={payment} />
-          ))}
+          ))
+        ) : (
+          <p className="no-statements">No Payments Yet</p>
+        )}
+        {/* <ClientSearch setClientName={setSearchTerm} /> */}
         {payments.length > itemsPerPage && (
           <Pagination
             itemsPerPage={itemsPerPage}
