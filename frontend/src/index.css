@@ -9,7 +9,6 @@
 
 /* Reset/Global Styles */
 body {
-  margin: 0;
   font-family: 'Times New Roman', Times, serif;
   background: url('./images/landscaping.png') no-repeat;
   background-size: cover;
@@ -19,17 +18,14 @@ body {
 /* Base Elements */
 header {
   background: var(--primary);
+  border-bottom: 1px solid #ddd;
 }
 
 header .container {
-  max-width: 2400px;
-  width: 100%;
-  margin: 0 auto;
-  padding: 10px 20px;
+  padding: 10px 10px;
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  border-bottom: 1px solid #ddd;
+  white-space: nowrap;
+  overflow-x: auto;
 }
 
 header .logo {
@@ -37,7 +33,6 @@ header .logo {
   cursor: pointer;
   margin-right: 20px;
   border-radius: 8px;
-  box-sizing: border-box;
   padding: 0 10px;
 }
 
@@ -48,6 +43,17 @@ header a {
 
 header a:hover {
   text-decoration: underline;
+}
+
+@media (max-width: 938px) {
+  header .container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .nav-right-controls span {
+    display: none; /* Hide extra text on mobile for simplicity */
+  }
 }
 
 label, input, select {
@@ -79,9 +85,11 @@ select::-ms-expand {
 
 /* Layout Styles */
 .pages {
-  max-width: 1400px;
+  width: 90%;
   padding: 20px;
   margin: 0 auto;
+  white-space: nowrap;
+  overflow-x: auto;
 }
 
 .page-separation {
@@ -110,6 +118,15 @@ select::-ms-expand {
   color: var(--primary);
   text-align: center;
   margin-bottom: 20px;
+  overflow-x: auto;
+}
+
+@media (max-width: 768px) {
+  .home {
+    max-width: 90%; 
+    padding: 20px 15px; 
+    white-space: normal; 
+  }
 }
 
 .home-details {
@@ -418,7 +435,6 @@ form.login, form.signup {
   color: var(--secondary);
 }
 
-
 .search-wrapper {
   display: flex;
   justify-content: center;
@@ -499,6 +515,7 @@ input.error, select.error {
 /* Utility Classes */
 nav {
   display: flex;
+  flex-wrap: nowrap;
   align-items: center;
   width: 100%;
 }
@@ -611,6 +628,8 @@ nav button {
   border: 1px solid var(--primary);
   color: var(--tertiary);
   margin-bottom: 20px;
+  white-space: nowrap;
+  overflow-x: auto;
 }
 
 table {
@@ -622,6 +641,8 @@ table {
   padding: 8px;
   max-width: 500px;
   border: 1px solid var(--primary);
+  white-space: nowrap;
+  overflow-x: auto;
 }
 
 .table-header {
