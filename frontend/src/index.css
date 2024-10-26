@@ -41,18 +41,21 @@ header a {
   text-decoration: none;
 }
 
+header h2 {
+  margin: 0px;
+}
+
 header a:hover {
   text-decoration: underline;
 }
 
-@media (max-width: 938px) {
+@media (max-width: 995px) {
   header .container {
-    flex-direction: column;
     align-items: center;
   }
 
   .nav-right-controls span {
-    display: none; /* Hide extra text on mobile for simplicity */
+    display: none; 
   }
 }
 
@@ -550,6 +553,52 @@ nav button {
 .nav-right-controls span {
   font-family: 'Times New Roman', Times, serif;
   font-style: italic;
+}
+
+.hamburger {
+  display: none; 
+  background: #fff;
+  color: var(--primary);
+  border: 2px solid var(--primary);
+  padding: 6px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1em;
+  margin-left: 10px;
+}
+
+@media (max-width: 768px) {
+  .hamburger {
+    display: block;
+  }
+
+  /* Hide nav links by default on small screens */
+  .nav-links {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    position: absolute;
+    top: 60px;
+    left: 0;
+    width: 100%;
+    background-color: var(--secondary);
+    padding: 10px 0;
+    border-top: 1px solid var(--secondary);
+    border-radius: 4px;
+  }
+
+  .nav-links.active {
+    display: flex;
+    z-index: 1000;
+    width: 40%;
+    border: 1px solid var(--primary);
+  }
+
+  .nav-links a {
+    margin: 5px;
+    padding: 5px;
+    color: var(--primary);
+  }
 }
 
 .statements-navbar {
