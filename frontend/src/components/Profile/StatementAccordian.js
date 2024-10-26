@@ -41,8 +41,14 @@ const StatementsList = ({ client }) => {
 
   const formatIssuedDate = (dateStr) => {
     const date = new Date(dateStr);
-    const month = date.toLocaleDateString(undefined, { month: "long" });
-    const year = date.toLocaleDateString(undefined, { year: "numeric" });
+    const month = date.toLocaleDateString("en-US", {
+      month: "long",
+      timeZone: "America/Los_Angeles",
+    });
+    const year = date.toLocaleDateString("en-US", {
+      year: "numeric",
+      timeZone: "America/Los_Angeles",
+    });
     return { month, year };
   };
 
