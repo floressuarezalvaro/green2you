@@ -8,11 +8,17 @@
 }
 
 /* Reset/Global Styles */
+html {
+  overflow-y: hidden;
+}
+
 body {
   font-family: 'Times New Roman', Times, serif;
   background: url('./images/landscaping.png') no-repeat;
   background-size: cover;
   background-attachment: fixed;
+  overflow-x: hidden; 
+  height: 100vh;
 }
 
 /* Base Elements */
@@ -51,6 +57,8 @@ header a:hover {
 @media (max-width: 995px) {
   header .container {
     align-items: center;
+    padding: 10px 20px 10px 20px;
+    overflow-x: hidden;
   }
 
   .nav-right-controls span {
