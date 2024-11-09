@@ -69,7 +69,7 @@ const connectWithRetry = () => {
       app.listen(process.env.PORT, () => {
         console.log("Connected to db & listening on port", process.env.PORT);
       });
-      cron.schedule("* * * * *", monthlyStatements);
+      cron.schedule("0 0 * * *", monthlyStatements);
     })
     .catch((error) => {
       console.error(

@@ -35,25 +35,33 @@ const monthlyStatements = async () => {
           creationMethod: "auto",
         };
 
+        let createdStatement;
         const req = { body: statementData };
         const res = {
           status: (statusCode) => ({
-            json: (data) => data._id,
+            json: (data) => {
+              createdStatement = data;
+              return createdStatement;
+            },
           }),
         };
 
-        const createdStatement = await createStatement(req, res);
+        await createStatement(req, res);
 
-        if (
-          client.clientAutoEmailStatementsEnabled === true &&
-          createdStatement
-        ) {
-          await sendStatementByEmail(client.clientEmail, createdStatement._id);
+        if (createdStatement) {
+          if (client.clientAutoEmailStatementsEnabled === true) {
+            await sendStatementByEmail(
+              client.clientEmail,
+              createdStatement._id
+            );
+          }
+        } else {
+          console.log("Statement creation failed for client:", clientId);
         }
       }
     }
   } catch (error) {
-    console.error("Error generating monthly statements:", error);
+    console.error("Error generating or sending monthly statements:", error);
   }
 };
 
