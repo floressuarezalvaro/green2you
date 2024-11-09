@@ -708,8 +708,7 @@ table {
   padding: 8px;
   max-width: 500px;
   border: 1px solid var(--primary);
-  white-space: nowrap;
-  overflow-x: auto;
+  white-space: wrap;
 }
 
 .table-header {
@@ -723,7 +722,6 @@ table {
   margin-bottom: 20px;
 }
 
-/* Select Client Search */
 .client-select {
   position: relative;
   width: 100%;
