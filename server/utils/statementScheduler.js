@@ -4,7 +4,7 @@ const createStatement =
   require("../controllers/statementsController").createStatement;
 const { sendStatementByEmail } = require("../utils/emailHandler");
 
-const generateMonthlyStatements = async () => {
+const monthlyStatements = async () => {
   const today = moment().date();
   console.log("Today is:", today);
 
@@ -13,49 +13,48 @@ const generateMonthlyStatements = async () => {
 
     for (const client of clients) {
       const clientId = client._id;
-      const clientCycleDate = client.clientCycleDate;
 
-      const issuedStartDate = moment
-        .tz({ day: clientCycleDate + 1 }, "America/Los_Angeles")
-        .subtract(1, "month")
-        .startOf("day")
-        .toISOString();
+      if (client.clientAutoCreateStatementsEnabled === true) {
+        const clientCycleDate = client.clientCycleDate;
 
-      const issuedEndDate = moment
-        .tz({ day: clientCycleDate }, "America/Los_Angeles")
-        .endOf("day")
-        .toISOString();
+        const issuedStartDate = moment
+          .tz({ day: clientCycleDate + 1 }, "America/Los_Angeles")
+          .subtract(1, "month")
+          .startOf("day")
+          .toISOString();
 
-      const statementData = {
-        clientId,
-        issuedStartDate,
-        issuedEndDate,
-        creationMethod: "auto",
-      };
+        const issuedEndDate = moment
+          .tz({ day: clientCycleDate }, "America/Los_Angeles")
+          .endOf("day")
+          .toISOString();
 
-      const req = { body: statementData };
-      const res = {
-        status: (statusCode) => ({
-          json: async (data) => {
-            if (statusCode === 201) {
-              if (client.clientAutoEmailStatementsEnabled === true) {
-                await sendStatementByEmail(client.clientEmail, data._id);
-              }
-            } else {
-              console.error(
-                `Error creating statement for client: ${client.clientName}`,
-                data
-              );
-            }
-          },
-        }),
-      };
+        const statementData = {
+          clientId,
+          issuedStartDate,
+          issuedEndDate,
+          creationMethod: "auto",
+        };
 
-      await createStatement(req, res);
+        const req = { body: statementData };
+        const res = {
+          status: (statusCode) => ({
+            json: (data) => data._id,
+          }),
+        };
+
+        const createdStatement = await createStatement(req, res);
+
+        if (
+          client.clientAutoEmailStatementsEnabled === true &&
+          createdStatement
+        ) {
+          await sendStatementByEmail(client.clientEmail, createdStatement._id);
+        }
+      }
     }
   } catch (error) {
     console.error("Error generating monthly statements:", error);
   }
 };
 
-module.exports = generateMonthlyStatements;
+module.exports = monthlyStatements;

@@ -59,6 +59,10 @@ const clientSchema = new Schema(
       type: Boolean,
       required: true,
     },
+    clientAutoCreateStatementsEnabled: {
+      type: Boolean,
+      required: false,
+    },
     clientAutoEmailStatementsEnabled: {
       type: Boolean,
       required: false,
