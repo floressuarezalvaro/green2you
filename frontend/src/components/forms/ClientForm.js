@@ -105,6 +105,13 @@ const ClientForm = () => {
     }
   };
 
+  const handleAutoCreateChange = (isChecked) => {
+    setClientAutoCreateStatementsEnabled(isChecked);
+    if (!isChecked) {
+      setClientAutoEmailStatementsEnabled(false);
+    }
+  };
+
   return (
     <form className="create" onSubmit={handleSubmit}>
       <h3>Add Client</h3>
@@ -238,10 +245,8 @@ const ClientForm = () => {
           <input
             type="checkbox"
             className="toggle-switch-checkbox"
-            onChange={(e) =>
-              setClientAutoCreateStatementsEnabled(e.target.checked)
-            }
-            value={clientAutoCreateStatementsEnabled}
+            onChange={(e) => handleAutoCreateChange(e.target.checked)}
+            checked={clientAutoCreateStatementsEnabled}
             id="clientAutoCreateStatementsEnabledField"
           />
           <label
@@ -266,7 +271,8 @@ const ClientForm = () => {
             onChange={(e) =>
               setClientAutoEmailStatementsEnabled(e.target.checked)
             }
-            value={clientAutoEmailStatementsEnabled}
+            checked={clientAutoEmailStatementsEnabled}
+            disabled={!clientAutoCreateStatementsEnabled}
             id="clientAutoEmailStatementsEnabledField"
           />
           <label

@@ -37,10 +37,21 @@ const UpdateClientModal = ({ client }) => {
 
   const onChange = (e) => {
     const { name, value, type, checked } = e.target;
-    setUpdateClientForm({
-      ...updateClientForm,
-      [name]: type === "checkbox" ? checked : value,
-    });
+
+    if (name === "clientAutoCreateStatementsEnabled") {
+      setUpdateClientForm({
+        ...updateClientForm,
+        clientAutoCreateStatementsEnabled: checked,
+        clientAutoEmailStatementsEnabled: checked
+          ? updateClientForm.clientAutoEmailStatementsEnabled
+          : false,
+      });
+    } else {
+      setUpdateClientForm({
+        ...updateClientForm,
+        [name]: type === "checkbox" ? checked : value,
+      });
+    }
   };
 
   const handleUpdate = async (e) => {
@@ -229,6 +240,7 @@ const UpdateClientModal = ({ client }) => {
                 onChange={onChange}
                 name="clientAutoEmailStatementsEnabled"
                 id="clientAutoEmailStatementsEnabledField"
+                disabled={!updateClientForm.clientAutoCreateStatementsEnabled} // Disable when Auto Create is false
               />
             </Form.Group>
 

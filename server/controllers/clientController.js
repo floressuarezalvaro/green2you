@@ -85,7 +85,11 @@ const createClient = async (req, res) => {
     });
   }
 
-  // add client to DB
+  const autoCreateEnabled = clientAutoCreateStatementsEnabled === true;
+  const autoEmailEnabled = autoCreateEnabled
+    ? clientAutoEmailStatementsEnabled
+    : false;
+
   try {
     await Client.signupClient(clientEmail);
 
@@ -101,8 +105,8 @@ const createClient = async (req, res) => {
       clientZip,
       clientCycleDate,
       clientWelcomeEmailEnabled,
-      clientAutoCreateStatementsEnabled,
-      clientAutoEmailStatementsEnabled,
+      clientAutoCreateStatementsEnabled: autoCreateEnabled,
+      clientAutoEmailStatementsEnabled: autoEmailEnabled,
       clientStatementCreateDate,
       clientPlan,
       clientMonthly,
@@ -149,7 +153,12 @@ const deleteClient = async (req, res) => {
 
 const updateClient = async (req, res) => {
   const { id } = req.params;
-  const { clientCycleDate, clientStatementCreateDate } = req.body;
+  const {
+    clientCycleDate,
+    clientStatementCreateDate,
+    clientAutoCreateStatementsEnabled,
+    clientAutoEmailStatementsEnabled,
+  } = req.body;
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
     return res.status(404).json({ error: "This is not a valid id" });
@@ -167,10 +176,19 @@ const updateClient = async (req, res) => {
     }
   }
 
+  const autoCreateEnabled = clientAutoCreateStatementsEnabled;
+  const autoEmailEnabled = autoCreateEnabled
+    ? clientAutoEmailStatementsEnabled
+    : false;
+
   try {
     const client = await Client.findOneAndUpdate(
       { _id: id },
-      { ...req.body },
+      {
+        ...req.body,
+        clientAutoCreateStatementsEnabled: autoCreateEnabled,
+        clientAutoEmailStatementsEnabled: autoEmailEnabled,
+      },
       { new: true }
     );
     if (!client) {
