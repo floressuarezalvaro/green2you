@@ -12,17 +12,23 @@ const UpdateBalanceModal = ({ balances }) => {
   const { dispatch } = useBalancesContext();
 
   const [show, setShow] = useState(false);
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
-
   const [error, setError] = useState(null);
 
-  const [updateBalanceForm, setUpdateBalanceForm] = useState({
+  const initializeForm = () => ({
     previousStatementBalance: balances.previousStatementBalance,
     paymentsOrCredits: balances.paymentsOrCredits,
     serviceDues: balances.serviceDues,
     newStatementBalance: balances.newStatementBalance,
   });
+
+  const [updateBalanceForm, setUpdateBalanceForm] = useState(initializeForm());
+
+  const handleShow = () => {
+    setUpdateBalanceForm(initializeForm());
+    setShow(true);
+  };
+
+  const handleClose = () => setShow(false);
 
   const onChange = (e) => {
     setUpdateBalanceForm({

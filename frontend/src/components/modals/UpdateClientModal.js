@@ -12,11 +12,12 @@ const UpdateClientModal = ({ client }) => {
   const { dispatch } = useClientsContext();
 
   const [show, setShow] = useState(false);
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
-
   const [error, setError] = useState(null);
-  const [updateClientForm, setUpdateClientForm] = useState({
+
+  // const handleClose = () => setShow(false);
+  // const handleShow = () => setShow(true);
+
+  const initializeForm = () => ({
     clientName: client.clientName || "",
     clientEmail: client.clientEmail || "",
     clientPhoneNumber: client.clientPhoneNumber || "",
@@ -34,6 +35,15 @@ const UpdateClientModal = ({ client }) => {
     clientAutoEmailStatementsEnabled:
       client.clientAutoEmailStatementsEnabled || false,
   });
+
+  const [updateClientForm, setUpdateClientForm] = useState(initializeForm());
+
+  const handleShow = () => {
+    setUpdateClientForm(initializeForm());
+    setShow(true);
+  };
+
+  const handleClose = () => setShow(false);
 
   const onChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -240,7 +250,7 @@ const UpdateClientModal = ({ client }) => {
                 onChange={onChange}
                 name="clientAutoEmailStatementsEnabled"
                 id="clientAutoEmailStatementsEnabledField"
-                disabled={!updateClientForm.clientAutoCreateStatementsEnabled} // Disable when Auto Create is false
+                disabled={!updateClientForm.clientAutoCreateStatementsEnabled}
               />
             </Form.Group>
 

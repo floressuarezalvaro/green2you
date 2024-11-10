@@ -11,17 +11,24 @@ const UpdateInvoiceModal = ({ invoice, clientName }) => {
   const { dispatch } = useInvoicesContext();
 
   const [show, setShow] = useState(false);
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
-
   const [error, setError] = useState(null);
-  const [updateInvoiceForm, setUpdateInvoiceForm] = useState({
+
+  const initializeForm = () => ({
     date: invoice.date
       ? new Date(invoice.date).toISOString().split("T")[0]
       : "",
     amount: invoice.amount,
     description: invoice.description,
   });
+
+  const [updateInvoiceForm, setUpdateInvoiceForm] = useState(initializeForm());
+
+  const handleShow = () => {
+    setUpdateInvoiceForm(initializeForm());
+    setShow(true);
+  };
+
+  const handleClose = () => setShow(false);
 
   const onChange = (e) => {
     setUpdateInvoiceForm({

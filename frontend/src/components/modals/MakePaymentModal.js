@@ -9,11 +9,9 @@ const MakePaymentModal = ({ statement, clientName }) => {
   const { user, logout } = useAuthContext();
 
   const [show, setShow] = useState(false);
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
-
   const [error, setError] = useState(null);
-  const [makePaymentForm, setMakePaymentForm] = useState({
+
+  const initializeForm = () => ({
     clientId: statement.clientId,
     statementId: statement._id,
     type: "credit",
@@ -22,6 +20,15 @@ const MakePaymentModal = ({ statement, clientName }) => {
     checkDate: "",
     memo: "",
   });
+
+  const [makePaymentForm, setMakePaymentForm] = useState(initializeForm());
+
+  const handleShow = () => {
+    setMakePaymentForm(initializeForm());
+    setShow(true);
+  };
+
+  const handleClose = () => setShow(false);
 
   const onChange = (e) => {
     setMakePaymentForm({

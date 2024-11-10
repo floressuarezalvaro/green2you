@@ -14,11 +14,9 @@ const UpdatePaymentModal = ({ payment }) => {
   const [clientName, setClientName] = useState("");
 
   const [show, setShow] = useState(false);
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
-
   const [error, setError] = useState(null);
-  const [updatePaymentForm, setUpdatePaymentForm] = useState({
+
+  const initializeForm = () => ({
     checkDate: payment.checkDate
       ? new Date(payment.checkDate).toISOString().split("T")[0]
       : "",
@@ -26,6 +24,8 @@ const UpdatePaymentModal = ({ payment }) => {
     checkNumber: payment.checkNumber,
     memo: payment.memo,
   });
+
+  const [updatePaymentForm, setUpdatePaymentForm] = useState(initializeForm());
 
   useEffect(() => {
     if (payment.clientId && clients && clients.length > 0) {
@@ -35,6 +35,13 @@ const UpdatePaymentModal = ({ payment }) => {
       }
     }
   }, [payment.clientId, clients]);
+
+  const handleShow = () => {
+    setUpdatePaymentForm(initializeForm());
+    setShow(true);
+  };
+
+  const handleClose = () => setShow(false);
 
   const onChange = (e) => {
     setUpdatePaymentForm({
