@@ -46,6 +46,10 @@ const ClientDetails = ({ client, handleShowToast }) => {
         {client.clientMonthly ? "Yes" : "No"}
       </p>
       <p>
+        <strong>Auto Create Statements: </strong>
+        {client.clientAutoCreateStatementsEnabled ? "Yes" : "No"}
+      </p>
+      <p>
         <strong>Auto Email Statements: </strong>
         {client.clientAutoEmailStatementsEnabled ? "Yes" : "No"}
       </p>

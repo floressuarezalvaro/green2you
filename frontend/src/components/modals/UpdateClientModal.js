@@ -29,6 +29,8 @@ const UpdateClientModal = ({ client }) => {
     clientStatementCreateDate: client.clientStatementCreateDate || "",
     clientPlan: client.clientPlan || "",
     clientMonthly: client.clientMonthly || false,
+    clientAutoCreateStatementsEnabled:
+      client.clientAutoCreateStatementsEnabled || false,
     clientAutoEmailStatementsEnabled:
       client.clientAutoEmailStatementsEnabled || false,
   });
@@ -201,6 +203,19 @@ const UpdateClientModal = ({ client }) => {
                 onChange={onChange}
                 name="clientMonthly"
                 id="clientMonthlyField"
+              />
+            </Form.Group>
+
+            <Form.Group
+              className="mb-3"
+              controlId="clientAutoCreateStatementsEnabledField"
+            >
+              <Form.Label>Auto Create Statements</Form.Label>
+              <ToggleSwitch
+                checked={updateClientForm.clientAutoCreateStatementsEnabled}
+                onChange={onChange}
+                name="clientAutoCreateStatementsEnabled"
+                id="clientAutoCreateStatementsEnabledField"
               />
             </Form.Group>
 

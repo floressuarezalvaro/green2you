@@ -23,6 +23,10 @@ const ClientForm = () => {
     clientAutoEmailStatementsEnabled,
     setClientAutoEmailStatementsEnabled,
   ] = useState(false);
+  const [
+    clientAutoCreateStatementsEnabled,
+    setClientAutoCreateStatementsEnabled,
+  ] = useState(false);
   const [clientWelcomeEmailEnabled, setClientWelcomeEmailEnabled] =
     useState(false);
 
@@ -49,6 +53,7 @@ const ClientForm = () => {
       clientStatementCreateDate,
       clientPlan,
       clientMonthly,
+      clientAutoCreateStatementsEnabled,
       clientAutoEmailStatementsEnabled,
       clientWelcomeEmailEnabled,
     };
@@ -89,6 +94,7 @@ const ClientForm = () => {
         setClientPlan("");
         setClientMonthly(false);
         setClientWelcomeEmailEnabled(false);
+        setClientAutoCreateStatementsEnabled(false);
         setClientAutoEmailStatementsEnabled(false);
         setError(null);
         setEmptyFields([]);
@@ -217,6 +223,31 @@ const ClientForm = () => {
             id="clientMonthlyField"
           />
           <label className="toggle-switch-label" htmlFor="clientMonthlyField">
+            <span className="toggle-switch-inner"></span>
+            <span className="toggle-switch-switch"></span>
+          </label>
+        </div>
+      </div>
+
+      <div className="toggle-switch-container">
+        <label htmlFor="clientAutoCreateStatementsEnabledField">
+          Auto Create Statements
+        </label>
+
+        <div className="toggle-switch">
+          <input
+            type="checkbox"
+            className="toggle-switch-checkbox"
+            onChange={(e) =>
+              setClientAutoCreateStatementsEnabled(e.target.checked)
+            }
+            value={clientAutoCreateStatementsEnabled}
+            id="clientAutoCreateStatementsEnabledField"
+          />
+          <label
+            className="toggle-switch-label"
+            htmlFor="clientAutoCreateStatementsEnabledField"
+          >
             <span className="toggle-switch-inner"></span>
             <span className="toggle-switch-switch"></span>
           </label>
