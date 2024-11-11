@@ -73,14 +73,18 @@ const Client = () => {
       <div className="clients">
         <h3>Clients Page</h3>
         <ClientSearch setClientName={setSearchTerm} />
-        {currentItems &&
+        {clients.length > 0 ? (
           currentItems.map((client) => (
             <ClientDetails
               key={client._id}
               client={client}
               handleShowToast={handleShowToast}
             />
-          ))}
+          ))
+        ) : (
+          <p className="no-statements">No Clients Yet</p>
+        )}
+
         {filteredClients.length > itemsPerPage && (
           <Pagination
             itemsPerPage={itemsPerPage}
