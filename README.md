@@ -2,13 +2,13 @@
 This application is designed to help streamline billing processes, offering an efficient and user-friendly interface for managing invoices, statements, and payments. It was created to simplify and automate repetitive billing tasks.
 
 ### Table of Contents
-1. [Features](##features)
-2. [Technologies Used](##technologies-used)
-3. [Installation](##installation)
-4. [Usage](##usage)
-5. [Environment Variables](##environment-variables)
-6. [Contributing](##contributing)
-7. [License](##license)
+1. [Features](#features)
+2. [Technologies Used](#technologies-used)
+3. [Installation](#installation)
+4. [Environment Variables](#environment-variables)
+5. [Usage](#usage)
+6. [Contributing](#contributing)
+7. [License](#license)
 
 ## Features
 - Invoice Management: Easily create, edit, and track invoices.
@@ -37,27 +37,27 @@ This application is designed to help streamline billing processes, offering an e
     npm install
     ```
 3. Database Setup:
-   <br> Make sure MongoDB is installed and running.
+   - Make sure MongoDB is installed and running.
 
 4. Environment Variables:
-   <br> Create .env.development and .env.production files in the server directory with the following configuration:
-      
-      ```plaintext
-      PORT=<your_port>
-      MONGO_URI=<your_mongo_database_uri>
-      JWTSECRET=<your_jwt_secret_key>
-      EMAIL_USER=<your_email_for_notifications>
-      EMAIL_PASS=<your_email_password>
-      API_KEY=<your_api_key>
-      FRONTEND_URL=<your_frontend_url>
-      ```
+   - Configure environment variables as described in the section below.
 
-6. Run the Application:
+5. Run the Application:
     ``` bash
     # bash
     npm run dev   # For development
     npm start     # For production
     ```
+## Environment Variables
+Create .env.development and .env.production files in the server directory with the following configuration:
+
+    PORT=<your_port>
+    MONGO_URI=<your_mongo_database_uri>
+    JWTSECRET=<your_jwt_secret_key>
+    EMAIL_USER=<your_email_for_notifications>
+    EMAIL_PASS=<your_email_password>
+    API_KEY=<your_api_key>
+    FRONTEND_URL=<your_frontend_url>
 
 ## Usage
 - Register or log in to access your dashboard.
