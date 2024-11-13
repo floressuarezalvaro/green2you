@@ -221,12 +221,12 @@ select::-ms-expand {
 }
 
 .profile-invoice-separator {
-  border-top: 3px solid var(--primary);
-  border-bottom: 3px solid var(--primary);
+  border-top: 3px solid var(--secondary);
+  border-bottom: 3px solid var(--secondary);
   border-radius: 4px;
 }
 .profile-payment-separator {
-  border-bottom: 3px solid var(--primary);
+  border-bottom: 3px solid var(--secondary);
   border-radius: 4px;
 }
 
