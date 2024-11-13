@@ -106,7 +106,7 @@ const InvoiceForm = () => {
         type="number"
         onChange={(e) => setAmount(e.target.value)}
         value={amount}
-        placeholder={clientPlan}
+        placeholder={clientPlan ? `Plan: ${clientPlan}` : ""}
         className={emptyFields.includes("amount") ? "error" : ""}
         id="amountField"
       />
