@@ -48,7 +48,7 @@ const printStatement = async (req, res) => {
     const selectedClient = await Client.findById(statement.clientId);
 
     const monthLong = (date) => {
-      return date.toLocaleString("en-US", {
+      return date.toLocaleDateString("en-US", {
         month: "long",
       });
     };
