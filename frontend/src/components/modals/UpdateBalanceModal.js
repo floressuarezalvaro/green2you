@@ -86,6 +86,7 @@ const UpdateBalanceModal = ({ balances }) => {
                 value={updateBalanceForm.previousStatementBalance}
                 onChange={onChange}
                 name="previousStatementBalance"
+                onWheel={(e) => e.target.blur()}
               />
             </Form.Group>
 
@@ -96,6 +97,7 @@ const UpdateBalanceModal = ({ balances }) => {
                 value={updateBalanceForm.paymentsOrCredits}
                 onChange={onChange}
                 name="paymentsOrCredits"
+                onWheel={(e) => e.target.blur()}
               />
             </Form.Group>
 
@@ -106,6 +108,7 @@ const UpdateBalanceModal = ({ balances }) => {
                 value={updateBalanceForm.serviceDues}
                 onChange={onChange}
                 name="serviceDues"
+                onWheel={(e) => e.target.blur()}
               />
             </Form.Group>
 
@@ -116,6 +119,7 @@ const UpdateBalanceModal = ({ balances }) => {
                 value={updateBalanceForm.newStatementBalance}
                 onChange={onChange}
                 name="newStatementBalance"
+                onWheel={(e) => e.target.blur()}
               />
             </Form.Group>
 

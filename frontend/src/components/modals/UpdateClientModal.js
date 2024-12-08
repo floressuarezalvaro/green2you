@@ -131,6 +131,7 @@ const UpdateClientModal = ({ client }) => {
                 value={updateClientForm.clientPhoneNumber}
                 onChange={onChange}
                 name="clientPhoneNumber"
+                onWheel={(e) => e.target.blur()}
               />
             </Form.Group>
 
@@ -181,6 +182,7 @@ const UpdateClientModal = ({ client }) => {
                 value={updateClientForm.clientZip}
                 onChange={onChange}
                 name="clientZip"
+                onWheel={(e) => e.target.blur()}
               />
             </Form.Group>
 
@@ -191,6 +193,7 @@ const UpdateClientModal = ({ client }) => {
                 value={updateClientForm.clientCycleDate}
                 onChange={onChange}
                 name="clientCycleDate"
+                onWheel={(e) => e.target.blur()}
               />
             </Form.Group>
 
@@ -204,6 +207,7 @@ const UpdateClientModal = ({ client }) => {
                 value={updateClientForm.clientStatementCreateDate}
                 onChange={onChange}
                 name="clientStatementCreateDate"
+                onWheel={(e) => e.target.blur()}
               />
             </Form.Group>
 

@@ -109,6 +109,7 @@ const InvoiceForm = () => {
         placeholder={clientPlan ? `Plan: ${clientPlan}` : ""}
         className={emptyFields.includes("amount") ? "error" : ""}
         id="amountField"
+        onWheel={(e) => e.target.blur()}
       />
 
       <label htmlFor="descriptionField">Service Description</label>

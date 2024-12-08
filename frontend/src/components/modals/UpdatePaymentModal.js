@@ -127,6 +127,7 @@ const UpdatePaymentModal = ({ payment }) => {
                 value={updatePaymentForm.checkNumber}
                 onChange={onChange}
                 name="checkNumber"
+                onWheel={(e) => e.target.blur()}
               />
             </Form.Group>
 

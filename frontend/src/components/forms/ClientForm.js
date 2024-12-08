@@ -141,6 +141,7 @@ const ClientForm = () => {
         value={clientPhoneNumber}
         className={emptyFields.includes("clientPhoneNumber") ? "error" : ""}
         id="clientPhoneNumberField"
+        onWheel={(e) => e.target.blur()}
       />
 
       <label htmlFor="clientStreetLineOneField">Address 1</label>
@@ -185,6 +186,7 @@ const ClientForm = () => {
         value={clientZip}
         className={emptyFields.includes("clientZip") ? "error" : ""}
         id="clientZipField"
+        onWheel={(e) => e.target.blur()}
       />
 
       <label htmlFor="clientCycleDateField">Cycle End Date (1-31)</label>
@@ -194,6 +196,7 @@ const ClientForm = () => {
         value={clientCycleDate}
         className={emptyFields.includes("clientCycleDate") ? "error" : ""}
         id="clientCycleDateField"
+        onWheel={(e) => e.target.blur()}
       />
 
       <label htmlFor="clientStatementCreateDateField">
@@ -207,6 +210,7 @@ const ClientForm = () => {
           emptyFields.includes("clientStatementCreateDate") ? "error" : ""
         }
         id="clientStatementCreateDateField"
+        onWheel={(e) => e.target.blur()}
       />
 
       <label htmlFor="clientPlanField">Client Plan Description</label>

@@ -94,6 +94,7 @@ const MakePaymentModal = ({ statement, clientName }) => {
                 value={makePaymentForm.amount}
                 onChange={onChange}
                 name="amount"
+                onWheel={(e) => e.target.blur()}
               />
             </Form.Group>
 
@@ -104,6 +105,7 @@ const MakePaymentModal = ({ statement, clientName }) => {
                 value={makePaymentForm.checkNumber}
                 onChange={onChange}
                 name="checkNumber"
+                onWheel={(e) => e.target.blur()}
               />
             </Form.Group>
 
