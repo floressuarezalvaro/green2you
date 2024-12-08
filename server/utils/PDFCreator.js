@@ -139,7 +139,7 @@ const printStatement = async (req, res) => {
         doc.moveUp();
         doc.text(`$${statement.totalAmount}`, 285, doc.y);
         doc.moveUp();
-        doc.text(`$${statement.paidAmount}`, 375, doc.y);
+        doc.text(`$${statement.paidAmount}`, 370, doc.y);
         doc.moveUp();
         doc.text(`${checkDateFormatted}`, 420, doc.y);
         doc.moveUp();
