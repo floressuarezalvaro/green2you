@@ -57,7 +57,6 @@ const createClient = async (req, res) => {
 
   if (!clientName) emptyFields.push("clientName");
   if (!clientEmail) emptyFields.push("clientEmail");
-  if (!clientPhoneNumber) emptyFields.push("clientPhoneNumber");
   if (!clientStreetLineOne) emptyFields.push("clientStreetLineOne");
   if (!clientCity) emptyFields.push("clientCity");
   if (!clientState) emptyFields.push("clientState");

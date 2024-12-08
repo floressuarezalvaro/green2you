@@ -17,7 +17,7 @@ const clientSchema = new Schema(
     },
     clientPhoneNumber: {
       type: Number,
-      required: true,
+      required: false,
     },
     clientStreetLineOne: {
       type: String,
