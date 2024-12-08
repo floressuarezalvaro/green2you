@@ -104,9 +104,9 @@ const printStatement = async (req, res) => {
     doc.moveUp();
     doc.text("AMOUNT PAID", 345, doc.y);
     doc.moveUp();
-    doc.text("DATE", 455, doc.y);
+    doc.text("DATE", 435, doc.y);
     doc.moveUp();
-    doc.text("CHECK", {
+    doc.text("CHECK #", {
       align: "right",
     });
     doc.moveDown(0.1);
@@ -141,9 +141,9 @@ const printStatement = async (req, res) => {
         doc.moveUp();
         doc.text(`$${statement.paidAmount}`, 375, doc.y);
         doc.moveUp();
-        doc.text(`${checkDateFormatted}`, 440, doc.y);
+        doc.text(`${checkDateFormatted}`, 420, doc.y);
         doc.moveUp();
-        doc.text(`#${statement.checkNumber}`, {
+        doc.text(`${statement.checkNumber}`, {
           align: "right",
         });
         doc.moveDown(0.2);
