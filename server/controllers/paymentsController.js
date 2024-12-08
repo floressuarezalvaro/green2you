@@ -39,7 +39,9 @@ const makePayment = async (req, res) => {
     .set({ hour: 12, minute: 0, second: 0, millisecond: 0 });
 
   try {
+    const user_id = req.user._id;
     const client = await Client.findById(clientId);
+
     if (!client) {
       return res.status(404).json({ error: "Client not found" });
     }
@@ -65,6 +67,7 @@ const makePayment = async (req, res) => {
       checkDate: dateTime,
       checkNumber,
       memo,
+      user_id,
     });
 
     if (type === "credit") {
@@ -99,8 +102,14 @@ const makePayment = async (req, res) => {
 };
 
 const getAllPayments = async (req, res) => {
+  const user_id = req.user._id;
+
+  if (!mongoose.Types.ObjectId.isValid(user_id)) {
+    return res.status(404).json({ error: "This is not a valid client id" });
+  }
+
   try {
-    const payments = await Payment.find().sort({ createdAt: -1 });
+    const payments = await Payment.find({ user_id }).sort({ createdAt: -1 });
     res.status(201).json(payments);
   } catch (error) {
     console.error(error);

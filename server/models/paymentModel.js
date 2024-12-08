@@ -33,6 +33,10 @@ const paymentSchema = new Schema(
       type: String,
       required: false,
     },
+    user_id: {
+      type: String,
+      required: true,
+    },
   },
   { timestamps: true }
 );
