@@ -26,12 +26,8 @@ const paymentSchema = new Schema(
       required: true,
     },
     checkNumber: {
-      type: Number,
-      required: true,
-    },
-    memo: {
       type: String,
-      required: false,
+      required: true,
     },
     user_id: {
       type: String,

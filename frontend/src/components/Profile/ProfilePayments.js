@@ -75,10 +75,6 @@ const ProfilePayments = ({ client, user }) => {
                 {payment.checkNumber}
               </p>
               <p>
-                <strong>Memo: </strong>
-                {payment.memo}
-              </p>
-              <p>
                 Created:{" "}
                 {formatDistanceToNow(new Date(payment.createdAt), {
                   addSuffix: true,

@@ -31,7 +31,7 @@ const statementSchema = new Schema(
           required: true,
         },
         checkNumber: {
-          type: Number,
+          type: String,
           required: true,
         },
         checkDate: {
@@ -76,7 +76,7 @@ const statementSchema = new Schema(
       required: true,
     },
     checkNumber: {
-      type: Number,
+      type: String,
       required: false,
     },
     checkDate: {

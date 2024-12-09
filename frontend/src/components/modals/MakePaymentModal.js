@@ -18,7 +18,6 @@ const MakePaymentModal = ({ statement, clientName }) => {
     amount: statement.totalAmount,
     checkNumber: "",
     checkDate: "",
-    memo: "",
   });
 
   const [makePaymentForm, setMakePaymentForm] = useState(initializeForm());
@@ -101,7 +100,7 @@ const MakePaymentModal = ({ statement, clientName }) => {
             <Form.Group className="mb-3" controlId="checkNumberField">
               <Form.Label>Check Number</Form.Label>
               <Form.Control
-                type="number"
+                type="text"
                 value={makePaymentForm.checkNumber}
                 onChange={onChange}
                 name="checkNumber"
@@ -116,16 +115,6 @@ const MakePaymentModal = ({ statement, clientName }) => {
                 value={makePaymentForm.checkDate}
                 onChange={onChange}
                 name="checkDate"
-              />
-            </Form.Group>
-
-            <Form.Group className="mb-3" controlId="memoField">
-              <Form.Label>Memo</Form.Label>
-              <Form.Control
-                type="text"
-                value={makePaymentForm.memo}
-                onChange={onChange}
-                name="memo"
               />
             </Form.Group>
 

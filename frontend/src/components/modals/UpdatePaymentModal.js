@@ -22,7 +22,6 @@ const UpdatePaymentModal = ({ payment }) => {
       : "",
     amount: payment.amount,
     checkNumber: payment.checkNumber,
-    memo: payment.memo,
   });
 
   const [updatePaymentForm, setUpdatePaymentForm] = useState(initializeForm());
@@ -123,21 +122,11 @@ const UpdatePaymentModal = ({ payment }) => {
             <Form.Group className="mb-3" controlId="checkNumberUpdateField">
               <Form.Label>Check Number </Form.Label>
               <Form.Control
-                type="number"
+                type="text"
                 value={updatePaymentForm.checkNumber}
                 onChange={onChange}
                 name="checkNumber"
                 onWheel={(e) => e.target.blur()}
-              />
-            </Form.Group>
-
-            <Form.Group className="mb-3" controlId="memoUpdateField">
-              <Form.Label>Memo </Form.Label>
-              <Form.Control
-                type="text"
-                value={updatePaymentForm.memo}
-                onChange={onChange}
-                name="memo"
               />
             </Form.Group>
 

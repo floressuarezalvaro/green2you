@@ -7,7 +7,7 @@ const moment = require("moment-timezone");
 const mongoose = require("mongoose");
 
 const makePayment = async (req, res) => {
-  const { clientId, statementId, type, amount, checkDate, checkNumber, memo } =
+  const { clientId, statementId, type, amount, checkDate, checkNumber } =
     req.body;
 
   let emptyFields = [];
@@ -66,7 +66,6 @@ const makePayment = async (req, res) => {
       amount,
       checkDate: dateTime,
       checkNumber,
-      memo,
       user_id,
     });
 
