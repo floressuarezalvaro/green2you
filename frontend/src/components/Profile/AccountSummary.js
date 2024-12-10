@@ -48,16 +48,18 @@ const AccountSummary = ({ client }) => {
       <h4>Account Summary</h4>
       <p>
         <strong>Previous Statement Balance: </strong>$
-        {balances.previousStatementBalance}
+        {balances.previousStatementBalance.toFixed(2)}
       </p>
       <p>
-        <strong>Payments and Credits: </strong>${balances.paymentsOrCredits}
+        <strong>Payments and Credits: </strong>$
+        {balances.paymentsOrCredits.toFixed(2)}
       </p>
       <p>
-        <strong>Service Dues: </strong>${balances.serviceDues}
+        <strong>Service Dues: </strong>${balances.serviceDues.toFixed(2)}
       </p>
       <p>
-        <strong>New Statement Balance: </strong>${balances.newStatementBalance}
+        <strong>New Statement Balance: </strong>$
+        {balances.newStatementBalance.toFixed(2)}
       </p>
       {user && user.role === "admin" && (
         <>

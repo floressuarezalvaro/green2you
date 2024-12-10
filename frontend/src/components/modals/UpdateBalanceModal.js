@@ -83,7 +83,7 @@ const UpdateBalanceModal = ({ balances }) => {
               <Form.Label>Previous Statement Balance:</Form.Label>
               <Form.Control
                 type="number"
-                value={updateBalanceForm.previousStatementBalance}
+                value={updateBalanceForm.previousStatementBalance.toFixed(2)}
                 onChange={onChange}
                 name="previousStatementBalance"
                 onWheel={(e) => e.target.blur()}
@@ -94,7 +94,7 @@ const UpdateBalanceModal = ({ balances }) => {
               <Form.Label>Payments and Credits: </Form.Label>
               <Form.Control
                 type="number"
-                value={updateBalanceForm.paymentsOrCredits}
+                value={updateBalanceForm.paymentsOrCredits.toFixed(2)}
                 onChange={onChange}
                 name="paymentsOrCredits"
                 onWheel={(e) => e.target.blur()}
@@ -105,7 +105,7 @@ const UpdateBalanceModal = ({ balances }) => {
               <Form.Label>Service Dues: </Form.Label>
               <Form.Control
                 type="number"
-                value={updateBalanceForm.serviceDues}
+                value={updateBalanceForm.serviceDues.toFixed(2)}
                 onChange={onChange}
                 name="serviceDues"
                 onWheel={(e) => e.target.blur()}
@@ -116,7 +116,7 @@ const UpdateBalanceModal = ({ balances }) => {
               <Form.Label>New Statement Balance: </Form.Label>
               <Form.Control
                 type="number"
-                value={updateBalanceForm.newStatementBalance}
+                value={updateBalanceForm.newStatementBalance.toFixed(2)}
                 onChange={onChange}
                 name="newStatementBalance"
                 onWheel={(e) => e.target.blur()}

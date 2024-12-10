@@ -32,7 +32,7 @@ const InvoiceDetails = ({ invoice, hideClientName = false }) => {
       </p>
       <p>
         <strong>Amount(USD): </strong>
-        {invoice.amount}
+        {invoice.amount.toFixed(2)}
       </p>
 
       {invoice.description && (

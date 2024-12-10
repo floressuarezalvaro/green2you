@@ -100,7 +100,7 @@ const UpdateInvoiceModal = ({ invoice, clientName }) => {
               <Form.Label>Amount</Form.Label>
               <Form.Control
                 type="number"
-                value={updateInvoiceForm.amount}
+                value={updateInvoiceForm.amount.toFixed(2)}
                 onChange={onChange}
                 name="amount"
                 disabled

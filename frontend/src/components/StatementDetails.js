@@ -63,12 +63,12 @@ const StatementDetails = ({ statement, handleShowToast }) => {
         {formattedCreatedDate}
       </p>
       <p>
-        <strong>Amount Due: </strong> ${statement.totalAmount}
+        <strong>Amount Due: </strong> ${statement.totalAmount.toFixed(2)}
       </p>
 
       {statement.paidAmount > 0 && (
         <p>
-          <strong>Amount Paid:</strong> ${statement.paidAmount}
+          <strong>Amount Paid:</strong> ${statement.paidAmount.toFixed(2)}
         </p>
       )}
 

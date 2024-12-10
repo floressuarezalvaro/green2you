@@ -30,7 +30,7 @@ const PaymentDetails = ({ payment }) => {
       </p>
       <p>
         <strong>Amount: </strong>
-        {payment.amount}
+        {payment.amount.toFixed(2)}
       </p>
       <p>
         <strong>Check Number: </strong>

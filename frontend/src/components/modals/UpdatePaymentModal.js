@@ -102,7 +102,7 @@ const UpdatePaymentModal = ({ payment }) => {
               <Form.Label>Amount</Form.Label>
               <Form.Control
                 type="number"
-                value={updatePaymentForm.amount}
+                value={updatePaymentForm.amount.toFixed(2)}
                 onChange={onChange}
                 name="amount"
                 disabled
