@@ -65,7 +65,7 @@ const Profile = () => {
           </div>
         </>
       ) : (
-        <p>Client not found.</p>
+        <p>Loading..</p>
       )}
     </div>
   );
