@@ -137,9 +137,9 @@ const printStatement = async (req, res) => {
           doc.y
         );
         doc.moveUp();
-        doc.text(`$${statement.totalAmount}`, 285, doc.y);
+        doc.text(`$${statement.totalAmount.toFixed(2)}`, 285, doc.y);
         doc.moveUp();
-        doc.text(`$${statement.paidAmount}`, 370, doc.y);
+        doc.text(`$${statement.paidAmount.toFixed(2)}`, 370, doc.y);
         doc.moveUp();
         doc.text(`${checkDateFormatted}`, 420, doc.y);
         doc.moveUp();
@@ -243,7 +243,9 @@ const printStatement = async (req, res) => {
       statement.invoiceData.forEach((invoice) => {
         if (!invoice.description) {
           doc.text(
-            `${monthLong(invoice.date)} Services $${invoice.amount}/Month`,
+            `${monthLong(invoice.date)} Services $${invoice.amount.toFixed(
+              2
+            )}/Month`,
             marginL
           );
         }
@@ -303,8 +305,8 @@ const printStatement = async (req, res) => {
 
     // Total Amount Values
 
-    const dueByAmount = `$${statement.totalAmount}`;
-    const totalAmountAfter = statement.totalAmount + 5;
+    const dueByAmount = `$${statement.totalAmount.toFixed(2)}`;
+    const totalAmountAfter = (statement.totalAmount + 5).toFixed(2);
     const dueAfterAmount = `$${totalAmountAfter}`;
 
     doc.text(dueByAmount, 420, doc.y, {
