@@ -90,7 +90,7 @@ const MakePaymentModal = ({ statement, clientName }) => {
               <Form.Label>Amount</Form.Label>
               <Form.Control
                 type="number"
-                value={makePaymentForm.amount.toFixed(2)}
+                value={makePaymentForm.amount}
                 onChange={onChange}
                 name="amount"
                 onWheel={(e) => e.target.blur()}
