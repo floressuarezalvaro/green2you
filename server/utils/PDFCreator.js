@@ -54,6 +54,14 @@ const printStatement = async (req, res) => {
       });
     };
 
+    const historicalDateRange = (date) => {
+      return new Date(date).toLocaleDateString("en-US", {
+        timeZone: "America/Los_Angeles",
+        month: "short",
+        day: "numeric",
+      });
+    };
+
     // create doc
     const doc = new PDFDocument();
     res.setHeader("Content-Type", "application/pdf");
@@ -132,7 +140,9 @@ const printStatement = async (req, res) => {
         });
 
         doc.text(
-          `${monthLong(statement.issuedEndDate)} Statement`,
+          `${historicalDateRange(
+            statement.issuedStartDate
+          )} - ${historicalDateRange(statement.issuedEndDate)} Statement`,
           marginL,
           doc.y
         );

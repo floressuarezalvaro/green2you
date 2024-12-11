@@ -89,6 +89,7 @@ const createStatement = async (req, res) => {
     });
 
     const historicalStatementsData = historicalStatements.map((statement) => ({
+      issuedStartDate: statement.issuedStartDate,
       issuedEndDate: statement.issuedEndDate,
       totalAmount: statement.totalAmount,
       paidAmount: statement.paidAmount,
