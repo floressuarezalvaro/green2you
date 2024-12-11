@@ -147,9 +147,9 @@ const printStatement = async (req, res) => {
           doc.y
         );
         doc.moveUp();
-        doc.text(`$${statement.totalAmount.toFixed(2)}`, 285, doc.y);
+        doc.text(`$${statement.totalAmount.toFixed(2)}`, 275, doc.y);
         doc.moveUp();
-        doc.text(`$${statement.paidAmount.toFixed(2)}`, 370, doc.y);
+        doc.text(`$${statement.paidAmount.toFixed(2)}`, 360, doc.y);
         doc.moveUp();
         doc.text(`${checkDateFormatted}`, 420, doc.y);
         doc.moveUp();
