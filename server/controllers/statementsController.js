@@ -229,7 +229,7 @@ const deleteStatement = async (req, res) => {
     const payment = await Payment.findOneAndDelete({ statementId: id });
 
     if (!payment) {
-      return res.status(404).json({ error: "No payment found" });
+      console.log(`No payment found for statement ID: ${id}`);
     }
 
     res.status(200).json(statement);
