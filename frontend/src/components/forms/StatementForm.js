@@ -60,6 +60,7 @@ const StatementForm = () => {
         setError(null);
         setEmptyFields([]);
         dispatch({ type: "CREATE_STATEMENT", payload: json });
+        window.location.reload();
       }
     } catch (err) {
       console.error("Failed to create statement", err);
