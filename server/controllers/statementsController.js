@@ -129,8 +129,8 @@ const createStatement = async (req, res) => {
       user_id,
       isPaid: false,
       paidAmount: 0,
-      checkNumber: null,
-      checkDate: null,
+      checkNumber: 0,
+      checkDate: 0,
     });
 
     await Balance.findOneAndUpdate(
