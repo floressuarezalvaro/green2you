@@ -55,7 +55,7 @@ const sendEmail = async (type, to, subject, text, attachment) => {
 };
 
 const sendStatementByEmail = async (clientEmail, statementId) => {
-  const subject = "Monthly Statement";
+  const subject = "Re: Green 2 You Billing";
   const text = "Please find attached your monthly statement.";
 
   try {
