@@ -5,7 +5,7 @@ import { useClientsContext } from "../../hooks/useClientsContext";
 
 import ClientSelect from "../ClientSelect";
 
-const StatementForm = () => {
+const StatementForm = ({ handleChangeView }) => {
   const { user, logout } = useAuthContext();
   const { dispatch } = useStatementsContext();
   const { clients } = useClientsContext();
@@ -60,7 +60,7 @@ const StatementForm = () => {
         setError(null);
         setEmptyFields([]);
         dispatch({ type: "CREATE_STATEMENT", payload: json });
-        window.location.reload();
+        handleChangeView("unpaid");
       }
     } catch (err) {
       console.error("Failed to create statement", err);

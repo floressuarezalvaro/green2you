@@ -110,7 +110,7 @@ const Statement = () => {
         )}
       </div>
       <div className="form-container">
-        <StatementForm />
+        <StatementForm handleChangeView={handleChangeView} />
       </div>
       {showToast && (
         <ToastMessage
