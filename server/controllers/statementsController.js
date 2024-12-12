@@ -5,6 +5,7 @@ const Statement = require("../models/statementModel");
 const Invoice = require("../models/invoiceModel");
 const Client = require("../models/clientModel");
 const Balance = require("../models/balanceModel");
+const Payment = require("../models/paymentModel");
 
 const createStatement = async (req, res) => {
   const { clientId, issuedStartDate, issuedEndDate, creationMethod } = req.body;
@@ -224,6 +225,13 @@ const deleteStatement = async (req, res) => {
     if (!statement) {
       return res.status(404).json({ error: "No statement found" });
     }
+
+    const payment = await Payment.findOneAndDelete({ statementId: id });
+
+    if (!payment) {
+      return res.status(404).json({ error: "No payment found" });
+    }
+
     res.status(200).json(statement);
   } catch (error) {
     res.status(500).json({ error: "Internal server error" });
