@@ -223,7 +223,7 @@ const ClientForm = () => {
       />
 
       <div className="toggle-switch-container">
-        <label htmlFor="clientMonthlyField">Client Monthly</label>
+        <label htmlFor="clientMonthlyField">Monthly Plan</label>
 
         <div className="toggle-switch">
           <input

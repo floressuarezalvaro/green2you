@@ -222,7 +222,7 @@ const UpdateClientModal = ({ client }) => {
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="clientMonthlyField">
-              <Form.Label>Client Monthly</Form.Label>
+              <Form.Label>Monthly Plan</Form.Label>
               <ToggleSwitch
                 checked={updateClientForm.clientMonthly}
                 onChange={onChange}
