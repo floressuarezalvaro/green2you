@@ -34,9 +34,9 @@ const StatementsList = ({ client }) => {
   const { user, logout } = useAuthContext();
   const { statements, dispatch } = useStatementsContext();
 
-  const handleClick = async (e, id) => {
+  const handleClick = async (e, id, download) => {
     e.preventDefault();
-    PrintStatement(user, id);
+    PrintStatement(user, id, download);
   };
 
   const formatIssuedDate = (dateStr) => {
@@ -135,10 +135,20 @@ const StatementsList = ({ client }) => {
                               statement.issuedEndDate
                             )}
                             <span
-                              onClick={(e) => handleClick(e, statement._id)}
+                              onClick={(e) =>
+                                handleClick(e, statement._id, false)
+                              }
                               className="material-symbols-outlined"
                             >
                               open_in_new
+                            </span>
+                            <span
+                              onClick={(e) =>
+                                handleClick(e, statement._id, true)
+                              }
+                              className="material-symbols-outlined"
+                            >
+                              download
                             </span>
                           </p>
                         </div>

@@ -15,9 +15,9 @@ const StatementDetails = ({ statement, handleShowToast }) => {
   const [clientName, setClientName] = useState("");
   const [clientEmail, setClientEmail] = useState("");
 
-  const handleClick = async (e, id) => {
+  const handleClick = async (e, id, download) => {
     e.preventDefault();
-    PrintStatement(user, id);
+    PrintStatement(user, id, download);
   };
 
   useEffect(() => {
@@ -90,11 +90,19 @@ const StatementDetails = ({ statement, handleShowToast }) => {
       />
       <div className="button-separator">
         <button
-          onClick={(e) => handleClick(e, statement._id)}
+          onClick={(e) => handleClick(e, statement._id, false)}
           className="material-symbols-outlined"
         >
           open_in_new
         </button>
+
+        <button
+          onClick={(e) => handleClick(e, statement._id, true)}
+          className="material-symbols-outlined"
+        >
+          download
+        </button>
+
         <EmailStatementModal
           key={`email-${statement._id}`}
           clientName={clientName}
