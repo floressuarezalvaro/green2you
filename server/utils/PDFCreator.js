@@ -54,7 +54,7 @@ const printStatement = async (req, res) => {
       });
     };
 
-    const historicalDateRange = (date) => {
+    const monthShortWithDays = (date) => {
       return new Date(date).toLocaleDateString("en-US", {
         timeZone: "America/Los_Angeles",
         month: "short",
@@ -67,7 +67,9 @@ const printStatement = async (req, res) => {
     res.setHeader("Content-Type", "application/pdf");
     res.setHeader(
       "Content-Disposition",
-      `attachment; filename=statement${id}.pdf`
+      `attachment; filename=${selectedClient.clientName}(${monthShortWithDays(
+        statement.issuedStartDate
+      )}-${monthShortWithDays(statement.issuedEndDate)}).pdf`
     );
 
     // Pipe the PDF into the response
@@ -140,9 +142,9 @@ const printStatement = async (req, res) => {
         });
 
         doc.text(
-          `${historicalDateRange(
+          `${monthShortWithDays(
             statement.issuedStartDate
-          )} - ${historicalDateRange(statement.issuedEndDate)} Statement`,
+          )} - ${monthShortWithDays(statement.issuedEndDate)} Statement`,
           marginL,
           doc.y
         );

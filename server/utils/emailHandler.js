@@ -18,17 +18,8 @@ const sendEmail = async (type, to, subject, text, attachment) => {
       to,
       subject,
       text,
+      attachments: attachment ? [attachment] : [],
     };
-
-    if (type === "Monthly Statement" && attachment) {
-      mailOptions.attachments = [
-        {
-          filename: "statement.pdf",
-          content: attachment,
-          contentType: "application/pdf",
-        },
-      ];
-    }
 
     const info = await transporter.sendMail(mailOptions);
 
@@ -59,7 +50,6 @@ const sendStatementByEmail = async (clientEmail, statementId) => {
   const text = "Please find attached your monthly statement.";
 
   try {
-    // Fetch the PDF from the server
     const statementUrl = `${process.env.FRONTEND_URL}/api/statements/print/${statementId}`;
     const response = await axios.get(statementUrl, {
       responseType: "arraybuffer",
@@ -68,10 +58,23 @@ const sendStatementByEmail = async (clientEmail, statementId) => {
       },
     });
 
+    const contentDisposition = response.headers["content-disposition"];
+    let filename = "statement.pdf";
+
+    if (contentDisposition && contentDisposition.includes("filename=")) {
+      const match = contentDisposition.match(/filename="?([^"]+)"?/);
+      if (match && match[1]) {
+        filename = match[1];
+      }
+    }
+
     const pdfBuffer = Buffer.from(response.data, "binary");
 
-    // Send email with attachment
-    await sendEmail("Monthly Statement", clientEmail, subject, text, pdfBuffer);
+    await sendEmail("Monthly Statement", clientEmail, subject, text, {
+      filename,
+      content: pdfBuffer,
+      contentType: "application/pdf",
+    });
     console.log(`Statement sent by email to: ${clientEmail}`);
   } catch (error) {
     console.error(`Error sending statement to ${clientEmail}:`, error);
