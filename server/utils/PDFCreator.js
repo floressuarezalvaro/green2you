@@ -71,6 +71,7 @@ const printStatement = async (req, res) => {
         statement.issuedStartDate
       )}-${monthShortWithDays(statement.issuedEndDate)}).pdf`
     );
+    res.setHeader("Access-Control-Expose-Headers", "Content-Disposition");
 
     // Pipe the PDF into the response
     doc.pipe(res);
