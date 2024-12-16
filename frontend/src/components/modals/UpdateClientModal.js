@@ -117,6 +117,7 @@ const UpdateClientModal = ({ client }) => {
                 value={updateClientForm.clientEmail}
                 onChange={onChange}
                 name="clientEmail"
+                disabled
               />
             </Form.Group>
 
