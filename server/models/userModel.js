@@ -23,7 +23,6 @@ const userSchema = new Schema({
   resetPasswordExpires: Date,
 });
 
-userSchema.index({ email: 1 });
 userSchema.index({ createdAt: -1 });
 
 // static signup method
