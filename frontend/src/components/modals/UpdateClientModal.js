@@ -14,9 +14,6 @@ const UpdateClientModal = ({ client }) => {
   const [show, setShow] = useState(false);
   const [error, setError] = useState(null);
 
-  // const handleClose = () => setShow(false);
-  // const handleShow = () => setShow(true);
-
   const initializeForm = () => ({
     clientName: client.clientName || "",
     clientEmail: client.clientEmail || "",
@@ -120,7 +117,6 @@ const UpdateClientModal = ({ client }) => {
                 value={updateClientForm.clientEmail}
                 onChange={onChange}
                 name="clientEmail"
-                disabled
               />
             </Form.Group>
 
