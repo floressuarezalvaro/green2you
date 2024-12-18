@@ -13,7 +13,7 @@ const clientSchema = new Schema(
     clientEmail: {
       type: String,
       required: true,
-      unique: false,
+      unique: true,
     },
     clientPhoneNumber: {
       type: Number,

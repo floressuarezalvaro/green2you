@@ -2,6 +2,7 @@ const Client = require("../models/clientModel");
 const Invoice = require("../models/invoiceModel");
 const Statement = require("../models/statementModel");
 const Balance = require("../models/balanceModel");
+const Payment = require("../models/paymentModel");
 
 const mongoose = require("mongoose");
 
@@ -138,6 +139,8 @@ const deleteClient = async (req, res) => {
     await Invoice.deleteMany({ clientId: id });
     await Statement.deleteMany({ clientId: id });
     await Balance.deleteMany({ clientId: id });
+    await Balance.deleteMany({ clientId: id });
+    await Payment.deleteMany({ clientId: id });
 
     const client = await Client.findOneAndDelete({ _id: id });
 
