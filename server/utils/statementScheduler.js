@@ -4,65 +4,75 @@ const createStatement =
   require("../controllers/statementsController").createStatement;
 const { sendStatementByEmail } = require("../utils/emailHandler");
 
-const monthlyStatements = async () => {
+const calculateStatementDates = (cycleDate) => {
+  const baseDate = moment.tz("America/Los_Angeles").date(cycleDate);
+
+  const issuedStartDate = baseDate
+    .clone()
+    .add(1, "day")
+    .subtract(1, "month")
+    .startOf("day")
+    .toISOString();
+
+  const issuedEndDate = baseDate.clone().endOf("day").toISOString();
+
+  return { issuedStartDate, issuedEndDate };
+};
+
+const statementScheduler = async () => {
   const today = moment().date();
   console.log("Today is:", today);
 
   try {
     const clients = await Client.find({ clientStatementCreateDate: today });
 
-    for (const client of clients) {
-      const clientId = client._id;
+    await Promise.all(clients.map((client) => processClientStatement(client)));
 
-      if (client.clientAutoCreateStatementsEnabled === true) {
-        const clientCycleDate = client.clientCycleDate;
-
-        const issuedStartDate = moment
-          .tz({ day: clientCycleDate + 1 }, "America/Los_Angeles")
-          .subtract(1, "month")
-          .startOf("day")
-          .toISOString();
-
-        const issuedEndDate = moment
-          .tz({ day: clientCycleDate }, "America/Los_Angeles")
-          .endOf("day")
-          .toISOString();
-
-        const statementData = {
-          clientId,
-          issuedStartDate,
-          issuedEndDate,
-          creationMethod: "auto",
-        };
-
-        let createdStatement;
-        const req = { body: statementData };
-        const res = {
-          status: (statusCode) => ({
-            json: (data) => {
-              createdStatement = data;
-              return createdStatement;
-            },
-          }),
-        };
-
-        await createStatement(req, res);
-
-        if (createdStatement) {
-          if (client.clientAutoEmailStatementsEnabled === true) {
-            await sendStatementByEmail(
-              client.clientEmail,
-              createdStatement._id
-            );
-          }
-        } else {
-          console.log("Statement creation failed for client:", clientId);
-        }
-      }
-    }
+    console.log("Monthly statements processing completed.");
   } catch (error) {
     console.error("Error generating or sending monthly statements:", error);
   }
 };
 
-module.exports = monthlyStatements;
+const processClientStatement = async (client) => {
+  if (!client.clientAutoCreateStatementsEnabled) return;
+
+  try {
+    const { issuedStartDate, issuedEndDate } = calculateStatementDates(
+      client.clientCycleDate
+    );
+
+    const statementData = {
+      clientId: client._id,
+      issuedStartDate,
+      issuedEndDate,
+      creationMethod: "auto",
+    };
+
+    let createdStatement;
+    const req = { body: statementData };
+    const res = {
+      status: (statusCode) => ({
+        json: (data) => {
+          createdStatement = data;
+          return createdStatement;
+        },
+      }),
+    };
+
+    await createStatement(req, res);
+
+    if (createdStatement) {
+      console.log(`Statement created for client ${client.clientEmail}`);
+      if (client.clientAutoEmailStatementsEnabled) {
+        await sendStatementByEmail(client.clientEmail, createdStatement._id);
+      }
+    } else {
+      console.warn(`Statement creation failed for client ${client._id}`);
+    }
+  } catch (error) {
+    console.error(`Error processing client ${client._id}:`, error);
+  }
+};
+
+module.exports = statementScheduler;
