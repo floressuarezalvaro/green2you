@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 import { useAuthContext } from "../hooks/useAuthContext";
+import { useClientsContext } from "../hooks/useClientsContext";
 
 import ClientDetails from "../components/Profile/ProfileClientDetails";
 import AccountSummary from "../components/Profile/AccountSummary.js";
@@ -11,6 +12,7 @@ import ProfilePayments from "../components/Profile/ProfilePayments.js";
 
 const Profile = () => {
   const { user, logout } = useAuthContext();
+  const { clients } = useClientsContext();
   const { clientId } = useParams();
 
   const [selectedClient, setSelectedClient] = useState(null);
@@ -46,6 +48,15 @@ const Profile = () => {
 
     fetchClient();
   }, [user, logout, clientId]);
+
+  useEffect(() => {
+    if (clients && clientId) {
+      const updatedClient = clients.find((client) => client._id === clientId);
+      if (updatedClient) {
+        setSelectedClient(updatedClient);
+      }
+    }
+  }, [clients, clientId]);
 
   return (
     <div className="profile">
