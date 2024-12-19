@@ -158,6 +158,7 @@ const deleteClient = async (req, res) => {
 const updateClient = async (req, res) => {
   const { id } = req.params;
   const {
+    clientEmail,
     clientCycleDate,
     clientStatementCreateDate,
     clientAutoCreateStatementsEnabled,
@@ -168,16 +169,17 @@ const updateClient = async (req, res) => {
     return res.status(404).json({ error: "This is not a valid id" });
   }
 
-  if (clientCycleDate !== "") {
-    if (clientCycleDate < 1 || clientCycleDate > 31) {
-      return res.status(404).json({ error: "This is not a valid date" });
-    }
+  if (clientCycleDate && (clientCycleDate < 1 || clientCycleDate > 31)) {
+    return res.status(400).json({ error: "This is not a valid cycle date" });
   }
 
-  if (clientStatementCreateDate !== "") {
-    if (clientStatementCreateDate < 1 || clientStatementCreateDate > 31) {
-      return res.status(404).json({ error: "This is not a valid date" });
-    }
+  if (
+    clientStatementCreateDate &&
+    (clientStatementCreateDate < 1 || clientStatementCreateDate > 31)
+  ) {
+    return res
+      .status(400)
+      .json({ error: "This is not a valid statement create date" });
   }
 
   const autoCreateEnabled = clientAutoCreateStatementsEnabled;
@@ -198,6 +200,14 @@ const updateClient = async (req, res) => {
     if (!client) {
       return res.status(404).json({ error: "No client found" });
     }
+    if (clientEmail) {
+      const user = await User.findOneAndUpdate(
+        { _id: id },
+        { email: clientEmail },
+        { new: true }
+      );
+    }
+
     res.status(200).json(client);
   } catch (error) {
     res.status(500).json({ error: "Internal server error" });
