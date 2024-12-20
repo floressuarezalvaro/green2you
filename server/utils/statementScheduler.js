@@ -20,7 +20,7 @@ const calculateStatementDates = (cycleDate) => {
 };
 
 const statementScheduler = async () => {
-  const today = moment().date();
+  const today = moment.tz("America/Los_Angeles").date();
   console.log("Today is:", today);
 
   try {
