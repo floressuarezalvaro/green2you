@@ -8,6 +8,7 @@ const getAllInvoices = async (req, res) => {
   try {
     const user_id = req.user._id;
     const clientId = req.query.clientId;
+    const { startDate, endDate } = req.query;
 
     let query = { user_id };
 
@@ -16,6 +17,24 @@ const getAllInvoices = async (req, res) => {
         return res.status(400).json({ error: "This is not a valid client id" });
       }
       query.clientId = clientId;
+    }
+
+    if (startDate || endDate) {
+      query.date = {};
+      if (startDate) {
+        const start = new Date(startDate);
+        if (isNaN(start.getTime())) {
+          return res.status(400).json({ error: "Invalid start date" });
+        }
+        query.date.$gte = start;
+      }
+      if (endDate) {
+        const end = new Date(endDate);
+        if (isNaN(end.getTime())) {
+          return res.status(400).json({ error: "Invalid end date" });
+        }
+        query.date.$lte = end;
+      }
     }
 
     const invoices = await Invoice.find(query).sort({ createdAt: -1 });
