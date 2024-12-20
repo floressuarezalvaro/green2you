@@ -772,3 +772,15 @@ table {
 .client-select input::placeholder {
   color: var(--tertiary)
 }
+
+.toast {
+  max-width: 400px; 
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+.toast-body {
+  overflow-wrap: break-word;
+  word-break: break-word;
+  white-space: normal; 
+}

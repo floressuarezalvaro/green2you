@@ -26,9 +26,7 @@ const ToastMessage = ({
         <Toast.Header closeButton={false}>
           <strong className="me-auto">Success</strong>
         </Toast.Header>
-        <Toast.Body>
-          <p>{text}</p>
-        </Toast.Body>
+        <Toast.Body>{text}</Toast.Body>
       </Toast>
     </ToastContainer>
   );
