@@ -429,6 +429,36 @@ form button {
   top: 50%;
 }
 
+.date-search-wrapper {
+  display: flex; 
+  justify-content: flex-end;
+  align-items: center;
+  gap: 20px; 
+  margin-top: 10px; 
+  margin-right: 20px;
+}
+
+.input-date-box {
+  display: flex;
+  align-items: center; 
+  gap: 5px; 
+}
+
+.input-date-box p {
+  margin: 0;
+  font-size: 0.9em; 
+  color: var(--primary);
+}
+
+.input-date-box input[type="date"] {
+  width: 140px;
+  padding: 5px 8px;
+  border: 1px solid var(--primary);
+  border-radius: 4px;
+  font-size: 0.9em;
+  box-sizing: border-box;
+}
+
 form.login, form.signup {
   position: relative;
   max-width: 420px;
@@ -470,7 +500,7 @@ form.search {
 }
 
 .search input {
-  border: 1px solid  #ddd;
+  border: 1px solid  var(--primary);
   box-sizing: border-box;
   border-radius: 4px;
 }

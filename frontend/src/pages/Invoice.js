@@ -4,11 +4,15 @@ import { useInvoicesContext } from "../hooks/useInvoicesContext";
 
 import InvoiceDetails from "../components/InvoiceDetails";
 import InvoiceForm from "../components/forms/InvoiceForm";
+import InvoiceSearch from "../components/forms/InvoiceSearch";
 import Pagination from "../components/Pagination.js";
 
 const Invoice = () => {
   const { user, logout } = useAuthContext();
   const { invoices, dispatch } = useInvoicesContext();
+  const [startDateSearch, setStartDateSearch] = useState("");
+  const [endDateSearch, setEndDateSearch] = useState("");
+
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
 
@@ -18,8 +22,12 @@ const Invoice = () => {
         logout();
       }
 
+      const query = new URLSearchParams();
+      if (startDateSearch) query.append("startDate", startDateSearch);
+      if (endDateSearch) query.append("endDate", endDateSearch);
+
       try {
-        const response = await fetch("/api/invoices", {
+        const response = await fetch(`/api/invoices?${query.toString()}`, {
           method: "GET",
           headers: {
             Authorization: `Bearer ${user.token}`,
@@ -41,7 +49,7 @@ const Invoice = () => {
     };
 
     fetchInvoices();
-  }, [user, dispatch, logout]);
+  }, [user, dispatch, logout, startDateSearch, endDateSearch]);
 
   if (!invoices) {
     return <div>Loading...</div>;
@@ -57,6 +65,10 @@ const Invoice = () => {
     <div className="page-separation">
       <div className="invoices">
         <h3>Invoices Page</h3>
+        <InvoiceSearch
+          setStartDateSearch={setStartDateSearch}
+          setEndDateSearch={setEndDateSearch}
+        />
         {invoices.length > 0 ? (
           currentItems.map((invoice) => (
             <InvoiceDetails key={invoice._id} invoice={invoice} />
