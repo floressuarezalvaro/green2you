@@ -217,7 +217,7 @@ const UpdateClientModal = ({ client }) => {
               />
             </Form.Group>
 
-            <Form.Group className="mb-3" controlId="clientMonthlyField">
+            <Form.Group className="mb" controlId="clientMonthlyField">
               <Form.Label>Monthly Plan</Form.Label>
               <ToggleSwitch
                 checked={updateClientForm.clientMonthly}
@@ -228,7 +228,7 @@ const UpdateClientModal = ({ client }) => {
             </Form.Group>
 
             <Form.Group
-              className="mb-3"
+              className="mb"
               controlId="clientAutoCreateStatementsEnabledField"
             >
               <Form.Label>Auto Create Statements</Form.Label>
@@ -241,7 +241,7 @@ const UpdateClientModal = ({ client }) => {
             </Form.Group>
 
             <Form.Group
-              className="mb-3"
+              className="mb"
               controlId="clientAutoEmailStatementsEnabledField"
             >
               <Form.Label>Auto Email Statements</Form.Label>
