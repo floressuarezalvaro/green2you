@@ -1,6 +1,5 @@
 const express = require("express");
 const mongoose = require("mongoose");
-const cron = require("node-cron");
 const dotenv = require("dotenv");
 const path = require("path");
 
@@ -69,7 +68,6 @@ const connectWithRetry = () => {
       app.listen(process.env.PORT, () => {
         console.log("Connected to db & listening on port", process.env.PORT);
       });
-      cron.schedule("0 0 * * *", statementScheduler);
     })
     .catch((error) => {
       console.error(
