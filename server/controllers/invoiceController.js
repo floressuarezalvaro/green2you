@@ -129,7 +129,18 @@ const createInvoice = async (req, res) => {
       user_id,
     });
     const serviceDues = Number(balance.serviceDues) + Number(amount);
-    await Balance.updateOne({ _id: clientId }, { serviceDues: serviceDues });
+    const currentBalance = Number(balance.currentBalance) - Number(amount);
+
+    await Balance.updateOne(
+      { _id: clientId },
+      {
+        $set: {
+          serviceDues,
+          currentBalance,
+        },
+      }
+    );
+
     res.status(201).json(invoice);
   } catch (error) {
     res.status(500).json({ error: "Internal server error" });
@@ -159,7 +170,18 @@ const deleteInvoice = async (req, res) => {
     }
 
     const serviceDues = Number(balance.serviceDues) - Number(invoice.amount);
-    await Balance.updateOne({ _id: clientId }, { serviceDues: serviceDues });
+    const currentBalance =
+      Number(balance.currentBalance) + Number(invoice.amount);
+
+    await Balance.updateOne(
+      { _id: clientId },
+      {
+        $set: {
+          serviceDues,
+          currentBalance,
+        },
+      }
+    );
 
     res.status(200).json(invoice);
   } catch (error) {
