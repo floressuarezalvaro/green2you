@@ -15,10 +15,7 @@ const UpdateBalanceModal = ({ balances }) => {
   const [error, setError] = useState(null);
 
   const initializeForm = () => ({
-    previousStatementBalance: balances.previousStatementBalance,
-    paymentsOrCredits: balances.paymentsOrCredits,
-    serviceDues: balances.serviceDues,
-    newStatementBalance: balances.newStatementBalance,
+    currentBalance: balances.currentBalance,
   });
 
   const [updateBalanceForm, setUpdateBalanceForm] = useState(initializeForm());
@@ -80,45 +77,12 @@ const UpdateBalanceModal = ({ balances }) => {
               className="mb-3"
               controlId="previousStatementBalanceField"
             >
-              <Form.Label>Previous Statement Balance:</Form.Label>
+              <Form.Label>Current Balance: </Form.Label>
               <Form.Control
                 type="number"
-                value={updateBalanceForm.previousStatementBalance}
+                value={updateBalanceForm.currentBalance}
                 onChange={onChange}
-                name="previousStatementBalance"
-                onWheel={(e) => e.target.blur()}
-              />
-            </Form.Group>
-
-            <Form.Group className="mb-3" controlId="paymentsOrCreditsField">
-              <Form.Label>Payments and Credits: </Form.Label>
-              <Form.Control
-                type="number"
-                value={updateBalanceForm.paymentsOrCredits}
-                onChange={onChange}
-                name="paymentsOrCredits"
-                onWheel={(e) => e.target.blur()}
-              />
-            </Form.Group>
-
-            <Form.Group className="mb-3" controlId="serviceDuesField">
-              <Form.Label>Service Dues: </Form.Label>
-              <Form.Control
-                type="number"
-                value={updateBalanceForm.serviceDues}
-                onChange={onChange}
-                name="serviceDues"
-                onWheel={(e) => e.target.blur()}
-              />
-            </Form.Group>
-
-            <Form.Group className="mb-3" controlId="newStatementBalanceField">
-              <Form.Label>New Statement Balance: </Form.Label>
-              <Form.Control
-                type="number"
-                value={updateBalanceForm.newStatementBalance}
-                onChange={onChange}
-                name="newStatementBalance"
+                name="currentBalance"
                 onWheel={(e) => e.target.blur()}
               />
             </Form.Group>
