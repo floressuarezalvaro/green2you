@@ -102,6 +102,7 @@ const createStatement = async (req, res) => {
     const previousStatementBalance = balance.newStatementBalance;
 
     const updatedNewStatementBalance =
+      Number(balance.currentBalance) +
       Number(balance.paymentsOrCredits) +
       Number(previousStatementBalance) +
       Number(balance.pastDueAmount) +

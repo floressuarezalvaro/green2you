@@ -97,6 +97,7 @@ clientSchema.statics.createClientBalance = async function (clientId) {
   await Balance.create({
     _id: clientId,
     clientId: clientId,
+    currentBalance: 0,
     previousStatementBalance: 0,
     paymentsOrCredits: 0,
     serviceDues: 0,

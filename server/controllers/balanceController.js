@@ -6,6 +6,7 @@ const createBalance = async (req, res) => {
   const { id } = req.params;
 
   let {
+    currentBalance,
     previousStatementBalance,
     paymentsOrCredits,
     serviceDues,
@@ -13,6 +14,7 @@ const createBalance = async (req, res) => {
     pastDueAmount,
   } = req.body;
 
+  currentBalance = currentBalance ?? 0;
   previousStatementBalance = previousStatementBalance ?? 0;
   paymentsOrCredits = paymentsOrCredits ?? 0;
   serviceDues = serviceDues ?? 0;
@@ -20,6 +22,7 @@ const createBalance = async (req, res) => {
   pastDueAmount = pastDueAmount ?? 0;
 
   if (
+    isNaN(currentBalance) ||
     isNaN(previousStatementBalance) ||
     isNaN(paymentsOrCredits) ||
     isNaN(serviceDues) ||
@@ -30,6 +33,7 @@ const createBalance = async (req, res) => {
   }
 
   if (
+    currentBalance === "" ||
     previousStatementBalance === "" ||
     paymentsOrCredits === "" ||
     serviceDues === "" ||
@@ -52,6 +56,7 @@ const createBalance = async (req, res) => {
     const createdBalance = await Balance.create({
       _id: id,
       clientId: id,
+      currentBalance,
       previousStatementBalance,
       paymentsOrCredits,
       serviceDues,

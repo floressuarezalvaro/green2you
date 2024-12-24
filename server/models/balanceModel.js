@@ -4,6 +4,10 @@ const Schema = mongoose.Schema;
 
 const balanceSchema = new Schema(
   {
+    currentBalance: {
+      type: Number,
+      required: true,
+    },
     previousStatementBalance: {
       type: Number,
       required: true,
