@@ -224,14 +224,26 @@ const deleteStatement = async (req, res) => {
 
   try {
     const statement = await Statement.findOneAndDelete({ _id: id });
+
     if (!statement) {
       return res.status(404).json({ error: "No statement found" });
     }
 
     const payment = await Payment.findOneAndDelete({ statementId: id });
 
-    if (!payment) {
-      console.log(`No payment found for statement ID: ${id}`);
+    if (payment) {
+      const clientId = payment.clientId;
+      const balance = await Balance.findOne({ _id: clientId });
+
+      const decreaseCurrentBalance =
+        Number(balance.currentBalance) - Number(payment.amount);
+
+      await Balance.updateOne(
+        { _id: clientId },
+        {
+          currentBalance: decreaseCurrentBalance,
+        }
+      );
     }
 
     res.status(200).json(statement);
