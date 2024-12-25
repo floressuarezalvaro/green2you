@@ -4,24 +4,27 @@ const validator = require("validator");
 
 const Schema = mongoose.Schema;
 
-const userSchema = new Schema({
-  email: {
-    type: String,
-    required: true,
-    unique: true,
+const userSchema = new Schema(
+  {
+    email: {
+      type: String,
+      required: true,
+      unique: true,
+    },
+    password: {
+      type: String,
+      required: false,
+    },
+    role: {
+      type: String,
+      required: true,
+      enum: ["admin", "client"],
+    },
+    resetPasswordToken: String,
+    resetPasswordExpires: Date,
   },
-  password: {
-    type: String,
-    required: false,
-  },
-  role: {
-    type: String,
-    required: true,
-    enum: ["admin", "client"],
-  },
-  resetPasswordToken: String,
-  resetPasswordExpires: Date,
-});
+  { timestamps: true }
+);
 
 userSchema.index({ createdAt: -1 });
 
