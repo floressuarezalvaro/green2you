@@ -99,31 +99,13 @@ const createStatement = async (req, res) => {
       checkDate: statement.checkDate,
     }));
 
-    const previousStatementBalance = balance.newStatementBalance;
-
-    const updatedNewStatementBalance =
-      Number(balance.currentBalance) +
-      Number(balance.paymentsOrCredits) +
-      Number(previousStatementBalance) +
-      Number(balance.pastDueAmount) +
-      Number(balance.serviceDues);
-
-    await Balance.findOneAndUpdate(
-      { _id: clientId },
-      {
-        previousStatementBalance,
-        newStatementBalance: updatedNewStatementBalance,
-      },
-      { runValidators: true }
-    );
-
-    const updatedBalance = await Balance.findOne({ _id: clientId });
+    const balanceData = await Balance.findOne({ _id: clientId });
 
     const statement = await Statement.create({
       clientId,
       invoiceData,
       historicalStatementsData,
-      balanceData: updatedBalance,
+      balanceData,
       totalAmount,
       issuedStartDate: pacificIssuedStartDate,
       issuedEndDate: pacificIssuedEndDate,
@@ -135,15 +117,6 @@ const createStatement = async (req, res) => {
       checkNumber: 0,
       checkDate: 0,
     });
-
-    await Balance.findOneAndUpdate(
-      { _id: clientId },
-      {
-        paymentsOrCredits: 0,
-        serviceDues: 0,
-        pastDueAmount: 0,
-      }
-    );
 
     res.status(201).json(statement);
   } catch (error) {

@@ -98,11 +98,6 @@ clientSchema.statics.createClientBalance = async function (clientId) {
     _id: clientId,
     clientId: clientId,
     currentBalance: 0,
-    previousStatementBalance: 0,
-    paymentsOrCredits: 0,
-    serviceDues: 0,
-    newStatementBalance: 0,
-    pastDueAmount: 0,
   });
 };
 

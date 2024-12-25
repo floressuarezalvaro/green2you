@@ -5,41 +5,15 @@ const Client = require("../models/clientModel");
 const createBalance = async (req, res) => {
   const { id } = req.params;
 
-  let {
-    currentBalance,
-    previousStatementBalance,
-    paymentsOrCredits,
-    serviceDues,
-    newStatementBalance,
-    pastDueAmount,
-  } = req.body;
+  let { currentBalance } = req.body;
 
   currentBalance = currentBalance ?? 0;
-  previousStatementBalance = previousStatementBalance ?? 0;
-  paymentsOrCredits = paymentsOrCredits ?? 0;
-  serviceDues = serviceDues ?? 0;
-  newStatementBalance = newStatementBalance ?? 0;
-  pastDueAmount = pastDueAmount ?? 0;
 
-  if (
-    isNaN(currentBalance) ||
-    isNaN(previousStatementBalance) ||
-    isNaN(paymentsOrCredits) ||
-    isNaN(serviceDues) ||
-    isNaN(newStatementBalance) ||
-    isNaN(pastDueAmount)
-  ) {
+  if (isNaN(currentBalance)) {
     return res.status(400).json({ error: "All fields must be valid numbers" });
   }
 
-  if (
-    currentBalance === "" ||
-    previousStatementBalance === "" ||
-    paymentsOrCredits === "" ||
-    serviceDues === "" ||
-    newStatementBalance === "" ||
-    pastDueAmount === ""
-  ) {
+  if (currentBalance === "") {
     return res.status(400).json({ error: "All fields are required" });
   }
 
@@ -56,12 +30,6 @@ const createBalance = async (req, res) => {
     const createdBalance = await Balance.create({
       _id: id,
       clientId: id,
-      currentBalance,
-      previousStatementBalance,
-      paymentsOrCredits,
-      serviceDues,
-      newStatementBalance,
-      pastDueAmount,
     });
     res.status(201).json(createdBalance);
   } catch (error) {

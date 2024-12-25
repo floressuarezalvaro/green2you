@@ -70,19 +70,13 @@ const makePayment = async (req, res) => {
     });
 
     if (type === "credit") {
-      const decreaseBalance =
-        Number(balance.paymentsOrCredits) - Number(amount);
-
       const increaseCurrentBalance =
         Number(balance.currentBalance) + Number(amount);
 
       await Balance.updateOne(
         { _id: clientId },
         {
-          $set: {
-            paymentsOrCredits: decreaseBalance,
-            currentBalance: increaseCurrentBalance,
-          },
+          currentBalance: increaseCurrentBalance,
         }
       );
 
@@ -93,19 +87,13 @@ const makePayment = async (req, res) => {
     }
 
     if (type === "debit") {
-      const increaseBalance =
-        Number(balance.paymentsOrCredits) + Number(amount);
-
       const decreaseCurrentBalance =
         Number(balance.currentBalance) - Number(amount);
 
       await Balance.updateOne(
         { _id: clientId },
         {
-          $set: {
-            paymentsOrCredits: increaseBalance,
-            currentBalance: decreaseCurrentBalance,
-          },
+          currentBalance: decreaseCurrentBalance,
         }
       );
     }
@@ -247,37 +235,25 @@ const deletePayment = async (req, res) => {
     const type = payment.type;
 
     if (type === "credit") {
-      const increaseBalance =
-        Number(balance.paymentsOrCredits) + Number(amount);
-
       const decreaseCurrentBalance =
         Number(balance.currentBalance) - Number(amount);
 
       await Balance.updateOne(
         { _id: clientId },
         {
-          $set: {
-            paymentsOrCredits: increaseBalance,
-            currentBalance: decreaseCurrentBalance,
-          },
+          currentBalance: decreaseCurrentBalance,
         }
       );
     }
 
     if (type === "debit") {
-      const decreaseBalance =
-        Number(balance.paymentsOrCredits) - Number(amount);
-
       const increaseCurrentBalance =
         Number(balance.currentBalance) - Number(amount);
 
       await Balance.updateOne(
         { _id: clientId },
         {
-          $set: {
-            paymentsOrCredits: decreaseBalance,
-            currentBalance: increaseCurrentBalance,
-          },
+          currentBalance: increaseCurrentBalance,
         }
       );
     }

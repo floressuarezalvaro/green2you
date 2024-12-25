@@ -128,16 +128,13 @@ const createInvoice = async (req, res) => {
       description,
       user_id,
     });
-    const serviceDues = Number(balance.serviceDues) + Number(amount);
+
     const currentBalance = Number(balance.currentBalance) - Number(amount);
 
     await Balance.updateOne(
       { _id: clientId },
       {
-        $set: {
-          serviceDues,
-          currentBalance,
-        },
+        currentBalance,
       }
     );
 
@@ -169,17 +166,13 @@ const deleteInvoice = async (req, res) => {
         .json({ error: "No balance found for the given client id" });
     }
 
-    const serviceDues = Number(balance.serviceDues) - Number(invoice.amount);
     const currentBalance =
       Number(balance.currentBalance) + Number(invoice.amount);
 
     await Balance.updateOne(
       { _id: clientId },
       {
-        $set: {
-          serviceDues,
-          currentBalance,
-        },
+        currentBalance,
       }
     );
 

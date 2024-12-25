@@ -10,23 +10,23 @@ const balanceSchema = new Schema(
     },
     previousStatementBalance: {
       type: Number,
-      required: true,
+      required: false,
     },
     paymentsOrCredits: {
       type: Number,
-      required: true,
+      required: false,
     },
     serviceDues: {
       type: Number,
-      required: true,
+      required: false,
     },
     newStatementBalance: {
       type: Number,
-      required: true,
+      required: false,
     },
     pastDueAmount: {
       type: Number,
-      required: true,
+      required: false,
     },
     clientId: {
       type: String,
