@@ -5,14 +5,23 @@ const createStatement =
 const { sendStatementByEmail } = require("../utils/emailHandler");
 
 const calculateStatementDates = (cycleDate) => {
-  const baseDate = moment.tz("America/Los_Angeles").date(cycleDate);
+  const now = moment.tz("America/Los_Angeles");
+  const maxDaysInMonth = now.daysInMonth();
 
-  const issuedStartDate = baseDate
-    .clone()
-    .add(1, "day")
-    .subtract(1, "month")
-    .startOf("day")
-    .toISOString();
+  const adjustedCycleDate = Math.min(cycleDate, maxDaysInMonth);
+
+  const baseDate = now.clone().date(adjustedCycleDate);
+
+  const isLastDayOfMonth = adjustedCycleDate === maxDaysInMonth;
+
+  const issuedStartDate = isLastDayOfMonth
+    ? baseDate.clone().startOf("month").toISOString()
+    : baseDate
+        .clone()
+        .subtract(1, "month")
+        .add(1, "day")
+        .startOf("day")
+        .toISOString();
 
   const issuedEndDate = baseDate.clone().endOf("day").toISOString();
 
