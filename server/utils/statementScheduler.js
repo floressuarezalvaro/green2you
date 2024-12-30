@@ -21,10 +21,26 @@ const calculateStatementDates = (cycleDate) => {
 
 const statementScheduler = async () => {
   const today = moment.tz("America/Los_Angeles").date();
+  const maxDaysInMonth = moment().daysInMonth();
+
+  // const today = 28;
+  // const maxDaysInMonth = 28;
+
   console.log("Today is:", today);
+  console.log("Max days in this month:", maxDaysInMonth);
 
   try {
-    const clients = await Client.find({ clientStatementCreateDate: today });
+    const query =
+      today === maxDaysInMonth
+        ? {
+            $or: [
+              { clientStatementCreateDate: today },
+              { clientStatementCreateDate: { $gt: maxDaysInMonth } },
+            ],
+          }
+        : { clientStatementCreateDate: today };
+
+    const clients = await Client.find(query);
 
     await Promise.all(clients.map((client) => processClientStatement(client)));
 
