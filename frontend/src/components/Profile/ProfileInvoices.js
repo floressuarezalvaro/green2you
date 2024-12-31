@@ -41,7 +41,7 @@ const ProfileInvoices = ({ client }) => {
     fetchInvoices();
   }, [dispatch, user, logout, client]);
 
-  if (!invoices) {
+  if (!invoices || !user) {
     return <div>Loading...</div>;
   }
 
@@ -60,6 +60,8 @@ const ProfileInvoices = ({ client }) => {
             <InvoiceDetails
               key={invoice._id}
               invoice={invoice}
+              client={client}
+              user={user}
               hideClientName={true}
             />
           ))}
