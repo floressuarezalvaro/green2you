@@ -1,6 +1,3 @@
-import { useState, useEffect } from "react";
-import { useAuthContext } from "../hooks/useAuthContext";
-import { useClientsContext } from "../hooks/useClientsContext";
 import formatDistanceToNow from "date-fns/formatDistanceToNow";
 import moment from "moment-timezone";
 
@@ -9,28 +6,11 @@ import DeleteStatementModal from "./modals/WarningDeleteStatement";
 import MakePaymentModal from "./modals/MakePaymentModal";
 import PrintStatement from "../utils/PrintStatement";
 
-const StatementDetails = ({ statement, handleShowToast }) => {
-  const { user } = useAuthContext();
-  const { clients = [] } = useClientsContext();
-  const [clientName, setClientName] = useState("");
-  const [clientEmail, setClientEmail] = useState("");
-
+const StatementDetails = ({ statement, user, client, handleShowToast }) => {
   const handleClick = async (e, id, download) => {
     e.preventDefault();
     PrintStatement(user, id, download);
   };
-
-  useEffect(() => {
-    if (statement.clientId && clients && clients.length > 0) {
-      const client = clients.find(
-        (client) => client._id === statement.clientId
-      );
-      if (client) {
-        setClientName(client.clientName);
-        setClientEmail(client.clientEmail);
-      }
-    }
-  }, [statement.clientId, clients]);
 
   const startDate = moment
     .tz(statement.issuedStartDate, "UTC")
@@ -38,7 +18,6 @@ const StatementDetails = ({ statement, handleShowToast }) => {
   const endDate = moment
     .tz(statement.issuedEndDate, "UTC")
     .tz("America/Los_Angeles");
-
   const createdDate = moment
     .tz(statement.createdAt, "UTC")
     .tz("America/Los_Angeles");
@@ -49,7 +28,7 @@ const StatementDetails = ({ statement, handleShowToast }) => {
 
   return (
     <div className="details">
-      {<h4>{clientName}</h4>}
+      <h4>{client?.clientName || "Unknown Client"}</h4>
       <p>
         <strong>Issued Start Date: </strong>
         {formattedStartDate}
@@ -105,14 +84,14 @@ const StatementDetails = ({ statement, handleShowToast }) => {
 
         <EmailStatementModal
           key={`email-${statement._id}`}
-          clientName={clientName}
-          clientEmail={clientEmail}
+          clientName={client?.clientName}
+          clientEmail={client?.clientEmail}
           statement={statement}
           handleShowToast={handleShowToast}
         />
         {statement.isPaid === false && (
           <MakePaymentModal
-            clientName={clientName}
+            clientName={client?.clientName}
             key={`payment-${statement._id}`}
             statement={statement}
             handleShowToast={handleShowToast}

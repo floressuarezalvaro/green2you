@@ -1,19 +1,23 @@
 import { useEffect, useState } from "react";
 import { useAuthContext } from "../hooks/useAuthContext.js";
 import { useStatementsContext } from "../hooks/useStatementsContext.js";
+import { useClientsContext } from "../hooks/useClientsContext.js";
 
 import StatementForm from "../components/forms/StatementForm.js";
 import StatementDetails from "../components/StatementDetails.js";
 import Pagination from "../components/Pagination.js";
 import ToastMessage from "../components/Toast.js";
+import ClientSearch from "../components/forms/ClientSearch.js";
 
 const Statement = () => {
   const { user, logout } = useAuthContext();
   const { statements, dispatch } = useStatementsContext();
+  const { clients } = useClientsContext();
 
   const [currentPage, setCurrentPage] = useState(1);
   const [showToast, setShowToast] = useState(false);
   const [view, setView] = useState("unpaid");
+  const [searchTerm, setSearchTerm] = useState("");
   const itemsPerPage = 5;
 
   const handleShowToast = () => {
@@ -51,7 +55,7 @@ const Statement = () => {
     fetchStatements();
   }, [user, dispatch, logout]);
 
-  if (!statements) {
+  if (!statements || !clients) {
     return <div>Loading...</div>;
   }
 
@@ -60,9 +64,16 @@ const Statement = () => {
     setCurrentPage(1);
   };
 
-  const filteredStatements = statements.filter((statement) =>
-    view === "unpaid" ? !statement.isPaid : statement.isPaid
-  );
+  const filteredStatements = statements.filter((statement) => {
+    const client = clients.find((client) => client._id === statement.clientId);
+    const matchesView =
+      view === "unpaid" ? !statement.isPaid : statement.isPaid;
+    const matchesSearch =
+      !searchTerm ||
+      (client?.clientName &&
+        client.clientName.toLowerCase().includes(searchTerm.toLowerCase()));
+    return matchesView && matchesSearch;
+  });
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -89,16 +100,27 @@ const Statement = () => {
           </button>
         </div>
 
+        <ClientSearch setClientName={setSearchTerm} />
+
         {currentItems.length > 0 ? (
-          currentItems.map((statement) => (
-            <StatementDetails
-              key={statement._id}
-              statement={statement}
-              handleShowToast={handleShowToast}
-            />
-          ))
+          currentItems.map((statement) => {
+            const client = clients.find(
+              (client) => client._id === statement.clientId
+            );
+            return (
+              <StatementDetails
+                key={statement._id}
+                statement={statement}
+                user={user}
+                client={client}
+                handleShowToast={handleShowToast}
+              />
+            );
+          })
         ) : (
-          <p className="no-statements">No {view} statements yet</p>
+          <p className="no-statements">
+            No {view} statements match your search
+          </p>
         )}
         {filteredStatements.length > itemsPerPage && (
           <Pagination
