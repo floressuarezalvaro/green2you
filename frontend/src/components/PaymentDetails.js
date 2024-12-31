@@ -1,36 +1,21 @@
-import { useState, useEffect } from "react";
-import { useClientsContext } from "../hooks/useClientsContext";
 import formatDistanceToNow from "date-fns/formatDistanceToNow";
 import { format } from "date-fns";
 
 import DeletePaymentModal from "../components/modals/WarningDeletePayment";
 import UpdatePaymentModal from "./modals/UpdatePaymentModal";
 
-const PaymentDetails = ({ payment }) => {
-  const { clients = [] } = useClientsContext();
-  const [clientName, setClientName] = useState("");
-
+const PaymentDetails = ({ payment, client }) => {
   const formattedDate = format(new Date(payment.checkDate), "MM/dd/yyyy");
-
-  useEffect(() => {
-    if (payment.clientId && clients && clients.length > 0) {
-      const client = clients.find((client) => client._id === payment.clientId);
-      if (client) {
-        setClientName(client.clientName);
-      }
-    }
-  }, [payment.clientId, clients]);
 
   return (
     <div className="details">
-      {<h4>{clientName}</h4>}
+      <h4>{client?.clientName || "Unknown Client"}</h4>
       <p>
         <strong>Check Date: </strong>
         {formattedDate}
       </p>
       <p>
-        <strong>Amount: </strong>
-        {payment.amount.toFixed(2)}
+        <strong>Amount: </strong> ${payment.amount.toFixed(2)}
       </p>
       <p>
         <strong>Check Number: </strong>
