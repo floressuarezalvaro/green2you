@@ -24,7 +24,7 @@ const getMonths = () => [
 const getYears = (statements) => {
   const years = new Set(
     statements.map((statement) =>
-      new Date(statement.issuedEndDate).getFullYear()
+      moment.tz(statement.issuedEndDate, "UTC").tz("America/Los_Angeles").year()
     )
   );
   return Array.from(years).sort((a, b) => a - b);
