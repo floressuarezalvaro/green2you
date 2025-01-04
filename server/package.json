@@ -14,7 +14,6 @@
   "dependencies": {
     "axios": "^1.7.2",
     "bcrypt": "^5.1.1",
-    "dd-trace": "^5.30.0",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "jsonwebtoken": "^9.0.2",
