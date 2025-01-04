@@ -134,7 +134,7 @@ userSchema.statics.forgotPassword = async function (email) {
   const token = Math.random().toString(36).slice(-8);
 
   user.resetPasswordToken = token;
-  user.resetPasswordExpires = Date.now() + 3600000; // 1 hour
+  user.resetPasswordExpires = Date.now() + 86400000; // 24 hour
   await user.save();
 
   return token;

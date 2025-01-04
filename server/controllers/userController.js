@@ -69,7 +69,14 @@ const signUpClient = async (req, res) => {
     const resetUrl = `${process.env.FRONTEND_URL}/set-password/${setPasswordToken}`;
     const resetLater = `${process.env.FRONTEND_URL}/forgotpassword`;
     const subject = "Access Account - Set Password";
-    const text = `You are receiving this because we are inviting you to access your new Green2You account. To access it, please use this link within one hour of receiving it: ${resetUrl}. If you miss the hour window, you can request a new link by going to ${resetLater}. Reach out if you have any issues! `;
+    const text = `Dear ${client.clientName},
+
+You are receiving this because we are inviting you to access your new Green2You account. To access it, please use this link within 24 hours of receiving it: ${resetUrl}.
+
+If you miss this window, you can request a new link by going to: ${resetLater}. Pleae reach out if you have any issues!
+
+Thank you,
+Green 2 You`;
 
     await sendEmail("Password Set", email, subject, text);
 
@@ -110,7 +117,14 @@ const forgotPassword = async (req, res) => {
 
     const resetUrl = `${process.env.FRONTEND_URL}/set-password/${token}`;
     const subject = "Password Reset Request";
-    const text = `You are receiving this because we received a requested the reset of the password for your account. Please click on the following link, or paste this into your browser to complete the process within one hour of receiving it: ${resetUrl}`;
+    const text = `Dear Customer, 
+
+You are receiving this because we received a requested the reset of the password for your account. 
+
+Please click on the following link, or paste this into your browser to complete the process within 24 hours of receiving it: ${resetUrl}
+    
+Thank you, 
+Green 2 You`;
 
     await sendEmail("Password Reset", email, subject, text);
 
