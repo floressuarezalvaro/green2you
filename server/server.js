@@ -1,10 +1,3 @@
-if (process.env.NODE_ENV === "production") {
-  require("dd-trace").init({
-    service: process.env.DD_SERVICE || "my-backend-service",
-    env: process.env.NODE_ENV,
-    version: process.env.DD_VERSION || "1.0.0",
-  });
-}
 const express = require("express");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
