@@ -22,7 +22,6 @@ const emailRoutes = require("./routes/emailRoutes");
 const statementsRoutes = require("./routes/statementsRoutes");
 const balanceRoutes = require("./routes/balanceRoutes");
 const paymentRoutes = require("./routes/paymentRoutes");
-const statementScheduler = require("./utils/statementScheduler");
 
 const app = express();
 
