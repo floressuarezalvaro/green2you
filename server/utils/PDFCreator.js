@@ -134,14 +134,15 @@ const printStatement = async (req, res) => {
 
     if (statement.historicalStatementsData.length > 0) {
       statement.historicalStatementsData.forEach((statement) => {
-        const checkDateFormatted = new Date(
-          statement.checkDate
-        ).toLocaleDateString("en-US", {
+        const utcDate = new Date(statement.checkDate);
+        utcDate.setUTCHours(12);
+
+        const checkDateFormatted = utcDate.toLocaleDateString("en-US", {
+          timeZone: "America/Los_Angeles",
           year: "numeric",
           month: "2-digit",
           day: "2-digit",
         });
-
         doc.text(
           `${monthShortWithDays(
             statement.issuedStartDate
