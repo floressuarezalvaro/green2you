@@ -35,6 +35,17 @@ const createStatement = async (req, res) => {
       return res.status(404).json({ error: "Client not found" });
     }
 
+    const lastStatement = await Statement.findOne({
+      clientId,
+    }).sort({ createdAt: -1 });
+
+    if (lastStatement !== null && lastStatement.isPaid === false) {
+      return res.status(400).json({
+        error:
+          "There is an unpaid statement for this client. This statement was not created.",
+      });
+    }
+
     const clientPlan = client.clientPlan;
 
     const balance = await Balance.findOne({ _id: clientId });
