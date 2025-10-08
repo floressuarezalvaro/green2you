@@ -41,7 +41,7 @@ This application is designed to help streamline billing processes, offering an e
    git clone https://github.com/floressuarezalvaro/green2you.git
    ```
 
-2. Install Dependencies:
+2. Install Dependencies for server and backend directories:
    ```bash
    # bash
    npm install
@@ -55,10 +55,20 @@ This application is designed to help streamline billing processes, offering an e
    - Configure environment variables as described in the section below.
 
 5. Run the Application:
+
+   cd server/
+
    ```bash
    # bash
    npm run dev   # For development
    npm start     # For production
+   ```
+
+   cd frontend/
+
+   ```bash
+   # bash
+   npm start
    ```
 
 ## Environment Variables
