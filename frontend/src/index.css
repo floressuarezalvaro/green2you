@@ -14,7 +14,7 @@ html {
 
 body {
   font-family: 'Times New Roman', Times, serif;
-  background: url('./images/landscaping.png') no-repeat;
+  background: url('./images/landscaping.webp') no-repeat;
   background-size: cover;
   background-attachment: fixed;
   overflow-x: hidden; 
