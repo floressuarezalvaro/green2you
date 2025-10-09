@@ -11,10 +11,10 @@ const Home = () => {
   }, [user, logout]);
 
   return (
-    <div className="home">
+    <div className='home'>
       <h1>Welcome to Green2You</h1>
-      <div className="home-details">
-        <p>Click on the links above to navigate</p>
+      <div className='home-details'>
+        <p>Hello! Click on the links above to navigate</p>
       </div>
     </div>
   );
