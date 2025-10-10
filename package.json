@@ -11,7 +11,7 @@
     "dev:server": "yarn workspace @green2you/server dev",
     "dev:frontend": "yarn workspace @green2you/frontend start",
     "build:frontend": "yarn workspace @green2you/frontend build",
-    "heroku-postbuild": "yarn install --production=false && yarn workspace @green2you/frontend build"
+    "heroku-postbuild": "yarn install && yarn workspace @green2you/frontend build"
   },
   "dependencies": {
     "moment-timezone": "^0.5.45"
