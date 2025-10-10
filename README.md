@@ -44,7 +44,7 @@ This application is designed to help streamline billing processes, offering an e
 2. Install Dependencies for server and backend directories:
    ```bash
    # bash
-   npm install
+   yarn install
    ```
 3. Database Setup:
 
@@ -54,21 +54,12 @@ This application is designed to help streamline billing processes, offering an e
 
    - Configure environment variables as described in the section below.
 
-5. Run the Application:
-
-   cd server/
+5. Run the Application Locally:
 
    ```bash
    # bash
-   npm run dev   # For development
-   npm start     # For production
-   ```
-
-   cd frontend/
-
-   ```bash
-   # bash
-   npm start
+   yarn dev:server
+   yarn dev:frontend
    ```
 
 ## Environment Variables
