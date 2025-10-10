@@ -40,11 +40,15 @@ app.use("/api/statements", statementsRoutes);
 app.use("/api/balances", balanceRoutes);
 app.use("/api/payments", paymentRoutes);
 
-app.use((req, res, next) => {
-  if (req.originalUrl.startsWith("/api")) {
-    return res.status(404).json({ message: "API route not found" });
-  }
-  next();
+app.get("/api/version", (req, res) => {
+  const backendVersion = require("./package.json").version;
+  const frontendVersion = require("../frontend/package.json").version;
+
+  res.json({
+    backend: backendVersion,
+    frontend: frontendVersion,
+    environment: process.env.NODE_ENV || "development",
+  });
 });
 
 if (process.env.NODE_ENV === "production") {
