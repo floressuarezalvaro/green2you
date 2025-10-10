@@ -1,8 +1,20 @@
 {
   "name": "green2you",
   "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "server",
+    "frontend"
+  ],
   "scripts": {
-    "start": "if [ \"$NODE_ENV\" = \"production\" ]; then npm run start --prefix server; else npm run dev --prefix server; fi",
-    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix frontend && npm run build --prefix frontend && npm install --prefix server"
-  }
+    "start": "if [ \"$NODE_ENV\" = \"production\" ]; then yarn workspace @green2you/server start; else yarn workspace @green2you/server dev; fi",
+    "dev:server": "yarn workspace @green2you/server dev",
+    "dev:frontend": "yarn workspace @green2you/frontend start",
+    "build:frontend": "yarn workspace @green2you/frontend build",
+    "heroku-postbuild": "yarn install --production=false && yarn workspace @green2you/frontend build"
+  },
+  "dependencies": {
+    "moment-timezone": "^0.5.45"
+  },
+  "packageManager": "yarn@4.10.3"
 }
