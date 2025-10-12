@@ -11,9 +11,12 @@
     "dev:server": "yarn workspace @green2you/server dev",
     "dev:frontend": "yarn workspace @green2you/frontend start",
     "build:frontend": "yarn workspace @green2you/frontend build",
-    "heroku-postbuild": "yarn install && yarn workspace @green2you/frontend build"
+    "heroku-postbuild": "yarn install && yarn workspace @green2you/frontend build",
+    "changeset": "changeset",
+    "version": "changeset version"
   },
   "dependencies": {
+    "@changesets/cli": "^2.29.7",
     "moment-timezone": "^0.5.45"
   },
   "packageManager": "yarn@4.10.3"
