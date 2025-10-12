@@ -2,18 +2,14 @@ const express = require("express");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const path = require("path");
+const setLimit = require("./utils/setLimit");
 
-const envFile =
-  process.env.NODE_ENV === "production"
-    ? ".env.production"
-    : ".env.development";
-dotenv.config({ path: envFile });
+const ENV = process.env.NODE_ENV || "development";
+const isProd = ENV === "production";
+const isDev = ENV === "development";
+console.log(`You're in ${ENV} mode!`);
 
-if (process.env.NODE_ENV === "development") {
-  console.log("You're in development mode!");
-} else {
-  console.log("You're in production mode!");
-}
+dotenv.config({ path: isProd ? ".env.production" : ".env.development" });
 
 const invoiceRoutes = require("./routes/invoiceRoutes");
 const userRoutes = require("./routes/userRoutes");
@@ -24,6 +20,7 @@ const balanceRoutes = require("./routes/balanceRoutes");
 const paymentRoutes = require("./routes/paymentRoutes");
 
 const app = express();
+app.set("trust proxy", isProd ? 1 : "loopback");
 
 app.use(express.json());
 
@@ -32,13 +29,15 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use("/api/invoices", invoiceRoutes);
-app.use("/api/clients", clientRoutes);
-app.use("/api/users", userRoutes);
-app.use("/api/emails", emailRoutes);
-app.use("/api/statements", statementsRoutes);
-app.use("/api/balances", balanceRoutes);
-app.use("/api/payments", paymentRoutes);
+const defaultLimit = setLimit();
+
+app.use("/api/invoices", defaultLimit, invoiceRoutes);
+app.use("/api/clients", defaultLimit, clientRoutes);
+app.use("/api/users", setLimit(10), userRoutes);
+app.use("/api/emails", defaultLimit, emailRoutes);
+app.use("/api/statements", defaultLimit, statementsRoutes);
+app.use("/api/balances", defaultLimit, balanceRoutes);
+app.use("/api/payments", defaultLimit, paymentRoutes);
 
 app.get("/api/version", (req, res) => {
   const backendVersion = require("./package.json").version;
@@ -47,11 +46,11 @@ app.get("/api/version", (req, res) => {
   res.json({
     backend: backendVersion,
     frontend: frontendVersion,
-    environment: process.env.NODE_ENV || "development",
+    environment: ENV,
   });
 });
 
-if (process.env.NODE_ENV === "production") {
+if (isProd) {
   app.use(express.static(path.join(__dirname, "../frontend/build")));
 
   app.get("*", (req, res) => {
