@@ -4,6 +4,7 @@ const dotenv = require("dotenv");
 const path = require("path");
 const setLimit = require("./utils/setLimit");
 const helmet = require("helmet");
+const cors = require("cors");
 
 const ENV = process.env.NODE_ENV || "development";
 const isProd = ENV === "production";
@@ -25,6 +26,7 @@ app.set("trust proxy", isProd ? 1 : "loopback");
 
 app.use(express.json());
 app.use(helmet());
+app.use(cors({ origin: "https://www.green-2-you.com" }));
 
 const defaultLimit = setLimit();
 
