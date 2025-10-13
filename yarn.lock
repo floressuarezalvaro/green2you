@@ -2127,6 +2127,7 @@ __metadata:
     cors: "npm:^2.8.5"
     dotenv: "npm:^16.4.5"
     express: "npm:^4.19.2"
+    express-mongo-sanitize: "npm:^2.2.0"
     express-rate-limit: "npm:^8.1.0"
     helmet: "npm:^8.1.0"
     jsonwebtoken: "npm:^9.0.2"
@@ -7343,6 +7344,13 @@ __metadata:
   version: 3.1.2
   resolution: "exponential-backoff@npm:3.1.2"
   checksum: 10c0/d9d3e1eafa21b78464297df91f1776f7fbaa3d5e3f7f0995648ca5b89c069d17055033817348d9f4a43d1c20b0eab84f75af6991751e839df53e4dfd6f22e844
+  languageName: node
+  linkType: hard
+
+"express-mongo-sanitize@npm:^2.2.0":
+  version: 2.2.0
+  resolution: "express-mongo-sanitize@npm:2.2.0"
+  checksum: 10c0/1d77736df6ef3947ad5a45a879c99f09f6d81f12833af2a4175b909a89732e44e9524cf55274a591e29813f3115c2793bed4186e9c6a523ed62b13185a342186
   languageName: node
   linkType: hard
 

@@ -1,10 +1,12 @@
-const express = require("express");
-const mongoose = require("mongoose");
-const dotenv = require("dotenv");
 const path = require("path");
-const setLimit = require("./utils/setLimit");
-const helmet = require("helmet");
 const cors = require("cors");
+const dotenv = require("dotenv");
+const express = require("express");
+const helmet = require("helmet");
+const mongoose = require("mongoose");
+const mongoSanitize = require("express-mongo-sanitize");
+
+const setLimit = require("./utils/setLimit");
 
 const ENV = process.env.NODE_ENV || "development";
 const isProd = ENV === "production";
@@ -22,11 +24,10 @@ const paymentRoutes = require("./routes/paymentRoutes");
 
 const app = express();
 app.set("trust proxy", isProd ? 1 : "loopback");
-
-app.use(express.json());
 app.use(helmet());
+app.use(express.json());
+app.use(mongoSanitize({ replaceWith: "_" }));
 app.use(cors({ origin: "https://www.green-2-you.com" }));
-
 const defaultLimit = setLimit();
 
 app.use("/api/invoices", defaultLimit, invoiceRoutes);
