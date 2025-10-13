@@ -53,7 +53,7 @@ const EmailStatementModal = ({
         handleShowToast();
       }
     } catch (err) {
-      console.error("Failed to send email");
+      console.error("Failed to send email", err);
     }
   };
 
@@ -69,8 +69,7 @@ const EmailStatementModal = ({
         </Modal.Header>
         <Modal.Body>
           <p>
-            This will send the statement to {clientName}'s email address:{" "}
-            {clientEmail}
+            {`This will send the statement to ${clientName}'s email address: ${clientEmail}`}
           </p>
         </Modal.Body>
         <Modal.Footer>

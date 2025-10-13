@@ -101,7 +101,9 @@ const makePayment = async (req, res) => {
     res.status(201).json(payment);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "Internal server error" });
+    res
+      .status(500)
+      .json({ error: "Internal server error", message: error.message });
   }
 };
 
@@ -117,7 +119,9 @@ const getAllPayments = async (req, res) => {
     res.status(201).json(payments);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "Internal server error" });
+    res
+      .status(500)
+      .json({ error: "Internal server error", message: error.message });
   }
 };
 
@@ -141,7 +145,9 @@ const getPaymentsByClient = async (req, res) => {
     res.status(201).json(payments);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "Internal server error" });
+    res
+      .status(500)
+      .json({ error: "Internal server error", message: error.message });
   }
 };
 
@@ -162,7 +168,9 @@ const getPaymentsById = async (req, res) => {
     res.status(201).json(payment);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "Internal server error" });
+    res
+      .status(500)
+      .json({ error: "Internal server error", message: error.message });
   }
 };
 
@@ -206,7 +214,9 @@ const updatePayment = async (req, res) => {
     res.status(200).json(payment);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "Internal server error" });
+    res
+      .status(500)
+      .json({ error: "Internal server error", message: error.message });
   }
 };
 
@@ -272,7 +282,9 @@ const deletePayment = async (req, res) => {
     res.status(201).json(payment);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "Internal server error" });
+    res
+      .status(500)
+      .json({ error: "Internal server error", message: error.message });
   }
 };
 

@@ -10,7 +10,6 @@ const setLimit = require("./utils/setLimit");
 
 const ENV = process.env.NODE_ENV || "development";
 const isProd = ENV === "production";
-const isDev = ENV === "development";
 console.log(`You're in ${ENV} mode!`);
 
 dotenv.config({ path: isProd ? ".env.production" : ".env.development" });
@@ -58,7 +57,7 @@ if (isProd) {
   });
 }
 
-app.use((err, req, res, next) => {
+app.use((err, req, res, _next) => {
   console.error(err.stack);
   res.status(500).send("Something broke!");
 });
