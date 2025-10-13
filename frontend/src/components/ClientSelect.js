@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef } from "react";
 
 const ClientSelect = ({
   clients,
-  clientId,
   setClientId,
   emptyFields,
   searchQuery,

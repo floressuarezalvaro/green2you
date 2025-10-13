@@ -2,7 +2,6 @@ const emailTracker = require("../models/emailTrackerModel");
 const Client = require("../models/clientModel");
 const Statement = require("../models/statementModel");
 const { sendStatementByEmail } = require("../utils/emailHandler");
-const mongoose = require("mongoose");
 const validator = require("validator");
 
 const getAllEmails = async (req, res) => {
@@ -20,7 +19,9 @@ const getAllEmails = async (req, res) => {
     const emails = await emailTracker.find(filter).sort({ createdAt: -1 });
     res.status(200).json(emails);
   } catch (error) {
-    res.status(500).json({ error: "Internal server error" });
+    res
+      .status(500)
+      .json({ error: "Internal server error", message: error.message });
   }
 };
 

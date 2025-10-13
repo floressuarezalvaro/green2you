@@ -21,7 +21,7 @@ const sendEmail = async (type, to, subject, text, attachment) => {
       attachments: attachment ? [attachment] : [],
     };
 
-    const info = await transporter.sendMail(mailOptions);
+    await transporter.sendMail(mailOptions);
 
     const emailLog = new EmailTracker({
       emailType: type,

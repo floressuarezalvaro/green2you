@@ -14,6 +14,8 @@
     "heroku-postbuild": "yarn install && yarn workspace @green2you/frontend build",
     "changeset": "changeset",
     "version": "changeset version",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
     "format": "prettier --write \"**/*.{js,jsx,json,md,css}\"",
     "format:check": "prettier --check \"**/*.{js,jsx,json,md,css}\""
   },
@@ -23,6 +25,10 @@
   },
   "packageManager": "yarn@4.10.3",
   "devDependencies": {
+    "@eslint/js": "^9.37.0",
+    "eslint": "^9.37.0",
+    "eslint-plugin-react": "^7.37.5",
+    "globals": "^16.4.0",
     "prettier": "3.6.2"
   }
 }

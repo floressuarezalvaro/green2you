@@ -40,7 +40,9 @@ const getAllInvoices = async (req, res) => {
     const invoices = await Invoice.find(query).sort({ createdAt: -1 });
     res.status(200).json(invoices);
   } catch (error) {
-    res.status(500).json({ error: "Internal server error" });
+    res
+      .status(500)
+      .json({ error: "Internal server error", message: error.message });
   }
 };
 
@@ -57,7 +59,9 @@ const getAllClientInvoices = async (req, res) => {
     });
     res.status(200).json(invoices);
   } catch (error) {
-    res.status(500).json({ error: "Internal server error" });
+    res
+      .status(500)
+      .json({ error: "Internal server error", message: error.message });
   }
 };
 
@@ -75,7 +79,9 @@ const getInvoice = async (req, res) => {
     }
     res.status(200).json(invoice);
   } catch (error) {
-    res.status(500).json({ error: "Internal server error" });
+    res
+      .status(500)
+      .json({ error: "Internal server error", message: error.message });
   }
 };
 
@@ -140,7 +146,9 @@ const createInvoice = async (req, res) => {
 
     res.status(201).json(invoice);
   } catch (error) {
-    res.status(500).json({ error: "Internal server error" });
+    res
+      .status(500)
+      .json({ error: "Internal server error", message: error.message });
   }
 };
 
@@ -178,7 +186,9 @@ const deleteInvoice = async (req, res) => {
 
     res.status(200).json(invoice);
   } catch (error) {
-    res.status(500).json({ error: "Internal server error" });
+    res
+      .status(500)
+      .json({ error: "Internal server error", message: error.message });
   }
 };
 
@@ -206,7 +216,9 @@ const updateInvoice = async (req, res) => {
     }
     res.status(200).json(invoice);
   } catch (error) {
-    res.status(500).json({ error: "Internal server error" });
+    res
+      .status(500)
+      .json({ error: "Internal server error", message: error.message });
   }
 };
 

@@ -44,8 +44,9 @@ const DeletePaymentModal = ({ payment }) => {
         </Modal.Header>
         <Modal.Body>
           <p>
-            This will permanently delete this payment and the client's balance
-            will be adjusted. You will not be able to un-do this action.
+            {
+              "This will permanently delete this payment and the client's balance will be adjusted. You will not be able to un-do this action."
+            }
           </p>
         </Modal.Body>
         <Modal.Footer>
