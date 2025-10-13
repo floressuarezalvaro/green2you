@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const path = require("path");
 const setLimit = require("./utils/setLimit");
+const helmet = require("helmet");
 
 const ENV = process.env.NODE_ENV || "development";
 const isProd = ENV === "production";
@@ -23,11 +24,7 @@ const app = express();
 app.set("trust proxy", isProd ? 1 : "loopback");
 
 app.use(express.json());
-
-app.use((req, res, next) => {
-  console.log(req.path, req.method);
-  next();
-});
+app.use(helmet());
 
 const defaultLimit = setLimit();
 
