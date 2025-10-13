@@ -147,7 +147,9 @@ const getAllStatements = async (req, res) => {
     });
     res.status(200).json(statements);
   } catch (error) {
-    res.status(500).json({ error: "Internal server error" });
+    res
+      .status(500)
+      .json({ error: "Internal server error", message: error.message });
   }
 };
 
@@ -177,7 +179,9 @@ const getAllClientStatements = async (req, res) => {
     res.status(200).json(statements);
   } catch (error) {
     console.error("Error fetching statements:", error);
-    res.status(500).json({ error: "Internal server error" });
+    res
+      .status(500)
+      .json({ error: "Internal server error", message: error.message });
   }
 };
 
@@ -195,7 +199,9 @@ const getStatement = async (req, res) => {
     }
     res.status(200).json(statement);
   } catch (error) {
-    res.status(500).json({ error: "Internal server error" });
+    res
+      .status(500)
+      .json({ error: "Internal server error", message: error.message });
   }
 };
 
@@ -232,7 +238,9 @@ const deleteStatement = async (req, res) => {
 
     res.status(200).json(statement);
   } catch (error) {
-    res.status(500).json({ error: "Internal server error" });
+    res
+      .status(500)
+      .json({ error: "Internal server error", message: error.message });
   }
 };
 
@@ -256,7 +264,9 @@ const updateStatement = async (req, res) => {
     }
     res.status(200).json(statement);
   } catch (error) {
-    res.status(500).json({ error: "Internal server error" });
+    res
+      .status(500)
+      .json({ error: "Internal server error", message: error.message });
   }
 };
 

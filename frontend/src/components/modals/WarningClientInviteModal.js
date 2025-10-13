@@ -51,7 +51,7 @@ const WarningClientInviteModal = ({ selectedClient, handleShowToast }) => {
         }, 3000);
       }
     } catch (err) {
-      console.error("Failed to send invite");
+      console.error("Failed to send invite", err);
     }
   };
 

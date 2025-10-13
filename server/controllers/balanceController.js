@@ -33,7 +33,9 @@ const createBalance = async (req, res) => {
     });
     res.status(201).json(createdBalance);
   } catch (error) {
-    res.status(500).json({ error: "Internal server error" });
+    res
+      .status(500)
+      .json({ error: "Internal server error", message: error.message });
   }
 };
 
@@ -51,7 +53,9 @@ const getBalance = async (req, res) => {
     }
     res.status(200).json(balance);
   } catch (error) {
-    res.status(500).json({ error: "Internal server error" });
+    res
+      .status(500)
+      .json({ error: "Internal server error", message: error.message });
   }
 };
 
@@ -61,7 +65,9 @@ const getAllBalances = async (req, res) => {
 
     res.status(200).json(balances);
   } catch (error) {
-    res.status(500).json({ error: "Internal server error" });
+    res
+      .status(500)
+      .json({ error: "Internal server error", message: error.message });
   }
 };
 
@@ -83,7 +89,9 @@ const updateBalance = async (req, res) => {
     }
     res.status(200).json(balance);
   } catch (error) {
-    res.status(500).json({ error: "Internal server error" });
+    res
+      .status(500)
+      .json({ error: "Internal server error", message: error.message });
   }
 };
 
@@ -101,7 +109,9 @@ const deleteBalance = async (req, res) => {
     }
     res.status(200).json(balance);
   } catch (error) {
-    res.status(500).json({ error: "Internal server error" });
+    res
+      .status(500)
+      .json({ error: "Internal server error", message: error.message });
   }
 };
 

@@ -13,11 +13,11 @@ html {
 }
 
 body {
-  font-family: 'Times New Roman', Times, serif;
-  background: url('./images/landscaping.webp') no-repeat;
+  font-family: "Times New Roman", Times, serif;
+  background: url("./images/landscaping.webp") no-repeat;
   background-size: cover;
   background-attachment: fixed;
-  overflow-x: hidden; 
+  overflow-x: hidden;
   height: 100vh;
 }
 
@@ -62,16 +62,19 @@ header a:hover {
   }
 
   .nav-right-controls span {
-    display: none; 
+    display: none;
   }
 }
 
-label, input, select {
+label,
+input,
+select {
   display: block;
   padding: 4px 0 4px 0;
 }
 
-input, select {
+input,
+select {
   padding: 5px;
   margin-top: 10px;
   margin-bottom: 20px;
@@ -82,8 +85,8 @@ input, select {
 }
 
 input[type="date"] {
-  min-width: 100px; 
-  min-height: 35px; 
+  min-width: 100px;
+  min-height: 35px;
   background-color: var(--secondary);
   appearance: none;
   -webkit-appearance: none;
@@ -96,7 +99,8 @@ select {
   -webkit-appearance: none;
   -moz-appearance: none;
   margin: 10px 0 20px 0;
-  background: url('data:image/svg+xml;charset=US-ASCII,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="5" viewBox="0 0 10 5"><path fill="%23333" d="M0 0l5 5 5-5z"/></svg>') no-repeat right 11px center;
+  background: url('data:image/svg+xml;charset=US-ASCII,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="5" viewBox="0 0 10 5"><path fill="%23333" d="M0 0l5 5 5-5z"/></svg>')
+    no-repeat right 11px center;
 }
 
 select::-ms-expand {
@@ -118,7 +122,8 @@ select::-ms-expand {
   align-items: flex-start;
 }
 
-.clients, .invoices {
+.clients,
+.invoices {
   flex: 3;
 }
 
@@ -143,9 +148,9 @@ select::-ms-expand {
 
 @media (max-width: 768px) {
   .home {
-    max-width: 90%; 
-    padding: 20px 15px; 
-    white-space: normal; 
+    max-width: 90%;
+    padding: 20px 15px;
+    white-space: normal;
   }
 }
 
@@ -176,7 +181,7 @@ select::-ms-expand {
   border-radius: 10px;
   position: relative;
   box-shadow: 2px 5px 5px rgba(0, 0, 0, 0.05);
-  white-space: normal; 
+  white-space: normal;
 }
 
 .accordion span {
@@ -204,14 +209,17 @@ select::-ms-expand {
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.05);
 }
 
-.statement, .no-statements, .no-invoices {
+.statement,
+.no-statements,
+.no-invoices {
   display: flex;
   align-items: center;
   font-size: 0.9em;
   color: #555;
 }
 
-.profile-no-invoices, .profile-no-payments {
+.profile-no-invoices,
+.profile-no-payments {
   display: flex;
   align-items: center;
   font-size: 0.9em;
@@ -303,13 +311,17 @@ select::-ms-expand {
   color: #555;
 }
 
-.invoices, .clients, .profile {
+.invoices,
+.clients,
+.profile {
   background: var(--secondary);
   border-radius: 8px;
   border: 1px solid var(--primary);
 }
 
-.invoices h3, .clients h3, .profile h3 {
+.invoices h3,
+.clients h3,
+.profile h3 {
   color: var(--primary);
   text-align: center;
   border-radius: 4px;
@@ -321,7 +333,8 @@ select::-ms-expand {
   color: var(--primary);
 }
 
-.invoices h5, .clients h5 {
+.invoices h5,
+.clients h5 {
   text-align: flex-start;
   margin: 20px 0;
   font-size: 1.2em;
@@ -333,7 +346,8 @@ select::-ms-expand {
   font-size: 1.2em;
 }
 
-.profile-invoices h5, .payments-header {
+.profile-invoices h5,
+.payments-header {
   margin: 10px;
   text-align: center;
   font-size: 1.4em;
@@ -349,7 +363,7 @@ select::-ms-expand {
 }
 
 .modal-toggle-switch-container {
-display: flex;
+  display: flex;
 }
 
 .toggle-switch-container label {
@@ -410,7 +424,7 @@ form button {
   border: 0;
   color: var(--secondary);
   padding: 10px;
-  font-family: Georgia, 'Times New Roman', Times, serif;
+  font-family: Georgia, "Times New Roman", Times, serif;
   border-radius: 40px;
   cursor: pointer;
   margin-top: 10px;
@@ -430,23 +444,23 @@ form button {
 }
 
 .date-search-wrapper {
-  display: flex; 
+  display: flex;
   justify-content: flex-end;
   align-items: center;
-  gap: 20px; 
-  margin-top: 10px; 
+  gap: 20px;
+  margin-top: 10px;
   margin-right: 20px;
 }
 
 .input-date-box {
   display: flex;
-  align-items: center; 
-  gap: 5px; 
+  align-items: center;
+  gap: 5px;
 }
 
 .input-date-box p {
   margin: 0;
-  font-size: 0.9em; 
+  font-size: 0.9em;
   color: var(--primary);
 }
 
@@ -459,7 +473,8 @@ form button {
   box-sizing: border-box;
 }
 
-form.login, form.signup {
+form.login,
+form.signup {
   position: relative;
   max-width: 420px;
   margin: 40px auto;
@@ -471,7 +486,8 @@ form.login, form.signup {
   border: 1px solid white;
 }
 
-.login input, .signup input {
+.login input,
+.signup input {
   padding: 10px 20px;
   margin: 20px 0;
   width: 100%;
@@ -480,7 +496,8 @@ form.login, form.signup {
   box-sizing: border-box;
 }
 
-.login h3, .signup h3 {
+.login h3,
+.signup h3 {
   text-align: center;
   margin-bottom: 20px;
   color: var(--secondary);
@@ -495,12 +512,12 @@ form.login, form.signup {
 form.search {
   position: relative;
   width: 100%;
-  max-width: 95%; 
+  max-width: 95%;
   padding: 10px;
 }
 
 .search input {
-  border: 1px solid  var(--primary);
+  border: 1px solid var(--primary);
   box-sizing: border-box;
   border-radius: 4px;
 }
@@ -531,7 +548,7 @@ form.search {
 
 #amountField::placeholder {
   font-size: 12px;
-  color: var(--tertiary); 
+  color: var(--tertiary);
 }
 .forgot-register {
   display: flex;
@@ -560,7 +577,8 @@ div.error {
   white-space: wrap;
 }
 
-input.error, select.error {
+input.error,
+select.error {
   border: 1px solid var(--error);
 }
 
@@ -600,12 +618,12 @@ nav button {
 }
 
 .nav-right-controls span {
-  font-family: 'Times New Roman', Times, serif;
+  font-family: "Times New Roman", Times, serif;
   font-style: italic;
 }
 
 .hamburger {
-  display: none; 
+  display: none;
   background: #fff;
   color: var(--primary);
   border: 2px solid var(--primary);
@@ -655,8 +673,7 @@ nav button {
   align-items: center;
   margin: 0px 10px;
   padding: 5px 10px;
-  justify-content: flex-end; 
-
+  justify-content: flex-end;
 }
 
 .statements-navbar button {
@@ -666,7 +683,7 @@ nav button {
   padding: 3px 5px;
   border-radius: 4px;
   cursor: pointer;
-  font-size: .9em;
+  font-size: 0.9em;
   margin-left: 10px;
 }
 
@@ -724,10 +741,10 @@ nav button {
   background: var(--quaternary);
   border: 0;
   color: var(--secondary);
-  padding: 10px 20px; 
+  padding: 10px 20px;
   cursor: pointer;
-  font-size: 16px; 
-  height: 40px; 
+  font-size: 16px;
+  height: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -754,7 +771,8 @@ table {
   border-collapse: collapse;
 }
 
-.email-wrapper th, .email-wrapper td {
+.email-wrapper th,
+.email-wrapper td {
   padding: 8px;
   max-width: 500px;
   border: 1px solid var(--primary);
@@ -800,11 +818,11 @@ table {
 }
 
 .client-select input::placeholder {
-  color: var(--tertiary)
+  color: var(--tertiary);
 }
 
 .toast {
-  max-width: 400px; 
+  max-width: 400px;
   word-wrap: break-word;
   overflow-wrap: break-word;
 }
@@ -812,5 +830,5 @@ table {
 .toast-body {
   overflow-wrap: break-word;
   word-break: break-word;
-  white-space: normal; 
+  white-space: normal;
 }

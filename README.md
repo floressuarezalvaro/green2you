@@ -47,11 +47,9 @@ This application is designed to help streamline billing processes, offering an e
    yarn install
    ```
 3. Database Setup:
-
    - Make sure MongoDB is installed and running.
 
 4. Environment Variables:
-
    - Configure environment variables as described in the section below.
 
 5. Run the Application Locally:

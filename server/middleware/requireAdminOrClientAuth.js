@@ -26,7 +26,7 @@ const requireAuth = (roles) => async (req, res, next) => {
     }
 
     next();
-  } catch (error) {
+  } catch {
     res.status(401).json({ error: "Credentials timed out. Log in again." });
   }
 };

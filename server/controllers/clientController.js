@@ -14,7 +14,9 @@ const getAllClients = async (req, res) => {
     const clients = await Client.find({ user_id }).sort({ createdAt: -1 });
     res.status(200).json(clients);
   } catch (error) {
-    res.status(500).json({ error: "Internal server error" });
+    res
+      .status(500)
+      .json({ error: "Internal server error", message: error.message });
   }
 };
 
@@ -32,7 +34,9 @@ const getClient = async (req, res) => {
     }
     res.status(200).json(client);
   } catch (error) {
-    res.status(500).json({ error: "Internal server error" });
+    res
+      .status(500)
+      .json({ error: "Internal server error", message: error.message });
   }
 };
 
@@ -125,7 +129,9 @@ const createClient = async (req, res) => {
       emptyFields.push("clientEmail");
       return res.status(400).json({ error: error.message, emptyFields });
     }
-    res.status(500).json({ error: "Internal server error" });
+    res
+      .status(500)
+      .json({ error: "Internal server error", message: error.message });
   }
 };
 
@@ -151,7 +157,9 @@ const deleteClient = async (req, res) => {
     }
     res.status(200).json(client);
   } catch (error) {
-    res.status(500).json({ error: "Internal server error" });
+    res
+      .status(500)
+      .json({ error: "Internal server error", message: error.message });
   }
 };
 
@@ -201,7 +209,7 @@ const updateClient = async (req, res) => {
       return res.status(404).json({ error: "No client found" });
     }
     if (clientEmail) {
-      const user = await User.findOneAndUpdate(
+      await User.findOneAndUpdate(
         { _id: id },
         { email: clientEmail },
         { new: true }
@@ -210,7 +218,9 @@ const updateClient = async (req, res) => {
 
     res.status(200).json(client);
   } catch (error) {
-    res.status(500).json({ error: "Internal server error" });
+    res
+      .status(500)
+      .json({ error: "Internal server error", message: error.message });
   }
 };
 

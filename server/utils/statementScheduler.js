@@ -77,7 +77,7 @@ const processClientStatement = async (client) => {
     let createdStatement;
     const req = { body: statementData };
     const res = {
-      status: (statusCode) => ({
+      status: (_statusCode) => ({
         json: (data) => {
           createdStatement = data;
           return createdStatement;
