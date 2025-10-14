@@ -9,6 +9,8 @@
   "scripts": {
     "start": "if [ \"$NODE_ENV\" = \"production\" ]; then yarn workspace @green2you/server start; else yarn workspace @green2you/server dev; fi",
     "build": "yarn workspace @green2you/frontend build",
+    "test": "yarn workspaces foreach -At run test",
+    "test:coverage": "yarn workspaces foreach -At run test:coverage",
     "dev:server": "yarn workspace @green2you/server dev",
     "dev:frontend": "yarn workspace @green2you/frontend start",
     "heroku-postbuild": "yarn workspace @green2you/frontend build",
