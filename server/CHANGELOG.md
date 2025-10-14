@@ -1,5 +1,11 @@
 # @green2you/server
 
+## 1.2.0
+
+### Minor Changes
+
+- 8728b29: Added Mongo Sanitize
+
 ## 1.1.0
 
 ### Minor Changes
