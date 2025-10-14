@@ -10,6 +10,7 @@ export default [
       "**/dist/**",
       "**/.yarn/**",
       "**/.cache/**",
+      "**/coverage/**",
     ],
   },
   {
@@ -47,9 +48,16 @@ export default [
       ...js.configs.recommended.rules,
       ...pluginReact.configs.flat.recommended.rules,
       "react/react-in-jsx-scope": "off",
-      "react/prop-types": "warn",
       "react/prop-types": "off",
       "no-unused-vars": ["warn", { argsIgnorePattern: "^_" }],
+    },
+  },
+  {
+    files: ["**/__tests__/**/*.js", "**/*.test.js", "**/*.spec.js"],
+    languageOptions: {
+      globals: {
+        ...globals.jest,
+      },
     },
   },
 ];

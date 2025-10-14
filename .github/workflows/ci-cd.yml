@@ -1,11 +1,14 @@
-name: CI/CD Pipeline
+name: CI Checks
 
 on:
   pull_request:
     branches: "**"
+  push:
+    branches: [master]
 
 jobs:
-  checks:
+  lint:
+    name: Lint
     runs-on: ubuntu-latest
 
     steps:
@@ -25,11 +28,69 @@ jobs:
 
       - name: Run linting
         run: yarn lint
-        continue-on-error: true
 
-      - name: Run Prettier
+  format:
+    name: Format Check
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Enable Corepack
+        run: corepack enable
+
+      - name: Install dependencies
+        run: yarn install --immutable
+
+      - name: Run Prettier check
         run: yarn format:check
-        continue-on-error: true
 
-      - name: Run Frontend Build
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Enable Corepack
+        run: corepack enable
+
+      - name: Install dependencies
+        run: yarn install --immutable
+
+      - name: Run tests with coverage
+        run: yarn test:coverage
+
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Enable Corepack
+        run: corepack enable
+
+      - name: Install dependencies
+        run: yarn install --immutable
+
+      - name: Build frontend
         run: yarn build

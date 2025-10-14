@@ -1,3 +1,9 @@
+# Coverage reports
+frontend/coverage/
+server/coverage/
+*.lcov
+.nyc_output/
+
 # Dependencies
 node_modules/
 
