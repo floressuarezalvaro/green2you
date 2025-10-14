@@ -32,4 +32,4 @@ jobs:
         continue-on-error: true
 
       - name: Run Frontend Build
-        run: yarn build:frontend
+        run: yarn build
