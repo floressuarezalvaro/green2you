@@ -1,0 +1,34 @@
+name: CI/CD Pipeline
+
+on:
+  pull_request:
+    branches: "**"
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "yarn"
+          cache-dependency-path: "**/yarn.lock"
+
+      - name: Install dependencies
+        run: yarn install --immutable
+
+      - name: Run linting
+        run: yarn lint
+        continue-on-error: true
+
+      - name: Run Prettier
+        run: yarn format:check
+        continue-on-error: true
+
+      - name: Run Frontend Build
+        run: yarn build:frontend
