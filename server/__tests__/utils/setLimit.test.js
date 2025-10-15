@@ -1,5 +1,5 @@
 const rateLimit = require("express-rate-limit");
-const setLimit = require("../utils/setLimit.js");
+const setLimit = require("../../utils/setLimit.js");
 
 jest.mock("express-rate-limit");
 
