@@ -18,7 +18,7 @@ const createBalance = async (req, res) => {
   }
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
-    return res.status(404).json({ error: "This is not a valid id" });
+    return res.status(400).json({ error: "This is not a valid id" });
   }
 
   try {
@@ -43,7 +43,7 @@ const getBalance = async (req, res) => {
   const { id } = req.params;
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
-    return res.status(404).json({ error: "This is not a valid id" });
+    return res.status(400).json({ error: "This is not a valid id" });
   }
 
   try {
@@ -105,7 +105,7 @@ const deleteBalance = async (req, res) => {
   try {
     const balance = await Balance.findOneAndDelete({ _id: id });
     if (!balance) {
-      return res.status(404).json({ error: "No invoice found" });
+      return res.status(404).json({ error: "No balance found" });
     }
     res.status(200).json(balance);
   } catch (error) {

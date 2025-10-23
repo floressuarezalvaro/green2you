@@ -24,7 +24,7 @@ const getClient = async (req, res) => {
   const { id } = req.params;
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
-    return res.status(404).json({ error: "This is not a valid id" });
+    return res.status(400).json({ error: "This is not a valid id" });
   }
 
   try {
@@ -139,7 +139,7 @@ const deleteClient = async (req, res) => {
   const { id } = req.params;
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
-    return res.status(404).json({ error: "This is not a valid id" });
+    return res.status(400).json({ error: "This is not a valid id" });
   }
 
   try {
@@ -174,7 +174,7 @@ const updateClient = async (req, res) => {
   } = req.body;
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
-    return res.status(404).json({ error: "This is not a valid id" });
+    return res.status(400).json({ error: "This is not a valid id" });
   }
 
   if (clientCycleDate && (clientCycleDate < 1 || clientCycleDate > 31)) {
