@@ -6,7 +6,6 @@ module.exports = {
     "!**/node_modules/**",
     "!**/coverage/**",
     "!jest.config.js",
-    "!server.js",
   ],
   testMatch: ["**/__tests__/**/*.js", "**/*.test.js", "**/*.spec.js"],
   testTimeout: 10000,

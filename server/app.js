@@ -27,7 +27,7 @@ if (isProd) {
 
 app.use((err, req, res, _next) => {
   console.error(err.stack);
-  res.status(500).send("Something broke!");
+  res.status(err.status || err.statusCode || 500).send("Something broke!");
 });
 
 module.exports = app;
