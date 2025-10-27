@@ -384,7 +384,7 @@ describe("User Controller", () => {
         "test@example.com",
         "Password Reset Request",
         expect.stringContaining(
-          "http://localhost:3000/set-password/mock-reset-token"
+          "http://localhost:3000/set-password/mock-jwt-token"
         )
       );
       expect(res.status).toHaveBeenCalledWith(200);
