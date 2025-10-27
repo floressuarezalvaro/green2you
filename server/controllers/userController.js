@@ -10,13 +10,11 @@ const createToken = (_id) => {
   return jwt.sign({ _id }, process.env.JWTSECRET, { expiresIn: "1d" });
 };
 
-//login user
 const loginUser = async (req, res) => {
   const { email, password } = req.body;
 
   try {
     const user = await User.login(email, password);
-    // create JWS Token
     const token = createToken(user._id);
 
     res.status(200).json({ email, token, role: user.role, id: user._id });
@@ -30,7 +28,6 @@ const signUpUser = async (req, res) => {
 
   try {
     const user = await User.signup(email, password, role);
-    // create JWS Token
     const token = createToken(user._id);
 
     res.status(200).json({ email, token, role });
@@ -46,21 +43,21 @@ const signUpClient = async (req, res) => {
     return res.status(400).json({ error: "Email and Client ID are required" });
   }
 
-  try {
-    if (!mongoose.Types.ObjectId.isValid(clientId)) {
-      return res.status(400).json({ error: "Invalid Client ID" });
-    }
+  if (!mongoose.Types.ObjectId.isValid(clientId)) {
+    return res.status(400).json({ error: "Invalid Client ID" });
+  }
 
+  try {
     const client = await Client.findById(clientId);
+
+    if (!client) {
+      return res.status(404).json({ error: "Client not found" });
+    }
 
     await Client.findOneAndUpdate(
       { _id: clientId },
       { $set: { clientWelcomeEmailEnabled: true } }
     );
-
-    if (!client) {
-      return res.status(404).json({ error: "Client not found" });
-    }
 
     const user = await User.signupClient(email, clientId);
     const token = createToken(user._id);

@@ -28,10 +28,7 @@ const userSchema = new Schema(
 
 userSchema.index({ createdAt: -1 });
 
-// static signup method
 userSchema.statics.signup = async function (email, password, role) {
-  // validation
-
   if (!email || !password) {
     throw Error("Email or Password is missing");
   }
@@ -56,7 +53,6 @@ userSchema.statics.signup = async function (email, password, role) {
   return user;
 };
 
-// static login method
 userSchema.statics.login = async function (email, password) {
   if (!email || !password) {
     throw Error("Email or Password is missing");
