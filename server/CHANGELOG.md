@@ -1,5 +1,11 @@
 # @green2you/server
 
+## 1.3.0
+
+### Minor Changes
+
+- 483f457: Added logic to only see email logs sent by logged in user
+
 ## 1.2.1
 
 ### Patch Changes
