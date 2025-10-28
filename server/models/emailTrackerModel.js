@@ -28,6 +28,10 @@ const emailTrackerSchema = new Schema(
       type: String,
       required: false,
     },
+    user_id: {
+      type: String,
+      required: false,
+    },
   },
   { timestamps: true }
 );

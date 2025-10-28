@@ -26,6 +26,9 @@ describe("Email controller", () => {
     req = {
       query: {},
       body: {},
+      user: {
+        _id: validId,
+      },
     };
 
     res = {
@@ -68,46 +71,7 @@ describe("Email controller", () => {
 
       await emailController.getAllEmails(req, res);
 
-      expect(emailTracker.find).toBeCalled();
-      expect(mockSort).toHaveBeenCalledWith({ createdAt: -1 });
-      expect(res.status).toBeCalledWith(200);
-      expect(res.json).toBeCalledWith(mockEmails);
-    });
-
-    test("Successfully gets all emails", async () => {
-      mockEmails = [
-        {
-          _id: validId,
-          emailType: "Monthly Statement",
-          emailTo: "test1@gmail.com",
-          emailSubject: "Re: Green 2 You Billing",
-          emailText: "Please find attached your monthly statement.",
-          emailSuccess: true,
-          emailError: null,
-          createdAt: dateToday,
-          updatedAt: dateToday,
-          __v: 0,
-        },
-        {
-          _id: validId2,
-          emailType: "Monthly Statement",
-          emailTo: "test2@gmail.com",
-          emailSubject: "Re: Green 2 You Billing",
-          emailText: "Please find attached your monthly statement.",
-          emailSuccess: true,
-          emailError: null,
-          createdAt: date60DaysAgo,
-          updatedAt: date60DaysAgo,
-          __v: 0,
-        },
-      ];
-
-      const mockSort = jest.fn().mockResolvedValue(mockEmails);
-      emailTracker.find.mockReturnValue({ sort: mockSort });
-
-      await emailController.getAllEmails(req, res);
-
-      expect(emailTracker.find).toBeCalled();
+      expect(emailTracker.find).toHaveBeenCalledWith({ user_id: validId });
       expect(mockSort).toHaveBeenCalledWith({ createdAt: -1 });
       expect(res.status).toBeCalledWith(200);
       expect(res.json).toBeCalledWith(mockEmails);
@@ -137,6 +101,7 @@ describe("Email controller", () => {
 
       expect(emailTracker.find).toHaveBeenCalled();
       const filterArg = emailTracker.find.mock.calls[0][0];
+      expect(filterArg).toHaveProperty("user_id", validId);
       expect(filterArg).toHaveProperty("createdAt");
       expect(filterArg.createdAt).toHaveProperty("$gte");
       expect(filterArg.createdAt.$gte).toBeInstanceOf(Date);
@@ -156,7 +121,7 @@ describe("Email controller", () => {
 
       await emailController.getAllEmails(req, res);
 
-      expect(emailTracker.find).toBeCalled();
+      expect(emailTracker.find).toHaveBeenCalledWith({ user_id: validId });
       expect(res.status).toBeCalledWith(200);
       expect(res.json).toBeCalledWith(mockEmails);
     });
@@ -192,6 +157,7 @@ describe("Email controller", () => {
       expect(Statement.exists).toHaveBeenCalledWith({ _id: validId });
       expect(sendStatementByEmail).toHaveBeenCalledWith(
         "test@gmail.com",
+        validId,
         validId
       );
       expect(res.status).toHaveBeenCalledWith(200);

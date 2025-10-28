@@ -11,7 +11,7 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-const sendEmail = async (type, to, subject, text, attachment) => {
+const sendEmail = async (type, to, subject, text, attachment, user_id) => {
   try {
     const mailOptions = {
       from: process.env.EMAIL_USER,
@@ -30,6 +30,7 @@ const sendEmail = async (type, to, subject, text, attachment) => {
       emailText: text,
       emailSuccess: true,
       emailError: null,
+      user_id,
     });
     await emailLog.save();
   } catch (error) {
@@ -40,12 +41,13 @@ const sendEmail = async (type, to, subject, text, attachment) => {
       emailText: text,
       emailSuccess: false,
       emailError: error.message,
+      user_id,
     });
     await emailLog.save();
   }
 };
 
-const sendStatementByEmail = async (clientEmail, statementId) => {
+const sendStatementByEmail = async (clientEmail, statementId, user_id) => {
   const subject = "Re: Green 2 You Billing";
   const text = "Please find attached your monthly statement.";
 
@@ -70,11 +72,18 @@ const sendStatementByEmail = async (clientEmail, statementId) => {
 
     const pdfBuffer = Buffer.from(response.data, "binary");
 
-    await sendEmail("Monthly Statement", clientEmail, subject, text, {
-      filename,
-      content: pdfBuffer,
-      contentType: "application/pdf",
-    });
+    await sendEmail(
+      "Monthly Statement",
+      clientEmail,
+      subject,
+      text,
+      {
+        filename,
+        content: pdfBuffer,
+        contentType: "application/pdf",
+      },
+      user_id
+    );
     console.log(`Statement sent by email to: ${clientEmail}`);
   } catch (error) {
     console.error(`Error sending statement to ${clientEmail}:`, error);

@@ -75,7 +75,7 @@ If you miss this window, you can request a new link by going to: ${resetLater}. 
 Thank you,
 Green 2 You`;
 
-    await sendEmail("Password Set", email, subject, text);
+    await sendEmail("Password Set", email, subject, text, null);
 
     res.status(200).json({ email, token, role: user.role });
   } catch (error) {
@@ -123,7 +123,7 @@ Please click on the following link, or paste this into your browser to complete 
 Thank you, 
 Green 2 You`;
 
-    await sendEmail("Password Reset", email, subject, text);
+    await sendEmail("Password Reset", email, subject, text, null);
 
     res.status(200).json({ message: "Password reset link sent to email" });
   } catch (error) {
