@@ -177,7 +177,8 @@ describe("User Controller", () => {
         "Password Set",
         "client@example.com",
         "Access Account - Set Password",
-        expect.stringContaining("Test Client")
+        expect.stringContaining("Test Client"),
+        null
       );
       expect(res.status).toHaveBeenCalledWith(200);
       expect(res.json).toHaveBeenCalledWith({
@@ -385,7 +386,8 @@ describe("User Controller", () => {
         "Password Reset Request",
         expect.stringContaining(
           "http://localhost:3000/set-password/mock-jwt-token"
-        )
+        ),
+        null
       );
       expect(res.status).toHaveBeenCalledWith(200);
       expect(res.json).toHaveBeenCalledWith({

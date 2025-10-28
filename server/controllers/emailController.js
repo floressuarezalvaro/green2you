@@ -5,10 +5,12 @@ const { sendStatementByEmail } = require("../utils/emailHandler");
 const validator = require("validator");
 
 const getAllEmails = async (req, res) => {
+  const user_id = req.user._id;
+
   try {
     const days = parseInt(req.query.days);
 
-    let filter = {};
+    let filter = { user_id };
 
     if (!isNaN(days)) {
       const dateDaysAgo = new Date();
@@ -26,6 +28,7 @@ const getAllEmails = async (req, res) => {
 };
 
 const sendManualStatementEmail = async (req, res) => {
+  const user_id = req.user._id;
   const { clientEmail, statementId } = req.body;
 
   let emptyFields = [];
@@ -55,7 +58,7 @@ const sendManualStatementEmail = async (req, res) => {
       return res.status(404).json({ error: "Statement not found" });
     }
 
-    await sendStatementByEmail(clientEmail, statementId);
+    await sendStatementByEmail(clientEmail, statementId, user_id);
     res.status(200).json({ message: "Email sent successfully" });
   } catch (error) {
     res.status(500).json({ message: "Failed to send email", error });

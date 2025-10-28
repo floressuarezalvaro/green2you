@@ -32,9 +32,6 @@ const statementScheduler = async () => {
   const today = moment.tz("America/Los_Angeles").date();
   const maxDaysInMonth = moment().daysInMonth();
 
-  // const today = 28;
-  // const maxDaysInMonth = 28;
-
   console.log("Today is:", today);
   console.log("Max days in this month:", maxDaysInMonth);
 
@@ -90,7 +87,11 @@ const processClientStatement = async (client) => {
     if (createdStatement) {
       console.log(`Statement created for client ${client.clientEmail}`);
       if (client.clientAutoEmailStatementsEnabled) {
-        await sendStatementByEmail(client.clientEmail, createdStatement._id);
+        await sendStatementByEmail(
+          client.clientEmail,
+          createdStatement._id,
+          process.env.USER_ID
+        );
       }
     } else {
       console.warn(`Statement creation failed for client ${client._id}`);
