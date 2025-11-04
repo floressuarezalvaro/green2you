@@ -1,11 +1,11 @@
 const mongoose = require("mongoose");
 const moment = require("moment-timezone");
 
-const Statement = require("../models/statementModel");
-const Invoice = require("../models/invoiceModel");
-const Client = require("../models/clientModel");
 const Balance = require("../models/balanceModel");
+const Client = require("../models/clientModel");
+const Invoice = require("../models/invoiceModel");
 const Payment = require("../models/paymentModel");
+const Statement = require("../models/statementModel");
 
 const createStatement = async (req, res) => {
   const { clientId, issuedStartDate, issuedEndDate, creationMethod } = req.body;

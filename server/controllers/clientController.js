@@ -1,11 +1,11 @@
+const mongoose = require("mongoose");
+
+const Balance = require("../models/balanceModel");
 const Client = require("../models/clientModel");
 const Invoice = require("../models/invoiceModel");
-const Statement = require("../models/statementModel");
-const Balance = require("../models/balanceModel");
 const Payment = require("../models/paymentModel");
+const Statement = require("../models/statementModel");
 const User = require("../models/userModel");
-
-const mongoose = require("mongoose");
 
 const getAllClients = async (req, res) => {
   const user_id = req.user._id;

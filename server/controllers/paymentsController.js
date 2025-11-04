@@ -1,12 +1,13 @@
-const Payment = require("../models/paymentModel");
-const Client = require("../models/clientModel");
-const Statement = require("../models/statementModel");
-const Balance = require("../models/balanceModel");
+const mongoose = require("mongoose");
 const moment = require("moment-timezone");
 
-const mongoose = require("mongoose");
+const Balance = require("../models/balanceModel");
+const Client = require("../models/clientModel");
+const Payment = require("../models/paymentModel");
+const Statement = require("../models/statementModel");
 
 const makePayment = async (req, res) => {
+  const user_id = req.user._id;
   const { clientId, statementId, type, amount, checkDate, checkNumber } =
     req.body;
 
@@ -39,7 +40,6 @@ const makePayment = async (req, res) => {
     .set({ hour: 12, minute: 0, second: 0, millisecond: 0 });
 
   try {
-    const user_id = req.user._id;
     const client = await Client.findById(clientId);
 
     if (!client) {
