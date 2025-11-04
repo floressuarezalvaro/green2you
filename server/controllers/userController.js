@@ -1,8 +1,8 @@
-const User = require("../models/userModel");
-const Client = require("../models/clientModel");
-
 const jwt = require("jsonwebtoken");
 const mongoose = require("mongoose");
+
+const Client = require("../models/clientModel");
+const User = require("../models/userModel");
 
 const { sendEmail } = require("../utils/emailHandler");
 

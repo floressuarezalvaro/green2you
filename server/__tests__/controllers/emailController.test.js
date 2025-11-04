@@ -1,9 +1,11 @@
 const mongoose = require("mongoose");
 
 const Client = require("../../models/clientModel");
-const emailController = require("../../controllers/emailController");
 const emailTracker = require("../../models/emailTrackerModel");
 const Statement = require("../../models/statementModel");
+
+const emailController = require("../../controllers/emailController");
+
 const { sendStatementByEmail } = require("../../utils/emailHandler");
 
 jest.mock("../../models/emailTrackerModel");

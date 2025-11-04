@@ -1,42 +1,43 @@
-const Invoice = require("../models/invoiceModel");
-const Client = require("../models/clientModel");
-const Balance = require("../models/balanceModel");
 const mongoose = require("mongoose");
 const moment = require("moment-timezone");
 
+const Balance = require("../models/balanceModel");
+const Client = require("../models/clientModel");
+const Invoice = require("../models/invoiceModel");
+
 const getAllInvoices = async (req, res) => {
+  const user_id = req.user._id;
+  const clientId = req.query.clientId;
+  const { startDate, endDate } = req.query;
+
+  let query = { user_id };
+
+  if (clientId) {
+    if (!mongoose.Types.ObjectId.isValid(clientId)) {
+      return res.status(400).json({ error: "This is not a valid client id" });
+    }
+    query.clientId = clientId;
+  }
+
+  if (startDate || endDate) {
+    query.date = {};
+    if (startDate) {
+      const start = new Date(startDate);
+      if (isNaN(start.getTime())) {
+        return res.status(400).json({ error: "Invalid start date" });
+      }
+      query.date.$gte = start;
+    }
+    if (endDate) {
+      const end = new Date(endDate);
+      if (isNaN(end.getTime())) {
+        return res.status(400).json({ error: "Invalid end date" });
+      }
+      query.date.$lte = end;
+    }
+  }
+
   try {
-    const user_id = req.user._id;
-    const clientId = req.query.clientId;
-    const { startDate, endDate } = req.query;
-
-    let query = { user_id };
-
-    if (clientId) {
-      if (!mongoose.Types.ObjectId.isValid(clientId)) {
-        return res.status(400).json({ error: "This is not a valid client id" });
-      }
-      query.clientId = clientId;
-    }
-
-    if (startDate || endDate) {
-      query.date = {};
-      if (startDate) {
-        const start = new Date(startDate);
-        if (isNaN(start.getTime())) {
-          return res.status(400).json({ error: "Invalid start date" });
-        }
-        query.date.$gte = start;
-      }
-      if (endDate) {
-        const end = new Date(endDate);
-        if (isNaN(end.getTime())) {
-          return res.status(400).json({ error: "Invalid end date" });
-        }
-        query.date.$lte = end;
-      }
-    }
-
     const invoices = await Invoice.find(query).sort({ createdAt: -1 });
     res.status(200).json(invoices);
   } catch (error) {
@@ -86,13 +87,14 @@ const getInvoice = async (req, res) => {
 };
 
 const createInvoice = async (req, res) => {
-  const { date, clientId, amount, description } = req.body;
+  const user_id = req.user._id;
+  const { amount, clientId, date, description } = req.body;
 
   let emptyFields = [];
 
+  if (!amount) emptyFields.push("amount");
   if (!clientId) emptyFields.push("clientName");
   if (!date) emptyFields.push("date");
-  if (!amount) emptyFields.push("amount");
 
   if (emptyFields.length > 0) {
     return res.status(400).json({
@@ -105,14 +107,11 @@ const createInvoice = async (req, res) => {
     return res.status(400).json({ error: "This is not a valid client id" });
   }
 
-  // Set the date to 5:30 PM PT
   const dateTime = moment
     .tz(date, "America/Los_Angeles")
     .set({ hour: 12, minute: 0, second: 0, millisecond: 0 });
 
-  // add invoice to DB
   try {
-    const user_id = req.user._id;
     const client = await Client.findById(clientId);
 
     if (!client) {
@@ -199,15 +198,15 @@ const updateInvoice = async (req, res) => {
     return res.status(400).json({ error: "This is not a valid id" });
   }
 
+  let updateFields = { ...req.body };
+
+  if (updateFields.date) {
+    updateFields.date = moment
+      .tz(updateFields.date, "America/Los_Angeles")
+      .set({ hour: 12, minute: 0, second: 0, millisecond: 0 });
+  }
+
   try {
-    let updateFields = { ...req.body };
-
-    if (updateFields.date) {
-      updateFields.date = moment
-        .tz(updateFields.date, "America/Los_Angeles")
-        .set({ hour: 12, minute: 0, second: 0, millisecond: 0 });
-    }
-
     const invoice = await Invoice.findOneAndUpdate({ _id: id }, updateFields, {
       new: true,
     });
