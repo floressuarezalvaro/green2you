@@ -22,6 +22,7 @@ describe("Statements Controller", () => {
 
   beforeEach(() => {
     jest.clearAllMocks();
+    jest.spyOn(console, "error").mockImplementation(() => {});
 
     // Mock Invoice and Balance methods (real models, not mocked modules)
     Invoice.find = jest.fn();
