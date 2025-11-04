@@ -21,6 +21,7 @@ describe("Payments Controller", () => {
 
   beforeEach(() => {
     jest.clearAllMocks();
+    jest.spyOn(console, "error").mockImplementation(() => {});
 
     Balance.findOne = jest.fn();
     Balance.updateOne = jest.fn();
