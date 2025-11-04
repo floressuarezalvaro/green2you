@@ -1,8 +1,10 @@
-const emailTracker = require("../models/emailTrackerModel");
-const Client = require("../models/clientModel");
-const Statement = require("../models/statementModel");
-const { sendStatementByEmail } = require("../utils/emailHandler");
 const validator = require("validator");
+
+const Client = require("../models/clientModel");
+const emailTracker = require("../models/emailTrackerModel");
+const Statement = require("../models/statementModel");
+
+const { sendStatementByEmail } = require("../utils/emailHandler");
 
 const getAllEmails = async (req, res) => {
   const user_id = req.user._id;
