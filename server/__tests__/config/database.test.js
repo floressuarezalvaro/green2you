@@ -20,7 +20,6 @@ describe("Testing database connections", () => {
   });
 
   afterEach(() => {
-    jest.clearAllMocks();
     jest.useRealTimers();
   });
 

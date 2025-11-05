@@ -14,8 +14,6 @@ describe("Balance controllers", () => {
   let req, res;
 
   beforeEach(() => {
-    jest.clearAllMocks();
-
     req = {
       params: {},
       body: {},

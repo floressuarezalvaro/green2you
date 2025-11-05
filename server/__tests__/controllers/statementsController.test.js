@@ -21,7 +21,6 @@ describe("Statements Controller", () => {
   const validClientId = new mongoose.Types.ObjectId().toString();
 
   beforeEach(() => {
-    jest.clearAllMocks();
     jest.spyOn(console, "error").mockImplementation(() => {});
 
     // Mock Invoice and Balance methods (real models, not mocked modules)

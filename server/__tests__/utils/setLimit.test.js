@@ -4,9 +4,7 @@ const setLimit = require("../../utils/setLimit.js");
 jest.mock("express-rate-limit");
 
 describe("Tests the API rate limiting function", () => {
-  beforeEach(() => {
-    jest.clearAllMocks();
-  });
+  beforeEach(() => {});
 
   test("sets default limit", () => {
     setLimit();

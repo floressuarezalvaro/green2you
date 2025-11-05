@@ -10,7 +10,6 @@ describe("Server initialization", () => {
 
   beforeEach(() => {
     jest.resetModules();
-    jest.clearAllMocks();
 
     originalPort = process.env.PORT;
     process.env.PORT = "3000";

@@ -13,8 +13,6 @@ describe("Tests setting the correct environment", () => {
     jest.resetModules();
     dotenv = require("dotenv");
 
-    jest.clearAllMocks();
-
     consoleLogSpy = jest.spyOn(console, "log").mockImplementation();
   });
 

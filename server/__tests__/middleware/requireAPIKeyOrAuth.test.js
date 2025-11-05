@@ -18,7 +18,6 @@ describe("requireAPIKeyOrAuth Middleware", () => {
   const waitForAsync = () => new Promise((resolve) => setImmediate(resolve));
 
   beforeEach(() => {
-    jest.clearAllMocks();
     jest.spyOn(console, "error").mockImplementation(() => {});
 
     req = {

@@ -20,7 +20,6 @@ describe("Payments Controller", () => {
   const validStatementId = new mongoose.Types.ObjectId().toString();
 
   beforeEach(() => {
-    jest.clearAllMocks();
     jest.spyOn(console, "error").mockImplementation(() => {});
 
     Balance.findOne = jest.fn();
