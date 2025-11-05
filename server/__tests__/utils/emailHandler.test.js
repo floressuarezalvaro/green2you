@@ -19,7 +19,6 @@ describe("Email Handler Utils", () => {
   const validUserId = "507f1f77bcf86cd799439011";
 
   beforeEach(() => {
-    jest.clearAllMocks();
     jest.spyOn(console, "error").mockImplementation(() => {});
     jest.spyOn(console, "log").mockImplementation(() => {});
 

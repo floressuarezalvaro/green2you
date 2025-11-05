@@ -20,8 +20,6 @@ describe("Invoice Controller", () => {
   const validClientId = new mongoose.Types.ObjectId().toString();
 
   beforeEach(() => {
-    jest.clearAllMocks();
-
     req = {
       body: {},
       params: {},

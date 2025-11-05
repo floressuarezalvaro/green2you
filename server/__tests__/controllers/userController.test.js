@@ -21,8 +21,6 @@ describe("User Controller", () => {
   process.env.FRONTEND_URL = "http://localhost:3000";
 
   beforeEach(() => {
-    jest.clearAllMocks();
-
     req = {
       params: {},
       body: {},

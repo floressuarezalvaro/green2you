@@ -23,8 +23,6 @@ describe("Email controller", () => {
   const date60DaysAgo = new Date(dateToday.setDate(dateToday.getDate() - 60));
 
   beforeEach(() => {
-    jest.clearAllMocks();
-
     req = {
       query: {},
       body: {},

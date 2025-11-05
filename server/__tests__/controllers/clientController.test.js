@@ -20,8 +20,6 @@ describe("Client Controller", () => {
   const validId = new mongoose.Types.ObjectId().toString();
 
   beforeEach(() => {
-    jest.clearAllMocks();
-
     Invoice.deleteMany = jest.fn();
     Balance.deleteMany = jest.fn();
     Balance.findOne = jest.fn();

@@ -17,7 +17,6 @@ describe("requireAdminOrClientAuth Middleware", () => {
   process.env.JWTSECRET = "test-secret";
 
   beforeEach(() => {
-    jest.clearAllMocks();
     jest.spyOn(console, "error").mockImplementation(() => {});
 
     req = {
