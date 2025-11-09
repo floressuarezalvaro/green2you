@@ -1,5 +1,11 @@
 # @green2you/server
 
+## 1.4.0
+
+### Minor Changes
+
+- e2acb6d: Removed axios request for printing statements
+
 ## 1.3.0
 
 ### Minor Changes
