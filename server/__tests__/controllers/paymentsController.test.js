@@ -400,7 +400,7 @@ describe("Payments Controller", () => {
 
       expect(Payment.find).toHaveBeenCalledWith({ user_id: validId });
       expect(mockSort).toHaveBeenCalledWith({ createdAt: -1 });
-      expect(res.status).toHaveBeenCalledWith(201);
+      expect(res.status).toHaveBeenCalledWith(200);
       expect(res.json).toHaveBeenCalledWith(mockPayments);
     });
 
@@ -453,7 +453,7 @@ describe("Payments Controller", () => {
       expect(Client.findById).toHaveBeenCalledWith(validClientId);
       expect(Payment.find).toHaveBeenCalledWith({ clientId: validClientId });
       expect(mockSort).toHaveBeenCalledWith({ createdAt: -1 });
-      expect(res.status).toHaveBeenCalledWith(201);
+      expect(res.status).toHaveBeenCalledWith(200);
       expect(res.json).toHaveBeenCalledWith(mockPayments);
     });
 
@@ -519,7 +519,7 @@ describe("Payments Controller", () => {
       await paymentsController.getPaymentsById(req, res);
 
       expect(Payment.findById).toHaveBeenCalledWith(validId);
-      expect(res.status).toHaveBeenCalledWith(201);
+      expect(res.status).toHaveBeenCalledWith(200);
       expect(res.json).toHaveBeenCalledWith(mockPayment);
     });
 
@@ -724,7 +724,7 @@ describe("Payments Controller", () => {
           checkNumber: null,
         }
       );
-      expect(res.status).toHaveBeenCalledWith(201);
+      expect(res.status).toHaveBeenCalledWith(200);
       expect(res.json).toHaveBeenCalledWith(mockPayment);
     });
 
@@ -757,7 +757,7 @@ describe("Payments Controller", () => {
         { _id: validClientId },
         { currentBalance: 400 }
       );
-      expect(res.status).toHaveBeenCalledWith(201);
+      expect(res.status).toHaveBeenCalledWith(200);
       expect(res.json).toHaveBeenCalledWith(mockPayment);
     });
 
