@@ -1,9 +1,9 @@
-const axios = require("axios");
-
 const EmailTracker = require("../../models/emailTrackerModel");
 
 jest.mock("../../models/emailTrackerModel");
-jest.mock("axios");
+jest.mock("../../utils/PDFCreator", () => ({
+  generateStatementPDF: jest.fn(),
+}));
 
 const mockSendMail = jest.fn();
 const mockTransporter = {
@@ -14,6 +14,7 @@ jest.mock("nodemailer", () => ({
 }));
 
 const { sendEmail, sendStatementByEmail } = require("../../utils/emailHandler");
+const { generateStatementPDF } = require("../../utils/PDFCreator");
 
 describe("Email Handler Utils", () => {
   const validUserId = "507f1f77bcf86cd799439011";
@@ -26,8 +27,8 @@ describe("Email Handler Utils", () => {
 
     process.env.EMAIL_USER = "test@gmail.com";
     process.env.EMAIL_PASS = "test-password";
-    process.env.FRONTEND_URL = "http://localhost:3000";
-    process.env.API_KEY = "test-api-key";
+
+    generateStatementPDF.mockClear();
   });
 
   describe("sendEmail", () => {
@@ -180,15 +181,10 @@ describe("Email Handler Utils", () => {
       const clientEmail = "client@example.com";
 
       const mockPDFBuffer = Buffer.from("mock pdf content");
-      const mockResponse = {
-        data: mockPDFBuffer,
-        headers: {
-          "content-disposition":
-            'attachment; filename="ClientName(Jan 1-Jan 31).pdf"',
-        },
-      };
-
-      axios.get.mockResolvedValue(mockResponse);
+      generateStatementPDF.mockResolvedValue({
+        buffer: mockPDFBuffer,
+        filename: "ClientName(Jan 1-Jan 31).pdf",
+      });
 
       const mockSave = jest.fn().mockResolvedValue({});
       EmailTracker.mockImplementation(() => ({
@@ -197,15 +193,7 @@ describe("Email Handler Utils", () => {
 
       await sendStatementByEmail(clientEmail, statementId, validUserId);
 
-      expect(axios.get).toHaveBeenCalledWith(
-        `http://localhost:3000/api/statements/print/${statementId}`,
-        {
-          responseType: "arraybuffer",
-          headers: {
-            "x-api-key": "test-api-key",
-          },
-        }
-      );
+      expect(generateStatementPDF).toHaveBeenCalledWith(statementId);
 
       expect(mockSendMail).toHaveBeenCalledWith({
         from: "test@gmail.com",
@@ -226,82 +214,16 @@ describe("Email Handler Utils", () => {
       );
     });
 
-    test("Uses default filename when content-disposition header is missing", async () => {
+    test("Logs error when PDF generation fails", async () => {
       const statementId = "507f1f77bcf86cd799439012";
       const clientEmail = "client@example.com";
+      const mockError = new Error("Statement not found");
 
-      const mockPDFBuffer = Buffer.from("mock pdf content");
-      const mockResponse = {
-        data: mockPDFBuffer,
-        headers: {},
-      };
-
-      axios.get.mockResolvedValue(mockResponse);
-
-      const mockSave = jest.fn().mockResolvedValue({});
-      EmailTracker.mockImplementation(() => ({
-        save: mockSave,
-      }));
+      generateStatementPDF.mockRejectedValue(mockError);
 
       await sendStatementByEmail(clientEmail, statementId, validUserId);
 
-      expect(mockSendMail).toHaveBeenCalledWith(
-        expect.objectContaining({
-          attachments: [
-            {
-              filename: "statement.pdf",
-              content: expect.any(Buffer),
-              contentType: "application/pdf",
-            },
-          ],
-        })
-      );
-    });
-
-    test("Uses default filename when content-disposition format is invalid", async () => {
-      const statementId = "507f1f77bcf86cd799439012";
-      const clientEmail = "client@example.com";
-
-      const mockPDFBuffer = Buffer.from("mock pdf content");
-      const mockResponse = {
-        data: mockPDFBuffer,
-        headers: {
-          "content-disposition": "attachment",
-        },
-      };
-
-      axios.get.mockResolvedValue(mockResponse);
-
-      const mockSave = jest.fn().mockResolvedValue({});
-      EmailTracker.mockImplementation(() => ({
-        save: mockSave,
-      }));
-
-      await sendStatementByEmail(clientEmail, statementId, validUserId);
-
-      expect(mockSendMail).toHaveBeenCalledWith(
-        expect.objectContaining({
-          attachments: [
-            {
-              filename: "statement.pdf",
-              content: expect.any(Buffer),
-              contentType: "application/pdf",
-            },
-          ],
-        })
-      );
-    });
-
-    test("Logs error when axios request fails", async () => {
-      const statementId = "507f1f77bcf86cd799439012";
-      const clientEmail = "client@example.com";
-      const mockError = new Error("Network error");
-
-      axios.get.mockRejectedValue(mockError);
-
-      await sendStatementByEmail(clientEmail, statementId, validUserId);
-
-      expect(axios.get).toHaveBeenCalled();
+      expect(generateStatementPDF).toHaveBeenCalled();
       expect(mockSendMail).not.toHaveBeenCalled();
       expect(console.error).toHaveBeenCalledWith(
         `Error sending statement to ${clientEmail}:`,
@@ -309,19 +231,15 @@ describe("Email Handler Utils", () => {
       );
     });
 
-    test("Logs error when email sending fails after successful PDF fetch", async () => {
+    test("Logs error when email sending fails after successful PDF generation", async () => {
       const statementId = "507f1f77bcf86cd799439012";
       const clientEmail = "client@example.com";
 
       const mockPDFBuffer = Buffer.from("mock pdf content");
-      const mockResponse = {
-        data: mockPDFBuffer,
-        headers: {
-          "content-disposition": 'filename="test.pdf"',
-        },
-      };
-
-      axios.get.mockResolvedValue(mockResponse);
+      generateStatementPDF.mockResolvedValue({
+        buffer: mockPDFBuffer,
+        filename: "test.pdf",
+      });
       mockSendMail.mockRejectedValue(new Error("Email send failed"));
 
       const mockSave = jest.fn().mockResolvedValue({});
@@ -331,48 +249,13 @@ describe("Email Handler Utils", () => {
 
       await sendStatementByEmail(clientEmail, statementId, validUserId);
 
-      expect(axios.get).toHaveBeenCalled();
+      expect(generateStatementPDF).toHaveBeenCalled();
       expect(mockSendMail).toHaveBeenCalled();
 
       expect(EmailTracker).toHaveBeenCalledWith(
         expect.objectContaining({
           emailSuccess: false,
           emailError: "Email send failed",
-        })
-      );
-    });
-
-    test("Handles filename with quotes in content-disposition", async () => {
-      const statementId = "507f1f77bcf86cd799439012";
-      const clientEmail = "client@example.com";
-
-      const mockPDFBuffer = Buffer.from("mock pdf content");
-      const mockResponse = {
-        data: mockPDFBuffer,
-        headers: {
-          "content-disposition":
-            'attachment; filename="Client Name (Jan 15-Feb 15).pdf"',
-        },
-      };
-
-      axios.get.mockResolvedValue(mockResponse);
-
-      const mockSave = jest.fn().mockResolvedValue({});
-      EmailTracker.mockImplementation(() => ({
-        save: mockSave,
-      }));
-
-      await sendStatementByEmail(clientEmail, statementId, validUserId);
-
-      expect(mockSendMail).toHaveBeenCalledWith(
-        expect.objectContaining({
-          attachments: [
-            {
-              filename: "Client Name (Jan 15-Feb 15).pdf",
-              content: expect.any(Buffer),
-              contentType: "application/pdf",
-            },
-          ],
         })
       );
     });

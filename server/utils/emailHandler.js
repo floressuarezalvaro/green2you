@@ -1,6 +1,6 @@
 const nodemailer = require("nodemailer");
 const EmailTracker = require("../models/emailTrackerModel");
-const axios = require("axios");
+const { generateStatementPDF } = require("./PDFCreator");
 
 const transporter = nodemailer.createTransport({
   service: "gmail",
@@ -52,25 +52,7 @@ const sendStatementByEmail = async (clientEmail, statementId, user_id) => {
   const text = "Please find attached your monthly statement.";
 
   try {
-    const statementUrl = `${process.env.FRONTEND_URL}/api/statements/print/${statementId}`;
-    const response = await axios.get(statementUrl, {
-      responseType: "arraybuffer",
-      headers: {
-        "x-api-key": process.env.API_KEY,
-      },
-    });
-
-    const contentDisposition = response.headers["content-disposition"];
-    let filename = "statement.pdf";
-
-    if (contentDisposition && contentDisposition.includes("filename=")) {
-      const match = contentDisposition.match(/filename="?([^"]+)"?/);
-      if (match && match[1]) {
-        filename = match[1];
-      }
-    }
-
-    const pdfBuffer = Buffer.from(response.data, "binary");
+    const { buffer, filename } = await generateStatementPDF(statementId);
 
     await sendEmail(
       "Monthly Statement",
@@ -79,7 +61,7 @@ const sendStatementByEmail = async (clientEmail, statementId, user_id) => {
       text,
       {
         filename,
-        content: pdfBuffer,
+        content: buffer,
         contentType: "application/pdf",
       },
       user_id
