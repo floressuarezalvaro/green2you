@@ -30,7 +30,7 @@ const signUpUser = async (req, res) => {
     const user = await User.signup(email, password, role);
     const token = createToken(user._id);
 
-    res.status(200).json({ email, token, role });
+    res.status(201).json({ email, token, role });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
