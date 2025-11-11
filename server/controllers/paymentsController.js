@@ -116,7 +116,7 @@ const getAllPayments = async (req, res) => {
 
   try {
     const payments = await Payment.find({ user_id }).sort({ createdAt: -1 });
-    res.status(201).json(payments);
+    res.status(200).json(payments);
   } catch (error) {
     console.error(error);
     res
@@ -142,7 +142,7 @@ const getPaymentsByClient = async (req, res) => {
     const payments = await Payment.find({ clientId: clientId }).sort({
       createdAt: -1,
     });
-    res.status(201).json(payments);
+    res.status(200).json(payments);
   } catch (error) {
     console.error(error);
     res
@@ -165,7 +165,7 @@ const getPaymentsById = async (req, res) => {
       return res.status(404).json({ error: "Payment not found" });
     }
 
-    res.status(201).json(payment);
+    res.status(200).json(payment);
   } catch (error) {
     console.error(error);
     res
@@ -279,7 +279,7 @@ const deletePayment = async (req, res) => {
       return res.status(404).json({ error: "Statement not found" });
     }
 
-    res.status(201).json(payment);
+    res.status(200).json(payment);
   } catch (error) {
     console.error(error);
     res
