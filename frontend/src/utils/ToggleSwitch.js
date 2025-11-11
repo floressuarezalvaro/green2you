@@ -1,8 +1,6 @@
-import React from "react";
-
 const ToggleSwitch = ({ checked, onChange, name, id }) => {
   return (
-    <div className="modal-toggle-switch-container">
+    <div className="toggle-switch-container">
       <label className="toggle-switch">
         <input
           type="checkbox"

@@ -1,4 +1,3 @@
-const mongoose = require("mongoose");
 const Invoice = require("../../models/invoiceModel");
 
 describe("Invoice Model", () => {

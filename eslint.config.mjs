@@ -60,4 +60,14 @@ export default [
       },
     },
   },
+  {
+    files: ["frontend/jest.config.js", "frontend/**/__mocks__/**/*.js"],
+    languageOptions: {
+      globals: {
+        ...globals.node,
+      },
+      ecmaVersion: "latest",
+      sourceType: "commonjs",
+    },
+  },
 ];

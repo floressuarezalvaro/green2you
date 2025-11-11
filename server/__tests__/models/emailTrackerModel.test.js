@@ -1,4 +1,3 @@
-const mongoose = require("mongoose");
 const EmailTracker = require("../../models/emailTrackerModel");
 
 describe("EmailTracker Model", () => {
