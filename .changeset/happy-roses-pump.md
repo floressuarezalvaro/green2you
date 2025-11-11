@@ -2,4 +2,4 @@
 "@green2you/server": patch
 ---
 
-Cleaned up unused constants
+Cleaned up unused test constants
