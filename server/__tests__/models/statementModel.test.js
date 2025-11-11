@@ -1,4 +1,3 @@
-const mongoose = require("mongoose");
 const Statement = require("../../models/statementModel");
 
 describe("Statement Model", () => {

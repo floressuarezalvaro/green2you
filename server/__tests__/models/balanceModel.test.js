@@ -1,4 +1,3 @@
-const mongoose = require("mongoose");
 const Balance = require("../../models/balanceModel");
 
 describe("Balance Model", () => {

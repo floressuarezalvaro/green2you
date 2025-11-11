@@ -362,7 +362,7 @@ select::-ms-expand {
   justify-content: space-between;
 }
 
-.modal-toggle-switch-container {
+.toggle-switch-container {
   display: flex;
 }
 
