@@ -42,13 +42,14 @@ This application is designed to help streamline billing processes, offering an e
    ```
 
 2. Install Dependencies for server and backend directories:
+
    ```bash
    # bash
    yarn install
    ```
 
 3. Environment Variables:
-   
+
    Create .env.development and .env.production files in the server directory with the following configuration:
 
    ```
