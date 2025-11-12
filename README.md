@@ -42,6 +42,7 @@ This application is designed to help streamline billing processes, offering an e
    ```
 
 2. Install Dependencies for server and backend directories:
+
    ```bash
    # bash
    yarn install
@@ -49,6 +50,7 @@ This application is designed to help streamline billing processes, offering an e
 
 3. Environment Variables:
    - Configure environment variables by createing a .env.development and .env.production files in the server directory with the following configuration:
+
    ```
     PORT=<your_port>
     MONGO_URI=<your_mongo_database_uri>
