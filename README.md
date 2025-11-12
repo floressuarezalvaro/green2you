@@ -46,31 +46,28 @@ This application is designed to help streamline billing processes, offering an e
    # bash
    yarn install
    ```
-3. Database Setup:
-   - Make sure MongoDB is installed and running.
 
-4. Environment Variables:
-   - Configure environment variables as described in the section below.
+3. Environment Variables:
+   
+   Create .env.development and .env.production files in the server directory with the following configuration:
 
-5. Run the Application Locally:
+   ```
+   PORT=<your_port>
+   MONGO_URI=<your_mongo_database_uri>
+   JWTSECRET=<your_jwt_secret_key>
+   EMAIL_USER=<your_email_for_notifications>
+   EMAIL_PASS=<your_email_password>
+   API_KEY=<your_api_key>
+   FRONTEND_URL=<your_frontend_url>
+   ```
+
+4. Run the Application Locally:
 
    ```bash
    # bash
    yarn dev:server
    yarn dev:frontend
    ```
-
-## Environment Variables
-
-Create .env.development and .env.production files in the server directory with the following configuration:
-
-    PORT=<your_port>
-    MONGO_URI=<your_mongo_database_uri>
-    JWTSECRET=<your_jwt_secret_key>
-    EMAIL_USER=<your_email_for_notifications>
-    EMAIL_PASS=<your_email_password>
-    API_KEY=<your_api_key>
-    FRONTEND_URL=<your_frontend_url>
 
 ## Usage
 
